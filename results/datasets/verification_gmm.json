@@ -1,0 +1,23 @@
+{
+  "verified_at": "2026-10-20T14:37:15.961822+00:00",
+  "caches": {
+    "pendulum": {
+      "path": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+      "cache_json_sha256": "4f5a590ce03087068da802e185410895754b91e164feb2c1fc0e787863b00287",
+      "observation_noise": "gmm",
+      "verified_against": "not applicable: new GMM observation-noise data (no reference cache)"
+    },
+    "aloha": {
+      "path": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+      "cache_json_sha256": "8ddee2d0ba13779e92176d2b4454dcc1ab0bfc8c47cade4d42cd0787b841b60c",
+      "observation_noise": "gmm",
+      "verified_against": "not applicable: new GMM observation-noise data (no reference cache)"
+    },
+    "reassemble": {
+      "path": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+      "cache_json_sha256": "697c6715df0f9a95c215ab2090aeeb97bb3019adfaf437a5e63dc9de2589c6af",
+      "observation_noise": "gmm",
+      "verified_against": "not applicable: new GMM observation-noise data (no reference cache)"
+    }
+  }
+}

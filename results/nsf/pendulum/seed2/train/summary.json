@@ -1,0 +1,15 @@
+{
+  "method": "nsf",
+  "seed": 2,
+  "best_step": 5200,
+  "best_validation_rmse": 0.06956106914278593,
+  "best_validation_coverage_90": 0.8475694444444445,
+  "test": {
+    "rmse": 0.07179009298320635,
+    "crps": 0.03568146148901153,
+    "coverage_90": 0.8439236111111111,
+    "mean_interval_width": 0.1733644135274138,
+    "latency_ms_per_trajectory": 31.773976981639862
+  },
+  "jitter": 0.0
+}

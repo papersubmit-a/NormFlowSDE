@@ -1,0 +1,106 @@
+{
+  "status": "complete",
+  "method": "nsf",
+  "dataset": "pendulum",
+  "seed": 2,
+  "variant": "learned-dynamics bootstrap particle filter + joint (checkpoint, process-noise inflation) validation selection + validation-selected process-noise inflation",
+  "inference_access": "filtering: x[k+1] uses observations through x[k+1] via a bootstrap particle filter (learned dynamics prediction, learned measurement-density update); no future observations",
+  "arguments": {
+    "method": "nsf",
+    "dataset": "pendulum",
+    "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+    "output": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed2/train",
+    "seed": 2,
+    "steps": 8400,
+    "batch_windows": 16,
+    "learning_rate": 0.0003,
+    "hidden_size": 70,
+    "hidden_depth": 2,
+    "flow_layers": 6,
+    "diffusion": 0.01,
+    "flow_substeps": 4,
+    "epr_weight": 0.0,
+    "measurement_hidden": 64,
+    "measurement_depth": 2,
+    "measurement_layers": 4,
+    "particles": null,
+    "eval_every": 400,
+    "validation_windows": 10000,
+    "eval_chunk": 8,
+    "selection_jitters": "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+    "smoke": false
+  },
+  "particles": 500,
+  "posterior_samples": 128,
+  "parameter_count": 64130,
+  "dynamics_parameters": 40558,
+  "measurement_parameters": 23572,
+  "devices": [
+    "cuda:0"
+  ],
+  "training_seconds": 834.5190387703478,
+  "best_step": 5200,
+  "best_validation_rmse": 0.06956106914278593,
+  "best_validation_coverage_90": 0.8475694444444445,
+  "jitter": 0.005,
+  "test": {
+    "rmse": 0.07156323845569477,
+    "crps": 0.035361207379433636,
+    "coverage_90": 0.9008680555555556,
+    "mean_interval_width": 0.19309817179716499,
+    "latency_ms_per_trajectory": 9.899301978293806
+  },
+  "jitter_selection": [
+    {
+      "jitter": 0.0,
+      "rmse": 0.07084790409029,
+      "coverage_90": 0.8498263888888888
+    },
+    {
+      "jitter": 0.005,
+      "rmse": 0.07046323942258209,
+      "coverage_90": 0.8996527777777777
+    },
+    {
+      "jitter": 0.01,
+      "rmse": 0.07430681446681627,
+      "coverage_90": 0.9184027777777778
+    },
+    {
+      "jitter": 0.02,
+      "rmse": 0.08066116619835571,
+      "coverage_90": 0.9328125
+    },
+    {
+      "jitter": 0.03,
+      "rmse": 0.08818782830078924,
+      "coverage_90": 0.9279513888888888
+    },
+    {
+      "jitter": 0.05,
+      "rmse": 0.10199047129257721,
+      "coverage_90": 0.9177083333333333
+    },
+    {
+      "jitter": 0.075,
+      "rmse": 0.11584900377750307,
+      "coverage_90": 0.903125
+    },
+    {
+      "jitter": 0.1,
+      "rmse": 0.12668697958291839,
+      "coverage_90": 0.8923611111111112
+    },
+    {
+      "jitter": 0.15,
+      "rmse": 0.14082438171745235,
+      "coverage_90": 0.8784722222222222
+    },
+    {
+      "jitter": 0.2,
+      "rmse": 0.14933295991271042,
+      "coverage_90": 0.8739583333333333
+    }
+  ],
+  "source_run": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed2/train"
+}

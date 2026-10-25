@@ -1,0 +1,100 @@
+{
+  "tasks": {
+    "lorenz96/seed0/nf_dpf/s1": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed0/nf_dpf/s2": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed0/nsf/train": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed0/nsf/jitter": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed0/flowsde/D0.01": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed0/flowsde/D0.03": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed0/flowsde/D0.05": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed0/flowsde/select_D": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed1/nf_dpf/s1": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed1/nf_dpf/s2": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed1/nsf/train": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed1/nsf/jitter": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed1/flowsde/D0.01": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed1/flowsde/D0.03": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed1/flowsde/D0.05": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed1/flowsde/select_D": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed2/nf_dpf/s1": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed2/nf_dpf/s2": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed2/nsf/train": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed2/nsf/jitter": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed2/flowsde/D0.01": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed2/flowsde/D0.03": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed2/flowsde/D0.05": {
+      "status": "pending",
+      "attempts": []
+    },
+    "lorenz96/seed2/flowsde/select_D": {
+      "status": "pending",
+      "attempts": []
+    }
+  }
+}

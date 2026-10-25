@@ -1,0 +1,11 @@
+{"jitter": 0.0, "rmse": 0.07084790409029, "coverage_90": 0.8498263888888888}
+{"jitter": 0.005, "rmse": 0.07046323942258209, "coverage_90": 0.8996527777777777}
+{"jitter": 0.01, "rmse": 0.07430681446681627, "coverage_90": 0.9184027777777778}
+{"jitter": 0.02, "rmse": 0.08066116619835571, "coverage_90": 0.9328125}
+{"jitter": 0.03, "rmse": 0.08818782830078924, "coverage_90": 0.9279513888888888}
+{"jitter": 0.05, "rmse": 0.10199047129257721, "coverage_90": 0.9177083333333333}
+{"jitter": 0.075, "rmse": 0.11584900377750307, "coverage_90": 0.903125}
+{"jitter": 0.1, "rmse": 0.12668697958291839, "coverage_90": 0.8923611111111112}
+{"jitter": 0.15, "rmse": 0.14082438171745235, "coverage_90": 0.8784722222222222}
+{"jitter": 0.2, "rmse": 0.14933295991271042, "coverage_90": 0.8739583333333333}
+{"status": "complete", "output": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/pendulum/seed2/nsf/jitter/attempt0", "jitter": 0.005, "test": {"rmse": 0.07156323845569477, "crps": 0.035361207379433636, "coverage_90": 0.9008680555555556, "mean_interval_width": 0.19309817179716499, "latency_ms_per_trajectory": 9.899301978293806}}

@@ -1,0 +1,106 @@
+{
+  "status": "complete",
+  "method": "nsf",
+  "dataset": "reassemble",
+  "seed": 0,
+  "variant": "learned-dynamics bootstrap particle filter + joint (checkpoint, process-noise inflation) validation selection + validation-selected process-noise inflation",
+  "inference_access": "filtering: x[k+1] uses observations through x[k+1] via a bootstrap particle filter (learned dynamics prediction, learned measurement-density update); no future observations",
+  "arguments": {
+    "method": "nsf",
+    "dataset": "reassemble",
+    "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+    "output": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed0/train",
+    "seed": 0,
+    "steps": 11000,
+    "batch_windows": 16,
+    "learning_rate": 0.0003,
+    "hidden_size": 71,
+    "hidden_depth": 3,
+    "flow_layers": 2,
+    "diffusion": 0.01,
+    "flow_substeps": 4,
+    "epr_weight": 0.0,
+    "measurement_hidden": 64,
+    "measurement_depth": 2,
+    "measurement_layers": 4,
+    "particles": null,
+    "eval_every": 500,
+    "validation_windows": 10000,
+    "eval_chunk": 8,
+    "selection_jitters": "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+    "smoke": false
+  },
+  "particles": 500,
+  "posterior_samples": 500,
+  "parameter_count": 68439,
+  "dynamics_parameters": 38737,
+  "measurement_parameters": 29702,
+  "devices": [
+    "cuda:0"
+  ],
+  "training_seconds": 6137.021471610293,
+  "best_step": 11000,
+  "best_validation_rmse": 0.06315762549638748,
+  "best_validation_coverage_90": 0.9105961904761904,
+  "jitter": 0.03,
+  "test": {
+    "rmse": 0.06169576815512368,
+    "crps": 0.0345590081210894,
+    "coverage_90": 0.9164514285714286,
+    "mean_interval_width": 0.21435370893442077,
+    "latency_ms_per_trajectory": 35.0528210401535
+  },
+  "jitter_selection": [
+    {
+      "jitter": 0.0,
+      "rmse": 0.20240335166454315,
+      "coverage_90": 0.2687847619047619
+    },
+    {
+      "jitter": 0.005,
+      "rmse": 0.16419005393981934,
+      "coverage_90": 0.4332971428571429
+    },
+    {
+      "jitter": 0.01,
+      "rmse": 0.1165173202753067,
+      "coverage_90": 0.6387123809523809
+    },
+    {
+      "jitter": 0.02,
+      "rmse": 0.07242922484874725,
+      "coverage_90": 0.8428380952380953
+    },
+    {
+      "jitter": 0.03,
+      "rmse": 0.06308335810899734,
+      "coverage_90": 0.9102
+    },
+    {
+      "jitter": 0.05,
+      "rmse": 0.06821198761463165,
+      "coverage_90": 0.9396419047619048
+    },
+    {
+      "jitter": 0.075,
+      "rmse": 0.08006121963262558,
+      "coverage_90": 0.9350228571428572
+    },
+    {
+      "jitter": 0.1,
+      "rmse": 0.09097473323345184,
+      "coverage_90": 0.9248209523809524
+    },
+    {
+      "jitter": 0.15,
+      "rmse": 0.10859996825456619,
+      "coverage_90": 0.9046666666666666
+    },
+    {
+      "jitter": 0.2,
+      "rmse": 0.12219968438148499,
+      "coverage_90": 0.8877619047619048
+    }
+  ],
+  "source_run": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed0/train"
+}

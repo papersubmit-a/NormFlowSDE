@@ -1,0 +1,33 @@
+{
+  "finished_at": "2026-10-22T17:18:46.436959+00:00",
+  "sources": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/analyses/equal_n/sources.json",
+  "device": "cuda:0",
+  "arguments": {
+    "sources": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/analyses/equal_n/sources.json",
+    "output": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/analyses/equal_n",
+    "datasets": [
+      "pendulum",
+      "reassemble"
+    ],
+    "methods": [
+      "normflowsde"
+    ],
+    "counts": [
+      32,
+      64,
+      128,
+      200,
+      500,
+      1000,
+      2000
+    ],
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "repeats": 30,
+    "chunk": 4,
+    "windows": null
+  }
+}

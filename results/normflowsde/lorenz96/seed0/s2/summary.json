@@ -1,0 +1,21 @@
+{
+  "seed": 0,
+  "objective": "energy",
+  "best_step": 750,
+  "initial_validation": {
+    "rmse": 0.29531250882436116,
+    "crps": 0.16667538088020523,
+    "coverage_90": 0.9708375
+  },
+  "best_validation": {
+    "rmse": 0.2890100145712096,
+    "crps": 0.15661153784781867,
+    "coverage_90": 0.8747375
+  },
+  "test": {
+    "rmse": 0.3035678802066696,
+    "crps": 0.1632166720778921,
+    "coverage_90": 0.8675333333333334,
+    "mean_interval_width": 0.8553257898453697
+  }
+}

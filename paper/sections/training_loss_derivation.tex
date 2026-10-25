@@ -1,0 +1,79 @@
+\section{Derivation of the reconstruction and transition losses}\label{app:training-loss}
+
+All densities below condition on the supplied initial state $z_0$, observations, and controls. The sequential generator has normalized path density
+\begin{equation}\label{eq:training-path-density}
+ q_\omega(\mathbf z)
+ =\prod_{k=0}^{N-1}q_\omega(z_{k+1}\mid z_k,t_k,u_k,c_k).
+\end{equation}
+The fixed-scale Gaussian reconstruction model and the resulting auxiliary joint density are
+\begin{align}
+ p_\sigma(x_k\mid z_k)&=\N(x_k;z_k,\sigma_{\mathrm{state}}^2I_d),
+ \qquad \sigma_{\mathrm{state}}>0,\label{eq:reconstruction-model}\\
+ p_{\omega,\sigma}(\mathbf x,\mathbf z)
+ &=q_\omega(\mathbf z)\prod_{k=1}^N p_\sigma(x_k\mid z_k).\label{eq:training-joint-density}
+\end{align}
+Expanding the expected negative joint log density gives
+\begin{align}\label{eq:joint-training-loss}
+ \mathcal L_{\mathrm{joint}}(\omega;\mathbf x)
+ &=\E_{\mathbf z\sim q_\omega}[-\log p_{\omega,\sigma}(\mathbf x,\mathbf z)]\notag\\
+ &=\E_{\mathbf z\sim q_\omega}
+ \left[-\sum_{k=1}^N\log p_\sigma(x_k\mid z_k)
+       -\sum_{k=0}^{N-1}\log q_\omega(z_{k+1}\mid z_k,t_k,u_k,c_k)\right]\notag\\
+ &=\mathcal L_{\mathrm{state}}(\omega;\mathbf x)+\mathcal L_{\mathrm{trans}}(\omega).
+\end{align}
+The Gaussian reconstruction density yields Equation~\eqref{eq:state-training-loss}; its additive constant does not affect optimization at fixed $\sigma_{\mathrm{state}}$.
+
+For a generated transition, the forward map from $\epsilon_k$ to $z_{k+1}$ has Jacobian $\sqrt{\Delta t}\,J_{\phi,k}(\epsilon_k)$. The change-of-variables identity in Equation~\eqref{eq:sampled-transition-density} therefore gives
+\begin{align}\label{eq:self-transition-loss}
+ \mathcal L_{\mathrm{trans}}(\omega)
+ &=\E\left[\sum_{k=0}^{N-1}
+ \left(-\log\N(\epsilon_k;0,I_d)+\log|\det J_{\phi,k}(\epsilon_k)|
+       +\frac d2\log\Delta t\right)\right]\notag\\
+ &=\E\left[\sum_{k=0}^{N-1}\log|\det J_{\phi,k}(\epsilon_k)|\right]
+   +\frac{Nd}{2}\bigl[1+\log(2\pi\Delta t)\bigr].
+\end{align}
+The Gaussian term varies between sampled inputs, but its expectation is constant with respect to the trainable parameters. The remaining expected forward log determinant controls the path entropy.
+
+\paragraph{Coupling-scale bound.}
+Each affine coupling layer leaves one coordinate block unchanged and scales and shifts the other. Its log scales have the form $\alpha\tanh(\cdot)\in(-\alpha,\alpha)$, so each multiplicative scale lies in $(e^{-\alpha},e^\alpha)$. If layer $\ell$ transforms $d_\ell$ coordinates, its Jacobian is block triangular with an identity block and a diagonal block of those scales. Its log determinant is therefore the sum of the $d_\ell$ log scales and lies in $[-\alpha d_\ell,\alpha d_\ell]$. The shifts do not contribute to the determinant, and coordinate permutations have unit absolute determinant. Composing $L_{\mathrm f}$ layers gives $|\log|\det J_{\phi,k}(\epsilon)||\leq B=\alpha\sum_{\ell=1}^{L_{\mathrm f}} d_\ell$, uniformly over the input and conditioning variables; this is Equation~\eqref{eq:training-determinant-bound}. When the layers alternate between the two halves of an even-dimensional state, $\sum_\ell d_\ell=L_{\mathrm f}d/2$. The geometric mean of the singular values of $J_{\phi,k}$ then lies between $e^{-\alpha L_{\mathrm f}/2}$ and $e^{\alpha L_{\mathrm f}/2}$.
+
+\paragraph{Entropy bound and noise floor.}
+Equations~\eqref{eq:training-determinant-bound} and~\eqref{eq:self-transition-loss} imply
+\begin{equation}\label{eq:transition-entropy-lower-bound}
+ \mathcal L_{\mathrm{trans}}(\omega)
+ \geq\frac{Nd}{2}\bigl[1+\log(2\pi\Delta t)\bigr]-NB.
+\end{equation}
+The entropy term is minimized by contraction, so wherever reconstruction does not oppose it, the bounded flow approaches this bound. The lower side of Equation~\eqref{eq:training-determinant-bound} then acts as a noise floor: the volume of the per-step increment $\sqrt{\Delta t}\,g_\phi$ cannot fall below $\Delta t^{d/2}e^{-B}$. The floor depends on $\alpha$ and $L_{\mathrm f}$ but not on the data. With two coupling layers and $\alpha=1$, for example, the geometric-mean noise scale cannot fall below $e^{-1}\approx0.37$.
+
+\paragraph{Volume, not variance.}
+Let $\sigma_1(\epsilon)\geq\cdots\geq\sigma_d(\epsilon)$ denote the singular values of $J_{\phi,k}(\epsilon)$. Equation~\eqref{eq:training-determinant-bound} constrains only their product, $|\det J_{\phi,k}(\epsilon)|=\prod_{i=1}^d\sigma_i(\epsilon)$, which is the local volume change of the map $\epsilon\mapsto g_\phi(\epsilon;z_k,t_k,u_k,c_k)$. It does not constrain the individual singular values. Thus, the bounded flow can reduce its local scale below $e^{-B/d}$ in some directions only by enlarging it in others. A per-coordinate factor that adds $\sum_i\log s_{\phi,i}$ to the log determinant, and thereby lowers the attainable volume itself, is required. 
+
+\paragraph{Learned noise scale.}
+In Equation~\eqref{eq:learned-noise-scale}, the factor $s_{\phi,i}>0$ multiplies coordinate $i$ of the bounded flow output, so the standard deviation of that coordinate of the increment is scaled by $s_{\phi,i}$. It is computed from the current state, time, control, and observation feature, so it can vary along a trajectory. To keep it positive and finite, we restrict its logarithm to a fixed interval $[a_-,a_+]$ with $a_-<0<a_+$, using a sigmoid of a network output $r_{\phi,i}$:
+\begin{equation}\label{eq:learned-scale-parameterization}
+ \log s_{\phi,i}=a_-+(a_+-a_-)\,\mathrm{sigmoid}\bigl(r_{\phi,i}+r_0\bigr),
+ \qquad r_0=\log(-a_-/a_+).
+\end{equation}
+The offset $r_0$ is chosen so that a network output of zero gives $s_{\phi,i}=1$, that is, no change to the flow. 
+
+\paragraph{Effect on the bounds.}
+Scaling coordinate $i$ by $s_{\phi,i}$ multiplies the volume by $s_{\phi,i}$, so the log determinant gains $\sum_i\log s_{\phi,i}$. This sum lies in $[d\,a_-,\,d\,a_+]$, and the bounded flow contributes a value in $[-B,B]$. Equation~\eqref{eq:training-determinant-bound} therefore still holds, with the lower exponent widened to $B_-=B+d\,|a_-|$ and the upper exponent to $B_+=B+d\,a_+$. Likewise, the entropy lower bound~\eqref{eq:transition-entropy-lower-bound} holds with $B$ replaced by $B_-$, which is $d\,|a_-|=10d$ lower per transition.
+
+\paragraph{Why a proper score is needed.}
+Because the entropy term rewards contraction, the much lower bound means that this term alone could shrink the noise almost to zero. The learned scale is therefore trained with an objective that also penalizes too little spread, such as the full-horizon energy score of Section~\ref{sec:training-rollout}. The energy score is a proper scoring rule: it is smallest when the generated spread matches the true conditional spread, whether that spread is large or small. With the bounded flow alone, a true spread below the floor cannot be reached. The learned scale makes it reachable.
+
+Finally, the transition term equals $H(q_\omega)=\E_{q_\omega}[-\log q_\omega]$, giving
+\begin{equation}\label{eq:joint-training-loss-entropy}
+ \mathcal L_{\mathrm{joint}}(\omega;\mathbf x)
+ =\mathcal L_{\mathrm{state}}(\omega;\mathbf x)+H(q_\omega).
+\end{equation}
+The marginal reference-state NLL, $-\log\int p_{\omega,\sigma}(\mathbf x,\mathbf z)\,d\mathbf z$, integrates out the generated path and is a different objective. If $q_\omega$ is used as the variational path density for the auxiliary model, the negative ELBO cancels the transition entropy:
+\begin{equation}\label{eq:joint-versus-elbo}
+ \begin{aligned}
+ \E_{\mathbf z\sim q_\omega}
+ \left[-\log p_{\omega,\sigma}(\mathbf x,\mathbf z)+\log q_\omega(\mathbf z)\right]
+ &=\mathcal L_{\mathrm{state}}(\omega;\mathbf x)+H(q_\omega)-H(q_\omega)\\
+ &=\mathcal L_{\mathrm{state}}(\omega;\mathbf x).
+ \end{aligned}
+\end{equation}
+The proposed composite objective retains the entropy penalty.

@@ -1,0 +1,138 @@
+{
+ "pendulum": {
+  "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+  "methods": {
+   "normflowsde": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/pendulum/seed0/s2",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/pendulum/seed1/s2",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/pendulum/seed2/s2"
+    },
+    "setting": "round-5 setting (stage-1 rollout weight 30), see results_gmm_20261022_round5/table.md"
+   },
+   "nf_dpf": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed0/s2",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed1/s2",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s2"
+    }
+   },
+   "nsf": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed0/jitter",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed1/jitter",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed2/jitter"
+    }
+   },
+   "flowsde": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed0/D0.01",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed1/D0.01",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed2/D0.01"
+    }
+   }
+  }
+ },
+ "aloha": {
+  "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+  "methods": {
+   "normflowsde": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed0/s2",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s2",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s2"
+    }
+   },
+   "nf_dpf": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed0/s2",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s2",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed2/s2"
+    }
+   },
+   "nsf": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed0/jitter",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed1/jitter",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed2/jitter"
+    }
+   },
+   "flowsde": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed0/D0.05",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed1/D0.05",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed2/D0.05"
+    }
+   }
+  }
+ },
+ "reassemble": {
+  "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+  "methods": {
+   "normflowsde": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/reassemble/seed0/s2",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/reassemble/seed1/s2",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/reassemble/seed2/s2"
+    },
+    "setting": "round-5 setting (stage-2 spread factor 0.52), see results_gmm_20261022_round5/table.md"
+   },
+   "nf_dpf": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed0/s2",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed1/s2",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed2/s2"
+    }
+   },
+   "nsf": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed0/jitter",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed1/jitter",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed2/jitter"
+    }
+   },
+   "flowsde": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed0/D0.03",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed1/D0.03",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed2/D0.03"
+    }
+   }
+  }
+ },
+ "lorenz96": {
+  "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/lorenz96",
+  "methods": {
+   "nf_dpf": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/lorenz96/seed0/s2",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/lorenz96/seed1/s2",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/lorenz96/seed2/s2"
+    }
+   },
+   "nsf": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/lorenz96/seed0/jitter",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/lorenz96/seed1/jitter",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/lorenz96/seed2/jitter"
+    }
+   },
+   "flowsde": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/lorenz96/seed0/D0.01",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/lorenz96/seed1/D0.01",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/lorenz96/seed2/D0.01"
+    }
+   },
+   "normflowsde": {
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/lorenz96/seed0/s2",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/lorenz96/seed1/s2",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/lorenz96/seed2/s2"
+    },
+    "setting": "round-4 setting, see results_gmm_20261021_round4/table.md"
+   }
+  }
+ },
+ "_note": "2026-10-21: equal_n_gmm_20261020/sources.json with pendulum and REASSEMBLE NormFlowSDE pointed at the final-table checkpoints (results_gmm_current_best_20261021/summary_3seed.json). Other cells unchanged. | 2026-10-22: NormFlowSDE pendulum/lorenz96/reassemble checkpoints replaced by the round-4 settings (results_gmm_20261021_round4); previous map in sources.before_round4.json"
+}

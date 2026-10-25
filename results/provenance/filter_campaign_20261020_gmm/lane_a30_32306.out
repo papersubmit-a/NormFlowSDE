@@ -1,0 +1,46 @@
+name, memory.total [MiB]
+NVIDIA A30, 24576 MiB
+{"lane": "32306", "deadline": "2026-10-22T03:40:47+00:00", "capacity": 8, "slots": 6}
+{"task": "pendulum/seed1/normflowsde/s1_reference", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s1_reference/attempt0", "pid": 2100786}
+{"task": "pendulum/seed1/normflowsde/s1_lsnt", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s1_lsnt/attempt0", "pid": 2100787}
+{"task": "pendulum/seed2/normflowsde/s1_reference", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s1_reference/attempt0", "pid": 2100788}
+{"task": "pendulum/seed2/normflowsde/s1_lsnt", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s1_lsnt/attempt0", "pid": 2100789}
+{"task": "pendulum/seed0/nf_dpf/s1", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/pendulum/seed0/nf_dpf/s1/attempt0", "pid": 2100790}
+{"task": "pendulum/seed1/nf_dpf/s1", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/pendulum/seed1/nf_dpf/s1/attempt0", "pid": 2100791}
+{"task": "pendulum/seed0/nf_dpf/s1", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "pendulum/seed1/nf_dpf/s1", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "aloha/seed0/normflowsde/s1_lsnt", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/aloha/seed0/normflowsde/s1_lsnt/attempt0", "pid": 2238412}
+{"task": "aloha/seed1/normflowsde/s1_reference", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/aloha/seed1/normflowsde/s1_reference/attempt0", "pid": 2238413}
+{"task": "pendulum/seed1/normflowsde/s1_reference", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "pendulum/seed2/normflowsde/s1_reference", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "pendulum/seed2/normflowsde/s1_lsnt", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "aloha/seed1/normflowsde/s1_lsnt", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/aloha/seed1/normflowsde/s1_lsnt/attempt0", "pid": 2252216}
+{"task": "aloha/seed2/normflowsde/s1_reference", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/aloha/seed2/normflowsde/s1_reference/attempt0", "pid": 2252217}
+{"task": "aloha/seed2/normflowsde/s1_lsnt", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/aloha/seed2/normflowsde/s1_lsnt/attempt0", "pid": 2252218}
+{"task": "pendulum/seed1/normflowsde/s1_lsnt", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "aloha/seed0/flowsde/D0.01", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/aloha/seed0/flowsde/D0.01/attempt0", "pid": 2256534}
+{"task": "aloha/seed0/normflowsde/s1_lsnt", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "aloha/seed1/normflowsde/s1_reference", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "aloha/seed0/flowsde/D0.05", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/aloha/seed0/flowsde/D0.05/attempt0", "pid": 2347972}
+{"task": "reassemble/seed0/nsf/train", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/reassemble/seed0/nsf/train/attempt0", "pid": 2347973}
+{"task": "aloha/seed1/normflowsde/s1_lsnt", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "aloha/seed2/normflowsde/s1_reference", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "aloha/seed2/normflowsde/s1_lsnt", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "aloha/seed1/flowsde/D0.03", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/aloha/seed1/flowsde/D0.03/attempt0", "pid": 2362814}
+{"task": "reassemble/seed1/nsf/train", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/reassemble/seed1/nsf/train/attempt0", "pid": 2362816}
+{"task": "aloha/seed0/flowsde/D0.01", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "reassemble/seed0/flowsde/D0.01", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/reassemble/seed0/flowsde/D0.01/attempt0", "pid": 3054944}
+{"task": "aloha/seed0/flowsde/D0.05", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "reassemble/seed0/flowsde/D0.05", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/reassemble/seed0/flowsde/D0.05/attempt0", "pid": 3161414}
+{"task": "aloha/seed1/flowsde/D0.03", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "reassemble/seed1/flowsde/D0.01", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/reassemble/seed1/flowsde/D0.01/attempt0", "pid": 3172011}
+{"task": "reassemble/seed0/nsf/train", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "aloha/seed0/normflowsde/s2_lr1e-4", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/aloha/seed0/normflowsde/s2_lr1e-4/attempt0", "pid": 3350300}
+{"task": "reassemble/seed1/nsf/train", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "aloha/seed0/normflowsde/s2_lr3e-4", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/aloha/seed0/normflowsde/s2_lr3e-4/attempt0", "pid": 3360267}
+{"task": "reassemble/seed0/flowsde/D0.01", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "aloha/seed0/normflowsde/s2_lr1e-4", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "aloha/seed0/normflowsde/s2_lr3e-4", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "reassemble/seed1/flowsde/D0.01", "returncode": 0, "stopped": false, "status": "done"}
+{"task": "reassemble/seed0/flowsde/D0.05", "returncode": 0, "stopped": false, "status": "done"}
+{"lane": "32306", "status": "campaign_terminal"}

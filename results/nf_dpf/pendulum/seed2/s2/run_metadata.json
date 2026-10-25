@@ -1,0 +1,97 @@
+{
+  "status": "complete",
+  "method": "nf_dpf",
+  "seed": 2,
+  "init_run": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s1",
+  "warm_start": true,
+  "inference_access": "filtering: x[k+1] incorporates its current measurement y[k+1]",
+  "arguments": {
+    "method": "nf_dpf",
+    "dataset": "pendulum",
+    "seed": 2,
+    "output": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s2",
+    "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+    "init_run": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s1",
+    "from_scratch": false,
+    "steps": 4000,
+    "learning_rate": 0.0001,
+    "horizons": [
+      8,
+      25,
+      60
+    ],
+    "batches": [
+      32,
+      16,
+      8
+    ],
+    "draws": 8,
+    "rollout_weight": 1.0,
+    "mean_mse_weight": 0.0,
+    "anchor_weight": 0.0,
+    "epr_weight": null,
+    "training_particles": 64,
+    "crps_weight": 1.0,
+    "ess_weight": 0.01,
+    "measurement_nll_weight": 1.0,
+    "measurement_supervised_only": false,
+    "measurement_batch_windows": 16,
+    "remat": true,
+    "skip_nonfinite": true,
+    "eval_every": 500,
+    "validation_windows": 48,
+    "validation_draws": 32,
+    "eval_chunk": 25,
+    "skip_test": false,
+    "smoke": false
+  },
+  "model_config": {
+    "state_dim": 2,
+    "observation_dim": 2,
+    "control_dim": 1,
+    "hidden_size": 61,
+    "hidden_depth": 2,
+    "num_flow_layers": 6,
+    "max_log_scale": 2.0,
+    "base_scale": 0.2
+  },
+  "parameter_count": 92377,
+  "curriculum": [
+    {
+      "horizon": 8,
+      "trajectories_per_update": 32,
+      "steps": 1333
+    },
+    {
+      "horizon": 25,
+      "trajectories_per_update": 16,
+      "steps": 1334
+    },
+    {
+      "horizon": 60,
+      "trajectories_per_update": 8,
+      "steps": 1333
+    }
+  ],
+  "devices": [
+    "cuda:0"
+  ],
+  "initial_validation": {
+    "rmse": 0.06694227013769237,
+    "crps": 0.03517655805518647,
+    "coverage_90": 0.7828125
+  },
+  "best_step": 4000,
+  "best_validation_rmse": 0.06407304363189588,
+  "best_validation_crps": 0.03264256038485305,
+  "training_seconds": 614.3997418609797,
+  "sampled_trajectories": 74664,
+  "sampled_transition_targets": 1514688,
+  "skipped_nonfinite_updates": 0,
+  "test": {
+    "rmse": 0.06286708807689771,
+    "crps": 0.031807300106822305,
+    "coverage_90": 0.9251736111111111,
+    "mean_interval_width": 0.20251681567838928
+  }
+}

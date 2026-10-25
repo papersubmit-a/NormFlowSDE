@@ -1,0 +1,46 @@
+\documentclass[10pt]{article}
+\usepackage{tmlr}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{graphicx,booktabs,array,microtype,xspace}
+\usepackage{hyperref,url}
+\hypersetup{colorlinks=true,citecolor=blue,linkcolor=blue,urlcolor=blue}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\R}{\mathbb R}
+\newcommand{\E}{\mathbb E}
+\newcommand{\N}{\mathcal N}
+\newcommand{\KL}{\operatorname{KL}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\TV}{\operatorname{TV}}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\method}{NormFlowSDE\xspace}
+\title{NormFlowSDE: Normalizing Flows for\\Amortized Bayesian State Estimation}
+\author{\name Anonymous authors}
+\begin{document}
+\maketitle
+\begin{abstract}
+Bayesian state estimators, such as Kalman filters, estimate states from noisy observations based on dynamical models. However, obtaining accurate models can be challenging, particularly in contact-rich scenarios involving friction, impacts, and deformation that are difficult to simulate faithfully. Uncertain system parameters, unmodeled disturbances, and simplifying assumptions about dynamics and noise can further introduce simulation-to-reality mismatch and degrade estimation accuracy. These limitations motivate learning a distribution over state trajectories conditioned on observations and controls without explicitly specifying the underlying physical models.
+We introduce NormFlowSDE, an amortized Bayesian state estimator that learns a distribution over state trajectories by combining neural stochastic differential equations with conditional normalizing flows.
+Its key design choice is to utilize the capability of normalizing flows to learn stochastic behavior of variables, while leveraging the continuous-time dynamics of SDEs to model the evolution of states over time.
+Once trained, the model draws state paths for new measurement sequences without per-sequence optimization. 
+Besides, we connect NormFlowSDE to stochastic continuous-time dynamics by proving weak convergence of a mean-centered, drift-corrected inference scheme to an It\^o diffusion under stated assumptions.
+Moreover, we benchmark NormFlowSDE against other state-of-the-art flow-based NeuralSDE methods, Normalizing Flow-Based Differentiable Particle Filters, Neural Stochastic Flows, and FlowSDE, on a range of partially observed dynamical systems, including the numerical and real-world robot datasets.
+The results show that NormFlowSDE attains the lowest estimation error with the narrowest and calibrated uncertainty intervals on both robot datasets, where the dynamics are high-dimensional and contact-rich, and that it is the fastest method on every dataset, because each sample requires one network evaluation per step without particle weighting or resampling.
+\end{abstract}
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/method}
+\input{sections/experiments}
+\input{sections/discussion}
+\bibliography{references}
+\bibliographystyle{tmlr}
+\clearpage
+\appendix
+\input{sections/weak_convergence}
+\input{sections/training_loss_derivation}
+\input{sections/reproducibility}
+\end{document}

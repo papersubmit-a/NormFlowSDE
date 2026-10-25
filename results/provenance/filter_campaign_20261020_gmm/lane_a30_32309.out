@@ -1,0 +1,4 @@
+name, memory.total [MiB]
+NVIDIA A30, 24576 MiB
+{"lane": "32309", "deadline": "2026-10-22T08:20:31+00:00", "capacity": 8, "slots": 6}
+{"lane": "32309", "status": "campaign_terminal"}

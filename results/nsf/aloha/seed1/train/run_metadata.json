@@ -1,0 +1,53 @@
+{
+  "status": "complete",
+  "method": "nsf",
+  "dataset": "aloha",
+  "seed": 1,
+  "variant": "learned-dynamics bootstrap particle filter + joint (checkpoint, process-noise inflation) validation selection",
+  "inference_access": "filtering: x[k+1] uses observations through x[k+1] via a bootstrap particle filter (learned dynamics prediction, learned measurement-density update); no future observations",
+  "arguments": {
+    "method": "nsf",
+    "dataset": "aloha",
+    "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+    "output": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed1/train",
+    "seed": 1,
+    "steps": 9000,
+    "batch_windows": 16,
+    "learning_rate": 0.0003,
+    "hidden_size": 68,
+    "hidden_depth": 3,
+    "flow_layers": 2,
+    "diffusion": 0.01,
+    "flow_substeps": 4,
+    "epr_weight": 0.0,
+    "measurement_hidden": 64,
+    "measurement_depth": 2,
+    "measurement_layers": 4,
+    "particles": null,
+    "eval_every": 250,
+    "validation_windows": 10000,
+    "eval_chunk": 8,
+    "selection_jitters": "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+    "smoke": false
+  },
+  "particles": 200,
+  "posterior_samples": 200,
+  "parameter_count": 80460,
+  "dynamics_parameters": 42176,
+  "measurement_parameters": 38284,
+  "devices": [
+    "cuda:0"
+  ],
+  "training_seconds": 2370.491403125983,
+  "best_step": 8000,
+  "best_validation_rmse": 0.08641454577445984,
+  "best_validation_coverage_90": 0.8119371428571428,
+  "jitter": 0.05,
+  "test": {
+    "rmse": 0.08551814503825733,
+    "crps": 0.050058353272411364,
+    "coverage_90": 0.8208285714285715,
+    "mean_interval_width": 0.23404958804575068,
+    "latency_ms_per_trajectory": 52.21042002085596
+  }
+}

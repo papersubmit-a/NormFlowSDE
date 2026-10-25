@@ -1,0 +1,11 @@
+{
+  "verified_at": "2026-10-20T16:45:19.849848+00:00",
+  "caches": {
+    "lorenz96": {
+      "path": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/lorenz96",
+      "cache_json_sha256": "ef53b586b79b48152d7b79d83c1d4ff6f177b9646c3fabe77128cd89a4e7376f",
+      "observation_noise": "gmm",
+      "verified_against": "filter_campaign_references/expected_caches.json"
+    }
+  }
+}

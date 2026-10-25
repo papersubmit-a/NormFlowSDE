@@ -1,0 +1,800 @@
+{
+  "status": "complete",
+  "trained": true,
+  "dataset": "aloha",
+  "method": "normflowsde",
+  "training_seed": 2,
+  "data_seed": 0,
+  "arguments": {
+    "dataset": "aloha",
+    "seed": 2,
+    "output": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s1",
+    "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+    "reference_metadata": "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/aloha/seed2.json",
+    "train": true,
+    "evaluate_test": false,
+    "expected_manifest": null,
+    "selection": null,
+    "selection_sha256": null,
+    "test_output": null,
+    "allow_cpu": false,
+    "smoke_updates": null,
+    "tracking_uri": null,
+    "tracking_experiment": "normflowsde-comparison",
+    "tracking_flush_every": 25,
+    "train_steps": 5000,
+    "validation_windows": 50,
+    "segment_length": null,
+    "continuity_weight": null,
+    "rollout_weight": null,
+    "state_sigma": null,
+    "realnvp_alpha": null,
+    "no_time": false,
+    "learned_scale": false,
+    "allow_data_change": true,
+    "allow_source_drift": true
+  },
+  "model_config": {
+    "d_x": 14,
+    "d_y": 28,
+    "d_u": 14,
+    "d_c": 64,
+    "d_hidden": 128,
+    "depth": 3,
+    "n_realnvp_layers": 2,
+    "observation_window": 10,
+    "d_hidden_enc": 64,
+    "d_hidden_diffusion": 64,
+    "direct_control": true,
+    "observation_stride": 1,
+    "time_step": 0.02,
+    "flow_type": "realnvp"
+  },
+  "data": {
+    "protocol": {
+      "data_path": "data/aloha_sim_insertion_human",
+      "seed": 0,
+      "horizon": 250,
+      "stride": 25,
+      "dt": 0.02,
+      "obs_std": 0.1,
+      "train_frac": 0.8,
+      "val_frac": 0.1,
+      "train_steps": 3000,
+      "batch_size": 256,
+      "learning_rate": 0.0003,
+      "hidden_size": 128,
+      "hidden_depth": 3,
+      "flow_layers": 2,
+      "num_particles": 200,
+      "eval_windows": 50,
+      "max_train_windows": null,
+      "max_eval_windows": null,
+      "max_validation_windows": null,
+      "overrides": {
+        "flow_layers": 2
+      },
+      "matched_defaults": false,
+      "inference_access": "method-specific; see run inference_access",
+      "initial_std": 0.0,
+      "metric_coordinates": "training-episode normalized states",
+      "metric_space": "normalized",
+      "posterior_samples": 200,
+      "rmse_aggregation": "mean of per-trajectory root mean squared errors",
+      "dataset": "aloha",
+      "variant": "pseudo_process_uncertainty_gmm",
+      "obs_noise_type": "gmm",
+      "pseudo_process_uncertainty": true,
+      "gmm_weights": [
+        0.7,
+        0.15,
+        0.15
+      ],
+      "gmm_offsets": [
+        0.0,
+        2.5,
+        -2.5
+      ],
+      "gmm_stds": [
+        0.5,
+        1.5,
+        1.5
+      ],
+      "reference": "experiments/aloha_state_estimation/run_nsf_fm_flowsde.py",
+      "observed_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "adapter_initial_std": 0.01
+    },
+    "metadata": {
+      "state_mean": [
+        0.017374306917190552,
+        -0.23607568442821503,
+        0.6776281595230103,
+        -0.09314889460802078,
+        0.40721866488456726,
+        0.04899168759584427,
+        0.6088258028030396,
+        -0.13116483390331268,
+        -0.2945774495601654,
+        0.6134342551231384,
+        0.23598098754882812,
+        0.5711538195610046,
+        -0.06929401308298111,
+        0.4707471430301666
+      ],
+      "state_std": [
+        0.3968240022659302,
+        0.3680242598056793,
+        0.33363205194473267,
+        0.35938557982444763,
+        0.30707138776779175,
+        0.285383939743042,
+        0.3644995093345642,
+        0.2923815846443176,
+        0.5352660417556763,
+        0.4613201320171356,
+        0.3349155783653259,
+        0.353934645652771,
+        0.6025980710983276,
+        0.5367048382759094
+      ],
+      "action_mean": [
+        0.009623812511563301,
+        -0.18325625360012054,
+        0.7317360043525696,
+        -0.004343083128333092,
+        0.4385906457901001,
+        -0.0025283838622272015,
+        0.28091979026794434,
+        -0.11375027894973755,
+        -0.20599499344825745,
+        0.6403996348381042,
+        0.2096894234418869,
+        0.6170945763587952,
+        -0.16431665420532227,
+        0.2547108232975006
+      ],
+      "action_std": [
+        0.11168695986270905,
+        0.21502892673015594,
+        0.20054583251476288,
+        0.1088315024971962,
+        0.2247498333454132,
+        0.14417390525341034,
+        0.27087920904159546,
+        0.14600306749343872,
+        0.31202974915504456,
+        0.2831643223762512,
+        0.19382113218307495,
+        0.30119651556015015,
+        0.29567670822143555,
+        0.3531401455402374
+      ],
+      "observed_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "train_episodes": [
+        18,
+        23,
+        36,
+        4,
+        2,
+        3,
+        34,
+        24,
+        20,
+        26,
+        1,
+        11,
+        47,
+        22,
+        10,
+        45,
+        30,
+        27,
+        6,
+        21,
+        38,
+        19,
+        43,
+        16,
+        37,
+        35,
+        28,
+        0,
+        8,
+        46,
+        48,
+        17,
+        32,
+        25,
+        44,
+        9,
+        40,
+        42,
+        13,
+        12
+      ],
+      "val_episodes": [
+        7,
+        39,
+        49,
+        5,
+        14
+      ],
+      "test_episodes": [
+        29,
+        41,
+        33,
+        15,
+        31
+      ],
+      "fps": 50,
+      "disturbance_matrix": [
+        [
+          -0.1798076629638672,
+          -0.07181394100189209,
+          -0.03304770961403847,
+          -0.0928511768579483
+        ],
+        [
+          0.10922874510288239,
+          -0.0016082157380878925,
+          0.11667302995920181,
+          0.08812594413757324
+        ],
+        [
+          0.013856440782546997,
+          -0.08302529156208038,
+          -0.03294338658452034,
+          0.08302006125450134
+        ],
+        [
+          0.02957046404480934,
+          -0.16162438690662384,
+          0.060723185539245605,
+          -0.008056560531258583
+        ],
+        [
+          -0.019072068855166435,
+          -0.10447707772254944,
+          0.03529590740799904,
+          -0.07091920077800751
+        ],
+        [
+          -0.08345237374305725,
+          0.06133967638015747,
+          -0.05450472980737686,
+          -0.030136581510305405
+        ],
+        [
+          -0.10365359485149384,
+          -0.0036748137790709734,
+          0.12837068736553192,
+          0.021232321858406067
+        ],
+        [
+          0.10282721370458603,
+          0.043041907250881195,
+          0.03672352805733681,
+          0.10367505997419357
+        ],
+        [
+          0.08530623465776443,
+          -0.18274588882923126,
+          0.05253835767507553,
+          -0.09674179553985596
+        ],
+        [
+          -0.1116238608956337,
+          -0.03443102166056633,
+          -0.07438867539167404,
+          0.13088540732860565
+        ],
+        [
+          0.07513899356126785,
+          0.08381589502096176,
+          -0.09434514492750168,
+          0.03239426389336586
+        ],
+        [
+          0.049663253128528595,
+          -0.03913388028740883,
+          0.07546570152044296,
+          0.0638115257024765
+        ],
+        [
+          -0.013943507336080074,
+          0.15679365396499634,
+          0.1903311163187027,
+          -0.1465344876050949
+        ],
+        [
+          0.1431172788143158,
+          0.007617786061018705,
+          -0.14785973727703094,
+          -0.1701015681028366
+        ]
+      ],
+      "disturbance_config": {
+        "rho_d": 0.98,
+        "sigma_d": 0.05,
+        "regime_gain": 2.0,
+        "mixing_scale": 0.35,
+        "disturbance_dim": 4.0,
+        "dt": 0.02,
+        "regime_reference": 0.1383706038092471,
+        "disturbance_rms": 0.7160436511039734,
+        "regime_mean": 0.8724256753921509
+      },
+      "control_mean": [
+        0.009623812511563301,
+        -0.18325625360012054,
+        0.7317360043525696,
+        -0.004343083128333092,
+        0.4385906457901001,
+        -0.0025283838622272015,
+        0.28091979026794434,
+        -0.11375027894973755,
+        -0.20599499344825745,
+        0.6403996348381042,
+        0.2096894234418869,
+        0.6170945763587952,
+        -0.16431665420532227,
+        0.2547108232975006
+      ],
+      "control_std": [
+        0.11168695986270905,
+        0.21502892673015594,
+        0.20054583251476288,
+        0.1088315024971962,
+        0.2247498333454132,
+        0.14417390525341034,
+        0.27087920904159546,
+        0.14600306749343872,
+        0.31202974915504456,
+        0.2831643223762512,
+        0.19382113218307495,
+        0.30119651556015015,
+        0.29567670822143555,
+        0.3531401455402374
+      ],
+      "observation_mean": [
+        0.017374306917190552,
+        -0.23607568442821503,
+        0.6776281595230103,
+        -0.09314889460802078,
+        0.40721866488456726,
+        0.04899168759584427,
+        0.6088258028030396,
+        -0.13116483390331268,
+        -0.2945774495601654,
+        0.6134342551231384,
+        0.23598098754882812,
+        0.5711538195610046,
+        -0.06929401308298111,
+        0.4707471430301666
+      ],
+      "observation_std": [
+        0.3968240022659302,
+        0.3680242598056793,
+        0.33363205194473267,
+        0.35938557982444763,
+        0.30707138776779175,
+        0.285383939743042,
+        0.3644995093345642,
+        0.2923815846443176,
+        0.5352660417556763,
+        0.4613201320171356,
+        0.3349155783653259,
+        0.353934645652771,
+        0.6025980710983276,
+        0.5367048382759094
+      ],
+      "observation_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "normalization": "training episodes only",
+      "available_windows": {
+        "train": 400,
+        "val": 50,
+        "test": 50
+      },
+      "selected_windows": {
+        "train": 400,
+        "val": 50,
+        "test": 50
+      }
+    },
+    "dt": 0.02,
+    "split_sha256": {
+      "train": "9f0c29cec18aaa5bf1b174dbe62952141d7b95b9160602d66a9eee4f8628edf9",
+      "validation": "d9130340a5ee9a05c624bb8b61310565d9cca63ce49b01708313727c73c4790b",
+      "test": "cf22ad8b1e926c77a897f781a439dcc2cb28e067b8f83611ad59a30ebb349631"
+    },
+    "shapes": {
+      "train": {
+        "states": [
+          400,
+          251,
+          14
+        ],
+        "observations": [
+          400,
+          250,
+          14
+        ],
+        "controls": [
+          400,
+          250,
+          14
+        ],
+        "episode_index": [
+          400
+        ],
+        "start_frame": [
+          400
+        ]
+      },
+      "validation": {
+        "states": [
+          50,
+          251,
+          14
+        ],
+        "observations": [
+          50,
+          250,
+          14
+        ],
+        "controls": [
+          50,
+          250,
+          14
+        ],
+        "episode_index": [
+          50
+        ],
+        "start_frame": [
+          50
+        ]
+      },
+      "test": {
+        "states": [
+          50,
+          251,
+          14
+        ],
+        "observations": [
+          50,
+          250,
+          14
+        ],
+        "controls": [
+          50,
+          250,
+          14
+        ],
+        "episode_index": [
+          50
+        ],
+        "start_frame": [
+          50
+        ]
+      }
+    }
+  },
+  "inference_access": "filtering: x[k+1] uses actual noisy observations through x[k+1], bounded causal window; no future observations",
+  "known_initial_state": true,
+  "intermediate_truth_resets_at_evaluation": false,
+  "full_trajectory_training_batch": 1,
+  "training_window": 250,
+  "normflowsde_rollout_every": 5,
+  "comparison_caveats": [
+    "Filtering access differs from the saved prediction control.",
+    "NSF and FlowSDE comparison runs retain future observation access; they are smoothing baselines.",
+    "All reference loss terms are preserved, including terms that may encourage narrow distributions."
+  ],
+  "source_sha256": {
+    "requirements.txt": "bf10a73d693392dbe09744e28358577d9effe79b1fb70b79d8018a5439f54e0d",
+    "paper/normflowsde/sections/method.tex": "01de26d6cffb6ccc28528a9ade14c7eaecd892d3d61c389efe4e2f4e31b87851",
+    "paper/normflowsde/sections/related_work.tex": "551fdf31a5849bfe323c6176ddc3a3d9d621f45f3faaddbbaf947cbc0e2832e4",
+    "bayesinf/applications/state_estimation/__init__.py": "21ae6924ff6b6628fcb3c51aeb733b20f9ad516dc76882f6cd3e1847f2afbaaf",
+    "bayesinf/applications/state_estimation/flow_sde.py": "0b064444d0cb7175d983c399ee4e7244b0b471a6aecb6973a83bf3b6a0090a39",
+    "bayesinf/applications/state_estimation/neural_stochastic_flow.py": "d90b579ec60427ade6e5c3e070b83b2b2755799406f0b53d9166a79b98e5602e",
+    "bayesinf/applications/state_estimation/fm_flow_sde.py": "ff43e37e33d92ce686a445ee55ea423d18f3b09c6d50dcd4eeb151dfe3a40f6b",
+    "bayesinf/applications/state_estimation/normalizing_flow_dpf.py": "7122552f916c4da1165fa873da59d84b0a3bd1440e199f76f069263efdd9fee8",
+    "bayesinf/applications/state_estimation/observation_conditioned_baselines.py": "6a04b26cd15d523ce03259d0cee5935295698e9d001f5490ca423fc30738eaec",
+    "bayesinf/applications/state_estimation/stochastic_interpolant.py": "4671215da26d947ee7824ec51132c28d829c1453bbf3a8ca4156bd49186dc3a1",
+    "bayesinf/models/normalizing_flow.py": "58756257d8e54cb0ece1eac56a762e8e2c4d577f47cd2b7c1252c0fe1cb38613",
+    "bayesinf/models/flow_matching.py": "142ed2d5081a0df5e40349986f518bd86d0dfb3e69b24f8bc55cabf295f79c16",
+    "bayesinf/models/score_based_diffusion_model.py": "7a3a22a9f63bfdeff07e70302bc7e33f855a113c7ae6920a696f5673ebce8727",
+    "bayesinf/models/bayesian_neural_network.py": "17cda30d3208ea6568def61bfe386eb0f20a738eb5a7f2a641f06cebf711322a",
+    "bayesinf/models/variational_autoencoder.py": "5fa1eeb1951e3aa82e5f4cfb2e1cc3766a7682447de5f7e7c0aee9dce0febfc5",
+    "bayesinf/models/denoising_diffusion_model.py": "20cf9a9d9ecfecc9fbf940f32fcb9ad10a33a2223826285666c8cfdc047d75c8",
+    "bayesinf/models/networks.py": "d4c380fd4f2dc67c08e950ef99bb4ac51637d3ea12672a3faf1e019848756bf5",
+    "bayesinf/utils/generate_data.py": "28c99faab51f7adba830468a72c4f24b773e3648c0095703211cf6ea06fc31d5",
+    "experiments/nf_dpf_state_estimation/datasets.py": "1f4c15ad14cae1ea8f31be666f03f59caea49f81f9ad898feeaaea561ec71005",
+    "experiments/nf_dpf_state_estimation/synthetic.py": "447af6a841b12f791f4a82c86a0da4d153359ff5d5065a33e2cabe914b8ba94c",
+    "experiments/aloha_state_estimation/utils/dataset.py": "18e668121eafaf2a1eb05a75352c86d7e03a83cac0f7b5acbd69b28ee3c776b4",
+    "experiments/aloha_state_estimation/run_nsf_fm_flowsde.py": "e6e738a2419cff436a74e3f42a0eb3dafb7f1d92513daf149fe85bafc08d67c3",
+    "experiments/reassemble_state_estimation/dataset.py": "0238b6d81f8150ca0ec4cb9045c0c9aadd3a7cbef753be01793c6d2750c4414d",
+    "experiments/lorenz96_state_estimation/utils/dataset.py": "6ed63f7bfa35a2b950dd28485f223ae7e2bec9458f610664efa7567035bfde11",
+    "bayesinf/applications/state_estimation/controlled_systems.py": "d409b2b3eb3e3cc3ab7e42bd847a174bc97825df318bbd6361a0181249eccab4",
+    "bayesinf/applications/state_estimation/stochastic_solvers.py": "d6f53fea0aa43d4689d935c9fd6eec6dd24b0977a7acbd95c40fa551d19d4e3a",
+    "experiments/nf_dpf_state_estimation/run.py": "68606cd371f694dd82386dc3a3f70442ac7d468464644536e5f2a2e9d78f34ab",
+    "experiments/normflowsde_comparison/run.py": "acf8bfe04c727f00d9371e0a95a19f27c85bc02b8197af06746039e2586cbd18",
+    "experiments/normflowsde_comparison/tracking.py": "f09cf7d8c4fe3a9b885a8a22b97665a47907cb33a8d013224ddd91fba3cdfe15",
+    "experiments/normflowsde_comparison/cache.py": "d12bf226a8d2d88a36996452cf636cff136dc2026abafafb08a681be076943bf",
+    "experiments/normflowsde_comparison/prepare.py": "3c11f01488456be7b200337bf030f1c212c6cacf6992891927538ff9aa1ff2ce",
+    "experiments/normflowsde_comparison/capacity.py": "2129aa974f3a156c6d4f1cd3f01cc9108a835c6eba50956506dc0bf909e8b47a",
+    "experiments/normflowsde_comparison/alignment.py": "7440525a68069e15e8b6829ec1f95754fe880f23e94986abc7ad006953c050c0",
+    "experiments/normflowsde_comparison/prepare_matched.py": "94c0b89f918bfc4bf37c4db7c17c8d47e2d367083af34ff4f13a41e2f8b86b2d",
+    "experiments/normflowsde_comparison/summarize.py": "9462f96fc1d687b6b5cdbbdf14b57e379ccb80bf5b149dae85a2108d7daf0188",
+    "experiments/normflowsde_comparison/evaluation_metrics.py": "f6dee142131a6e0199132b4a2902e01aeb1aa13437fa0790787e7b6a7f62be95",
+    "experiments/normflowsde_comparison/pendulum_normflowsde_objective.py": "5b4a9fbf7d8eb31dec4fbcb5965402b763d1d253320018be904e9b7fc2c9515c",
+    "experiments/normflowsde_comparison/train_normflowsde_filter.py": "0110e303911a93ed05f7fb5302a99221b40553f383d29d56f781a6f38b84e42c",
+    "experiments/normflowsde_comparison/lorenz_heun_objective.py": "56a9b4252fab2a8a1cbdc68de5e728244f43ce5010b3a4315846a7f7e4c488d7",
+    "experiments/normflowsde_comparison/train_lorenz_heun.py": "4bb836a90c13db4abfdd26ac463bbd07914a6ef76afa448263b30b78880e9f9b",
+    "experiments/normflowsde_comparison/lorenz_heun_array.sh": "ec6e8c358b2f193428387afe145a8ad2ab9e522c062965de9e98c8bfb7919c28"
+  },
+  "git_revision": "82166bba4218226e005ac723a7db05f3ba5714d5",
+  "environment": {
+    "python": "3.12.13",
+    "executable": "/home/anon/myenv_312/bin/python",
+    "platform": "Linux-5.15.0-191-generic-x86_64-with-glibc2.35",
+    "packages": {
+      "jax": "0.10.0",
+      "jaxlib": "0.10.0",
+      "equinox": "0.13.7",
+      "optax": "0.2.8",
+      "diffrax": "0.7.2",
+      "numba": "0.65.1",
+      "numpy": "2.4.4",
+      "scipy": "1.17.1",
+      "h5py": "3.16.0",
+      "pyarrow": "23.0.1",
+      "matplotlib": "3.10.9",
+      "pytest": "8.4.2"
+    },
+    "devices": [
+      "cuda:0"
+    ]
+  },
+  "settings_alignment": {
+    "profile": "legacy-compatible-v1",
+    "dataset": "aloha",
+    "method": "normflowsde",
+    "applied": true,
+    "exact_legacy_replay": false,
+    "settings": {
+      "continuity_weight": 1.0,
+      "rollout_weight": 0.0,
+      "rollout_draws": 4,
+      "rollout_every": 5
+    },
+    "evidence": [
+      {
+        "level": "checkpoint_filename",
+        "source": "results/results_state_estimation/Aloha_sim_insertion/dataset_noisy/RealNVPFlowSDE_aloha_insertion_h250_s25_std0.1_pwheun_custom_cw1_tnll1_seg25_cw1_noenergy.pt",
+        "establishes": "Tags indicate continuity 1 and no auxiliary rollout energy. Inactive ensemble/cadence values retain audited defaults."
+      }
+    ],
+    "not_transferred": [
+      "Architecture widths are handled separately by the selected capacity profile; old checkpoint scalar counts are not assumed.",
+      "Whole-sequence future observations: preserve the preceding-observation encoder.",
+      "Legacy optimizer budgets/LR: robot and Lorenz run settings are unrecorded; preserve the prepared budgets.",
+      "Heun/reference-transition NLL weight 1: preserve the paper's Euler update and generated-transition entropy.",
+      "Legacy segment length 25 and learned initial-state network: preserve segment length 5 and the known-initial-state protocol."
+    ],
+    "note": "Limited historical-settings scientific variant; not an exact replay. Segment Monte Carlo draws K remain unchanged. Rollout cadence 2 differs from the paper's default cadence 5 where selected. Normalization and loss definitions differ from the historical objectives, so transferring a numerical weight does not establish an equivalent contribution."
+  },
+  "variant": "normflowsde-filtering-v1",
+  "parameter_count": 116586,
+  "recipe": {
+    "solver": "euler",
+    "train_steps": 5000,
+    "batch_trajectories": 1,
+    "learning_rate": 0.0003,
+    "weight_decay": 1e-05,
+    "grad_norm": 1.0,
+    "segment_length": 5,
+    "training_draws": 4,
+    "rollout_draws": 4,
+    "rollout_every": 5,
+    "state_sigma": 1.0,
+    "continuity_weight": 1.0,
+    "rollout_weight": 0.0,
+    "validation_every": 250,
+    "validation_windows": 50,
+    "validation_particles": 200,
+    "posterior_samples": 200,
+    "eval_windows": 50,
+    "final_validation_windows": 50,
+    "max_epochs": null,
+    "patience": 0,
+    "warmup_steps": 0,
+    "sampling": "with replacement",
+    "initialization": "from scratch, PRNGKey(training_seed); no checkpoint warm start"
+  },
+  "scientific_arguments": {
+    "dataset": "aloha",
+    "seed": 2,
+    "allow_cpu": false,
+    "smoke_updates": null,
+    "train_steps": 5000,
+    "validation_windows": 50,
+    "segment_length": null,
+    "continuity_weight": null,
+    "rollout_weight": null,
+    "state_sigma": null,
+    "realnvp_alpha": null,
+    "no_time": false,
+    "learned_scale": false,
+    "allow_data_change": true,
+    "allow_source_drift": true
+  },
+  "reference_recipe": {
+    "metadata_sha256": "1968bfd3778790ed5b079d7a2441d8fd6cf93621ac5cc61e791e29da8af6e6ce",
+    "scientific_source_sha256": {
+      "requirements.txt": "bf10a73d693392dbe09744e28358577d9effe79b1fb70b79d8018a5439f54e0d",
+      "paper/normflowsde/sections/method.tex": "994cb861bc44cf6189be6ae7ecd7e0054588424be84aa49fb11fe807699f9b9d",
+      "paper/normflowsde/sections/related_work.tex": "5d3710f761b5c77f888fa8cafefc1d0e9d8b878a974cabf46cd01c124f0578dc",
+      "bayesinf/applications/state_estimation/__init__.py": "21ae6924ff6b6628fcb3c51aeb733b20f9ad516dc76882f6cd3e1847f2afbaaf",
+      "bayesinf/applications/state_estimation/flow_sde.py": "46e5c74f87c924d5cdc5494c63d549d4862cffadfc40acb3730af4cc0126ce61",
+      "bayesinf/applications/state_estimation/neural_stochastic_flow.py": "d90b579ec60427ade6e5c3e070b83b2b2755799406f0b53d9166a79b98e5602e",
+      "bayesinf/applications/state_estimation/fm_flow_sde.py": "ff43e37e33d92ce686a445ee55ea423d18f3b09c6d50dcd4eeb151dfe3a40f6b",
+      "bayesinf/applications/state_estimation/normalizing_flow_dpf.py": "75fdc9430aa0586e3031a23cf759992186e6e097bceb191b8f45011eb07cedb6",
+      "bayesinf/applications/state_estimation/observation_conditioned_baselines.py": "7e04437a05ffb010db62ac1d1201ffc7332223615ae3729b5a7cb47178f88edf",
+      "bayesinf/applications/state_estimation/stochastic_interpolant.py": "4671215da26d947ee7824ec51132c28d829c1453bbf3a8ca4156bd49186dc3a1",
+      "bayesinf/models/normalizing_flow.py": "58756257d8e54cb0ece1eac56a762e8e2c4d577f47cd2b7c1252c0fe1cb38613",
+      "bayesinf/models/flow_matching.py": "142ed2d5081a0df5e40349986f518bd86d0dfb3e69b24f8bc55cabf295f79c16",
+      "bayesinf/models/score_based_diffusion_model.py": "7a3a22a9f63bfdeff07e70302bc7e33f855a113c7ae6920a696f5673ebce8727",
+      "bayesinf/models/bayesian_neural_network.py": "17cda30d3208ea6568def61bfe386eb0f20a738eb5a7f2a641f06cebf711322a",
+      "bayesinf/models/variational_autoencoder.py": "5fa1eeb1951e3aa82e5f4cfb2e1cc3766a7682447de5f7e7c0aee9dce0febfc5",
+      "bayesinf/models/denoising_diffusion_model.py": "20cf9a9d9ecfecc9fbf940f32fcb9ad10a33a2223826285666c8cfdc047d75c8",
+      "bayesinf/models/networks.py": "d4c380fd4f2dc67c08e950ef99bb4ac51637d3ea12672a3faf1e019848756bf5",
+      "bayesinf/utils/generate_data.py": "28c99faab51f7adba830468a72c4f24b773e3648c0095703211cf6ea06fc31d5",
+      "experiments/nf_dpf_state_estimation/datasets.py": "679aece36c0cc6ae02849f11598264451867351ee235fce5c9e87fcee41acdd6",
+      "experiments/nf_dpf_state_estimation/synthetic.py": "624a84b631d79560b9a8211db09d9be19f494e4214695af9e9acfa272f2fbd64",
+      "experiments/aloha_state_estimation/utils/dataset.py": "18e668121eafaf2a1eb05a75352c86d7e03a83cac0f7b5acbd69b28ee3c776b4",
+      "experiments/aloha_state_estimation/run_nsf_fm_flowsde.py": "a956537e55b7c3473111359c32482e2b407db539d0adab2224303ebdc89766e6",
+      "experiments/reassemble_state_estimation/dataset.py": "ca5d032a2e20610ed109d70e277287ade8cde5082cf632d29839097ff7d7c9f7",
+      "experiments/lorenz96_state_estimation/utils/dataset.py": "6ed63f7bfa35a2b950dd28485f223ae7e2bec9458f610664efa7567035bfde11",
+      "bayesinf/applications/state_estimation/controlled_systems.py": "d409b2b3eb3e3cc3ab7e42bd847a174bc97825df318bbd6361a0181249eccab4",
+      "bayesinf/applications/state_estimation/stochastic_solvers.py": "d6f53fea0aa43d4689d935c9fd6eec6dd24b0977a7acbd95c40fa551d19d4e3a",
+      "experiments/nf_dpf_state_estimation/run.py": "0e79a03ba5e3033204fc7d38c4bf6d480aad16a964ac73a751304edb822bb6ef",
+      "experiments/normflowsde_comparison/run.py": "b0546ed664f0635c96ae23d335d5dfdf99efba3c081c01c99c37e7d663ccb7d4",
+      "experiments/normflowsde_comparison/tracking.py": "f09cf7d8c4fe3a9b885a8a22b97665a47907cb33a8d013224ddd91fba3cdfe15",
+      "experiments/normflowsde_comparison/cache.py": "d12bf226a8d2d88a36996452cf636cff136dc2026abafafb08a681be076943bf",
+      "experiments/normflowsde_comparison/prepare.py": "3c11f01488456be7b200337bf030f1c212c6cacf6992891927538ff9aa1ff2ce",
+      "experiments/normflowsde_comparison/capacity.py": "365000192983d2381017369a8d374f994b97c3407defb065ba6b662ae0192f35",
+      "experiments/normflowsde_comparison/alignment.py": "7440525a68069e15e8b6829ec1f95754fe880f23e94986abc7ad006953c050c0",
+      "experiments/normflowsde_comparison/prepare_matched.py": "94c0b89f918bfc4bf37c4db7c17c8d47e2d367083af34ff4f13a41e2f8b86b2d",
+      "experiments/normflowsde_comparison/summarize.py": "9462f96fc1d687b6b5cdbbdf14b57e379ccb80bf5b149dae85a2108d7daf0188",
+      "experiments/normflowsde_comparison/evaluation_metrics.py": "f6dee142131a6e0199132b4a2902e01aeb1aa13437fa0790787e7b6a7f62be95",
+      "experiments/normflowsde_comparison/pendulum_normflowsde_objective.py": "5b4a9fbf7d8eb31dec4fbcb5965402b763d1d253320018be904e9b7fc2c9515c"
+    },
+    "original_inference_access": "prediction: x[k+1] uses observations through x[k], bounded preceding window",
+    "all_original_scientific_sources_match": false,
+    "source_drift": [
+      "paper/normflowsde/sections/method.tex",
+      "paper/normflowsde/sections/related_work.tex",
+      "bayesinf/applications/state_estimation/flow_sde.py",
+      "bayesinf/applications/state_estimation/normalizing_flow_dpf.py",
+      "bayesinf/applications/state_estimation/observation_conditioned_baselines.py",
+      "experiments/nf_dpf_state_estimation/datasets.py",
+      "experiments/nf_dpf_state_estimation/synthetic.py",
+      "experiments/aloha_state_estimation/run_nsf_fm_flowsde.py",
+      "experiments/reassemble_state_estimation/dataset.py",
+      "experiments/nf_dpf_state_estimation/run.py",
+      "experiments/normflowsde_comparison/run.py",
+      "experiments/normflowsde_comparison/capacity.py"
+    ],
+    "data_changes": [
+      "split_sha256",
+      "protocol"
+    ],
+    "package_drift": false,
+    "same_model_initialization": true,
+    "access_only_intervention": false,
+    "recipe_overrides": {
+      "train_steps": 5000,
+      "validation_windows": 50
+    },
+    "model_overrides": {},
+    "checkpoint_warm_start": false,
+    "preserved": "data, solver, optimizer, losses and minibatch RNG; overrides listed in recipe_overrides/model_overrides"
+  },
+  "solver": "euler",
+  "observation_alignment": {
+    "cached_observation_index": "observations[k] measures states[k+1]",
+    "encoder_input": "unshifted actual noisy destination measurements; unchanged bounded causal window",
+    "cutoff": "x[k+1] uses noisy observations through x[k+1] only",
+    "future_observations": false,
+    "reference_states_in_encoder": false,
+    "first_input": "actual noisy y1; no synthetic clean y0"
+  },
+  "objective_interpretation": "learned observation-conditioned filtering transition; conditional reference NLL when present is not an autonomous SDE likelihood",
+  "post_calibration": false,
+  "evaluation_split": "validation",
+  "test_evaluated": false,
+  "started_at": "2026-10-20T15:57:03.076949+00:00",
+  "best_step": 4750,
+  "best_validation_rmse": 0.4937264621257782,
+  "completed_steps": 5000,
+  "elapsed_training_seconds": 648.6990385260433,
+  "training_seconds_including_compilation": 648.7148891319521,
+  "validation": {
+    "rmse": 0.49372644903568513,
+    "posterior_median_rmse": 0.49415018437479696,
+    "pooled_rmse": 0.5132474655807296,
+    "mae": 0.3761032127391407,
+    "rmse_observed": 0.49372644903568513,
+    "rmse_unobserved": null,
+    "crps": 0.27265957439030136,
+    "energy_score": 1.2078357103471824,
+    "energy_score_mc_se": 0.0,
+    "interval_score_90": 2.2176151578234014,
+    "coverage_90": 0.8000114285714286,
+    "coverage_90_absolute_error": 0.09998857142857143,
+    "mean_interval_width": 1.1723099988515582,
+    "calibration_mae": 0.0674102857142857,
+    "predictive_rms_std": 0.38146163727654103,
+    "mean_predictive_std": 0.3602727849566093,
+    "rmse_to_predictive_rms_std": 1.3454759677672392,
+    "maximum_absolute_posterior": 4.777765274047852,
+    "maximum_absolute_truth": 3.1558008193969727,
+    "maximum_absolute_posterior_mean": 2.827884046137333,
+    "maximum_absolute_posterior_normalized": 4.777765274047852,
+    "maximum_absolute_truth_normalized": 3.1558008193969727,
+    "eval_windows": 50,
+    "horizon": 250,
+    "posterior_samples": 200,
+    "state_dimensions": 14,
+    "inference_access": "filtering: x[k+1] uses actual noisy observations through x[k+1], bounded causal window; no future observations",
+    "solver": "euler",
+    "milliseconds_per_trajectory": 103.56785858049989
+  },
+  "completed_at": "2026-10-20T16:08:13.106858+00:00"
+}

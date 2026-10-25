@@ -1,0 +1,7 @@
+name, memory.total [MiB], memory.used [MiB]
+NVIDIA A30, 24576 MiB, 0 MiB
+reassemble b8 s2 exit 0
+reassemble b4lr1e-3 s2 exit 0
+reassemble lr1e-3 s2 exit 0
+reassemble b4 s2 exit 0
+pilot reassemble done

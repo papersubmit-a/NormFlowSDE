@@ -1,0 +1,142 @@
+{
+ "pendulum": {
+  "nf_dpf": {
+   "0": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed0/s2"
+   ],
+   "1": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed1/s2"
+   ],
+   "2": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s2"
+   ]
+  },
+  "nsf": {
+   "0": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed0/jitter"
+   ],
+   "1": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed1/jitter"
+   ],
+   "2": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed2/jitter"
+   ]
+  },
+  "flowsde": {
+   "0": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed0/D0.01"
+   ],
+   "1": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed1/D0.01"
+   ],
+   "2": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed2/D0.01"
+   ]
+  }
+ },
+ "aloha": {
+  "nf_dpf": {
+   "0": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed0/s2"
+   ],
+   "1": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s2"
+   ],
+   "2": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed2/s2"
+   ]
+  },
+  "nsf": {
+   "0": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed0/jitter"
+   ],
+   "1": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed1/jitter"
+   ],
+   "2": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed2/jitter"
+   ]
+  },
+  "flowsde": {
+   "0": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed0/D0.05"
+   ],
+   "1": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed1/D0.05"
+   ],
+   "2": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed2/D0.05"
+   ]
+  }
+ },
+ "reassemble": {
+  "nf_dpf": {
+   "0": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed0/s2"
+   ],
+   "1": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed1/s2"
+   ],
+   "2": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed2/s2"
+   ]
+  },
+  "nsf": {
+   "0": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed0/jitter"
+   ],
+   "1": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed1/jitter"
+   ],
+   "2": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed2/jitter"
+   ]
+  },
+  "flowsde": {
+   "0": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed0/D0.03"
+   ],
+   "1": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed1/D0.03"
+   ],
+   "2": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed2/D0.03"
+   ]
+  }
+ },
+ "lorenz96": {
+  "nf_dpf": {
+   "0": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/lorenz96/seed0/s2"
+   ],
+   "1": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/lorenz96/seed1/s2"
+   ],
+   "2": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/lorenz96/seed2/s2"
+   ]
+  },
+  "nsf": {
+   "0": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/lorenz96/seed0/jitter"
+   ],
+   "1": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/lorenz96/seed1/jitter"
+   ],
+   "2": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/lorenz96/seed2/jitter"
+   ]
+  },
+  "flowsde": {
+   "0": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/lorenz96/seed0/D0.01"
+   ],
+   "1": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/lorenz96/seed1/D0.01"
+   ],
+   "2": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/lorenz96/seed2/D0.01"
+   ]
+  }
+ }
+}

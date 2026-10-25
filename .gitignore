@@ -1,0 +1,11 @@
+# Large binary arrays (posteriors, data caches, reference-filter outputs): 28 GB,
+# 45 files above GitHub's 100 MB limit. Distributed separately.
+*.npz
+__pycache__/
+*.pyc
+paper/main.log
+paper/main.blg
+paper/main.aux
+paper/main.bbl
+paper/EDITORIAL_NOTES.txt
+paper/VALIDATION.txt

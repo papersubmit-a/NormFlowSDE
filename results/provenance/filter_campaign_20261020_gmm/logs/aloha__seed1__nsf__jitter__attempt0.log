@@ -1,0 +1,11 @@
+{"jitter": 0.0, "rmse": 0.4945184588432312, "coverage_90": 0.10607428571428572}
+{"jitter": 0.005, "rmse": 0.41313636302948, "coverage_90": 0.1374857142857143}
+{"jitter": 0.01, "rmse": 0.28241872787475586, "coverage_90": 0.20636}
+{"jitter": 0.02, "rmse": 0.1486710011959076, "coverage_90": 0.4340857142857143}
+{"jitter": 0.03, "rmse": 0.10323281586170197, "coverage_90": 0.6524628571428571}
+{"jitter": 0.05, "rmse": 0.08641454577445984, "coverage_90": 0.8119371428571428}
+{"jitter": 0.075, "rmse": 0.09356047958135605, "coverage_90": 0.8335428571428571}
+{"jitter": 0.1, "rmse": 0.1055883914232254, "coverage_90": 0.8130742857142857}
+{"jitter": 0.15, "rmse": 0.129602313041687, "coverage_90": 0.7354628571428572}
+{"jitter": 0.2, "rmse": 0.15583942830562592, "coverage_90": 0.6329371428571429}
+{"status": "complete", "output": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/aloha/seed1/nsf/jitter/attempt0", "jitter": 0.05, "test": {"rmse": 0.08551814503825733, "crps": 0.050058353272411364, "coverage_90": 0.8208285714285715, "mean_interval_width": 0.23404958804575068, "latency_ms_per_trajectory": 32.99161099130288}}

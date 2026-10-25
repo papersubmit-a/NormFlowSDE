@@ -1,0 +1,53 @@
+{
+  "status": "complete",
+  "method": "nsf",
+  "dataset": "lorenz96",
+  "seed": 1,
+  "variant": "learned-dynamics bootstrap particle filter + joint (checkpoint, process-noise inflation) validation selection",
+  "inference_access": "filtering: x[k+1] uses observations through x[k+1] via a bootstrap particle filter (learned dynamics prediction, learned measurement-density update); no future observations",
+  "arguments": {
+    "method": "nsf",
+    "dataset": "lorenz96",
+    "data_cache": "/hpc/gpfs2/home/u/anon/bayesinf_jax_campaigns/20261020_lorenz_baselines/data_cache/lorenz96",
+    "output": "/hpc/gpfs2/home/u/anon/bayesinf_jax_campaigns/20261020_lorenz_baselines/runs/lorenz96/seed1/nsf/train/attempt0",
+    "seed": 1,
+    "steps": 18500,
+    "batch_windows": 16,
+    "learning_rate": 0.0003,
+    "hidden_size": 126,
+    "hidden_depth": 3,
+    "flow_layers": 2,
+    "diffusion": 0.01,
+    "flow_substeps": 4,
+    "epr_weight": 0.0,
+    "measurement_hidden": 64,
+    "measurement_depth": 2,
+    "measurement_layers": 4,
+    "particles": null,
+    "eval_every": 500,
+    "validation_windows": 10000,
+    "eval_chunk": 8,
+    "selection_jitters": "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+    "smoke": false
+  },
+  "particles": 1000,
+  "posterior_samples": 200,
+  "parameter_count": 144624,
+  "dynamics_parameters": 114228,
+  "measurement_parameters": 30396,
+  "devices": [
+    "cuda:0"
+  ],
+  "training_seconds": 4917.006179747172,
+  "best_step": 17500,
+  "best_validation_rmse": 0.21110129608289405,
+  "best_validation_coverage_90": 0.8281708333333333,
+  "jitter": 0.005,
+  "test": {
+    "rmse": 0.24779292587149476,
+    "crps": 0.1306711453352875,
+    "coverage_90": 0.8005,
+    "mean_interval_width": 0.4635446381115655,
+    "latency_ms_per_trajectory": 132.47779570519924
+  }
+}

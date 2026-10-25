@@ -1,0 +1,7 @@
+{"submitted_at": "2026-10-20T18:50+02:00", "remote": "~/bayesinf_jax_campaigns/20261020_lorenz_baselines",
+ "purpose": "Lorenz-96 baselines (NF-DPF, NSF, FlowSDE) retrained with the GMM-campaign baseline fixes for a consistent table: joint (checkpoint, jitter) selection over 0..0.2 for NSF/FlowSDE; NF-DPF fine-tune with measurement-NLL anchor (--measurement-nll-weight 1 --measurement-batch-windows 16). NormFlowSDE Lorenz results unchanged (lorenz96_nfsde_ls_20261020).",
+ "data_cache": "symlink to ~/bayesinf_jax_campaigns/20261019_filter_campaign/data_cache/lorenz96 (verified identical to the reference)",
+ "plan": "filter_campaign plan --observation-noise gmm --datasets lorenz96 --methods nf_dpf nsf flowsde (24 tasks, 21 training)",
+ "source_sha256_match_local": ["filter_campaign.py", "train_state_filter.py", "improve_lorenz_baselines.py"],
+ "jobs": {"10126889": "epyc-gpu-test 6h lane", "10126890": "epyc-gpu-test 6h lane, afterany 10126889",
+          "10126891": "epyc-gpu-test 6h lane, afterany 10126890", "10126892": "epyc-gpu 14h lane (shared state)"}}

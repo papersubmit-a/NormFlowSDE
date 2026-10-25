@@ -1,0 +1,8 @@
+index, name, memory.total [MiB], memory.used [MiB]
+0, NVIDIA A30, 24576 MiB, 0 MiB
+pendulum rw30 s2 seed1 exit 0
+pendulum rw60 s2 seed0 exit 0
+pendulum rw30 s2 seed2 exit 0
+pendulum sig0.1_rw30 s2 seed0 exit 0
+pendulum rw100 s2 seed0 exit 0
+sweep2 a30_p_rw done

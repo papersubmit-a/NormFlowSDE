@@ -1,0 +1,14 @@
+[
+  {
+    "path": "evaluation/state_estimation_lorenz96_comparison.csv",
+    "sha256": "96124daf3737058c28d9c72953c4f09eb23f7292f7dc7db5c9a0ab1bc4d8cfd6"
+  },
+  {
+    "path": "evaluation/reassemble_three_model_state_estimation.csv",
+    "sha256": "7b8aae6738595c4cbac87847efb74fec52aad0983fdfa6c7d11894f1b3e35280"
+  },
+  {
+    "path": "evaluation/aloha_sim_insertion_all_methods.csv",
+    "sha256": "438f569621e815eda7dd92869b5bc1af5556d3c72f082232dc4ee3015a2c0288"
+  }
+]

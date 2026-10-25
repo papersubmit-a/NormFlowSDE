@@ -1,0 +1,8 @@
+index, name, memory.total [MiB], memory.used [MiB]
+0, NVIDIA A30, 24576 MiB, 0 MiB
+lorenz96 lr1e-3 s2 exit 0
+lorenz96 lr6e-4 s2 exit 0
+lorenz96 b32 s2 exit 0
+lorenz96 b32lr6e-4 s2 exit 0
+/home/anon/bayesinf_jax/results/nfsde_sweep2_20261021/sweep.sh: line 110: orenz96/lr1e-3_p0/s1/seed0: No such file or directory
+slurmstepd: error: *** JOB 32357 ON gpunode172 CANCELLED AT 2026-10-21T19:27:22 ***

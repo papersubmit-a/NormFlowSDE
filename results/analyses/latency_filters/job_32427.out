@@ -1,0 +1,100 @@
+NVIDIA L40S
+E1023 21:06:35.798528 2050916 cuda_dnn.cc:466] Could not create cudnn handle: CUDNN_STATUS_NOT_INITIALIZED
+E1023 21:06:35.798569 2050916 cuda_dnn.cc:470] Memory usage: 47220850688 bytes free, 47676129280 bytes total.
+E1023 21:06:35.798603 2050916 cuda_dnn.cc:480] Possibly insufficient driver version: 570.211.1
+E1023 21:06:35.798800 2050916 cuda_dnn.cc:466] Could not create cudnn handle: CUDNN_STATUS_NOT_INITIALIZED
+E1023 21:06:35.798825 2050916 cuda_dnn.cc:470] Memory usage: 47220850688 bytes free, 47676129280 bytes total.
+E1023 21:06:35.798842 2050916 cuda_dnn.cc:480] Possibly insufficient driver version: 570.211.1
+E1023 21:06:35.849865 2050916 cuda_dnn.cc:466] Could not create cudnn handle: CUDNN_STATUS_NOT_INITIALIZED
+E1023 21:06:35.849938 2050916 cuda_dnn.cc:470] Memory usage: 47220850688 bytes free, 47676129280 bytes total.
+E1023 21:06:35.849968 2050916 cuda_dnn.cc:480] Possibly insufficient driver version: 570.211.1
+E1023 21:06:35.852711 2050916 cuda_dnn.cc:466] Could not create cudnn handle: CUDNN_STATUS_NOT_INITIALIZED
+E1023 21:06:35.852740 2050916 cuda_dnn.cc:470] Memory usage: 47220850688 bytes free, 47676129280 bytes total.
+E1023 21:06:35.852763 2050916 cuda_dnn.cc:480] Possibly insufficient driver version: 570.211.1
+E1023 21:06:35.853888 2050916 status_macros.cc:58] INTERNAL: RET_CHECK failure (external/xla/xla/service/gpu/gpu_compiler.cc:2695) dnn_support != nullptr 
+*** Begin stack trace ***
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	PyObject_Vectorcall
+	_PyEval_EvalFrameDefault
+	PyObject_Vectorcall
+	
+	
+	
+	_PyObject_Call_Prepend
+	
+	_PyObject_MakeTpCall
+	_PyEval_EvalFrameDefault
+	PyObject_Vectorcall
+	
+	
+	_PyEval_EvalFrameDefault
+	
+	
+	PyObject_Call
+	_PyEval_EvalFrameDefault
+	PyEval_EvalCode
+	
+	
+	_PyRun_SimpleFileObject
+	_PyRun_AnyFileObject
+	Py_RunMain
+	Py_BytesMain
+	
+	__libc_start_main
+	_start
+*** End stack trace ***
+
+Traceback (most recent call last):
+  File "/home/anon/bayesinf_jax/results/results_normflowsde_paper/analyses/latency_filters/measure_reference_filters.py", line 22, in <module>
+    obs = jnp.asarray(meta["observation_indices"]); model = pendulum_model if ds == "pendulum" else lorenz_model
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/anon/myenv_312/lib/python3.12/site-packages/jax/_src/numpy/array_constructors.py", line 427, in asarray
+    return array(a, dtype=dtype, copy=bool(copy), order=order, device=device,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/anon/myenv_312/lib/python3.12/site-packages/jax/_src/numpy/array_constructors.py", line 312, in array
+    out_array: Array = lax._convert_element_type(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/anon/myenv_312/lib/python3.12/site-packages/jax/_src/lax/lax.py", line 1701, in _convert_element_type
+    return convert_element_type_p.bind(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/anon/myenv_312/lib/python3.12/site-packages/jax/_src/core.py", line 660, in bind
+    return self.bind_with_trace(prev_trace, args, avals, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/anon/myenv_312/lib/python3.12/site-packages/jax/_src/lax/lax.py", line 5126, in _convert_element_type_bind_with_trace
+    operand = core.Primitive.bind_with_trace(convert_element_type_p, trace, args,
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/anon/myenv_312/lib/python3.12/site-packages/jax/_src/core.py", line 668, in bind_with_trace
+    return trace.process_primitive(self, args, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/anon/myenv_312/lib/python3.12/site-packages/jax/_src/core.py", line 1220, in process_primitive
+    return primitive.impl(*args, **params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/anon/myenv_312/lib/python3.12/site-packages/jax/_src/dispatch.py", line 90, in apply_primitive
+    outs = fun(*args)
+           ^^^^^^^^^^
+jax.errors.JaxRuntimeError: INTERNAL: RET_CHECK failure (external/xla/xla/service/gpu/gpu_compiler.cc:2695) dnn_support != nullptr 
+--------------------
+For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.

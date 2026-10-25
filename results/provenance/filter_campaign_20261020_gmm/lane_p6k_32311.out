@@ -1,0 +1,8 @@
+index, name, memory.total [MiB], memory.used [MiB], utilization.gpu [%]
+0, NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB, 29278 MiB, 0 %
+shared GPU (29278 MiB used): 4 slots, 10% memory each
+{"lane": "32311", "deadline": "2026-10-21T06:21:45.263242+00:00", "capacity": 4, "slots": 4}
+{"task": "reassemble/seed2/normflowsde/s2_lr1e-4", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr1e-4/attempt0", "pid": 924996}
+{"task": "reassemble/seed2/normflowsde/s2_lr3e-4", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr3e-4/attempt0", "pid": 925005}
+{"task": "reassemble/seed2/flowsde/D0.01", "launched": "/home/anon/bayesinf_jax/results/filter_campaign_20261020_gmm/runs/reassemble/seed2/flowsde/D0.01/attempt0", "pid": 925017}
+slurmstepd: error: *** JOB 32311 ON gpunode142 CANCELLED AT 2026-10-20T20:23:26 ***

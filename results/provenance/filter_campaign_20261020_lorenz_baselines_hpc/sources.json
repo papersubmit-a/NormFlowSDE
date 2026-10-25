@@ -1,0 +1,84 @@
+{
+  "_note": "All-filtering four-method campaign 20261020_lorenz_baselines (experiments/normflowsde_comparison/filter_campaign.py): from-scratch pipelines, equal total optimizer updates per dataset {'pendulum': 8400, 'lorenz96': 18500, 'aloha': 9000, 'reassemble': 11000}, per-seed validation-RMSE selection inside the campaign, one rebuilt data cache per dataset verified against the previous comparison caches.",
+  "lorenz96": {
+    "folder": "lorenz96",
+    "data_cache": "/hpc/gpfs2/home/u/anon/bayesinf_jax_campaigns/20261020_lorenz_baselines/data_cache/lorenz96",
+    "methods": {
+      "nf_dpf": {
+        "status": "final",
+        "access": "filtering",
+        "access_label": "current-measurement filtering",
+        "setting": "Comparison-runner NF-DPF (12500 updates) then variant-B long-window fine-tune (6000 updates: horizon curriculum, weighted CRPS, ESS penalty 0.01, supervised measurement-NLL anchor on 16 windows).",
+        "seeds": {
+          "0": "/hpc/gpfs2/home/u/anon/bayesinf_jax_campaigns/20261020_lorenz_baselines/runs/lorenz96/seed0/nf_dpf/s2/attempt0",
+          "1": "/hpc/gpfs2/home/u/anon/bayesinf_jax_campaigns/20261020_lorenz_baselines/runs/lorenz96/seed1/nf_dpf/s2/attempt0",
+          "2": "/hpc/gpfs2/home/u/anon/bayesinf_jax_campaigns/20261020_lorenz_baselines/runs/lorenz96/seed2/nf_dpf/s2/attempt0"
+        },
+        "selections": {
+          "0": {},
+          "1": {},
+          "2": {}
+        },
+        "latency": {
+          "kind": "metrics",
+          "note": "packed concurrent GPU tasks; not an isolated timing"
+        },
+        "note": ""
+      },
+      "nsf": {
+        "status": "final",
+        "access": "filtering",
+        "access_label": "current-measurement filtering",
+        "setting": "NSF-PF: learned-dynamics bootstrap PF (18500 updates), checkpoint and process-noise jitter selected jointly on validation from {0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2}.",
+        "seeds": {
+          "0": "/hpc/gpfs2/home/u/anon/bayesinf_jax_campaigns/20261020_lorenz_baselines/runs/lorenz96/seed0/nsf/jitter/attempt0",
+          "1": "/hpc/gpfs2/home/u/anon/bayesinf_jax_campaigns/20261020_lorenz_baselines/runs/lorenz96/seed1/nsf/jitter/attempt0",
+          "2": "/hpc/gpfs2/home/u/anon/bayesinf_jax_campaigns/20261020_lorenz_baselines/runs/lorenz96/seed2/nsf/jitter/attempt0"
+        },
+        "selections": {
+          "0": {
+            "jitter": 0.005
+          },
+          "1": {
+            "jitter": 0.005
+          },
+          "2": {
+            "jitter": 0.005
+          }
+        },
+        "latency": {
+          "kind": "metrics",
+          "note": "packed concurrent GPU tasks; not an isolated timing"
+        },
+        "note": ""
+      },
+      "flowsde": {
+        "status": "final",
+        "access": "filtering",
+        "access_label": "current-measurement filtering",
+        "setting": "FlowSDE-PF: learned-dynamics bootstrap PF (18500 updates), diffusion D from ['0.01', '0.03', '0.05'] and checkpoint/jitter from {0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2} selected jointly on validation.",
+        "seeds": {
+          "0": "/hpc/gpfs2/home/u/anon/bayesinf_jax_campaigns/20261020_lorenz_baselines/runs/lorenz96/seed0/flowsde/D0.01/attempt0",
+          "1": "/hpc/gpfs2/home/u/anon/bayesinf_jax_campaigns/20261020_lorenz_baselines/runs/lorenz96/seed1/flowsde/D0.01/attempt0",
+          "2": "/hpc/gpfs2/home/u/anon/bayesinf_jax_campaigns/20261020_lorenz_baselines/runs/lorenz96/seed2/flowsde/D0.01/attempt0"
+        },
+        "selections": {
+          "0": {
+            "lorenz96/seed0/flowsde/select_D": "lorenz96/seed0/flowsde/D0.01"
+          },
+          "1": {
+            "lorenz96/seed1/flowsde/select_D": "lorenz96/seed1/flowsde/D0.01"
+          },
+          "2": {
+            "lorenz96/seed2/flowsde/select_D": "lorenz96/seed2/flowsde/D0.01"
+          }
+        },
+        "latency": {
+          "kind": "metrics",
+          "note": "packed concurrent GPU tasks; not an isolated timing"
+        },
+        "note": ""
+      }
+    }
+  }
+}

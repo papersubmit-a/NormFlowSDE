@@ -1,0 +1,117 @@
+\section{NormFlowSDE for Amortized Bayesian State Estimation}\label{sec:method}
+
+\subsection{Observation-Conditioned State Transitions}
+
+To extend conditional normalizing flows to amortized Bayesian state estimation, we represent the state as a time-dependent random variable and combine a conditional flow with the temporal update structure of a neural SDE. A conventional neural SDE has the form
+\begin{equation}\label{eq:neural-sde}
+ dz_t=f_\varphi(z_t,t,u_t)\,dt+\sigma(z_t,t,u_t)\,dW_t,
+\end{equation}
+where $z_t\in\R^d$ is the state variable, $u_t$ denotes control inputs, and $W_t$ is a $d$-dimensional Wiener process. The drift $f_\varphi$ determines the infinitesimal conditional mean, while $\sigma\sigma^\top$ determines the conditional covariance per unit time. At physical times $t_k=k\Delta t$, with $\Delta t>0$, the Euler--Maruyama stochastic increment is $\sqrt {\Delta t}\,\sigma(z_k,t_k,u_k)\epsilon_k$, where $\epsilon_k\sim\N(0,I_d)$. We use a fixed physical interval $\Delta t>0$ for training.
+
+For state estimation, $y_k$ denotes the observation at time $t_k$. The encoder uses a window of observations preceding the state being estimated. For an integer window length $o\geq1$, the encoder computes the window feature as
+\begin{equation}\label{eq:sequence-conditioning}
+ c_k=C_\psi\,\left(y_{\max(0,k-o+1):k}\right),
+ \qquad k=0,\ldots,N-1.
+\end{equation}
+Thus the update to $z_{k+1}$ uses at most the last $o$ observations through $t_k$; near the sequence start, only the available prefix is used. We replace the linear Gaussian noise map with a conditional invertible flow to obtain the finite-step NormFlowSDE update
+\begin{equation}\label{eq:normflowsde-overview}
+ z_{k+1}=z_k+\Delta t\,f_\varphi(z_k,t_k,u_k,c_k)
+          +\sqrt {\Delta t}\,g_\phi(\epsilon_k;z_k,t_k,u_k,c_k),
+ \qquad \epsilon_k\stackrel{\mathrm{iid}}\sim\N(0,I_d).
+\end{equation}
+Here $z_k$ denotes a state sample at time $t_k$, and the Gaussian inputs are independent of the supplied data and initial state. The initial state $z_0$ is provided by the data and initializes the stochastic process once. Each subsequent update uses the current generated state $z_k$, time $t_k$, control $u_k$ when available, and window feature $c_k$.
+
+This construction assigns nominal deterministic evolution to the drift network, while the conditional flow learns the distribution of stochastic increments from data. Both networks receive observation information and reuse their fitted parameters across sequences, enabling amortized conditional trajectory sampling. The flow can also contribute to the conditional mean because its output is uncentered. Appendix~\ref{app:diffusion} constructs a centered inference scheme and proves its weak convergence to an It\^o diffusion under stated assumptions.
+
+We next derive a composite training objective for \method. 
+
+\subsection{Training Objective and Procedure}\label{sec:training}
+Training uses paired reference states $x_{0:N}$, observations $y_{0:N-1}$, and controls $u_{0:N-1}$ when available. The reference path $\mathbf x=(x_1,\ldots,x_N)$ supplies supervision, while $\mathbf z=(z_1,\ldots,z_N)$ denotes a generated path. The parameter vector $\omega=(\varphi,\phi,\psi)$ collects all trainable parameters. 
+
+The objective combines reconstruction accuracy, a transition-density term, agreement between training segments, and a distributional score for full trajectories.
+
+\subsubsection{Reconstruction and Transition Terms}
+With the supplied initial state, observations, and controls fixed, $q_\omega(\mathbf z)$ denotes the generated path density. We use the Gaussian reconstruction model $p_\sigma(x_k\mid z_k)=\N(x_k;z_k,\sigma_{\mathrm{state}}^2I_d)$, where the fixed scale $\sigma_{\mathrm{state}}>0$ weights state errors. The reconstruction and transition losses are
+\begin{align}
+ \mathcal L_{\mathrm{state}}(\omega;\mathbf x)
+ &=\frac{1}{2\sigma_{\mathrm{state}}^2}
+   \E_{\mathbf z\sim q_\omega}
+   \left[\sum_{k=1}^N\norm{x_k-z_k}^2\right]
+   +\frac{Nd}{2}\log(2\pi\sigma_{\mathrm{state}}^2),\label{eq:state-training-loss}\\
+ \mathcal L_{\mathrm{trans}}(\omega)
+ &=\E_{\mathbf z\sim q_\omega}[-\log q_\omega(\mathbf z)]
+   =H(q_\omega),\label{eq:transition-training-loss}
+\end{align}
+where $H(q_\omega)$ is the differential entropy of the generated path. The reconstruction scale is distinct from observation noise and learned transition uncertainty.
+
+Both expectations are taken over generated paths, which are not available in closed form: evaluating $\mathcal L_{\mathrm{state}}$ requires integrating Equation~\eqref{eq:normflowsde-overview} forward from the supplied initial state, one step per physical interval, with a fresh Gaussian input at every step. Equation~\eqref{eq:normflowsde-overview} is itself an Euler--Maruyama-type update \citep{kloeden1992numerical}, and this is the sampler we use by default. Higher-order stochastic solvers can be applied with adaptation of the stochastic term, such as Heun \citep{rumelin1982numerical,kloeden1992numerical}, reversible Heun \citet{kidger2021efficient}, midpoint  \citep{milstein2004stochastic} solvers.
+
+For a differentiable, invertible flow with nonsingular forward Jacobian $J_{\phi,k}(\epsilon)=\partial g_\phi(\epsilon;z_k,t_k,u_k,c_k)/\partial\epsilon$, change of variables in Equation~\eqref{eq:normflowsde-overview} gives
+\begin{equation}\label{eq:sampled-transition-density}
+ \log q_\omega(z_{k+1}\mid z_k,t_k,u_k,c_k)
+ =\log\N(\epsilon_k;0,I_d)
+  -\log|\det J_{\phi,k}(\epsilon_k)|-\frac d2\log\Delta t.
+\end{equation}
+The Gaussian log density has a parameter-independent expectation because $\epsilon_k\sim\N(0,I_d)$. Thus only the expected sum of forward log determinants in $\mathcal L_{\mathrm{trans}}$ affects optimization.
+
+Minimizing this entropy term favors concentrated transitions. To keep the transitions nondegenerate, the RealNVP coupling log scales are bounded in $(-\alpha,\alpha)$. For a flow with $L_{\mathrm f}$ coupling layers, where layer $\ell$ rescales $d_\ell$ coordinates, this bounds the Jacobian determinant on both sides:
+\begin{equation}\label{eq:training-determinant-bound}
+ e^{-B}\leq|\det J_{\phi,k}(\epsilon)|\leq e^B,
+ \qquad B=\alpha\sum_{\ell=1}^{L_{\mathrm f}} d_\ell,
+ \qquad \epsilon\in\R^d.
+\end{equation}
+The lower side bounds the transition entropy below, so the entropy term cannot collapse the stochastic increments. As a side effect, it also imposes a noise floor that is set by $\alpha$ and $L_{\mathrm f}$. Thus, a learnable per-coordinate factor is required. We multiply the bounded flow $T_\phi$ by a learned scale,
+\begin{equation}\label{eq:learned-noise-scale}
+ g_\phi(\epsilon;z_k,t_k,u_k,c_k)
+ =\mathrm{diag}\bigl(s_\phi(z_k,t_k,u_k,c_k)\bigr)\,T_\phi(\epsilon;z_k,t_k,u_k,c_k),
+\end{equation}
+which is bounded within a much wider range and initialized to one.
+
+The sum $\mathcal L_{\mathrm{state}}+\mathcal L_{\mathrm{trans}}$ builds a composite reconstruction-and-entropy objective. Appendix~\ref{app:training-loss} gives the derivation, the determinant and entropy bounds.
+
+\subsubsection{Multiple Shooting and Boundary Consistency}
+To shorten the trajectories through which gradients must be propagated, we choose an integer segment length $L_S\geq2$, counted in state points. This count includes the supplied initial state, so each full segment advances $L_S-1$ time steps and ends at local index $k=L_S-1$. We divide the $N$ transitions into $S$ segments, including a shorter final segment when needed:
+\begin{equation}\label{eq:segment-partition}
+ S=\left\lceil\frac{N}{L_S-1}\right\rceil,\qquad
+ \sum_{s=1}^S(L^{(s)}-1)=N,\qquad
+ L^{(s)}=1+\min\{L_S-1,\,N-(s-1)(L_S-1)\},\qquad s=1,\ldots,S.
+\end{equation}
+Here $s$ labels the segment and $L^{(s)}$ is its actual number of state points. Local index $k$ in segment $s$ corresponds to global time index $(s-1)(L_S-1)+k$.
+
+The supplied initial state of each segment initializes its training rollout. We generate the segments independently in parallel, with the same parameters $\omega$. The boundary penalty compares the predicted endpoint of each nonfinal segment at $k=L_S-1$ with the next supplied initial state at $k=0$:
+\begin{equation}\label{eq:continuity-training-loss}
+ \mathcal L_{\mathrm{cont}}(\omega)
+ =\E
+ \left[\sum_{s=1}^{S-1}\norm{z_{L_S-1}^{(s)}-z_0^{(s+1)}}^2\right].
+\end{equation}
+The expectation is estimated by averaging the summed squared boundary discrepancies over sampled segment rollouts.
+
+\subsubsection{Full-Horizon Distributional Supervision}\label{sec:training-rollout}
+To account for errors that accumulate over the complete horizon, we generate full trajectories from the supplied initial state $z_0$, without restarting at segment boundaries. The vectors $\mathbf z$ and $\mathbf z'$ denote two such trajectories generated using independent Gaussian inputs, with the same observations, controls, and initial state. We compare them with the reference trajectory $\mathbf x$ using the energy score \citep{gneiting2007proper}:
+\begin{equation}\label{eq:flow_sde_rollout_loss}
+ \mathcal L_{\mathrm{rollout}}(\omega;\mathbf x)
+ =\E\,\left[\norm{\mathbf z-\mathbf x}\right]
+ -\frac12\E\,\left[\norm{\mathbf z-\mathbf z'}\right].
+\end{equation}
+Each norm is the unsquared Euclidean distance over all time steps and state coordinates. The expectations average over the generated trajectories, holding the supplied data fixed. The first term encourages agreement with the reference trajectory. The second rewards separation between generated trajectories and counteracts their collapse to a single prediction.
+
+During training, we generate $M\geq2$ independent full trajectories $\mathbf z^{(1)},\ldots,\mathbf z^{(M)}$ and compute
+\begin{equation}\label{eq:energy-score-estimator}
+ \widehat{\mathcal L}_{\mathrm{rollout}}(\omega;\mathbf x)
+ =\frac1M\sum_{i=1}^M\norm{\mathbf z^{(i)}-\mathbf x}
+ -\frac{1}{2M(M-1)}\sum_{i\ne j}\norm{\mathbf z^{(i)}-\mathbf z^{(j)}}.
+\end{equation}
+This estimator averages distances to the reference and subtracts half the average distance between distinct generated trajectories. The second sum includes both orders of each pair and excludes self-pairs, giving an unbiased estimate of Equation~\eqref{eq:flow_sde_rollout_loss}.
+
+For fixed observations, controls, and initial state, the expected energy score over reference trajectories is uniquely minimized by matching their true conditional distribution, provided the reference and generated trajectories have finite expected norms \citep{gneiting2007proper,szekely2013energy}. The energy score helps maintain diversity among generated samples while encouraging agreement with the reference trajectory.
+
+\subsubsection{Combined Objective and Optimization}
+The combined training objective is
+\begin{equation}\label{eq:normflowsde_loss}
+ \E_{\mathcal D_{\mathrm{train}}}
+ [\mathcal L(\omega;\mathbf x)] = \E_{\mathcal D_{\mathrm{train}}}
+ [\mathcal L_{\mathrm{state}}(\omega;\mathbf x)
+ +\mathcal L_{\mathrm{trans}}(\omega)+\lambda_{\mathrm{cont}}\mathcal L_{\mathrm{cont}}(\omega)
+ +\lambda_{\mathrm{rollout}}\mathcal L_{\mathrm{rollout}}(\omega;\mathbf x)].
+ \end{equation}
+Here $\E_{\mathcal D_{\mathrm{train}}}$ averages over paired reference states, raw observations, controls, and supplied initial states, together with the selected segment partitions and anchors. We evaluate the rollout term every five optimizer updates to reduce the computational cost. 

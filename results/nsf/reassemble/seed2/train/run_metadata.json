@@ -1,0 +1,53 @@
+{
+  "status": "complete",
+  "method": "nsf",
+  "dataset": "reassemble",
+  "seed": 2,
+  "variant": "learned-dynamics bootstrap particle filter + joint (checkpoint, process-noise inflation) validation selection",
+  "inference_access": "filtering: x[k+1] uses observations through x[k+1] via a bootstrap particle filter (learned dynamics prediction, learned measurement-density update); no future observations",
+  "arguments": {
+    "method": "nsf",
+    "dataset": "reassemble",
+    "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+    "output": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed2/train",
+    "seed": 2,
+    "steps": 11000,
+    "batch_windows": 16,
+    "learning_rate": 0.0003,
+    "hidden_size": 71,
+    "hidden_depth": 3,
+    "flow_layers": 2,
+    "diffusion": 0.01,
+    "flow_substeps": 4,
+    "epr_weight": 0.0,
+    "measurement_hidden": 64,
+    "measurement_depth": 2,
+    "measurement_layers": 4,
+    "particles": null,
+    "eval_every": 500,
+    "validation_windows": 10000,
+    "eval_chunk": 8,
+    "selection_jitters": "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+    "smoke": false
+  },
+  "particles": 500,
+  "posterior_samples": 500,
+  "parameter_count": 68439,
+  "dynamics_parameters": 38737,
+  "measurement_parameters": 29702,
+  "devices": [
+    "cuda:0"
+  ],
+  "training_seconds": 4498.525869838893,
+  "best_step": 10500,
+  "best_validation_rmse": 0.0626552551984787,
+  "best_validation_coverage_90": 0.9115942857142857,
+  "jitter": 0.03,
+  "test": {
+    "rmse": 0.06126726597805956,
+    "crps": 0.03434948505809062,
+    "coverage_90": 0.9168552380952381,
+    "mean_interval_width": 0.21399341992823545,
+    "latency_ms_per_trajectory": 106.57645761966705
+  }
+}

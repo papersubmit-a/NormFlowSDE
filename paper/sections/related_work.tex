@@ -1,0 +1,139 @@
+\section{Related Work}\label{sec:related}
+For Bayesian state estimation, the relevant question is how a learned model combines temporal dynamics and measurements to represent uncertainty over latent states. Conditional normalizing flows provide samples and tractable densities through change of variables \citep{dinh2014nice,rezende2015flows}. They can approximate an observation-conditioned posterior directly or parameterize the distributions used in a recursive Bayesian filter. We then introduce these three uses through three methods: normalizing flow-based particle filters, Neural Stochastic Flows, and the related flow-matching approach FlowSDE.
+
+\subsection{Normalizing Flows for Amortized Bayesian Inference}
+Conditional normalizing flows provide a route to Bayesian inference by learning a distribution over unknown quantities conditioned on observed data. For an unknown parameter vector $\vartheta$ and observations $y$, an invertible map $\vartheta=g_\phi(\epsilon;y)$ transforms a simple base variable $\epsilon\sim\N(0,I)$ into samples from a normalized conditional density $q_\phi(\vartheta\mid y)$, evaluated through change of variables \citep{dinh2014nice,rezende2015flows}. Given training pairs from $p(\vartheta,y)=p(\vartheta)p(y\mid\vartheta)$, conditional maximum likelihood minimizes the expected forward KL divergence from the target posterior to its learned approximation \citep{radev2020bayesflow}:
+\begin{equation}\label{eq:amortized-forward-kl}
+ \E_{p(\vartheta,y)}[-\log q_\phi(\vartheta\mid y)]
+ =\E_{p(y)}\,\left[\KL\,\left(p(\vartheta\mid y)\,\Vert\,q_\phi(\vartheta\mid y)\right)\right]+C_0,
+\end{equation}
+where $C_0$ is the conditional entropy of $\vartheta$ given the observations, independent of $\phi$. Thus, paired simulations supply a posterior-learning objective without requiring pointwise evaluation of the target posterior.
+
+BayesFlow applies this principle to simulation-based parameter inference, combining a learned summary of the observations with a conditional invertible network \citep{radev2020bayesflow}. Once trained, it produces parameter-posterior samples for new datasets from the same model family without per-dataset optimization. Its inference target is a fixed parameter vector, requiring construction change for an evolving state-inference construction.
+
+Existing temporal extensions illustrate the additional modeling choices. \citet{rasul2021conditionedflows} condition normalizing flows on recurrent or attention-based representations of past observations and covariates, train by conditional likelihood, and generate multivariate forecast trajectories autoregressively. In this formulation, the flow learns a joint distribution between the future states, current states, and past observations, which makes learning extremely difficult and limits the length of the forecast horizon. 
+
+Normalizing Kalman Filters jointly learn an invertible observation transformation and a conditionally linear Gaussian latent state-space model, enabling exact filtering and smoothing in latent space \citep{debezenac2020nkf}. This tractability relies on retaining the linear Gaussian latent structure. Observation-likelihood training alone does not guarantee that the learned latent coordinates correspond to the physical states of interest; using this method for state estimation requires additional structure or state supervision.
+
+\subsection{Particle Filters}
+Bayesian filtering updates the distribution of a hidden state as new measurements arrive. A particle filter approximates this distribution, $p(x_k\mid y_{0:k})$, using $M$ candidate states, called particles, and weights describing their relative contributions. The bootstrap particle filter first propagates each previous particle through the transition model by drawing $x_k^{(i)}\sim p(\cdot\mid x_{k-1}^{(i)})$ \citep{gordon1993bootstrap}. These samples represent possible next states before incorporating the new measurement.
+
+The observation likelihood $p(y_k\mid x_k^{(i)})$ then measures how well each predicted state explains the measurement $y_k$. Multiplying the previous weights by these likelihoods and normalizing gives
+\begin{equation}\label{eq:bootstrap-weights}
+ w_k^{(i)}=
+ \frac{w_{k-1}^{(i)}p(y_k\mid x_k^{(i)})}
+ {\sum_{j=1}^{M}w_{k-1}^{(j)}p(y_k\mid x_k^{(j)})}.
+\end{equation}
+Equation~\eqref{eq:bootstrap-weights} is the normalized bootstrap weight update. The numerator combines information from earlier measurements, carried by $w_{k-1}^{(i)}$, with the new evidence; the denominator makes the updated weights sum to one. A standard resampling step can then draw $M$ particles with replacement according to the updated weights and assign the selected particles equal weights $1/M$. Particles with larger weights are more likely to be selected.
+
+Some particle filters use proposals $q$ that incorporate the new measurement. Examples include Gaussian proposals constructed by local linearization \citep{doucet2000sequential} and the unscented particle filter, which constructs a Gaussian proposal for each particle using an unscented Kalman update \citep{vandermerwe2000unscented}. To correct for sampling from such a proposal, each unnormalized weight must also be multiplied by the transition density divided by the proposal density. For the bootstrap filter, the proposal is the transition model itself, so this ratio equals one. Normalizing flows can supply the samples and densities needed to learn these filtering components.
+
+\subsection{Normalizing Flow-Based Differentiable Particle Filters (NF-DPF).}
+\citet{chen2025flowparticle} introduce NF-DPF, which learns the transition, proposal, and measurement distributions using three invertible maps. Subscripts $\mathrm{dyn}$, $\mathrm{prop}$, and $\mathrm{obs}$ distinguish their separate parameter sets. With tractable base densities $g_{\theta_{\mathrm{dyn}}}$ and $g_{\theta_{\mathrm{prop}}}$, these models take the form
+\begin{equation}\label{eq:nfdpf-components}
+\begin{aligned}
+ \mathrm{Transition:}\quad x_k^{\mathrm{dyn}}&=f_{\phi_{\mathrm{dyn}}}(\zeta_k^{\mathrm{dyn}}),
+ &\zeta_k^{\mathrm{dyn}}&\sim g_{\theta_{\mathrm{dyn}}}(\cdot\mid x_{k-1}),\\
+ \mathrm{Proposal:}\quad x_k^{\mathrm{prop}}&=f_{\phi_{\mathrm{prop}}}(\zeta_k^{\mathrm{prop}};y_k),
+ &\zeta_k^{\mathrm{prop}}&\sim g_{\theta_{\mathrm{prop}}}(\cdot\mid x_{k-1},y_k),\\
+ \mathrm{Measurement:}\quad y_k&=f_{\phi_{\mathrm{obs}}}(\epsilon_k;x_k),
+ &\epsilon_k&\sim\N(0,I).
+\end{aligned}
+\end{equation}
+The parameter vectors $\omega_{\mathrm{dyn}}=(\theta_{\mathrm{dyn}},\phi_{\mathrm{dyn}})$ and $\omega_{\mathrm{prop}}=(\theta_{\mathrm{prop}},\phi_{\mathrm{prop}})$ collect the base-density and flow parameters. In Equation~\eqref{eq:nfdpf-components}, the first map defines the transition density $p_{\omega_{\mathrm{dyn}}}(x_k\mid x_{k-1})$. The second defines the proposal $q_{\omega_{\mathrm{prop}}}(x_k\mid x_{k-1},y_k)$, using the measurement to guide candidate generation. These are separate transformations; filtering particles are sampled from the proposal. The third map describes possible observations given a state.
+
+Invertibility makes all three densities evaluable by change of variables. For example, setting $\epsilon_k=f_{\phi_{\mathrm{obs}}}^{-1}(y_k;x_k)$ gives the measurement likelihood
+\begin{equation}\label{eq:nfdpf-observation-likelihood}
+ p_{\phi_{\mathrm{obs}}}(y_k\mid x_k)
+ =p_\epsilon(\epsilon_k)\left|\det\frac{\partial f_{\phi_{\mathrm{obs}}}^{-1}(y_k;x_k)}{\partial y_k}\right|,
+\end{equation}
+where $p_\epsilon$ is the standard Gaussian density and $x_k$ is held fixed in the Jacobian. For each proposed particle $x_k^{(i)}\sim q_{\omega_{\mathrm{prop}}}(\cdot\mid x_{k-1}^{(i)},y_k)$, these densities enter the update
+\begin{equation}\label{eq:nfdpf-weights}
+ w_k^{(i)}\propto w_{k-1}^{(i)}
+ \frac{\underbrace{p_{\phi_{\mathrm{obs}}}(y_k\mid x_k^{(i)})}_{\mathrm{measurement\ likelihood}}\,
+ \underbrace{p_{\omega_{\mathrm{dyn}}}(x_k^{(i)}\mid x_{k-1}^{(i)})}_{\mathrm{transition\ density}}}
+ {\underbrace{q_{\omega_{\mathrm{prop}}}(x_k^{(i)}\mid x_{k-1}^{(i)},y_k)}_{\mathrm{proposal\ density}}}.
+\end{equation}
+The proportionality in Equation~\eqref{eq:nfdpf-weights} leaves normalization implicit: the resulting weights are divided by their sum, as in Equation~\eqref{eq:bootstrap-weights}. The flows supply both candidate states and the density values needed to correct their weights.
+
+NF-DPF uses entropy-regularized optimal-transport resampling to support gradient-based learning. Training maximizes a particle estimate of the observation log likelihood or minimizes supervised state-estimation error. For image observations, an encoder and reconstruction objective are added, and the flow likelihood is evaluated on encoded features. Deployment retains a particle ensemble, likelihood weighting, and resampling, whereas our primary observation-conditioned route directly samples a learned conditional trajectory distribution.
+
+\subsection{Neural Stochastic Flows}
+Neural Stochastic Flows (NSFs) use a conditional normalizing flow to model the distribution of a future state $x_t$ given a starting state $x_s$ and a time interval $h=t-s>0$ \citep{kiyohara2025nsf}. The sampling procedure has two stages: a neural network constructs a Gaussian candidate $\widetilde x$, and an invertible network $g_\phi$ transforms that candidate into $x_t$. The context is $a=(x_s,h,s)$, with absolute time $s$ omitted for autonomous dynamics. The two sampling stages are
+\begin{equation}\label{eq:nsf-transition-sampling}
+\begin{aligned}
+ \widetilde x&=x_s+h\mu_\theta(a)+\sqrt h\,\sigma_\theta(a)\odot\epsilon,
+ \qquad \epsilon\sim\N(0,I),\\
+ x_t&=g_\phi(\widetilde x;a).
+\end{aligned}
+\end{equation}
+Here $\mu_\theta$ and $\sigma_\theta>0$ are outputs of ordinary multilayer perceptrons that set the Gaussian displacement and noise scale; $\odot$ denotes componentwise multiplication. The conditional normalizing flow is $g_\phi$, a composition of invertible affine coupling layers. It acts on the complete candidate state $\widetilde x$, allowing the resulting transition distribution $p_\omega^{s,t}(x_t\mid x_s)$ to be non-Gaussian. Here $\omega=(\theta,\phi)$ collects both the Gaussian-network and flow parameters.
+
+The flow has the composition of $L_{\mathrm f}$ layers: $g_\phi=f_{\phi,L_{\mathrm f}}\circ\cdots\circ f_{\phi,1}$. Each layer splits its input $\zeta$ into coordinate blocks $(\zeta_A,\zeta_B)$ and produces $\zeta'=f_{\phi,\ell}(\zeta;a)$ through
+\begin{equation}\label{eq:nsf-affine-coupling}
+\begin{aligned}
+ \zeta'_A&=\zeta_A,\\
+ \zeta'_B&=\zeta_B\odot\exp\,\bigl(h\,\alpha_\ell(\zeta_A,a)\bigr)
+       +h\,\beta_\ell(\zeta_A,a).
+\end{aligned}
+\end{equation}
+The networks $\alpha_\ell$ and $\beta_\ell$, whose parameters are included in $\phi$, predict a log scale and a shift from the unchanged block and the context \citep[Section~3.1]{kiyohara2025nsf}. The factors of the time interval $h=t-s$ make every coupling layer the identity at $h=0$, when the Gaussian candidate also reduces to $x_s$. For $h>0$, the inverse transformation and its Jacobian give an evaluable transition density by change of variables. A single pass through the layers samples the state at time $t$ without numerical SDE integration.
+
+Transition densities of a Markov process satisfy the Chapman--Kolmogorov relation: a direct transition must agree with two successive transitions after averaging over the intermediate state \citep[Chapter~4, Section~1]{ethier1986markov}. NSF encourages its learned densities to satisfy this relation:
+\begin{equation}\label{eq:nsf-chapman-kolmogorov}
+ p_\omega^{s,t}(x_t\mid x_s)
+ \approx\int p_\omega^{r,t}(x_t\mid x_r)\,
+               p_\omega^{s,r}(x_r\mid x_s)\,dx_r,
+ \qquad s<r<t.
+\end{equation}
+Here $x_r$ is the state at the intermediate time $r$. The exact Markov relation uses equality; the approximation sign indicates that consistency is encouraged rather than guaranteed by NSF.
+
+The integral in Equation~\eqref{eq:nsf-chapman-kolmogorov} is generally intractable. NSF therefore introduces an auxiliary bridge distribution $q_\xi^{\mathrm{br}}(x_r\mid x_s,x_t;s,r,t)$, with trainable parameters $\xi$, to represent plausible intermediate states conditioned on both endpoints \citep{kiyohara2025nsf}. This bridge enables variational upper bounds on the KL divergences between the direct and composed transition distributions in both directions. Averaging the sum of these bounds over sampled time triplets defines the consistency penalty $\mathcal L_{\mathrm{flow}}(\omega,\xi)$.
+
+For observed state pairs $\mathcal D$, training combines this penalty with negative log likelihood:
+\begin{equation}\label{eq:nsf-training-objective}
+ \mathcal L(\omega,\xi)
+ =-\E_{(x_s,x_t,s,t)\sim\mathcal D}
+       \log p_\omega^{s,t}(x_t\mid x_s)
+   +\lambda\mathcal L_{\mathrm{flow}}(\omega,\xi).
+\end{equation}
+The first term fits observed transitions, while $\lambda\geq0$ controls the strength of the consistency penalty. The transition parameters $\omega=(\theta,\phi)$ and bridge parameters $\xi$ are learned during training.
+
+The original paper introduces latent NSF for noisy or partially observed sequences, using NSF to model transitions between latent states \citep[Section~4]{kiyohara2025nsf}. In our state-filtering setting, NSF serves as the transition model of a bootstrap particle filter. For comparability, a conditional normalizing flow is used an observation model $q_\psi(y_k\mid x_k)$ and it is trained together by maximum likelihood.
+
+\subsection{FlowSDE}
+FlowSDE uses conditional flow matching to train a neural vector field from state-transition data, together with a potential landscape for interpreting critical transitions \citep{lou2026flowsde}. Flow matching specifies how the vector field is trained. The resulting field is used as the drift in the supplementary SDE formulation
+\begin{equation}\label{eq:flowsde-related-dynamics}
+ dX_t=f_\varphi(X_t,t)\,dt+\sqrt{2D}\,dW_t,
+\end{equation}
+where $f_\varphi$ is an ordinary neural network that outputs a drift vector, $W_t$ is standard Brownian motion, and $D>0$ is a prescribed scalar diffusion coefficient \citep[Section~1.1]{lou2026flowsde_supp}. The drift describes systematic state changes, while the Brownian term adds random perturbations with covariance $2D I\,dt$.
+
+The flow-matching step constructs supervision for $f_\varphi$ between observed states. The training procedure selects a pair $(x_s,x_t)$ with gap $h=t-s$, chooses an intermediate fraction $\tau\in(0,1)$, and draws a state $\widetilde X_r$ from a Gaussian bridge at physical time $r=s+\tau h$. The chosen bridge supplies an analytic conditional vector-field target $b_r^{\mathrm{br}}$ for the drift network at that state, expressed per unit physical time. Schematically, the data-fitting loss is
+\begin{equation}\label{eq:flowsde-cfm-regression}
+ \mathcal L_{\mathrm{CFM}}(\theta)
+ =\E\,\left[
+ \left\|f_\varphi(\widetilde X_r,r)
+       -b_r^{\mathrm{br}}(\widetilde X_r\mid x_s,x_t)\right\|^2\right].
+\end{equation}
+The expectation averages over training pairs, intermediate times, and bridge samples. Each target tells the network the direction and rate of motion to predict at a sampled state. The endpoints determine this training target; the network learns a shared field across pairs. Thus flow matching turns dynamics learning into vector-field regression, without simulating full SDE trajectories or differentiating through a numerical solver during training. Here ``conditional'' refers to the bridge endpoints; observation conditioning is an additional choice in the state-estimation adaptation below. At inference, the learned drift $f_\varphi$ is numerically integrated together with Brownian noise to generate state trajectories. 
+
+A separate network learns a scalar potential $V_\eta$, yielding the decomposition
+\begin{equation}\label{eq:flowsde-potential-decomposition}
+ f_\varphi(x,t)=-\nabla V_\eta(x)+R_{\theta,\eta}(x,t),
+ \qquad R_{\theta,\eta}=f_\varphi+\nabla V_\eta.
+\end{equation}
+The gradient component points toward lower potential, while the residual permits non-conservative motion, including circulation. The symbol $R_{\theta,\eta}$ denotes this residual force, computed from the drift and potential networks. Potential minima and barriers help interpret stable regions and transitions between them.
+
+The fitting and physical-consistency terms can be summarized as
+\begin{equation}\label{eq:flowsde-training-objective}
+ \mathcal L(\theta,\eta)
+ =\mathcal L_{\mathrm{CFM}}(\theta)
+ +\lambda_{\mathrm E}\mathcal L_{\mathrm{EPR}}(\theta,\eta)
+ +\lambda_{\mathrm H}\mathcal L_{\mathrm{HJB}}(\theta,\eta)
+ +\lambda_{\mathrm O}\mathcal L_{\mathrm{orth}}(\theta,\eta).
+\end{equation}
+Here $\mathcal L_{\mathrm{CFM}}$ is the vector-field regression in Equation~\eqref{eq:flowsde-cfm-regression}, and the nonnegative $\lambda$ coefficients balance the regularizers. The entropy-production penalty $\mathcal L_{\mathrm{EPR}}$ penalizes the squared residual force under weights derived from $\exp(-V_\eta/D)$. The Hamilton--Jacobi--Bellman penalty $\mathcal L_{\mathrm{HJB}}$ encourages compatibility between the drift and the candidate stationary density $p_{\mathrm{ss}}\propto\exp(-V_\eta/D)$. The orthogonality penalty discourages alignment of $R_{\theta,\eta}$ with $\nabla V_\eta$ \citep[Sections~1.2--1.4]{lou2026flowsde_supp}. These are soft constraints; for time-dependent dynamics, stationary consistency is used as a local regularizer.
+
+As the above two methods, FlowSDE serves as the transition model of a bootstrap particle filter. Its drift is conditioned on state, time, and control input, and particles are propagated by Euler--Maruyama integration of Equation~\eqref{eq:flowsde-related-dynamics}. 
+
+These three methods place learned flows at different points in state inference. NF-DPF learns the transition, proposal, and measurement models of a particle filter. NSF learns finite-interval transition densities and FlowSDE learns a drift by flow matching; in our setting, both serve as transition models of a bootstrap particle filter, so measurements enter only through the weight update. \method instead conditions on encoded measurements and generates states directly, without particle weights or resampling.

@@ -1,0 +1,4606 @@
+{
+  "tasks": {
+    "pendulum/seed0/normflowsde/s1_reference": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s1_reference/attempt0",
+          "started_at": "2026-10-20T15:40:48.984857+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "pendulum",
+            "--seed",
+            "0",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/pendulum/seed0.json",
+            "--train-steps",
+            "4400",
+            "--validation-windows",
+            "48",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s1_reference/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T15:51:50.563365+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s1_reference/attempt0",
+      "finished_at": "2026-10-20T15:51:50.564237+00:00"
+    },
+    "pendulum/seed0/normflowsde/s1_lsnt": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s1_lsnt/attempt0",
+          "started_at": "2026-10-20T15:40:48.985387+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "pendulum",
+            "--seed",
+            "0",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/pendulum/seed0.json",
+            "--train-steps",
+            "4400",
+            "--validation-windows",
+            "48",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--learned-scale",
+            "--no-time",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s1_lsnt/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T15:51:50.568630+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s1_lsnt/attempt0",
+      "finished_at": "2026-10-20T15:51:50.569449+00:00"
+    },
+    "pendulum/seed0/normflowsde/select_dynamics": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s1_lsnt/attempt0",
+      "selected": "pendulum/seed0/normflowsde/s1_lsnt",
+      "validation_rmse": {
+        "pendulum/seed0/normflowsde/s1_reference": 0.11420651110062134,
+        "pendulum/seed0/normflowsde/s1_lsnt": 0.09581463994222388
+      },
+      "finished_at": "2026-10-20T15:51:51.524137+00:00"
+    },
+    "pendulum/seed0/normflowsde/s2_lr1e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s2_lr1e-4/attempt0",
+          "started_at": "2026-10-20T18:34:14.193578+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "pendulum",
+            "--seed",
+            "0",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s1_lsnt/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "1e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s2_lr1e-4/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:42:00.842788+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s2_lr1e-4/attempt0",
+      "finished_at": "2026-10-20T18:42:00.843998+00:00"
+    },
+    "pendulum/seed0/normflowsde/s2_lr3e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s2_lr3e-4/attempt0",
+          "started_at": "2026-10-20T18:42:00.854341+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "pendulum",
+            "--seed",
+            "0",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s1_lsnt/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "3e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s2_lr3e-4/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:49:05.332384+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s2_lr3e-4/attempt0",
+      "finished_at": "2026-10-20T18:49:05.333262+00:00"
+    },
+    "pendulum/seed0/normflowsde/select_lr": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/normflowsde/s2_lr3e-4/attempt0",
+      "selected": "pendulum/seed0/normflowsde/s2_lr3e-4",
+      "validation_rmse": {
+        "pendulum/seed0/normflowsde/s2_lr1e-4": 0.09121335881123216,
+        "pendulum/seed0/normflowsde/s2_lr3e-4": 0.0899383575481757
+      },
+      "finished_at": "2026-10-20T18:49:05.343010+00:00"
+    },
+    "pendulum/seed0/nf_dpf/s1": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed0/s1",
+          "started_at": "2026-10-20T15:40:50.141631+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.run",
+            "--dataset",
+            "pendulum",
+            "--method",
+            "nf_dpf",
+            "--capacity-profile",
+            "legacy-aligned-v1",
+            "--settings-profile",
+            "legacy-compatible-v1",
+            "--hidden-size",
+            "61",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--context-dim",
+            "16",
+            "--observation-noise",
+            "gmm",
+            "--seed",
+            "0",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--train-steps",
+            "4400",
+            "--validation-windows",
+            "48",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed0/s1",
+            "--train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T15:55:24.465928+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed0/s1",
+      "finished_at": "2026-10-20T15:55:24.466881+00:00"
+    },
+    "pendulum/seed0/nf_dpf/s2": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed0/s2",
+          "started_at": "2026-10-20T17:57:06.108701+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_lorenz_baselines",
+            "--dataset",
+            "pendulum",
+            "--method",
+            "nf_dpf",
+            "--seed",
+            "0",
+            "--anchor-weight",
+            "0",
+            "--crps-weight",
+            "1",
+            "--mean-mse-weight",
+            "0",
+            "--ess-weight",
+            "0.01",
+            "--remat",
+            "--skip-nonfinite",
+            "--validation-windows",
+            "48",
+            "--steps",
+            "4000",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed0/s1",
+            "--measurement-nll-weight",
+            "1",
+            "--measurement-batch-windows",
+            "16",
+            "--batches",
+            "32,16,8",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed0/s2"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:22:47.136712+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed0/s2",
+      "finished_at": "2026-10-20T18:22:47.137335+00:00"
+    },
+    "pendulum/seed0/nsf/train": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed0/train",
+          "started_at": "2026-10-20T18:56:10.104664+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "nsf",
+            "--hidden-size",
+            "70",
+            "--dataset",
+            "pendulum",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--eval-every",
+            "400",
+            "--steps",
+            "8400",
+            "--seed",
+            "0",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed0/train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:07:50.089788+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed0/train",
+      "finished_at": "2026-10-20T19:07:50.091282+00:00"
+    },
+    "pendulum/seed0/nsf/jitter": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed0/jitter",
+          "started_at": "2026-10-20T19:12:04.373852+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.tune_state_filter_jitter",
+            "--run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed0/train",
+            "--grid",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed0/jitter"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:13:29.063853+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed0/jitter",
+      "finished_at": "2026-10-20T19:13:29.064491+00:00"
+    },
+    "pendulum/seed0/flowsde/D0.01": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32314",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed0/D0.01",
+          "started_at": "2026-10-20T19:11:43.201988+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "201",
+            "--dataset",
+            "pendulum",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--eval-every",
+            "400",
+            "--steps",
+            "8400",
+            "--seed",
+            "0",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.01",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed0/D0.01"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:21:54.263695+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed0/D0.01",
+      "finished_at": "2026-10-20T19:21:54.264288+00:00"
+    },
+    "pendulum/seed0/flowsde/D0.03": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/flowsde/D0.03/attempt0",
+          "started_at": "2026-10-20T19:12:11.922429+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "201",
+            "--dataset",
+            "pendulum",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--eval-every",
+            "400",
+            "--steps",
+            "8400",
+            "--seed",
+            "0",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.03",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/flowsde/D0.03/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:25:34.435096+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/flowsde/D0.03/attempt0",
+      "finished_at": "2026-10-20T19:25:34.435642+00:00"
+    },
+    "pendulum/seed0/flowsde/D0.05": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/flowsde/D0.05/attempt0",
+          "started_at": "2026-10-20T19:13:56.415613+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "201",
+            "--dataset",
+            "pendulum",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--eval-every",
+            "400",
+            "--steps",
+            "8400",
+            "--seed",
+            "0",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.05",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/flowsde/D0.05/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:34:53.149946+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed0/flowsde/D0.05/attempt0",
+      "finished_at": "2026-10-20T19:34:53.150284+00:00"
+    },
+    "pendulum/seed0/flowsde/select_D": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed0/D0.01",
+      "selected": "pendulum/seed0/flowsde/D0.01",
+      "validation_rmse": {
+        "pendulum/seed0/flowsde/D0.01": 0.08588442460861889,
+        "pendulum/seed0/flowsde/D0.03": 0.10112184271128867,
+        "pendulum/seed0/flowsde/D0.05": 0.11047349727219442
+      },
+      "finished_at": "2026-10-20T19:34:53.484802+00:00"
+    },
+    "pendulum/seed1/normflowsde/s1_reference": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s1_reference/attempt0",
+          "started_at": "2026-10-20T15:40:50.135419+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "pendulum",
+            "--seed",
+            "1",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/pendulum/seed1.json",
+            "--train-steps",
+            "4400",
+            "--validation-windows",
+            "48",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s1_reference/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T15:56:51.480412+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s1_reference/attempt0",
+      "finished_at": "2026-10-20T15:56:51.481693+00:00"
+    },
+    "pendulum/seed1/normflowsde/s1_lsnt": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s1_lsnt/attempt0",
+          "started_at": "2026-10-20T15:40:50.136215+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "pendulum",
+            "--seed",
+            "1",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/pendulum/seed1.json",
+            "--train-steps",
+            "4400",
+            "--validation-windows",
+            "48",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--learned-scale",
+            "--no-time",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s1_lsnt/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T15:57:12.331693+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s1_lsnt/attempt0",
+      "finished_at": "2026-10-20T15:57:12.332760+00:00"
+    },
+    "pendulum/seed1/normflowsde/select_dynamics": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s1_lsnt/attempt0",
+      "selected": "pendulum/seed1/normflowsde/s1_lsnt",
+      "validation_rmse": {
+        "pendulum/seed1/normflowsde/s1_reference": 0.11027482895882756,
+        "pendulum/seed1/normflowsde/s1_lsnt": 0.09687383607066807
+      },
+      "finished_at": "2026-10-20T15:57:16.232923+00:00"
+    },
+    "pendulum/seed1/normflowsde/s2_lr1e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s2_lr1e-4/attempt0",
+          "started_at": "2026-10-20T18:42:43.261212+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "pendulum",
+            "--seed",
+            "1",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s1_lsnt/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "1e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s2_lr1e-4/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:49:47.695171+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s2_lr1e-4/attempt0",
+      "finished_at": "2026-10-20T18:49:47.695770+00:00"
+    },
+    "pendulum/seed1/normflowsde/s2_lr3e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s2_lr3e-4/attempt0",
+          "started_at": "2026-10-20T18:49:05.343530+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "pendulum",
+            "--seed",
+            "1",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s1_lsnt/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "3e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s2_lr3e-4/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:56:10.089366+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s2_lr3e-4/attempt0",
+      "finished_at": "2026-10-20T18:56:10.089914+00:00"
+    },
+    "pendulum/seed1/normflowsde/select_lr": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/normflowsde/s2_lr3e-4/attempt0",
+      "selected": "pendulum/seed1/normflowsde/s2_lr3e-4",
+      "validation_rmse": {
+        "pendulum/seed1/normflowsde/s2_lr1e-4": 0.08896429590852806,
+        "pendulum/seed1/normflowsde/s2_lr3e-4": 0.0875790644420813
+      },
+      "finished_at": "2026-10-20T18:56:10.103064+00:00"
+    },
+    "pendulum/seed1/nf_dpf/s1": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed1/s1",
+          "started_at": "2026-10-20T15:40:50.143312+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.run",
+            "--dataset",
+            "pendulum",
+            "--method",
+            "nf_dpf",
+            "--capacity-profile",
+            "legacy-aligned-v1",
+            "--settings-profile",
+            "legacy-compatible-v1",
+            "--hidden-size",
+            "61",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--context-dim",
+            "16",
+            "--observation-noise",
+            "gmm",
+            "--seed",
+            "1",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--train-steps",
+            "4400",
+            "--validation-windows",
+            "48",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed1/s1",
+            "--train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T15:55:24.471538+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed1/s1",
+      "finished_at": "2026-10-20T15:55:24.472321+00:00"
+    },
+    "pendulum/seed1/nf_dpf/s2": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed1/s2",
+          "started_at": "2026-10-20T17:57:06.109895+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_lorenz_baselines",
+            "--dataset",
+            "pendulum",
+            "--method",
+            "nf_dpf",
+            "--seed",
+            "1",
+            "--anchor-weight",
+            "0",
+            "--crps-weight",
+            "1",
+            "--mean-mse-weight",
+            "0",
+            "--ess-weight",
+            "0.01",
+            "--remat",
+            "--skip-nonfinite",
+            "--validation-windows",
+            "48",
+            "--steps",
+            "4000",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed1/s1",
+            "--measurement-nll-weight",
+            "1",
+            "--measurement-batch-windows",
+            "16",
+            "--batches",
+            "32,16,8",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed1/s2"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:22:47.146717+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed1/s2",
+      "finished_at": "2026-10-20T18:22:47.147289+00:00"
+    },
+    "pendulum/seed1/nsf/train": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed1/train",
+          "started_at": "2026-10-20T18:56:31.510022+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "nsf",
+            "--hidden-size",
+            "70",
+            "--dataset",
+            "pendulum",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--eval-every",
+            "400",
+            "--steps",
+            "8400",
+            "--seed",
+            "1",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed1/train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:08:11.232833+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed1/train",
+      "finished_at": "2026-10-20T19:08:11.233400+00:00"
+    },
+    "pendulum/seed1/nsf/jitter": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed1/jitter",
+          "started_at": "2026-10-20T19:13:29.077268+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.tune_state_filter_jitter",
+            "--run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed1/train",
+            "--grid",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed1/jitter"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:14:53.623497+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed1/jitter",
+      "finished_at": "2026-10-20T19:14:53.623961+00:00"
+    },
+    "pendulum/seed1/flowsde/D0.01": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32314",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed1/D0.01",
+          "started_at": "2026-10-20T19:14:53.619582+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "201",
+            "--dataset",
+            "pendulum",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--eval-every",
+            "400",
+            "--steps",
+            "8400",
+            "--seed",
+            "1",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.01",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed1/D0.01"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:25:03.711790+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed1/D0.01",
+      "finished_at": "2026-10-20T19:25:03.712814+00:00"
+    },
+    "pendulum/seed1/flowsde/D0.03": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/flowsde/D0.03/attempt0",
+          "started_at": "2026-10-20T19:14:53.631135+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "201",
+            "--dataset",
+            "pendulum",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--eval-every",
+            "400",
+            "--steps",
+            "8400",
+            "--seed",
+            "1",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.03",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/flowsde/D0.03/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:25:45.851281+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/flowsde/D0.03/attempt0",
+      "finished_at": "2026-10-20T19:25:45.852048+00:00"
+    },
+    "pendulum/seed1/flowsde/D0.05": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/flowsde/D0.05/attempt0",
+          "started_at": "2026-10-20T19:17:52.718580+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "201",
+            "--dataset",
+            "pendulum",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--eval-every",
+            "400",
+            "--steps",
+            "8400",
+            "--seed",
+            "1",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.05",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/flowsde/D0.05/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:30:47.391062+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed1/flowsde/D0.05/attempt0",
+      "finished_at": "2026-10-20T19:30:47.391575+00:00"
+    },
+    "pendulum/seed1/flowsde/select_D": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed1/D0.01",
+      "selected": "pendulum/seed1/flowsde/D0.01",
+      "validation_rmse": {
+        "pendulum/seed1/flowsde/D0.01": 0.09176645601223453,
+        "pendulum/seed1/flowsde/D0.03": 0.103015244579092,
+        "pendulum/seed1/flowsde/D0.05": 0.11185383941143053
+      },
+      "finished_at": "2026-10-20T19:30:48.074953+00:00"
+    },
+    "pendulum/seed2/normflowsde/s1_reference": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s1_reference/attempt0",
+          "started_at": "2026-10-20T15:40:50.139506+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "pendulum",
+            "--seed",
+            "2",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/pendulum/seed2.json",
+            "--train-steps",
+            "4400",
+            "--validation-windows",
+            "48",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s1_reference/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T15:56:51.488350+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s1_reference/attempt0",
+      "finished_at": "2026-10-20T15:56:51.489195+00:00"
+    },
+    "pendulum/seed2/normflowsde/s1_lsnt": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s1_lsnt/attempt0",
+          "started_at": "2026-10-20T15:40:50.140122+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "pendulum",
+            "--seed",
+            "2",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/pendulum/seed2.json",
+            "--train-steps",
+            "4400",
+            "--validation-windows",
+            "48",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--learned-scale",
+            "--no-time",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s1_lsnt/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T15:56:51.493273+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s1_lsnt/attempt0",
+      "finished_at": "2026-10-20T15:56:51.493857+00:00"
+    },
+    "pendulum/seed2/normflowsde/select_dynamics": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s1_reference/attempt0",
+      "selected": "pendulum/seed2/normflowsde/s1_reference",
+      "validation_rmse": {
+        "pendulum/seed2/normflowsde/s1_reference": 0.10014673379743261,
+        "pendulum/seed2/normflowsde/s1_lsnt": 0.10261843651446134
+      },
+      "finished_at": "2026-10-20T15:56:52.318406+00:00"
+    },
+    "pendulum/seed2/normflowsde/s2_lr1e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s2_lr1e-4/attempt0",
+          "started_at": "2026-10-20T18:49:47.709085+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "pendulum",
+            "--seed",
+            "2",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s1_reference/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "1e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s2_lr1e-4/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:56:31.457881+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s2_lr1e-4/attempt0",
+      "finished_at": "2026-10-20T18:56:31.458721+00:00"
+    },
+    "pendulum/seed2/normflowsde/s2_lr3e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s2_lr3e-4/attempt0",
+          "started_at": "2026-10-20T18:53:08.517147+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "pendulum",
+            "--seed",
+            "2",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s1_reference/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "3e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s2_lr3e-4/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:12:11.037522+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s2_lr3e-4/attempt0",
+      "finished_at": "2026-10-20T19:12:11.038022+00:00"
+    },
+    "pendulum/seed2/normflowsde/select_lr": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s2_lr3e-4/attempt0",
+      "selected": "pendulum/seed2/normflowsde/s2_lr3e-4",
+      "validation_rmse": {
+        "pendulum/seed2/normflowsde/s2_lr1e-4": 0.08960423244045879,
+        "pendulum/seed2/normflowsde/s2_lr3e-4": 0.08582974973400759
+      },
+      "finished_at": "2026-10-20T19:12:11.920841+00:00"
+    },
+    "pendulum/seed2/nf_dpf/s1": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s1",
+          "started_at": "2026-10-20T15:51:51.525298+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.run",
+            "--dataset",
+            "pendulum",
+            "--method",
+            "nf_dpf",
+            "--capacity-profile",
+            "legacy-aligned-v1",
+            "--settings-profile",
+            "legacy-compatible-v1",
+            "--hidden-size",
+            "61",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--context-dim",
+            "16",
+            "--observation-noise",
+            "gmm",
+            "--seed",
+            "2",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--train-steps",
+            "4400",
+            "--validation-windows",
+            "48",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s1",
+            "--train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T16:00:53.849082+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s1",
+      "finished_at": "2026-10-20T16:00:53.850734+00:00"
+    },
+    "pendulum/seed2/nf_dpf/s2": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32312",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/nf_dpf/s2/attempt0",
+          "started_at": "2026-10-20T18:21:45.278868+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_lorenz_baselines",
+            "--dataset",
+            "pendulum",
+            "--method",
+            "nf_dpf",
+            "--seed",
+            "2",
+            "--anchor-weight",
+            "0",
+            "--crps-weight",
+            "1",
+            "--mean-mse-weight",
+            "0",
+            "--ess-weight",
+            "0.01",
+            "--remat",
+            "--skip-nonfinite",
+            "--validation-windows",
+            "48",
+            "--steps",
+            "4000",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s1",
+            "--measurement-nll-weight",
+            "1",
+            "--measurement-batch-windows",
+            "16",
+            "--batches",
+            "32,16,8",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/nf_dpf/s2/attempt0"
+          ],
+          "ended_at": "2026-10-20T18:23:31.488411+00:00",
+          "stopped_for_deadline": true,
+          "reclaimed_by": "32308"
+        },
+        {
+          "job": "32313",
+          "attempt": 1,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s2",
+          "started_at": "2026-10-20T18:23:42.278481+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_lorenz_baselines",
+            "--dataset",
+            "pendulum",
+            "--method",
+            "nf_dpf",
+            "--seed",
+            "2",
+            "--anchor-weight",
+            "0",
+            "--crps-weight",
+            "1",
+            "--mean-mse-weight",
+            "0",
+            "--ess-weight",
+            "0.01",
+            "--remat",
+            "--skip-nonfinite",
+            "--validation-windows",
+            "48",
+            "--steps",
+            "4000",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s1",
+            "--measurement-nll-weight",
+            "1",
+            "--measurement-batch-windows",
+            "16",
+            "--batches",
+            "32,16,8",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s2"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:34:14.167344+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s2",
+      "finished_at": "2026-10-20T18:34:14.167746+00:00"
+    },
+    "pendulum/seed2/nsf/train": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed2/train",
+          "started_at": "2026-10-20T19:03:22.473253+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "nsf",
+            "--hidden-size",
+            "70",
+            "--dataset",
+            "pendulum",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--eval-every",
+            "400",
+            "--steps",
+            "8400",
+            "--seed",
+            "2",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed2/train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:17:51.955542+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed2/train",
+      "finished_at": "2026-10-20T19:17:51.956076+00:00"
+    },
+    "pendulum/seed2/nsf/jitter": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed2/jitter",
+          "started_at": "2026-10-20T19:18:03.109094+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.tune_state_filter_jitter",
+            "--run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed2/train",
+            "--grid",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed2/jitter"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:19:06.262760+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed2/jitter",
+      "finished_at": "2026-10-20T19:19:06.263353+00:00"
+    },
+    "pendulum/seed2/flowsde/D0.01": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed2/D0.01",
+          "started_at": "2026-10-20T19:19:06.274877+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "201",
+            "--dataset",
+            "pendulum",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--eval-every",
+            "400",
+            "--steps",
+            "8400",
+            "--seed",
+            "2",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.01",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed2/D0.01"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:28:12.356196+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed2/D0.01",
+      "finished_at": "2026-10-20T19:28:12.356809+00:00"
+    },
+    "pendulum/seed2/flowsde/D0.03": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/flowsde/D0.03/attempt0",
+          "started_at": "2026-10-20T19:19:17.681347+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "201",
+            "--dataset",
+            "pendulum",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--eval-every",
+            "400",
+            "--steps",
+            "8400",
+            "--seed",
+            "2",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.03",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/flowsde/D0.03/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:32:09.926156+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/flowsde/D0.03/attempt0",
+      "finished_at": "2026-10-20T19:32:09.926996+00:00"
+    },
+    "pendulum/seed2/flowsde/D0.05": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32314",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/flowsde/D0.05/attempt0",
+          "started_at": "2026-10-20T19:21:54.275836+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "201",
+            "--dataset",
+            "pendulum",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+            "--hidden-depth",
+            "2",
+            "--flow-layers",
+            "6",
+            "--eval-every",
+            "400",
+            "--steps",
+            "8400",
+            "--seed",
+            "2",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.05",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/flowsde/D0.05/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:30:58.770669+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/flowsde/D0.05/attempt0",
+      "finished_at": "2026-10-20T19:30:58.771292+00:00"
+    },
+    "pendulum/seed2/flowsde/select_D": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed2/D0.01",
+      "selected": "pendulum/seed2/flowsde/D0.01",
+      "validation_rmse": {
+        "pendulum/seed2/flowsde/D0.01": 0.08733704032096339,
+        "pendulum/seed2/flowsde/D0.03": 0.10121063868791809,
+        "pendulum/seed2/flowsde/D0.05": 0.11039745654219636
+      },
+      "finished_at": "2026-10-20T19:32:10.500429+00:00"
+    },
+    "aloha/seed0/normflowsde/s1_reference": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed0/s1",
+          "started_at": "2026-10-20T15:51:51.526477+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "aloha",
+            "--seed",
+            "0",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/aloha/seed0.json",
+            "--train-steps",
+            "5000",
+            "--validation-windows",
+            "50",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed0/s1"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T16:07:54.061018+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed0/s1",
+      "finished_at": "2026-10-20T16:07:54.061965+00:00"
+    },
+    "aloha/seed0/normflowsde/s1_lsnt": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed0/normflowsde/s1_lsnt/attempt0",
+          "started_at": "2026-10-20T15:55:25.402889+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "aloha",
+            "--seed",
+            "0",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/aloha/seed0.json",
+            "--train-steps",
+            "5000",
+            "--validation-windows",
+            "50",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--learned-scale",
+            "--no-time",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed0/normflowsde/s1_lsnt/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T16:07:06.366867+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed0/normflowsde/s1_lsnt/attempt0",
+      "finished_at": "2026-10-20T16:07:06.367658+00:00"
+    },
+    "aloha/seed0/normflowsde/select_dynamics": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed0/s1",
+      "selected": "aloha/seed0/normflowsde/s1_reference",
+      "validation_rmse": {
+        "aloha/seed0/normflowsde/s1_reference": 0.3981449604034424,
+        "aloha/seed0/normflowsde/s1_lsnt": 0.6269983053207397
+      },
+      "finished_at": "2026-10-20T16:07:54.901333+00:00"
+    },
+    "aloha/seed0/normflowsde/s2_lr1e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed0/normflowsde/s2_lr1e-4/attempt0",
+          "started_at": "2026-10-20T17:52:13.332234+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "aloha",
+            "--seed",
+            "0",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed0/s1",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "1e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed0/normflowsde/s2_lr1e-4/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:41:33.201962+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed0/normflowsde/s2_lr1e-4/attempt0",
+      "finished_at": "2026-10-20T19:41:33.203180+00:00"
+    },
+    "aloha/seed0/normflowsde/s2_lr3e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed0/s2",
+          "started_at": "2026-10-20T17:53:16.432645+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "aloha",
+            "--seed",
+            "0",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed0/s1",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "3e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed0/s2"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:42:14.131424+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed0/s2",
+      "finished_at": "2026-10-20T19:42:14.131938+00:00"
+    },
+    "aloha/seed0/normflowsde/select_lr": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed0/s2",
+      "selected": "aloha/seed0/normflowsde/s2_lr3e-4",
+      "validation_rmse": {
+        "aloha/seed0/normflowsde/s2_lr1e-4": 0.06656718999147415,
+        "aloha/seed0/normflowsde/s2_lr3e-4": 0.05592818558216095
+      },
+      "finished_at": "2026-10-20T19:42:14.592905+00:00"
+    },
+    "aloha/seed0/nf_dpf/s1": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed0/s1",
+          "started_at": "2026-10-20T15:40:46.371570+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.run",
+            "--dataset",
+            "aloha",
+            "--method",
+            "nf_dpf",
+            "--capacity-profile",
+            "legacy-aligned-v1",
+            "--settings-profile",
+            "legacy-compatible-v1",
+            "--hidden-size",
+            "65",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--context-dim",
+            "64",
+            "--variant",
+            "pseudo_process_uncertainty_gmm",
+            "--seed",
+            "0",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--train-steps",
+            "3000",
+            "--validation-windows",
+            "50",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed0/s1",
+            "--train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T15:50:11.795484+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed0/s1",
+      "finished_at": "2026-10-20T15:50:11.796650+00:00"
+    },
+    "aloha/seed0/nf_dpf/s2": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed0/s2",
+          "started_at": "2026-10-20T15:50:12.406235+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_lorenz_baselines",
+            "--dataset",
+            "aloha",
+            "--method",
+            "nf_dpf",
+            "--seed",
+            "0",
+            "--anchor-weight",
+            "0",
+            "--crps-weight",
+            "1",
+            "--mean-mse-weight",
+            "0",
+            "--ess-weight",
+            "0.01",
+            "--remat",
+            "--skip-nonfinite",
+            "--validation-windows",
+            "50",
+            "--steps",
+            "6000",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed0/s1",
+            "--measurement-nll-weight",
+            "1",
+            "--measurement-batch-windows",
+            "16",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed0/s2"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T16:45:16.540705+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed0/s2",
+      "finished_at": "2026-10-20T16:45:16.541583+00:00"
+    },
+    "aloha/seed0/nsf/train": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed0/train",
+          "started_at": "2026-10-20T18:31:58.952879+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "nsf",
+            "--hidden-size",
+            "68",
+            "--dataset",
+            "aloha",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "250",
+            "--steps",
+            "9000",
+            "--seed",
+            "0",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed0/train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:19:16.892269+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed0/train",
+      "finished_at": "2026-10-20T19:19:16.892966+00:00"
+    },
+    "aloha/seed0/nsf/jitter": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32314",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed0/jitter",
+          "started_at": "2026-10-20T19:25:03.741609+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.tune_state_filter_jitter",
+            "--run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed0/train",
+            "--grid",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed0/jitter"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:26:48.909478+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed0/jitter",
+      "finished_at": "2026-10-20T19:26:48.910043+00:00"
+    },
+    "aloha/seed0/flowsde/D0.01": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed0/flowsde/D0.01/attempt0",
+          "started_at": "2026-10-20T15:57:16.234054+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "139",
+            "--dataset",
+            "aloha",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "250",
+            "--steps",
+            "9000",
+            "--seed",
+            "0",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.01",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed0/flowsde/D0.01/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:20:49.494817+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed0/flowsde/D0.01/attempt0",
+      "finished_at": "2026-10-20T17:20:49.495173+00:00"
+    },
+    "aloha/seed0/flowsde/D0.03": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed0/flowsde/D0.03/attempt0",
+          "started_at": "2026-10-20T16:00:54.657075+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "139",
+            "--dataset",
+            "aloha",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "250",
+            "--steps",
+            "9000",
+            "--seed",
+            "0",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.03",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed0/flowsde/D0.03/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:14:56.383671+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed0/flowsde/D0.03/attempt0",
+      "finished_at": "2026-10-20T17:14:56.384254+00:00"
+    },
+    "aloha/seed0/flowsde/D0.05": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed0/D0.05",
+          "started_at": "2026-10-20T16:07:07.316963+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "139",
+            "--dataset",
+            "aloha",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "250",
+            "--steps",
+            "9000",
+            "--seed",
+            "0",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.05",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed0/D0.05"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:32:00.073459+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed0/D0.05",
+      "finished_at": "2026-10-20T17:32:00.074968+00:00"
+    },
+    "aloha/seed0/flowsde/select_D": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed0/D0.05",
+      "selected": "aloha/seed0/flowsde/D0.05",
+      "validation_rmse": {
+        "aloha/seed0/flowsde/D0.01": 0.08221492171287537,
+        "aloha/seed0/flowsde/D0.03": 0.07843577861785889,
+        "aloha/seed0/flowsde/D0.05": 0.075929194688797
+      },
+      "finished_at": "2026-10-20T17:32:00.911978+00:00"
+    },
+    "aloha/seed1/normflowsde/s1_reference": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s1",
+          "started_at": "2026-10-20T15:55:25.403952+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "aloha",
+            "--seed",
+            "1",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/aloha/seed1.json",
+            "--train-steps",
+            "5000",
+            "--validation-windows",
+            "50",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s1"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T16:07:06.372163+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s1",
+      "finished_at": "2026-10-20T16:07:06.373312+00:00"
+    },
+    "aloha/seed1/normflowsde/s1_lsnt": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/normflowsde/s1_lsnt/attempt0",
+          "started_at": "2026-10-20T15:56:52.319219+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "aloha",
+            "--seed",
+            "1",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/aloha/seed1.json",
+            "--train-steps",
+            "5000",
+            "--validation-windows",
+            "50",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--learned-scale",
+            "--no-time",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/normflowsde/s1_lsnt/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T16:08:33.302029+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/normflowsde/s1_lsnt/attempt0",
+      "finished_at": "2026-10-20T16:08:33.304170+00:00"
+    },
+    "aloha/seed1/normflowsde/select_dynamics": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s1",
+      "selected": "aloha/seed1/normflowsde/s1_reference",
+      "validation_rmse": {
+        "aloha/seed1/normflowsde/s1_reference": 0.32217520475387573,
+        "aloha/seed1/normflowsde/s1_lsnt": 0.6130725741386414
+      },
+      "finished_at": "2026-10-20T16:08:34.713223+00:00"
+    },
+    "aloha/seed1/normflowsde/s2_lr1e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32312",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/normflowsde/s2_lr1e-4/attempt0",
+          "started_at": "2026-10-20T18:21:45.280407+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "aloha",
+            "--seed",
+            "1",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s1",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "1e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/normflowsde/s2_lr1e-4/attempt0"
+          ],
+          "ended_at": "2026-10-20T18:23:28.408765+00:00",
+          "stopped_for_deadline": true,
+          "reclaimed_by": "32307"
+        },
+        {
+          "job": "32313",
+          "attempt": 1,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/normflowsde/s2_lr1e-4/attempt1",
+          "started_at": "2026-10-20T18:23:42.279780+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "aloha",
+            "--seed",
+            "1",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s1",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "1e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/normflowsde/s2_lr1e-4/attempt1"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:42:43.233060+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/normflowsde/s2_lr1e-4/attempt1",
+      "finished_at": "2026-10-20T18:42:43.234233+00:00"
+    },
+    "aloha/seed1/normflowsde/s2_lr3e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s2",
+          "started_at": "2026-10-20T18:22:47.889949+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "aloha",
+            "--seed",
+            "1",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s1",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "3e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s2"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:31:28.704407+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s2",
+      "finished_at": "2026-10-20T19:31:28.705004+00:00"
+    },
+    "aloha/seed1/normflowsde/select_lr": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s2",
+      "selected": "aloha/seed1/normflowsde/s2_lr3e-4",
+      "validation_rmse": {
+        "aloha/seed1/normflowsde/s2_lr1e-4": 0.06691619753837585,
+        "aloha/seed1/normflowsde/s2_lr3e-4": 0.05791398510336876
+      },
+      "finished_at": "2026-10-20T19:31:29.296371+00:00"
+    },
+    "aloha/seed1/nf_dpf/s1": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s1",
+          "started_at": "2026-10-20T15:40:46.375224+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.run",
+            "--dataset",
+            "aloha",
+            "--method",
+            "nf_dpf",
+            "--capacity-profile",
+            "legacy-aligned-v1",
+            "--settings-profile",
+            "legacy-compatible-v1",
+            "--hidden-size",
+            "65",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--context-dim",
+            "64",
+            "--variant",
+            "pseudo_process_uncertainty_gmm",
+            "--seed",
+            "1",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--train-steps",
+            "3000",
+            "--validation-windows",
+            "50",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s1",
+            "--train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T15:50:11.802123+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s1",
+      "finished_at": "2026-10-20T15:50:11.803073+00:00"
+    },
+    "aloha/seed1/nf_dpf/s2": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s2",
+          "started_at": "2026-10-20T15:50:12.406738+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_lorenz_baselines",
+            "--dataset",
+            "aloha",
+            "--method",
+            "nf_dpf",
+            "--seed",
+            "1",
+            "--anchor-weight",
+            "0",
+            "--crps-weight",
+            "1",
+            "--mean-mse-weight",
+            "0",
+            "--ess-weight",
+            "0.01",
+            "--remat",
+            "--skip-nonfinite",
+            "--validation-windows",
+            "50",
+            "--steps",
+            "6000",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s1",
+            "--measurement-nll-weight",
+            "1",
+            "--measurement-batch-windows",
+            "16",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s2"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T16:45:37.493791+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s2",
+      "finished_at": "2026-10-20T16:45:37.500530+00:00"
+    },
+    "aloha/seed1/nsf/train": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed1/train",
+          "started_at": "2026-10-20T18:34:14.191016+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "nsf",
+            "--hidden-size",
+            "68",
+            "--dataset",
+            "aloha",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "250",
+            "--steps",
+            "9000",
+            "--seed",
+            "1",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed1/train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:14:53.595310+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed1/train",
+      "finished_at": "2026-10-20T19:14:53.596653+00:00"
+    },
+    "aloha/seed1/nsf/jitter": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed1/jitter",
+          "started_at": "2026-10-20T19:14:53.631504+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.tune_state_filter_jitter",
+            "--run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed1/train",
+            "--grid",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed1/jitter"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:17:42.145180+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed1/jitter",
+      "finished_at": "2026-10-20T19:17:42.145978+00:00"
+    },
+    "aloha/seed1/flowsde/D0.01": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/flowsde/D0.01/attempt0",
+          "started_at": "2026-10-20T16:07:54.902583+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "139",
+            "--dataset",
+            "aloha",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "250",
+            "--steps",
+            "9000",
+            "--seed",
+            "1",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.01",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/flowsde/D0.01/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:22:37.248640+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/flowsde/D0.01/attempt0",
+      "finished_at": "2026-10-20T17:22:37.249112+00:00"
+    },
+    "aloha/seed1/flowsde/D0.03": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/flowsde/D0.03/attempt0",
+          "started_at": "2026-10-20T16:08:34.715055+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "139",
+            "--dataset",
+            "aloha",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "250",
+            "--steps",
+            "9000",
+            "--seed",
+            "1",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.03",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/flowsde/D0.03/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:33:04.906449+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed1/flowsde/D0.03/attempt0",
+      "finished_at": "2026-10-20T17:33:04.906968+00:00"
+    },
+    "aloha/seed1/flowsde/D0.05": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed1/D0.05",
+          "started_at": "2026-10-20T16:45:17.144948+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "139",
+            "--dataset",
+            "aloha",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "250",
+            "--steps",
+            "9000",
+            "--seed",
+            "1",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.05",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed1/D0.05"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:34:52.756982+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed1/D0.05",
+      "finished_at": "2026-10-20T17:34:52.757513+00:00"
+    },
+    "aloha/seed1/flowsde/select_D": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed1/D0.05",
+      "selected": "aloha/seed1/flowsde/D0.05",
+      "validation_rmse": {
+        "aloha/seed1/flowsde/D0.01": 0.08163316547870636,
+        "aloha/seed1/flowsde/D0.03": 0.07818266749382019,
+        "aloha/seed1/flowsde/D0.05": 0.07657091319561005
+      },
+      "finished_at": "2026-10-20T17:34:53.385079+00:00"
+    },
+    "aloha/seed2/normflowsde/s1_reference": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s1",
+          "started_at": "2026-10-20T15:56:52.320344+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "aloha",
+            "--seed",
+            "2",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/aloha/seed2.json",
+            "--train-steps",
+            "5000",
+            "--validation-windows",
+            "50",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s1"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T16:08:33.311050+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s1",
+      "finished_at": "2026-10-20T16:08:33.312172+00:00"
+    },
+    "aloha/seed2/normflowsde/s1_lsnt": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed2/normflowsde/s1_lsnt/attempt0",
+          "started_at": "2026-10-20T15:56:52.320727+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "aloha",
+            "--seed",
+            "2",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/aloha/seed2.json",
+            "--train-steps",
+            "5000",
+            "--validation-windows",
+            "50",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--learned-scale",
+            "--no-time",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed2/normflowsde/s1_lsnt/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T16:08:33.316678+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed2/normflowsde/s1_lsnt/attempt0",
+      "finished_at": "2026-10-20T16:08:33.317552+00:00"
+    },
+    "aloha/seed2/normflowsde/select_dynamics": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s1",
+      "selected": "aloha/seed2/normflowsde/s1_reference",
+      "validation_rmse": {
+        "aloha/seed2/normflowsde/s1_reference": 0.4937264621257782,
+        "aloha/seed2/normflowsde/s1_lsnt": 0.6637068390846252
+      },
+      "finished_at": "2026-10-20T16:08:34.714391+00:00"
+    },
+    "aloha/seed2/normflowsde/s2_lr1e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed2/normflowsde/s2_lr1e-4/attempt0",
+          "started_at": "2026-10-20T18:27:42.924530+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "aloha",
+            "--seed",
+            "2",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s1",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "1e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed2/normflowsde/s2_lr1e-4/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:57:55.609217+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed2/normflowsde/s2_lr1e-4/attempt0",
+      "finished_at": "2026-10-20T19:57:55.609669+00:00"
+    },
+    "aloha/seed2/normflowsde/s2_lr3e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s2",
+          "started_at": "2026-10-20T18:27:42.924925+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "aloha",
+            "--seed",
+            "2",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s1",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "3e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s2"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:57:55.792285+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s2",
+      "finished_at": "2026-10-20T19:57:55.792872+00:00"
+    },
+    "aloha/seed2/normflowsde/select_lr": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s2",
+      "selected": "aloha/seed2/normflowsde/s2_lr3e-4",
+      "validation_rmse": {
+        "aloha/seed2/normflowsde/s2_lr1e-4": 0.0709657371044159,
+        "aloha/seed2/normflowsde/s2_lr3e-4": 0.057188499718904495
+      },
+      "finished_at": "2026-10-20T19:57:55.936451+00:00"
+    },
+    "aloha/seed2/nf_dpf/s1": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed2/s1",
+          "started_at": "2026-10-20T15:40:46.378101+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.run",
+            "--dataset",
+            "aloha",
+            "--method",
+            "nf_dpf",
+            "--capacity-profile",
+            "legacy-aligned-v1",
+            "--settings-profile",
+            "legacy-compatible-v1",
+            "--hidden-size",
+            "65",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--context-dim",
+            "64",
+            "--variant",
+            "pseudo_process_uncertainty_gmm",
+            "--seed",
+            "2",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--train-steps",
+            "3000",
+            "--validation-windows",
+            "50",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed2/s1",
+            "--train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T15:50:11.807068+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed2/s1",
+      "finished_at": "2026-10-20T15:50:11.808002+00:00"
+    },
+    "aloha/seed2/nf_dpf/s2": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed2/s2",
+          "started_at": "2026-10-20T15:50:12.407244+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_lorenz_baselines",
+            "--dataset",
+            "aloha",
+            "--method",
+            "nf_dpf",
+            "--seed",
+            "2",
+            "--anchor-weight",
+            "0",
+            "--crps-weight",
+            "1",
+            "--mean-mse-weight",
+            "0",
+            "--ess-weight",
+            "0.01",
+            "--remat",
+            "--skip-nonfinite",
+            "--validation-windows",
+            "50",
+            "--steps",
+            "6000",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed2/s1",
+            "--measurement-nll-weight",
+            "1",
+            "--measurement-batch-windows",
+            "16",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed2/s2"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T16:45:37.507664+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed2/s2",
+      "finished_at": "2026-10-20T16:45:37.512201+00:00"
+    },
+    "aloha/seed2/nsf/train": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed2/train",
+          "started_at": "2026-10-20T18:34:14.192462+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "nsf",
+            "--hidden-size",
+            "68",
+            "--dataset",
+            "aloha",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "250",
+            "--steps",
+            "9000",
+            "--seed",
+            "2",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed2/train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:14:53.611461+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed2/train",
+      "finished_at": "2026-10-20T19:14:53.611899+00:00"
+    },
+    "aloha/seed2/nsf/jitter": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed2/jitter",
+          "started_at": "2026-10-20T19:16:38.963932+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.tune_state_filter_jitter",
+            "--run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed2/train",
+            "--grid",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed2/jitter"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:18:45.319333+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed2/jitter",
+      "finished_at": "2026-10-20T19:18:45.320174+00:00"
+    },
+    "aloha/seed2/flowsde/D0.01": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed2/flowsde/D0.01/attempt0",
+          "started_at": "2026-10-20T16:45:38.716205+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "139",
+            "--dataset",
+            "aloha",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "250",
+            "--steps",
+            "9000",
+            "--seed",
+            "2",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.01",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed2/flowsde/D0.01/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:36:16.291290+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed2/flowsde/D0.01/attempt0",
+      "finished_at": "2026-10-20T17:36:16.291893+00:00"
+    },
+    "aloha/seed2/flowsde/D0.03": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed2/flowsde/D0.03/attempt0",
+          "started_at": "2026-10-20T16:45:38.716635+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "139",
+            "--dataset",
+            "aloha",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "250",
+            "--steps",
+            "9000",
+            "--seed",
+            "2",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.03",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed2/flowsde/D0.03/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:36:16.300123+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/aloha/seed2/flowsde/D0.03/attempt0",
+      "finished_at": "2026-10-20T17:36:16.300689+00:00"
+    },
+    "aloha/seed2/flowsde/D0.05": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed2/D0.05",
+          "started_at": "2026-10-20T17:14:57.062001+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "139",
+            "--dataset",
+            "aloha",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "250",
+            "--steps",
+            "9000",
+            "--seed",
+            "2",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.05",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed2/D0.05"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:27:41.751110+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed2/D0.05",
+      "finished_at": "2026-10-20T18:27:41.751596+00:00"
+    },
+    "aloha/seed2/flowsde/select_D": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed2/D0.05",
+      "selected": "aloha/seed2/flowsde/D0.05",
+      "validation_rmse": {
+        "aloha/seed2/flowsde/D0.01": 0.08049623668193817,
+        "aloha/seed2/flowsde/D0.03": 0.07805782556533813,
+        "aloha/seed2/flowsde/D0.05": 0.07619177550077438
+      },
+      "finished_at": "2026-10-20T18:27:42.923651+00:00"
+    },
+    "reassemble/seed0/normflowsde/s1_reference": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s1_reference/attempt0",
+          "started_at": "2026-10-20T15:40:46.390404+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "0",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/reassemble/seed0.json",
+            "--train-steps",
+            "7000",
+            "--validation-windows",
+            "300",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s1_reference/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:33:52.841939+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s1_reference/attempt0",
+      "finished_at": "2026-10-20T19:33:52.843527+00:00"
+    },
+    "reassemble/seed0/normflowsde/s1_lsnt": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s1_lsnt/attempt0",
+          "started_at": "2026-10-20T15:40:46.391354+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "0",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/reassemble/seed0.json",
+            "--train-steps",
+            "7000",
+            "--validation-windows",
+            "300",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--learned-scale",
+            "--no-time",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s1_lsnt/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:33:52.852248+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s1_lsnt/attempt0",
+      "finished_at": "2026-10-20T19:33:52.853089+00:00"
+    },
+    "reassemble/seed0/normflowsde/select_dynamics": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s1_reference/attempt0",
+      "selected": "reassemble/seed0/normflowsde/s1_reference",
+      "validation_rmse": {
+        "reassemble/seed0/normflowsde/s1_reference": 0.07925498485565186,
+        "reassemble/seed0/normflowsde/s1_lsnt": 0.21755725145339966
+      },
+      "finished_at": "2026-10-20T19:33:53.350741+00:00"
+    },
+    "reassemble/seed0/normflowsde/s2_lr1e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s2_lr1e-4/attempt0",
+          "started_at": "2026-10-20T19:33:53.351296+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "0",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s1_reference/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "1e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s2_lr1e-4/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T20:11:47.907314+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s2_lr1e-4/attempt0",
+      "finished_at": "2026-10-20T20:11:47.907691+00:00"
+    },
+    "reassemble/seed0/normflowsde/s2_lr3e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s2_lr3e-4/attempt0",
+          "started_at": "2026-10-20T19:33:53.351747+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "0",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s1_reference/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "3e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s2_lr3e-4/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T20:12:08.051279+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s2_lr3e-4/attempt0",
+      "finished_at": "2026-10-20T20:12:08.051875+00:00"
+    },
+    "reassemble/seed0/normflowsde/select_lr": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s2_lr3e-4/attempt0",
+      "selected": "reassemble/seed0/normflowsde/s2_lr3e-4",
+      "validation_rmse": {
+        "reassemble/seed0/normflowsde/s2_lr1e-4": 0.05058841034770012,
+        "reassemble/seed0/normflowsde/s2_lr3e-4": 0.04595815762877464
+      },
+      "finished_at": "2026-10-20T20:12:08.161380+00:00"
+    },
+    "reassemble/seed0/nf_dpf/s1": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed0/s1",
+          "started_at": "2026-10-20T15:40:46.381832+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.run",
+            "--dataset",
+            "reassemble",
+            "--method",
+            "nf_dpf",
+            "--capacity-profile",
+            "legacy-aligned-v1",
+            "--settings-profile",
+            "legacy-compatible-v1",
+            "--hidden-size",
+            "69",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--context-dim",
+            "64",
+            "--observation-noise",
+            "gmm",
+            "--seed",
+            "0",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--train-steps",
+            "5000",
+            "--validation-windows",
+            "300",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed0/s1",
+            "--train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:07:16.397469+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed0/s1",
+      "finished_at": "2026-10-20T17:07:16.398352+00:00"
+    },
+    "reassemble/seed0/nf_dpf/s2": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed0/s2",
+          "started_at": "2026-10-20T17:07:16.947109+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_lorenz_baselines",
+            "--dataset",
+            "reassemble",
+            "--method",
+            "nf_dpf",
+            "--seed",
+            "0",
+            "--anchor-weight",
+            "0",
+            "--crps-weight",
+            "1",
+            "--mean-mse-weight",
+            "0",
+            "--ess-weight",
+            "0.01",
+            "--remat",
+            "--skip-nonfinite",
+            "--validation-windows",
+            "300",
+            "--steps",
+            "6000",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed0/s1",
+            "--measurement-nll-weight",
+            "1",
+            "--measurement-batch-windows",
+            "16",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed0/s2"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:57:05.545404+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed0/s2",
+      "finished_at": "2026-10-20T17:57:05.546002+00:00"
+    },
+    "reassemble/seed0/nsf/train": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed0/train",
+          "started_at": "2026-10-20T16:07:07.318480+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "nsf",
+            "--hidden-size",
+            "71",
+            "--dataset",
+            "reassemble",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "500",
+            "--steps",
+            "11000",
+            "--seed",
+            "0",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed0/train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:52:12.515472+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed0/train",
+      "finished_at": "2026-10-20T17:52:12.515988+00:00"
+    },
+    "reassemble/seed0/nsf/jitter": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed0/jitter",
+          "started_at": "2026-10-20T19:07:50.129956+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.tune_state_filter_jitter",
+            "--run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed0/train",
+            "--grid",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed0/jitter"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:11:43.163861+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed0/jitter",
+      "finished_at": "2026-10-20T19:11:43.164277+00:00"
+    },
+    "reassemble/seed0/flowsde/D0.01": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/flowsde/D0.01/attempt0",
+          "started_at": "2026-10-20T17:20:50.378484+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "136",
+            "--dataset",
+            "reassemble",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "500",
+            "--steps",
+            "11000",
+            "--seed",
+            "0",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.01",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/flowsde/D0.01/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:33:22.394753+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/flowsde/D0.01/attempt0",
+      "finished_at": "2026-10-20T19:33:22.395299+00:00"
+    },
+    "reassemble/seed0/flowsde/D0.03": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed0/D0.03",
+          "started_at": "2026-10-20T17:22:37.954281+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "136",
+            "--dataset",
+            "reassemble",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "500",
+            "--steps",
+            "11000",
+            "--seed",
+            "0",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.03",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed0/D0.03"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:13:55.391057+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed0/D0.03",
+      "finished_at": "2026-10-20T19:13:55.391864+00:00"
+    },
+    "reassemble/seed0/flowsde/D0.05": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/flowsde/D0.05/attempt0",
+          "started_at": "2026-10-20T17:32:00.912755+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "136",
+            "--dataset",
+            "reassemble",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "500",
+            "--steps",
+            "11000",
+            "--seed",
+            "0",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.05",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/flowsde/D0.05/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:44:16.902515+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/flowsde/D0.05/attempt0",
+      "finished_at": "2026-10-20T19:44:16.903800+00:00"
+    },
+    "reassemble/seed0/flowsde/select_D": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed0/D0.03",
+      "selected": "reassemble/seed0/flowsde/D0.03",
+      "validation_rmse": {
+        "reassemble/seed0/flowsde/D0.01": 0.05677179992198944,
+        "reassemble/seed0/flowsde/D0.03": 0.05431109294295311,
+        "reassemble/seed0/flowsde/D0.05": 0.056152306497097015
+      },
+      "finished_at": "2026-10-20T19:44:17.382582+00:00"
+    },
+    "reassemble/seed1/normflowsde/s1_reference": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s1_reference/attempt0",
+          "started_at": "2026-10-20T15:40:48.978386+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "1",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/reassemble/seed1.json",
+            "--train-steps",
+            "7000",
+            "--validation-windows",
+            "300",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s1_reference/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:58:06.908063+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s1_reference/attempt0",
+      "finished_at": "2026-10-20T17:58:06.909510+00:00"
+    },
+    "reassemble/seed1/normflowsde/s1_lsnt": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s1_lsnt/attempt0",
+          "started_at": "2026-10-20T15:40:48.979208+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "1",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/reassemble/seed1.json",
+            "--train-steps",
+            "7000",
+            "--validation-windows",
+            "300",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--learned-scale",
+            "--no-time",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s1_lsnt/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:00:54.440216+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s1_lsnt/attempt0",
+      "finished_at": "2026-10-20T18:00:54.441718+00:00"
+    },
+    "reassemble/seed1/normflowsde/select_dynamics": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s1_reference/attempt0",
+      "selected": "reassemble/seed1/normflowsde/s1_reference",
+      "validation_rmse": {
+        "reassemble/seed1/normflowsde/s1_reference": 0.08811333775520325,
+        "reassemble/seed1/normflowsde/s1_lsnt": 0.22091397643089294
+      },
+      "finished_at": "2026-10-20T18:00:55.277268+00:00"
+    },
+    "reassemble/seed1/normflowsde/s2_lr1e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s2_lr1e-4/attempt0",
+          "started_at": "2026-10-20T18:00:55.280212+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "1",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s1_reference/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "1e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s2_lr1e-4/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T20:20:11.687708+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s2_lr1e-4/attempt0",
+      "finished_at": "2026-10-20T20:20:11.690372+00:00"
+    },
+    "reassemble/seed1/normflowsde/s2_lr3e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s2_lr3e-4/attempt0",
+          "started_at": "2026-10-20T18:00:55.280548+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "1",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s1_reference/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "3e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s2_lr3e-4/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T20:20:11.785967+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s2_lr3e-4/attempt0",
+      "finished_at": "2026-10-20T20:20:11.787416+00:00"
+    },
+    "reassemble/seed1/normflowsde/select_lr": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s2_lr3e-4/attempt0",
+      "selected": "reassemble/seed1/normflowsde/s2_lr3e-4",
+      "validation_rmse": {
+        "reassemble/seed1/normflowsde/s2_lr1e-4": 0.052978649735450745,
+        "reassemble/seed1/normflowsde/s2_lr3e-4": 0.047718968242406845
+      },
+      "finished_at": "2026-10-20T20:20:11.805656+00:00"
+    },
+    "reassemble/seed1/nf_dpf/s1": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed1/s1",
+          "started_at": "2026-10-20T15:40:46.384703+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.run",
+            "--dataset",
+            "reassemble",
+            "--method",
+            "nf_dpf",
+            "--capacity-profile",
+            "legacy-aligned-v1",
+            "--settings-profile",
+            "legacy-compatible-v1",
+            "--hidden-size",
+            "69",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--context-dim",
+            "64",
+            "--observation-noise",
+            "gmm",
+            "--seed",
+            "1",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--train-steps",
+            "5000",
+            "--validation-windows",
+            "300",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed1/s1",
+            "--train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:07:16.404154+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed1/s1",
+      "finished_at": "2026-10-20T17:07:16.404978+00:00"
+    },
+    "reassemble/seed1/nf_dpf/s2": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed1/s2",
+          "started_at": "2026-10-20T17:07:16.947569+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_lorenz_baselines",
+            "--dataset",
+            "reassemble",
+            "--method",
+            "nf_dpf",
+            "--seed",
+            "1",
+            "--anchor-weight",
+            "0",
+            "--crps-weight",
+            "1",
+            "--mean-mse-weight",
+            "0",
+            "--ess-weight",
+            "0.01",
+            "--remat",
+            "--skip-nonfinite",
+            "--validation-windows",
+            "300",
+            "--steps",
+            "6000",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed1/s1",
+            "--measurement-nll-weight",
+            "1",
+            "--measurement-batch-windows",
+            "16",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed1/s2"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:57:05.553926+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed1/s2",
+      "finished_at": "2026-10-20T17:57:05.554472+00:00"
+    },
+    "reassemble/seed1/nsf/train": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed1/train",
+          "started_at": "2026-10-20T16:08:34.716086+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "nsf",
+            "--hidden-size",
+            "71",
+            "--dataset",
+            "reassemble",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "500",
+            "--steps",
+            "11000",
+            "--seed",
+            "1",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed1/train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:53:15.712629+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed1/train",
+      "finished_at": "2026-10-20T17:53:15.713064+00:00"
+    },
+    "reassemble/seed1/nsf/jitter": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed1/jitter",
+          "started_at": "2026-10-20T19:08:11.281082+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.tune_state_filter_jitter",
+            "--run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed1/train",
+            "--grid",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed1/jitter"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:12:04.301032+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed1/jitter",
+      "finished_at": "2026-10-20T19:12:04.301355+00:00"
+    },
+    "reassemble/seed1/flowsde/D0.01": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32306",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/flowsde/D0.01/attempt0",
+          "started_at": "2026-10-20T17:33:05.737855+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "136",
+            "--dataset",
+            "reassemble",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "500",
+            "--steps",
+            "11000",
+            "--seed",
+            "1",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.01",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/flowsde/D0.01/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:43:35.978293+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/flowsde/D0.01/attempt0",
+      "finished_at": "2026-10-20T19:43:35.979084+00:00"
+    },
+    "reassemble/seed1/flowsde/D0.03": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed1/D0.03",
+          "started_at": "2026-10-20T17:34:53.386634+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "136",
+            "--dataset",
+            "reassemble",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "500",
+            "--steps",
+            "11000",
+            "--seed",
+            "1",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.03",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed1/D0.03"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:03:21.500117+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed1/D0.03",
+      "finished_at": "2026-10-20T19:03:21.500757+00:00"
+    },
+    "reassemble/seed1/flowsde/D0.05": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/flowsde/D0.05/attempt0",
+          "started_at": "2026-10-20T17:58:07.697648+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "136",
+            "--dataset",
+            "reassemble",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "500",
+            "--steps",
+            "11000",
+            "--seed",
+            "1",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.05",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/flowsde/D0.05/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:50:05.740406+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/flowsde/D0.05/attempt0",
+      "finished_at": "2026-10-20T19:50:05.742161+00:00"
+    },
+    "reassemble/seed1/flowsde/select_D": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed1/D0.03",
+      "selected": "reassemble/seed1/flowsde/D0.03",
+      "validation_rmse": {
+        "reassemble/seed1/flowsde/D0.01": 0.05730721727013588,
+        "reassemble/seed1/flowsde/D0.03": 0.05601077899336815,
+        "reassemble/seed1/flowsde/D0.05": 0.05667583644390106
+      },
+      "finished_at": "2026-10-20T19:50:05.895390+00:00"
+    },
+    "reassemble/seed2/normflowsde/s1_reference": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s1_reference/attempt0",
+          "started_at": "2026-10-20T15:40:48.981225+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "2",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/reassemble/seed2.json",
+            "--train-steps",
+            "7000",
+            "--validation-windows",
+            "300",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s1_reference/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:58:06.918244+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s1_reference/attempt0",
+      "finished_at": "2026-10-20T17:58:06.919153+00:00"
+    },
+    "reassemble/seed2/normflowsde/s1_lsnt": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32307",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s1_lsnt/attempt0",
+          "started_at": "2026-10-20T15:40:48.981639+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_normflowsde_filter",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "2",
+            "--train",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--reference-metadata",
+            "/home/anon/bayesinf_jax/experiments/normflowsde_comparison/filter_campaign_references/reassemble/seed2.json",
+            "--train-steps",
+            "7000",
+            "--validation-windows",
+            "300",
+            "--allow-source-drift",
+            "--allow-data-change",
+            "--learned-scale",
+            "--no-time",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s1_lsnt/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:00:54.450639+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s1_lsnt/attempt0",
+      "finished_at": "2026-10-20T18:00:54.451529+00:00"
+    },
+    "reassemble/seed2/normflowsde/select_dynamics": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s1_reference/attempt0",
+      "selected": "reassemble/seed2/normflowsde/s1_reference",
+      "validation_rmse": {
+        "reassemble/seed2/normflowsde/s1_reference": 0.08931517601013184,
+        "reassemble/seed2/normflowsde/s1_lsnt": 0.23804394900798798
+      },
+      "finished_at": "2026-10-20T18:00:55.279467+00:00"
+    },
+    "reassemble/seed2/normflowsde/s2_lr1e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32311",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr1e-4/attempt0",
+          "started_at": "2026-10-20T18:21:45.269720+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "2",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s1_reference/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "1e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr1e-4/attempt0"
+          ],
+          "ended_at": "2026-10-20T18:23:28.904527+00:00",
+          "stopped_for_deadline": true,
+          "reclaimed_by": "32307"
+        },
+        {
+          "job": "32314",
+          "attempt": 1,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr1e-4/attempt1",
+          "started_at": "2026-10-20T18:23:42.269027+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "2",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s1_reference/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "1e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr1e-4/attempt1"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:11:43.172985+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr1e-4/attempt1",
+      "finished_at": "2026-10-20T19:11:43.173402+00:00"
+    },
+    "reassemble/seed2/normflowsde/s2_lr3e-4": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32311",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr3e-4/attempt0",
+          "started_at": "2026-10-20T18:21:45.270107+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "2",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s1_reference/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "3e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr3e-4/attempt0"
+          ],
+          "ended_at": "2026-10-20T18:23:28.957895+00:00",
+          "stopped_for_deadline": true,
+          "reclaimed_by": "32307"
+        },
+        {
+          "job": "32314",
+          "attempt": 1,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr3e-4/attempt1",
+          "started_at": "2026-10-20T18:23:42.269256+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_pendulum_normflowsde",
+            "--dataset",
+            "reassemble",
+            "--seed",
+            "2",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s1_reference/attempt0",
+            "--objective",
+            "energy",
+            "--learning-rate",
+            "3e-4",
+            "--learned-scale",
+            "--steps",
+            "4000",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr3e-4/attempt1"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:11:43.191600+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr3e-4/attempt1",
+      "finished_at": "2026-10-20T19:11:43.191848+00:00"
+    },
+    "reassemble/seed2/normflowsde/select_lr": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr3e-4/attempt1",
+      "selected": "reassemble/seed2/normflowsde/s2_lr3e-4",
+      "validation_rmse": {
+        "reassemble/seed2/normflowsde/s2_lr1e-4": 0.052494581788778305,
+        "reassemble/seed2/normflowsde/s2_lr3e-4": 0.04738130047917366
+      },
+      "finished_at": "2026-10-20T19:11:43.200326+00:00"
+    },
+    "reassemble/seed2/nf_dpf/s1": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed2/s1",
+          "started_at": "2026-10-20T15:40:46.388464+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.run",
+            "--dataset",
+            "reassemble",
+            "--method",
+            "nf_dpf",
+            "--capacity-profile",
+            "legacy-aligned-v1",
+            "--settings-profile",
+            "legacy-compatible-v1",
+            "--hidden-size",
+            "69",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--context-dim",
+            "64",
+            "--observation-noise",
+            "gmm",
+            "--seed",
+            "2",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--train-steps",
+            "5000",
+            "--validation-windows",
+            "300",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed2/s1",
+            "--train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T17:07:16.409418+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed2/s1",
+      "finished_at": "2026-10-20T17:07:16.410243+00:00"
+    },
+    "reassemble/seed2/nf_dpf/s2": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed2/s2",
+          "started_at": "2026-10-20T17:36:16.856962+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.improve_lorenz_baselines",
+            "--dataset",
+            "reassemble",
+            "--method",
+            "nf_dpf",
+            "--seed",
+            "2",
+            "--anchor-weight",
+            "0",
+            "--crps-weight",
+            "1",
+            "--mean-mse-weight",
+            "0",
+            "--ess-weight",
+            "0.01",
+            "--remat",
+            "--skip-nonfinite",
+            "--validation-windows",
+            "300",
+            "--steps",
+            "6000",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--init-run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed2/s1",
+            "--measurement-nll-weight",
+            "1",
+            "--measurement-batch-windows",
+            "16",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed2/s2"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:31:58.099010+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed2/s2",
+      "finished_at": "2026-10-20T18:31:58.099924+00:00"
+    },
+    "reassemble/seed2/nsf/train": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed2/train",
+          "started_at": "2026-10-20T17:36:16.858148+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "nsf",
+            "--hidden-size",
+            "71",
+            "--dataset",
+            "reassemble",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "500",
+            "--steps",
+            "11000",
+            "--seed",
+            "2",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed2/train"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T18:53:07.643772+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed2/train",
+      "finished_at": "2026-10-20T18:53:07.644290+00:00"
+    },
+    "reassemble/seed2/nsf/jitter": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32313",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed2/jitter",
+          "started_at": "2026-10-20T19:11:43.185615+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.tune_state_filter_jitter",
+            "--run",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed2/train",
+            "--grid",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed2/jitter"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:16:38.937614+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed2/jitter",
+      "finished_at": "2026-10-20T19:16:38.938003+00:00"
+    },
+    "reassemble/seed2/flowsde/D0.01": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32311",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/flowsde/D0.01/attempt0",
+          "started_at": "2026-10-20T18:21:45.271177+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "136",
+            "--dataset",
+            "reassemble",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "500",
+            "--steps",
+            "11000",
+            "--seed",
+            "2",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.01",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/flowsde/D0.01/attempt0"
+          ],
+          "ended_at": "2026-10-20T18:23:29.162193+00:00",
+          "stopped_for_deadline": true,
+          "reclaimed_by": "32307"
+        },
+        {
+          "job": "32314",
+          "attempt": 1,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/flowsde/D0.01/attempt1",
+          "started_at": "2026-10-20T18:23:42.269830+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "136",
+            "--dataset",
+            "reassemble",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "500",
+            "--steps",
+            "11000",
+            "--seed",
+            "2",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.01",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/flowsde/D0.01/attempt1"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:14:53.604121+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/flowsde/D0.01/attempt1",
+      "finished_at": "2026-10-20T19:14:53.604705+00:00"
+    },
+    "reassemble/seed2/flowsde/D0.03": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed2/D0.03",
+          "started_at": "2026-10-20T18:22:47.888338+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "136",
+            "--dataset",
+            "reassemble",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "500",
+            "--steps",
+            "11000",
+            "--seed",
+            "2",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.03",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed2/D0.03"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:33:11.661809+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed2/D0.03",
+      "finished_at": "2026-10-20T19:33:11.662624+00:00"
+    },
+    "reassemble/seed2/flowsde/D0.05": {
+      "status": "done",
+      "attempts": [
+        {
+          "job": "32308",
+          "attempt": 0,
+          "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/flowsde/D0.05/attempt0",
+          "started_at": "2026-10-20T18:22:47.888747+00:00",
+          "argv": [
+            "/home/anon/myenv_312/bin/python",
+            "-m",
+            "experiments.normflowsde_comparison.train_state_filter",
+            "--method",
+            "flowsde",
+            "--hidden-size",
+            "136",
+            "--dataset",
+            "reassemble",
+            "--data-cache",
+            "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+            "--hidden-depth",
+            "3",
+            "--flow-layers",
+            "2",
+            "--eval-every",
+            "500",
+            "--steps",
+            "11000",
+            "--seed",
+            "2",
+            "--selection-jitters",
+            "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+            "--diffusion",
+            "0.05",
+            "--output",
+            "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/flowsde/D0.05/attempt0"
+          ],
+          "returncode": 0,
+          "ended_at": "2026-10-20T19:33:11.673463+00:00",
+          "stopped_for_deadline": false
+        }
+      ],
+      "dir": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/flowsde/D0.05/attempt0",
+      "finished_at": "2026-10-20T19:33:11.674031+00:00"
+    },
+    "reassemble/seed2/flowsde/select_D": {
+      "status": "done",
+      "dir": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed2/D0.03",
+      "selected": "reassemble/seed2/flowsde/D0.03",
+      "validation_rmse": {
+        "reassemble/seed2/flowsde/D0.01": 0.05716054141521454,
+        "reassemble/seed2/flowsde/D0.03": 0.05485258623957634,
+        "reassemble/seed2/flowsde/D0.05": 0.055514801293611526
+      },
+      "finished_at": "2026-10-20T19:33:12.230004+00:00"
+    }
+  }
+}

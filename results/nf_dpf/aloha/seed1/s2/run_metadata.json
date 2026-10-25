@@ -1,0 +1,104 @@
+{
+  "status": "complete",
+  "method": "nf_dpf",
+  "seed": 1,
+  "init_run": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s1",
+  "warm_start": true,
+  "inference_access": "filtering: x[k+1] incorporates its current measurement y[k+1]",
+  "arguments": {
+    "method": "nf_dpf",
+    "dataset": "aloha",
+    "seed": 1,
+    "output": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s2",
+    "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+    "init_run": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s1",
+    "from_scratch": false,
+    "steps": 6000,
+    "learning_rate": 0.0001,
+    "horizons": [
+      8,
+      25,
+      50,
+      250
+    ],
+    "batches": [
+      32,
+      16,
+      8,
+      8
+    ],
+    "draws": 8,
+    "rollout_weight": 1.0,
+    "mean_mse_weight": 0.0,
+    "anchor_weight": 0.0,
+    "epr_weight": null,
+    "training_particles": 64,
+    "crps_weight": 1.0,
+    "ess_weight": 0.01,
+    "measurement_nll_weight": 1.0,
+    "measurement_supervised_only": false,
+    "measurement_batch_windows": 16,
+    "remat": true,
+    "skip_nonfinite": true,
+    "eval_every": 500,
+    "validation_windows": 50,
+    "validation_draws": 32,
+    "eval_chunk": 25,
+    "skip_test": false,
+    "smoke": false
+  },
+  "model_config": {
+    "state_dim": 14,
+    "observation_dim": 14,
+    "control_dim": 14,
+    "hidden_size": 65,
+    "hidden_depth": 3,
+    "num_flow_layers": 2,
+    "max_log_scale": 2.0,
+    "base_scale": 0.2
+  },
+  "parameter_count": 116277,
+  "curriculum": [
+    {
+      "horizon": 8,
+      "trajectories_per_update": 32,
+      "steps": 1500
+    },
+    {
+      "horizon": 25,
+      "trajectories_per_update": 16,
+      "steps": 1500
+    },
+    {
+      "horizon": 50,
+      "trajectories_per_update": 8,
+      "steps": 1500
+    },
+    {
+      "horizon": 250,
+      "trajectories_per_update": 8,
+      "steps": 1500
+    }
+  ],
+  "devices": [
+    "cuda:0"
+  ],
+  "initial_validation": {
+    "rmse": 0.3702995181083679,
+    "crps": 0.10369345207659172,
+    "coverage_90": 0.1558
+  },
+  "best_step": 3000,
+  "best_validation_rmse": 0.13782911002635956,
+  "best_validation_crps": 0.03248838690044279,
+  "training_seconds": 3295.587031312287,
+  "sampled_trajectories": 96000,
+  "sampled_transition_targets": 4584000,
+  "skipped_nonfinite_updates": 0,
+  "test": {
+    "rmse": 0.16339657907301786,
+    "crps": 0.0991904366387071,
+    "coverage_90": 0.5840628571428571,
+    "mean_interval_width": 0.23041651846370542
+  }
+}

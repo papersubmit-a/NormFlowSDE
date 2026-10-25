@@ -1,0 +1,6 @@
+index, name, memory.total [MiB], memory.used [MiB]
+0, NVIDIA A30, 24576 MiB, 0 MiB
+lorenz96 lr2e-3_p0_s2lr3e-5_crps s2 seed1 exit 0
+lorenz96 lr2e-3_p0_s2lr3e-5_crps s2 seed0 exit 0
+lorenz96 lr2e-3_p0_s2lr3e-5_crps s2 seed2 exit 0
+sweep2 a30_g1 done

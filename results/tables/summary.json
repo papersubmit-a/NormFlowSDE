@@ -1,0 +1,246 @@
+{
+ "note": "3-seed rows (mean \u00b1 SD over seeds 0-2). Baselines, Lorenz96 and ALOHA NormFlowSDE rows are unchanged from round 4 (results_gmm_20261021_round4). NormFlowSDE rules: energy-score loss, update budget and parameter count fixed; hyperparameters only.",
+ "rows": {
+  "pendulum/normflowsde": {
+   "rmse": 0.06905271933299588,
+   "crps": 0.03618511832611954,
+   "coverage_90": 0.8335648148148148,
+   "mean_interval_width": 0.18618735168445208,
+   "rmse_sd": 0.000832752875900262,
+   "crps_sd": 0.0004116500584239114,
+   "coverage_90_sd": 0.016837891201641406,
+   "mean_interval_width_sd": 0.009303187336470332,
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/pendulum/seed0/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/pendulum/seed1/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/pendulum/seed2/s2"
+   ]
+  },
+  "pendulum/nf_dpf": {
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed0/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed1/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s2"
+   ],
+   "rmse": 0.06294788393037923,
+   "crps": 0.03204117005533628,
+   "coverage_90": 0.9179398148148148,
+   "mean_interval_width": 0.20166047839542425,
+   "rmse_sd": 0.0006508326621417394,
+   "crps_sd": 0.0003270231893587805,
+   "coverage_90_sd": 0.006279668522630399,
+   "mean_interval_width_sd": 0.0016713902373509373
+  },
+  "pendulum/nsf": {
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed0/jitter",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed1/jitter",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed2/jitter"
+   ],
+   "rmse": 0.06874674572991944,
+   "crps": 0.03457522219741317,
+   "coverage_90": 0.8660300925925926,
+   "mean_interval_width": 0.18054294263882034,
+   "rmse_sd": 0.0029065976998105215,
+   "crps_sd": 0.001353077602383427,
+   "coverage_90_sd": 0.03507173626541442,
+   "mean_interval_width_sd": 0.011038209652404712
+  },
+  "pendulum/flowsde": {
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed0/D0.01",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed1/D0.01",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed2/D0.01"
+   ],
+   "rmse": 0.1144309088963439,
+   "crps": 0.05783695001784406,
+   "coverage_90": 0.9182870370370371,
+   "mean_interval_width": 0.31072048702680166,
+   "rmse_sd": 0.006908314112279002,
+   "crps_sd": 0.0026301186278954464,
+   "coverage_90_sd": 0.0034035453593825224,
+   "mean_interval_width_sd": 0.0011695106110856737
+  },
+  "lorenz96/normflowsde": {
+   "rmse": 0.2942445598283694,
+   "crps": 0.15861861429608112,
+   "coverage_90": 0.8799250000000001,
+   "mean_interval_width": 0.8715410756977319,
+   "rmse_sd": 0.008209073998659748,
+   "crps_sd": 0.0040282703633633225,
+   "coverage_90_sd": 0.01603348709212481,
+   "mean_interval_width_sd": 0.039402484437224564,
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/lorenz96/seed0/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/lorenz96/seed1/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/lorenz96/seed2/s2"
+   ]
+  },
+  "lorenz96/nf_dpf": {
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/lorenz96/seed0/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/lorenz96/seed1/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/lorenz96/seed2/s2"
+   ],
+   "rmse": 0.28988269560923985,
+   "crps": 0.15852009367313388,
+   "coverage_90": 0.8543638888888889,
+   "mean_interval_width": 0.7811438137394074,
+   "rmse_sd": 0.008572016802885692,
+   "crps_sd": 0.005056858961838441,
+   "coverage_90_sd": 0.021815650175793354,
+   "mean_interval_width_sd": 0.06452943488484264
+  },
+  "lorenz96/nsf": {
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/lorenz96/seed0/jitter",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/lorenz96/seed1/jitter",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/lorenz96/seed2/jitter"
+   ],
+   "rmse": 0.22896367401518536,
+   "crps": 0.1198568686820384,
+   "coverage_90": 0.8217916666666667,
+   "mean_interval_width": 0.4692227868957556,
+   "rmse_sd": 0.017283009598467763,
+   "crps_sd": 0.010299429966164767,
+   "coverage_90_sd": 0.018590915867105047,
+   "mean_interval_width_sd": 0.005343026469578903
+  },
+  "lorenz96/flowsde": {
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/lorenz96/seed0/D0.01",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/lorenz96/seed1/D0.01",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/lorenz96/seed2/D0.01"
+   ],
+   "rmse": 0.322730831058778,
+   "crps": 0.17492141494936564,
+   "coverage_90": 0.8900305555555555,
+   "mean_interval_width": 0.9554145941799783,
+   "rmse_sd": 0.006663237151075099,
+   "crps_sd": 0.004264727952613074,
+   "coverage_90_sd": 0.009482770682391013,
+   "mean_interval_width_sd": 0.04116388703591909
+  },
+  "aloha/normflowsde": {
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed0/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s2"
+   ],
+   "rmse": 0.05382632813824389,
+   "crps": 0.030076479332169604,
+   "coverage_90": 0.8706152380952381,
+   "mean_interval_width": 0.16445935644123474,
+   "rmse_sd": 0.0010979932459477067,
+   "crps_sd": 0.0007373967262044182,
+   "coverage_90_sd": 0.012566596907004252,
+   "mean_interval_width_sd": 0.0016848378311065143,
+   "setting": "campaign recipe (stage-1 batch/lr pilot worse)"
+  },
+  "aloha/nf_dpf": {
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed0/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed2/s2"
+   ],
+   "rmse": 0.13068812400214708,
+   "crps": 0.07797215509888343,
+   "coverage_90": 0.6579390476190476,
+   "mean_interval_width": 0.22776875042522618,
+   "rmse_sd": 0.02881124464289669,
+   "crps_sd": 0.018601394316417927,
+   "coverage_90_sd": 0.06507385627168588,
+   "mean_interval_width_sd": 0.003067515477810451
+  },
+  "aloha/nsf": {
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed0/jitter",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed1/jitter",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed2/jitter"
+   ],
+   "rmse": 0.08580571114583373,
+   "crps": 0.0501211966202144,
+   "coverage_90": 0.8206495238095238,
+   "mean_interval_width": 0.23394058217764818,
+   "rmse_sd": 0.0005615164030005894,
+   "crps_sd": 0.00035337443812140764,
+   "coverage_90_sd": 0.004825349164342777,
+   "mean_interval_width_sd": 0.001180026190259196
+  },
+  "aloha/flowsde": {
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed0/D0.05",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed1/D0.05",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed2/D0.05"
+   ],
+   "rmse": 0.07173297042000105,
+   "crps": 0.04128116377458627,
+   "coverage_90": 0.8576761904761905,
+   "mean_interval_width": 0.21470366204631683,
+   "rmse_sd": 0.00035772239255090204,
+   "crps_sd": 0.00021744051662879235,
+   "coverage_90_sd": 0.006468029591979378,
+   "mean_interval_width_sd": 0.004697188897730686
+  },
+  "reassemble/normflowsde": {
+   "rmse": 0.032558559336532095,
+   "crps": 0.017858816904197036,
+   "coverage_90": 0.9026438095238095,
+   "mean_interval_width": 0.10259728217319837,
+   "rmse_sd": 0.0015635917660759657,
+   "crps_sd": 0.000776812268574931,
+   "coverage_90_sd": 0.005203666246371697,
+   "mean_interval_width_sd": 0.0021966925148668368,
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/reassemble/seed0/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/reassemble/seed1/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/reassemble/seed2/s2"
+   ]
+  },
+  "reassemble/nf_dpf": {
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed0/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed1/s2",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed2/s2"
+   ],
+   "rmse": 0.06129497322700671,
+   "crps": 0.03395771319979432,
+   "coverage_90": 0.8583422222222222,
+   "mean_interval_width": 0.17602781310029356,
+   "rmse_sd": 0.000562604892813355,
+   "crps_sd": 0.0002913239467854808,
+   "coverage_90_sd": 0.004084959119170124,
+   "mean_interval_width_sd": 0.0020928050260910686
+  },
+  "reassemble/nsf": {
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed0/jitter",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed1/jitter",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed2/jitter"
+   ],
+   "rmse": 0.06150572485113064,
+   "crps": 0.03446334515123109,
+   "coverage_90": 0.9164825396825397,
+   "mean_interval_width": 0.21403480495978686,
+   "rmse_sd": 0.0001853992299038614,
+   "crps_sd": 8.763701207719017e-05,
+   "coverage_90_sd": 0.0002594977415187985,
+   "mean_interval_width_sd": 0.00028482520765531677
+  },
+  "reassemble/flowsde": {
+   "runs": [
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed0/D0.03",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed1/D0.03",
+    "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed2/D0.03"
+   ],
+   "rmse": 0.053040021895147754,
+   "crps": 0.03000772250204609,
+   "coverage_90": 0.9510647619047619,
+   "mean_interval_width": 0.21357742294076465,
+   "rmse_sd": 0.001231792713462824,
+   "crps_sd": 0.0007452188545726159,
+   "coverage_90_sd": 0.001306379254799183,
+   "mean_interval_width_sd": 0.004487534629394989
+  }
+ }
+}

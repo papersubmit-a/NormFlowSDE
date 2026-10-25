@@ -1,0 +1,5 @@
+index, name, memory.total [MiB], memory.used [MiB]
+0, NVIDIA A30, 24576 MiB, 0 MiB
+reassemble b4_a2_lr1e-4_sw0.52 s2 seed2 exit 0
+reassemble b4_a2_lr1e-4_sw0.52 s2 seed1 exit 0
+sweep2 a30_q_reas52 done

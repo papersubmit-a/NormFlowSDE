@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#SBATCH --account=Mitarbeiter
+#SBATCH --partition=a30
+#SBATCH --qos=a30-gpu
+#SBATCH --gres=gpu:a30:1
+#SBATCH --cpus-per-task=12
+#SBATCH --mem=100G
+#SBATCH --time=06:00:00
+#SBATCH --exclude=gpunode254
+#SBATCH --job-name=sw2_a30_q_reas52
+#SBATCH --output=/home/anon/bayesinf_jax/results/results_normflowsde_paper/nfsde_sweep2_20261021/job_a30_q_reas52_%j.out
+# 2026-10-22 coverage round: fine spread weights .52/.55 (sweep_q.sh group a30_q_reas52), 4 in parallel.
+exec /home/anon/bayesinf_jax/results/results_normflowsde_paper/provenance/nfsde_sweep2_20261021/sweep_q.sh a30_q_reas52 2

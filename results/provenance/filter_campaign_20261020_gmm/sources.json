@@ -1,0 +1,337 @@
+{
+ "_note": "All-filtering four-method campaign filter_campaign_20261020_gmm (experiments/normflowsde_comparison/filter_campaign.py): from-scratch pipelines, equal total optimizer updates per dataset {'pendulum': 8400, 'lorenz96': 18500, 'aloha': 9000, 'reassemble': 11000}, per-seed validation-RMSE selection inside the campaign, one rebuilt data cache per dataset verified against the previous comparison caches.",
+ "pendulum": {
+  "folder": "pendulum",
+  "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+  "methods": {
+   "normflowsde": {
+    "status": "superseded",
+    "access": "filtering",
+    "access_label": "current-measurement filtering",
+    "setting": "Native amortized filter. Filtering training (4400 updates; dynamics reference vs learned noise scale + time-invariant, validation-selected) then full-horizon energy-score fine-tune with the learned noise scale (4000 updates, lr in ['1e-4', '3e-4'], validation-selected).",
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/fix_pendulum_stage1/seed0/s2_lr3e-4",
+     "1": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/fix_pendulum_stage1/seed1/s2_lr3e-4",
+     "2": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/pendulum/seed2/normflowsde/s2_lr3e-4/attempt0"
+    },
+    "selections": {
+     "0": {
+      "pendulum/seed0/normflowsde/select_dynamics": "s1_reference (GMM recipe; s1_lsnt excluded)",
+      "pendulum/seed0/normflowsde/select_lr": "s2_lr3e-4 (validation RMSE {'1e-4': 0.09437165472165472, '3e-4': 0.09235287016791209})"
+     },
+     "1": {
+      "pendulum/seed1/normflowsde/select_dynamics": "s1_reference (GMM recipe; s1_lsnt excluded)",
+      "pendulum/seed1/normflowsde/select_lr": "s2_lr3e-4 (validation RMSE {'1e-4': 0.08721748795809121, '3e-4': 0.08292761531235786})"
+     },
+     "2": {
+      "pendulum/seed2/normflowsde/select_dynamics": "pendulum/seed2/normflowsde/s1_reference",
+      "pendulum/seed2/normflowsde/select_lr": "pendulum/seed2/normflowsde/s2_lr3e-4"
+     }
+    },
+    "latency": {
+     "kind": "metrics",
+     "note": "packed concurrent GPU tasks; not an isolated timing"
+    },
+    "note": "Seeds 0/1 corrected 2026-10-20: the campaign had selected s1_lsnt, whose learned scale collapsed under the stage-1 entropy term (width 1e-4, coverage 0); stage 2 rerun from s1_reference (fix_pendulum_stage1), lr validation-selected. Previous map: sources.before_pendulum_fix.json.",
+    "_superseded_20261023": "Historical: these campaign/fix_pendulum_stage1 runs are NOT the table's pendulum NormFlowSDE. The table uses results_normflowsde_paper/normflowsde/pendulum/seed*/s2 (stage-1 rollout weight 30, from nfsde_sweep2_20261021/pendulum/rw30); see tables/table.md."
+   },
+   "nf_dpf": {
+    "status": "final",
+    "access": "filtering",
+    "access_label": "current-measurement filtering",
+    "setting": "Comparison-runner NF-DPF (4400 updates) then variant-B long-window fine-tune (4000 updates: horizon curriculum, weighted CRPS, ESS penalty 0.01, supervised measurement-NLL anchor on 16 windows).",
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed0/s2",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed1/s2",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/pendulum/seed2/s2"
+    },
+    "selections": {
+     "0": {},
+     "1": {},
+     "2": {}
+    },
+    "latency": {
+     "kind": "metrics",
+     "note": "packed concurrent GPU tasks; not an isolated timing"
+    },
+    "note": ""
+   },
+   "nsf": {
+    "status": "final",
+    "access": "filtering",
+    "access_label": "current-measurement filtering",
+    "setting": "NSF-PF: learned-dynamics bootstrap PF (8400 updates), checkpoint and process-noise jitter selected jointly on validation from {0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2}.",
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed0/jitter",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed1/jitter",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/pendulum/seed2/jitter"
+    },
+    "selections": {
+     "0": {
+      "jitter": 0.0
+     },
+     "1": {
+      "jitter": 0.0
+     },
+     "2": {
+      "jitter": 0.005
+     }
+    },
+    "latency": {
+     "kind": "metrics",
+     "note": "packed concurrent GPU tasks; not an isolated timing"
+    },
+    "note": ""
+   },
+   "flowsde": {
+    "status": "final",
+    "access": "filtering",
+    "access_label": "current-measurement filtering",
+    "setting": "FlowSDE-PF: learned-dynamics bootstrap PF (8400 updates), diffusion D from ['0.01', '0.03', '0.05'] and checkpoint/jitter from {0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2} selected jointly on validation.",
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed0/D0.01",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed1/D0.01",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed2/D0.01"
+    },
+    "selections": {
+     "0": {
+      "pendulum/seed0/flowsde/select_D": "pendulum/seed0/flowsde/D0.01"
+     },
+     "1": {
+      "pendulum/seed1/flowsde/select_D": "pendulum/seed1/flowsde/D0.01"
+     },
+     "2": {
+      "pendulum/seed2/flowsde/select_D": "pendulum/seed2/flowsde/D0.01"
+     }
+    },
+    "latency": {
+     "kind": "metrics",
+     "note": "packed concurrent GPU tasks; not an isolated timing"
+    },
+    "note": ""
+   }
+  }
+ },
+ "aloha": {
+  "folder": "aloha",
+  "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/aloha",
+  "methods": {
+   "normflowsde": {
+    "status": "final",
+    "access": "filtering",
+    "access_label": "current-measurement filtering",
+    "setting": "Native amortized filter. Filtering training (5000 updates; dynamics reference vs learned noise scale + time-invariant, validation-selected) then full-horizon energy-score fine-tune with the learned noise scale (4000 updates, lr in ['1e-4', '3e-4'], validation-selected).",
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed0/s2",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed1/s2",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/normflowsde/aloha/seed2/s2"
+    },
+    "selections": {
+     "0": {
+      "aloha/seed0/normflowsde/select_dynamics": "aloha/seed0/normflowsde/s1_reference",
+      "aloha/seed0/normflowsde/select_lr": "aloha/seed0/normflowsde/s2_lr3e-4"
+     },
+     "1": {
+      "aloha/seed1/normflowsde/select_dynamics": "aloha/seed1/normflowsde/s1_reference",
+      "aloha/seed1/normflowsde/select_lr": "aloha/seed1/normflowsde/s2_lr3e-4"
+     },
+     "2": {
+      "aloha/seed2/normflowsde/select_dynamics": "aloha/seed2/normflowsde/s1_reference",
+      "aloha/seed2/normflowsde/select_lr": "aloha/seed2/normflowsde/s2_lr3e-4"
+     }
+    },
+    "latency": {
+     "kind": "metrics",
+     "note": "packed concurrent GPU tasks; not an isolated timing"
+    },
+    "note": ""
+   },
+   "nf_dpf": {
+    "status": "final",
+    "access": "filtering",
+    "access_label": "current-measurement filtering",
+    "setting": "Comparison-runner NF-DPF (3000 updates) then variant-B long-window fine-tune (6000 updates: horizon curriculum, weighted CRPS, ESS penalty 0.01, supervised measurement-NLL anchor on 16 windows).",
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed0/s2",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed1/s2",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/aloha/seed2/s2"
+    },
+    "selections": {
+     "0": {},
+     "1": {},
+     "2": {}
+    },
+    "latency": {
+     "kind": "metrics",
+     "note": "packed concurrent GPU tasks; not an isolated timing"
+    },
+    "note": ""
+   },
+   "nsf": {
+    "status": "final",
+    "access": "filtering",
+    "access_label": "current-measurement filtering",
+    "setting": "NSF-PF: learned-dynamics bootstrap PF (9000 updates), checkpoint and process-noise jitter selected jointly on validation from {0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2}.",
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed0/jitter",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed1/jitter",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/aloha/seed2/jitter"
+    },
+    "selections": {
+     "0": {
+      "jitter": 0.05
+     },
+     "1": {
+      "jitter": 0.05
+     },
+     "2": {
+      "jitter": 0.05
+     }
+    },
+    "latency": {
+     "kind": "metrics",
+     "note": "packed concurrent GPU tasks; not an isolated timing"
+    },
+    "note": ""
+   },
+   "flowsde": {
+    "status": "final",
+    "access": "filtering",
+    "access_label": "current-measurement filtering",
+    "setting": "FlowSDE-PF: learned-dynamics bootstrap PF (9000 updates), diffusion D from ['0.01', '0.03', '0.05'] and checkpoint/jitter from {0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2} selected jointly on validation.",
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed0/D0.05",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed1/D0.05",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/aloha/seed2/D0.05"
+    },
+    "selections": {
+     "0": {
+      "aloha/seed0/flowsde/select_D": "aloha/seed0/flowsde/D0.05"
+     },
+     "1": {
+      "aloha/seed1/flowsde/select_D": "aloha/seed1/flowsde/D0.05"
+     },
+     "2": {
+      "aloha/seed2/flowsde/select_D": "aloha/seed2/flowsde/D0.05"
+     }
+    },
+    "latency": {
+     "kind": "metrics",
+     "note": "packed concurrent GPU tasks; not an isolated timing"
+    },
+    "note": ""
+   }
+  }
+ },
+ "reassemble": {
+  "folder": "reassemble",
+  "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/reassemble",
+  "methods": {
+   "normflowsde": {
+    "status": "final",
+    "access": "filtering",
+    "access_label": "current-measurement filtering",
+    "setting": "Native amortized filter. Filtering training (7000 updates; dynamics reference vs learned noise scale + time-invariant, validation-selected) then full-horizon energy-score fine-tune with the learned noise scale (4000 updates, lr in ['1e-4', '3e-4'], validation-selected).",
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed0/normflowsde/s2_lr3e-4/attempt0",
+     "1": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed1/normflowsde/s2_lr3e-4/attempt0",
+     "2": "/home/anon/bayesinf_jax/results/results_arxiv/filter_campaign_20261020_gmm/runs/reassemble/seed2/normflowsde/s2_lr3e-4/attempt1"
+    },
+    "selections": {
+     "0": {
+      "reassemble/seed0/normflowsde/select_dynamics": "reassemble/seed0/normflowsde/s1_reference",
+      "reassemble/seed0/normflowsde/select_lr": "reassemble/seed0/normflowsde/s2_lr3e-4"
+     },
+     "1": {
+      "reassemble/seed1/normflowsde/select_dynamics": "reassemble/seed1/normflowsde/s1_reference",
+      "reassemble/seed1/normflowsde/select_lr": "reassemble/seed1/normflowsde/s2_lr3e-4"
+     },
+     "2": {
+      "reassemble/seed2/normflowsde/select_dynamics": "reassemble/seed2/normflowsde/s1_reference",
+      "reassemble/seed2/normflowsde/select_lr": "reassemble/seed2/normflowsde/s2_lr3e-4"
+     }
+    },
+    "latency": {
+     "kind": "metrics",
+     "note": "packed concurrent GPU tasks; not an isolated timing"
+    },
+    "note": ""
+   },
+   "nf_dpf": {
+    "status": "final",
+    "access": "filtering",
+    "access_label": "current-measurement filtering",
+    "setting": "Comparison-runner NF-DPF (5000 updates) then variant-B long-window fine-tune (6000 updates: horizon curriculum, weighted CRPS, ESS penalty 0.01, supervised measurement-NLL anchor on 16 windows).",
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed0/s2",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed1/s2",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nf_dpf/reassemble/seed2/s2"
+    },
+    "selections": {
+     "0": {},
+     "1": {},
+     "2": {}
+    },
+    "latency": {
+     "kind": "metrics",
+     "note": "packed concurrent GPU tasks; not an isolated timing"
+    },
+    "note": ""
+   },
+   "nsf": {
+    "status": "final",
+    "access": "filtering",
+    "access_label": "current-measurement filtering",
+    "setting": "NSF-PF: learned-dynamics bootstrap PF (11000 updates), checkpoint and process-noise jitter selected jointly on validation from {0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2}.",
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed0/jitter",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed1/jitter",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/nsf/reassemble/seed2/jitter"
+    },
+    "selections": {
+     "0": {
+      "jitter": 0.03
+     },
+     "1": {
+      "jitter": 0.03
+     },
+     "2": {
+      "jitter": 0.03
+     }
+    },
+    "latency": {
+     "kind": "metrics",
+     "note": "packed concurrent GPU tasks; not an isolated timing"
+    },
+    "note": ""
+   },
+   "flowsde": {
+    "status": "final",
+    "access": "filtering",
+    "access_label": "current-measurement filtering",
+    "setting": "FlowSDE-PF: learned-dynamics bootstrap PF (11000 updates), diffusion D from ['0.01', '0.03', '0.05'] and checkpoint/jitter from {0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2} selected jointly on validation.",
+    "seeds": {
+     "0": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed0/D0.03",
+     "1": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed1/D0.03",
+     "2": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/reassemble/seed2/D0.03"
+    },
+    "selections": {
+     "0": {
+      "reassemble/seed0/flowsde/select_D": "reassemble/seed0/flowsde/D0.03"
+     },
+     "1": {
+      "reassemble/seed1/flowsde/select_D": "reassemble/seed1/flowsde/D0.03"
+     },
+     "2": {
+      "reassemble/seed2/flowsde/select_D": "reassemble/seed2/flowsde/D0.03"
+     }
+    },
+    "latency": {
+     "kind": "metrics",
+     "note": "packed concurrent GPU tasks; not an isolated timing"
+    },
+    "note": ""
+   }
+  }
+ }
+}

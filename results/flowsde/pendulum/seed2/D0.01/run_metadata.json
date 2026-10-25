@@ -1,0 +1,53 @@
+{
+  "status": "complete",
+  "method": "flowsde",
+  "dataset": "pendulum",
+  "seed": 2,
+  "variant": "learned-dynamics bootstrap particle filter + joint (checkpoint, process-noise inflation) validation selection",
+  "inference_access": "filtering: x[k+1] uses observations through x[k+1] via a bootstrap particle filter (learned dynamics prediction, learned measurement-density update); no future observations",
+  "arguments": {
+    "method": "flowsde",
+    "dataset": "pendulum",
+    "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+    "output": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/flowsde/pendulum/seed2/D0.01",
+    "seed": 2,
+    "steps": 8400,
+    "batch_windows": 16,
+    "learning_rate": 0.0003,
+    "hidden_size": 201,
+    "hidden_depth": 2,
+    "flow_layers": 6,
+    "diffusion": 0.01,
+    "flow_substeps": 4,
+    "epr_weight": 0.0,
+    "measurement_hidden": 64,
+    "measurement_depth": 2,
+    "measurement_layers": 4,
+    "particles": null,
+    "eval_every": 400,
+    "validation_windows": 10000,
+    "eval_chunk": 8,
+    "selection_jitters": "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+    "smoke": false
+  },
+  "particles": 500,
+  "posterior_samples": 128,
+  "parameter_count": 110214,
+  "dynamics_parameters": 86642,
+  "measurement_parameters": 23572,
+  "devices": [
+    "cuda:0"
+  ],
+  "training_seconds": 522.1093193899724,
+  "best_step": 8400,
+  "best_validation_rmse": 0.08733704032096339,
+  "best_validation_coverage_90": 0.925,
+  "jitter": 0.0,
+  "test": {
+    "rmse": 0.11044630642279274,
+    "crps": 0.0563087270887922,
+    "coverage_90": 0.9178819444444445,
+    "mean_interval_width": 0.3094553464753978,
+    "latency_ms_per_trajectory": 11.300291982479393
+  }
+}
