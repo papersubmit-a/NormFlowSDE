@@ -1,0 +1,67 @@
+{
+  "status": "complete",
+  "method": "normflowsde",
+  "dataset": "lorenz96",
+  "seed": 0,
+  "variant": "learned-dynamics bootstrap particle filter + joint (checkpoint, process-noise inflation) validation selection",
+  "inference_access": "filtering: x[k+1] uses observations through x[k+1] via a bootstrap particle filter (learned dynamics prediction, learned measurement-density update); no future observations",
+  "arguments": {
+    "method": "normflowsde",
+    "dataset": "lorenz96",
+    "data_cache": "results/datasets/lorenz96",
+    "output": "results/shared_trunk_20261114/normflowsde_pf/lorenz96/seed0/learned_scale",
+    "seed": 0,
+    "steps": 18500,
+    "batch_windows": 16,
+    "learning_rate": 0.0003,
+    "hidden_size": 363,
+    "hidden_depth": 3,
+    "flow_layers": 2,
+    "diffusion_hidden_size": 64,
+    "alpha": 1.5,
+    "learned_scale": true,
+    "shared_trunk": true,
+    "diffusion": 0.01,
+    "flow_substeps": 4,
+    "epr_weight": 0.0,
+    "measurement_hidden": 64,
+    "measurement_depth": 2,
+    "measurement_layers": 4,
+    "particles": null,
+    "eval_every": 500,
+    "validation_windows": 10000,
+    "eval_chunk": 8,
+    "selection_jitters": "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+    "smoke": false
+  },
+  "particles": 1000,
+  "posterior_samples": 200,
+  "parameter_count": 364658,
+  "dynamics_parameters": 334262,
+  "measurement_parameters": 30396,
+  "devices": [
+    "cpu:0"
+  ],
+  "training_seconds": 44942.15077323839,
+  "best_step": 6500,
+  "best_validation_rmse": 0.23412894200891923,
+  "best_validation_coverage_90": 0.8919458333333333,
+  "stopped_early": {
+    "completed_updates": 6999,
+    "planned_updates": 18500,
+    "last_validation_step": 6500,
+    "reason": "cancelled on a 2-4 core CPU allocation after about 13 h (10-30x slower than on a GPU)",
+    "note": "learning-rate schedule (cosine to planned_updates) not completed; checkpoint = best validation RMSE among the validations reached",
+    "test_scored_on": [
+      "cuda:0"
+    ]
+  },
+  "jitter": 0.01,
+  "test": {
+    "rmse": 0.25646891299160113,
+    "crps": 0.13477764536112088,
+    "coverage_90": 0.8723416666666667,
+    "mean_interval_width": 0.6620116502102368,
+    "latency_ms_per_trajectory": 16.844613943248987
+  }
+}

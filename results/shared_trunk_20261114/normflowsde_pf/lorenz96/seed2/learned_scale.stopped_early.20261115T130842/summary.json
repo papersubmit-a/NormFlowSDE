@@ -1,0 +1,25 @@
+{
+  "method": "normflowsde",
+  "seed": 2,
+  "best_step": 6500,
+  "best_validation_rmse": 0.23381088356699384,
+  "best_validation_coverage_90": 0.8942,
+  "test": {
+    "rmse": 0.2426274549532322,
+    "crps": 0.12804472875490625,
+    "coverage_90": 0.8891,
+    "mean_interval_width": 0.6719204992762067,
+    "latency_ms_per_trajectory": 16.30513498093933
+  },
+  "jitter": 0.01,
+  "stopped_early": {
+    "completed_updates": 7999,
+    "planned_updates": 18500,
+    "last_validation_step": 7500,
+    "reason": "cancelled on a 2-4 core CPU allocation after about 13 h (10-30x slower than on a GPU)",
+    "note": "learning-rate schedule (cosine to planned_updates) not completed; checkpoint = best validation RMSE among the validations reached",
+    "test_scored_on": [
+      "cuda:0"
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+sigker_sde _sweep/sigmadefault_lr1e-3 --learning-rate 1e-3
+sigker_sde _sweep/sigma1.0 --sig-sigma 1.0 --learning-rate 3e-4
+sigker_sde _sweep/sigma1.0_lr1e-3 --sig-sigma 1.0 --learning-rate 1e-3
+sigker_sde _sweep/sigma0.5 --sig-sigma 0.5 --learning-rate 3e-4
+sigker_sde _sweep/sigma0.5_lr1e-3 --sig-sigma 0.5 --learning-rate 1e-3

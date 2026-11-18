@@ -1,0 +1,9 @@
+latent_nsf _sweep/beta1_residual_lr1e-3 --beta 1 --posterior-step residual --learning-rate 1e-3
+latent_nsf _sweep/beta0.1_residual_lr1e-3 --beta 0.1 --posterior-step residual --learning-rate 1e-3
+latent_nsf _sweep/beta0.01_residual_lr1e-3 --beta 0.01 --posterior-step residual --learning-rate 1e-3
+latent_nsf _sweep/beta0_residual_lr1e-3 --beta 0 --posterior-step residual --learning-rate 1e-3
+latent_sde _sweep/beta1_lr1e-3 --beta 1 --learning-rate 1e-3
+latent_sde _sweep/beta0.1_lr3e-4 --beta 0.1 --learning-rate 3e-4
+latent_sde _sweep/beta0.1_lr1e-3 --beta 0.1 --learning-rate 1e-3
+latent_sde _sweep/beta0.01_lr3e-4 --beta 0.01 --learning-rate 3e-4
+latent_sde _sweep/beta0.01_lr1e-3 --beta 0.01 --learning-rate 1e-3

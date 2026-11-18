@@ -1,0 +1,524 @@
+{
+  "schema_version": 1,
+  "dt": 0.03333333333333333,
+  "protocol": {
+    "data_path": "data/reassemble",
+    "seed": 0,
+    "horizon": 250,
+    "stride": 250,
+    "dt": 0.03333333333333333,
+    "obs_std": 0.1,
+    "val_fraction": 0.15,
+    "train_steps": 5000,
+    "batch_size": 256,
+    "learning_rate": 0.0003,
+    "hidden_size": 128,
+    "hidden_depth": 3,
+    "flow_layers": 6,
+    "num_particles": 500,
+    "eval_windows": 300,
+    "max_train_windows": 2000,
+    "max_eval_windows": 300,
+    "max_validation_windows": null,
+    "obs_noise_type": "gmm",
+    "overrides": {
+      "obs_noise_type": "gmm"
+    },
+    "matched_defaults": false,
+    "inference_access": "method-specific; see run inference_access",
+    "initial_std": 0.0,
+    "metric_coordinates": "training-episode normalized states",
+    "metric_space": "normalized",
+    "posterior_samples": 500,
+    "rmse_aggregation": "mean of per-trajectory root mean squared errors",
+    "gmm_weights": [
+      0.7,
+      0.15,
+      0.15
+    ],
+    "gmm_offsets": [
+      0.0,
+      2.5,
+      -2.5
+    ],
+    "gmm_stds": [
+      0.5,
+      1.5,
+      1.5
+    ],
+    "dataset": "reassemble",
+    "observed_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "reference": "experiments/reassemble_state_estimation/run_nsf_fm.py",
+    "historical_comparison_note": "The published three-model CSV contains calibrated smoothers; these adapters retain the causal particle-filter protocol.",
+    "adapter_initial_std": 0.01
+  },
+  "metadata": {
+    "state_mean": [
+      0.3543354272842407,
+      0.563075840473175,
+      -0.5758158564567566,
+      -1.9512925148010254,
+      0.5014879703521729,
+      2.1807749271392822,
+      0.46460726857185364
+    ],
+    "state_std": [
+      0.7431484460830688,
+      0.589789092540741,
+      0.7065134048461914,
+      0.39841729402542114,
+      0.5460377335548401,
+      0.3149200677871704,
+      0.8642179369926453
+    ],
+    "action_mean": [
+      0.5319873094558716,
+      -0.07564855366945267,
+      0.0853373259305954,
+      0.015242982655763626,
+      0.8864280581474304,
+      0.015802813693881035,
+      -0.008061273023486137,
+      0.021328307688236237,
+      0.021328307688236237
+    ],
+    "action_std": [
+      0.11494700610637665,
+      0.24667978286743164,
+      0.052379973232746124,
+      0.0510377362370491,
+      0.2857191860675812,
+      0.35837963223457336,
+      0.06560970842838287,
+      0.016197914257645607,
+      0.016197914257645607
+    ],
+    "train_episodes": [
+      14,
+      31,
+      11,
+      59,
+      12,
+      49,
+      146,
+      30,
+      25,
+      91,
+      78,
+      120,
+      90,
+      93,
+      135,
+      5,
+      34,
+      115,
+      50,
+      111,
+      68,
+      88,
+      116,
+      117,
+      102,
+      57,
+      20,
+      41,
+      3,
+      47,
+      132,
+      121,
+      58,
+      23,
+      112,
+      38,
+      142,
+      24,
+      7,
+      4,
+      2,
+      92,
+      74,
+      32,
+      130,
+      113,
+      80,
+      29,
+      98,
+      138,
+      97,
+      65,
+      1,
+      83,
+      96,
+      85,
+      60,
+      126,
+      35,
+      69,
+      67,
+      118,
+      140,
+      144,
+      53,
+      84,
+      15,
+      147,
+      43,
+      145,
+      64,
+      81,
+      19,
+      99,
+      51,
+      133,
+      42,
+      134,
+      66,
+      105,
+      103,
+      8,
+      87,
+      148,
+      95,
+      106,
+      82,
+      75,
+      40,
+      55,
+      79,
+      45,
+      107,
+      129
+    ],
+    "val_episodes": [
+      143,
+      101,
+      52,
+      6,
+      22,
+      72,
+      37,
+      17,
+      28,
+      124,
+      46,
+      123,
+      108,
+      13,
+      110,
+      125,
+      136
+    ],
+    "test_episodes": [
+      0,
+      9,
+      10,
+      16,
+      18,
+      21,
+      26,
+      27,
+      33,
+      36,
+      39,
+      44,
+      48,
+      54,
+      56,
+      61,
+      62,
+      70,
+      71,
+      73,
+      76,
+      77,
+      86,
+      89,
+      94,
+      100,
+      104,
+      109,
+      114,
+      119,
+      122,
+      127,
+      128,
+      131,
+      137,
+      139,
+      141
+    ],
+    "observed_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "observation_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "control_mean": [
+      0.5319873094558716,
+      -0.07564855366945267,
+      0.0853373259305954,
+      0.015242982655763626,
+      0.8864280581474304,
+      0.015802813693881035,
+      -0.008061273023486137,
+      0.021328307688236237,
+      0.021328307688236237
+    ],
+    "control_std": [
+      0.11494700610637665,
+      0.24667978286743164,
+      0.052379973232746124,
+      0.0510377362370491,
+      0.2857191860675812,
+      0.35837963223457336,
+      0.06560970842838287,
+      0.016197914257645607,
+      0.016197914257645607
+    ],
+    "observation_mean": [
+      0.3543354272842407,
+      0.563075840473175,
+      -0.5758158564567566,
+      -1.9512925148010254,
+      0.5014879703521729,
+      2.1807749271392822,
+      0.46460726857185364
+    ],
+    "observation_std": [
+      0.7431484460830688,
+      0.589789092540741,
+      0.7065134048461914,
+      0.39841729402542114,
+      0.5460377335548401,
+      0.3149200677871704,
+      0.8642179369926453
+    ],
+    "selected_windows": {
+      "train": 2000,
+      "val": 300,
+      "test": 300
+    },
+    "normalization": "training episodes only"
+  },
+  "raw_inputs": [
+    {
+      "path": "/home/anon/bayesinf_jax/data/reassemble/data/chunk-000/file-000.parquet",
+      "size_bytes": 46848105,
+      "sha256": "310dddd1802a032374ae16e6f7adbaefc7b7f82d05212a475e2fba6b20b3fceb"
+    },
+    {
+      "path": "/home/anon/bayesinf_jax/data/reassemble/data/chunk-000/file-001.parquet",
+      "size_bytes": 43006563,
+      "sha256": "c32a60d6565a766917c03832f4e394ebcc9fc859714424db09af1a83d27d855a"
+    },
+    {
+      "path": "/home/anon/bayesinf_jax/data/reassemble/data/chunk-000/file-002.parquet",
+      "size_bytes": 46093021,
+      "sha256": "b632fa765eb000197e9016519364069d8190f208246cbf5956a62366443d6c6b"
+    },
+    {
+      "path": "/home/anon/bayesinf_jax/data/reassemble/data/chunk-000/file-003.parquet",
+      "size_bytes": 47226445,
+      "sha256": "56fcd9d90fefe0fa661ac66a2bf4f9630aecc88d49f440e906efd42c7847873e"
+    },
+    {
+      "path": "/home/anon/bayesinf_jax/data/reassemble/data/chunk-000/file-004.parquet",
+      "size_bytes": 43548248,
+      "sha256": "618623234eb128bb0c1425c6f774230cff065da970cc0bde128aca903d86c244"
+    },
+    {
+      "path": "/home/anon/bayesinf_jax/data/reassemble/data/chunk-000/file-005.parquet",
+      "size_bytes": 46818362,
+      "sha256": "6788d9b025d450f4c86bb7fe16eca212de2bcfbabeedb696ea213f75b14a5fee"
+    },
+    {
+      "path": "/home/anon/bayesinf_jax/data/reassemble/data/chunk-000/file-006.parquet",
+      "size_bytes": 44182344,
+      "sha256": "806623b28038b64d6d0bd138a0248463611b63018e7377b2e29c8b2cd8d27e10"
+    },
+    {
+      "path": "/home/anon/bayesinf_jax/data/reassemble/data/chunk-000/file-007.parquet",
+      "size_bytes": 46564337,
+      "sha256": "713254e20782b4fa10729169098253e94b6a38d144d2758ea5e3bc434b59c3db"
+    },
+    {
+      "path": "/home/anon/bayesinf_jax/data/reassemble/data/chunk-000/file-008.parquet",
+      "size_bytes": 44282169,
+      "sha256": "fa0df00064cf6d21fe68d5f83e1d267cd21f4c8eb14d9eb568eccf25e5aeec7f"
+    },
+    {
+      "path": "/home/anon/bayesinf_jax/data/reassemble/data/chunk-000/file-009.parquet",
+      "size_bytes": 45590190,
+      "sha256": "a1c44393878f061284e7f7c5e29dfa578474bfb7e9da55d27c71908861b94e26"
+    },
+    {
+      "path": "/home/anon/bayesinf_jax/data/reassemble/meta/splits.json",
+      "size_bytes": 11333,
+      "sha256": "10dcba2228ceca89449ebfd5c3b81ca03b9e00542b1d4382b67855ae05de5a99"
+    }
+  ],
+  "splits": {
+    "train": {
+      "file": "train.npz",
+      "sha256": "7ce19fc2b971628923c7be1150f5d34c5d52f47387a74f8338239d115dc10fa2",
+      "arrays": {
+        "states": {
+          "shape": [
+            2000,
+            251,
+            7
+          ],
+          "dtype": "<f4",
+          "sha256": "54fa7628ed2e8fd3afc22e816f9bc4645ad90b06c7068d566d73b0f45eead6c5"
+        },
+        "observations": {
+          "shape": [
+            2000,
+            250,
+            7
+          ],
+          "dtype": "<f4",
+          "sha256": "a2bac61c82638e13152d66e25c4a399046b98c1e6f2d4bb4438c45069b3d399f"
+        },
+        "controls": {
+          "shape": [
+            2000,
+            250,
+            9
+          ],
+          "dtype": "<f4",
+          "sha256": "8336cdccd894e0b4888c672082e36c09b5c4c1698888ac3c3f0840aa11249059"
+        },
+        "episode_index": {
+          "shape": [
+            2000
+          ],
+          "dtype": "<i4",
+          "sha256": "78faf94a32f628de1a3506291a364657fd1bda0c1abc0c2fd63da68c3a316f46"
+        },
+        "start_frame": {
+          "shape": [
+            2000
+          ],
+          "dtype": "<i4",
+          "sha256": "e5313ed91e22089060aae0b8303a4040515bfabbe90989dba062bde41eb360a4"
+        }
+      }
+    },
+    "validation": {
+      "file": "validation.npz",
+      "sha256": "62e8bae0a6d82b46390ca44f841cb0247089596b1b03321128411c921bf8a326",
+      "arrays": {
+        "states": {
+          "shape": [
+            300,
+            251,
+            7
+          ],
+          "dtype": "<f4",
+          "sha256": "465b9536d77d214bfc7b5f06cf5c2be1eb51d21b8a0ffcec431eea2bc584ae3a"
+        },
+        "observations": {
+          "shape": [
+            300,
+            250,
+            7
+          ],
+          "dtype": "<f4",
+          "sha256": "1d5745a54a6bdb2c336835d66f8d957c4efb99d7938a8059c0fb209eafeb6059"
+        },
+        "controls": {
+          "shape": [
+            300,
+            250,
+            9
+          ],
+          "dtype": "<f4",
+          "sha256": "c59046d17c0749cd12e6c0ae58f122c3b938e6028cf67b44f88a3319f490ac17"
+        },
+        "episode_index": {
+          "shape": [
+            300
+          ],
+          "dtype": "<i4",
+          "sha256": "3845098dbf35a5d60edb6478398b7e50bfaa39a0f60a1721d06743289b0d2b20"
+        },
+        "start_frame": {
+          "shape": [
+            300
+          ],
+          "dtype": "<i4",
+          "sha256": "02caa61d189da6aea2a199d2b6499394f14db1ee32eca98eeab8f986f19ebe7e"
+        }
+      }
+    },
+    "test": {
+      "file": "test.npz",
+      "sha256": "c6b48f51d74f6e92629af5ee054377312691cfed7ee1db285c1dbc6033df75f2",
+      "arrays": {
+        "states": {
+          "shape": [
+            300,
+            251,
+            7
+          ],
+          "dtype": "<f4",
+          "sha256": "fa09a056f31e0f9e63297f236ccd1f6ebdf2d3f3482f6e6f134dd98134a26ea6"
+        },
+        "observations": {
+          "shape": [
+            300,
+            250,
+            7
+          ],
+          "dtype": "<f4",
+          "sha256": "76aa8f02dee543e8bd546f026a53d7ce8d3213775e268ed437e7c8bf59a4b974"
+        },
+        "controls": {
+          "shape": [
+            300,
+            250,
+            9
+          ],
+          "dtype": "<f4",
+          "sha256": "2281f5d052e7f2e5ce3917241888908b8e0249fcee32038054d4e444d59007b4"
+        },
+        "episode_index": {
+          "shape": [
+            300
+          ],
+          "dtype": "<i4",
+          "sha256": "e1a132f22bfdb0ee268c48641a7517035251f19f0a95ac1e50fce49d88c2c361"
+        },
+        "start_frame": {
+          "shape": [
+            300
+          ],
+          "dtype": "<i4",
+          "sha256": "c4b4339984dbbfaa2ff15d41bc0e914eed00622b02def6b65a3377f1c595f1c4"
+        }
+      }
+    }
+  },
+  "payload_sha256": "37e812e8b2f60da0545a678dd5614b262d791ada369c9f96b4900ab6f58d8bc9"
+}

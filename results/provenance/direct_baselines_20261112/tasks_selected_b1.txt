@@ -1,0 +1,20 @@
+latent_nsf pendulum 1 _sweep/beta1_residual_lr1e-3 --beta 1 --posterior-step residual --learning-rate 1e-3
+latent_nsf pendulum 2 _sweep/beta1_residual_lr1e-3 --beta 1 --posterior-step residual --learning-rate 1e-3
+latent_nsf lorenz96 1 _sweep/beta0_residual_lr1e-3 --beta 0 --posterior-step residual --learning-rate 1e-3
+latent_nsf lorenz96 2 _sweep/beta0_residual_lr1e-3 --beta 0 --posterior-step residual --learning-rate 1e-3
+latent_nsf aloha 1 _sweep/beta0_residual --beta 0 --posterior-step residual --learning-rate 3e-4
+latent_nsf aloha 2 _sweep/beta0_residual --beta 0 --posterior-step residual --learning-rate 3e-4
+latent_nsf reassemble 1 _sweep/beta1_residual_lr1e-3 --beta 1 --posterior-step residual --learning-rate 1e-3
+latent_nsf reassemble 2 _sweep/beta1_residual_lr1e-3 --beta 1 --posterior-step residual --learning-rate 1e-3
+latent_sde pendulum 1 _sweep/beta0.1_lr1e-3 --beta 0.1 --learning-rate 1e-3
+latent_sde pendulum 2 _sweep/beta0.1_lr1e-3 --beta 0.1 --learning-rate 1e-3
+latent_sde lorenz96 1 _sweep/beta0.01_lr1e-3 --beta 0.01 --learning-rate 1e-3
+latent_sde lorenz96 2 _sweep/beta0.01_lr1e-3 --beta 0.01 --learning-rate 1e-3
+latent_sde aloha 1 _sweep/beta0.01_lr1e-3 --beta 0.01 --learning-rate 1e-3
+latent_sde aloha 2 _sweep/beta0.01_lr1e-3 --beta 0.01 --learning-rate 1e-3
+latent_sde reassemble 1 _sweep/beta0.01_lr1e-3 --beta 0.01 --learning-rate 1e-3
+latent_sde reassemble 2 _sweep/beta0.01_lr1e-3 --beta 0.01 --learning-rate 1e-3
+sigker_sde pendulum 1 _sweep/sigma0.5_lr1e-3 --sig-sigma 0.5 --learning-rate 1e-3
+sigker_sde pendulum 2 _sweep/sigma0.5_lr1e-3 --sig-sigma 0.5 --learning-rate 1e-3
+sigker_sde lorenz96 1 _sweep/sigmadefault_lr1e-3 --learning-rate 1e-3
+sigker_sde lorenz96 2 _sweep/sigmadefault_lr1e-3 --learning-rate 1e-3

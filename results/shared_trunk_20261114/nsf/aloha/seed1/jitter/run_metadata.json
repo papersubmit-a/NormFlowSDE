@@ -1,0 +1,110 @@
+{
+  "status": "complete",
+  "method": "nsf",
+  "dataset": "aloha",
+  "seed": 1,
+  "variant": "learned-dynamics bootstrap particle filter + joint (checkpoint, process-noise inflation) validation selection + validation-selected process-noise inflation",
+  "inference_access": "filtering: x[k+1] uses observations through x[k+1] via a bootstrap particle filter (learned dynamics prediction, learned measurement-density update); no future observations",
+  "arguments": {
+    "method": "nsf",
+    "dataset": "aloha",
+    "data_cache": "results/datasets/aloha",
+    "output": "results/shared_trunk_20261114/nsf/aloha/seed1/train",
+    "seed": 1,
+    "steps": 9000,
+    "batch_windows": 16,
+    "learning_rate": 0.0003,
+    "hidden_size": 107,
+    "hidden_depth": 3,
+    "flow_layers": 2,
+    "diffusion_hidden_size": null,
+    "alpha": 1.0,
+    "learned_scale": false,
+    "shared_trunk": false,
+    "diffusion": 0.01,
+    "flow_substeps": 4,
+    "epr_weight": 0.0,
+    "measurement_hidden": 64,
+    "measurement_depth": 2,
+    "measurement_layers": 4,
+    "particles": null,
+    "eval_every": 250,
+    "validation_windows": 10000,
+    "eval_chunk": 8,
+    "selection_jitters": "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+    "smoke": false
+  },
+  "particles": 200,
+  "posterior_samples": 200,
+  "parameter_count": 129639,
+  "dynamics_parameters": 91355,
+  "measurement_parameters": 38284,
+  "devices": [
+    "cpu:0"
+  ],
+  "training_seconds": 10782.248137887567,
+  "best_step": 7750,
+  "best_validation_rmse": 0.08476056903600693,
+  "best_validation_coverage_90": 0.8196342857142858,
+  "jitter": 0.05,
+  "test": {
+    "rmse": 0.08292953202166732,
+    "crps": 0.04839724430228949,
+    "coverage_90": 0.8305828571428572,
+    "mean_interval_width": 0.23211829330069808,
+    "latency_ms_per_trajectory": 543.2959347963333
+  },
+  "jitter_selection": [
+    {
+      "jitter": 0.0,
+      "rmse": 0.6975147724151611,
+      "coverage_90": 0.09644
+    },
+    {
+      "jitter": 0.005,
+      "rmse": 0.5797998309135437,
+      "coverage_90": 0.12263428571428571
+    },
+    {
+      "jitter": 0.01,
+      "rmse": 0.3944677710533142,
+      "coverage_90": 0.18733714285714287
+    },
+    {
+      "jitter": 0.02,
+      "rmse": 0.17283371090888977,
+      "coverage_90": 0.41840571428571427
+    },
+    {
+      "jitter": 0.03,
+      "rmse": 0.105621837079525,
+      "coverage_90": 0.6404914285714286
+    },
+    {
+      "jitter": 0.05,
+      "rmse": 0.08476056903600693,
+      "coverage_90": 0.8196342857142858
+    },
+    {
+      "jitter": 0.075,
+      "rmse": 0.09207078069448471,
+      "coverage_90": 0.8418914285714286
+    },
+    {
+      "jitter": 0.1,
+      "rmse": 0.10342460870742798,
+      "coverage_90": 0.8188857142857143
+    },
+    {
+      "jitter": 0.15,
+      "rmse": 0.12879614531993866,
+      "coverage_90": 0.7424057142857143
+    },
+    {
+      "jitter": 0.2,
+      "rmse": 0.15385806560516357,
+      "coverage_90": 0.6343942857142857
+    }
+  ],
+  "source_run": "results/shared_trunk_20261114/nsf/aloha/seed1/train"
+}

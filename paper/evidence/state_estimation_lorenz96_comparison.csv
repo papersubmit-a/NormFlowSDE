@@ -1,0 +1,11 @@
+method,noise_type,configuration,eval_trajectories,metric_particles,internal_sigma_points,rmse_all,rmse_obs,rmse_unobs,mae_all,coverage_90,mciw_all,mciw_obs,mciw_unobs,calibration_kl,timing_particles,horizon_timing,latency_ms_per_trajectory,trajectories_per_second
+ekf,gaussian,process_std=0.05,200,analytic,,0.133980,0.130817,0.136480,0.098471,0.983304,0.645314,0.562587,0.728041,,100,100,3.081,324.57
+ukf,gaussian,process_std=0.05,200,analytic,25,0.134154,0.130488,0.137173,0.098200,0.985629,0.659720,0.580874,0.738567,,100,100,3.243,308.36
+amortized_state_flow_realnvp,gaussian,seg_len=5,50,50,,0.103469,0.105952,0.100925,,0.913150,0.340748,,,0.010808,100,100,22.110,45.23
+amortized_state_flow_fm,gaussian,seg_len=5,50,50,,0.114403,0.119973,0.108547,,0.950800,0.445017,,,0.074133,100,100,143.028,6.99
+particle_filter_student_t,student_t_df5,num_particles=1000,200,1000,,0.241431,0.220512,0.259129,0.168371,0.827363,0.561465,0.518154,0.604776,,100,100,15.626,64.00
+latent_ssm_flow_realnvp,student_t_df5,seg_len=50_full_horizon,50,50,,1.111260,1.091988,1.130204,,0.737500,1.435314,,,0.203569,100,100,82.932,12.06
+particle_filter_gmm,gmm3,num_particles=1000,200,1000,,0.196491,0.172477,0.216999,0.137051,0.844867,0.462841,0.410653,0.515028,,100,100,15.636,63.96
+normalizing_flow_sde_realnvp,gmm3,heun_continuous_obs_stride1,100,200,,0.423800,0.391000,0.463600,0.314100,0.977000,1.939600,1.619100,2.260200,,100,101,49.938,20.02
+conditional_stochastic_interpolant,gmm3,source=inferred_sigma0=1_g0=0.5_seg_len=10_steps=10,100,200,,0.545851,0.336987,0.710612,0.393372,0.962508,2.931781,3.295825,2.567738,,100,101,8126.576,0.123
+,,,,,,,,,,,,,,,,,30.430 (GPU),

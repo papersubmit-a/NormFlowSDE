@@ -1,0 +1,15 @@
+{
+  "method": "flowsde",
+  "seed": 2,
+  "best_step": 11000,
+  "best_validation_rmse": 0.05544275790452957,
+  "best_validation_coverage_90": 0.9549085714285714,
+  "test": {
+    "rmse": 0.053396892345901274,
+    "crps": 0.030296207454135894,
+    "coverage_90": 0.9596571428571429,
+    "mean_interval_width": 0.22379507480286737,
+    "latency_ms_per_trajectory": 86.86542697250843
+  },
+  "jitter": 0.0
+}

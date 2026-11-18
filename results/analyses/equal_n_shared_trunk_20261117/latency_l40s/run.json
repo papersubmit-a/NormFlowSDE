@@ -1,0 +1,30 @@
+{
+  "finished_at": "2026-11-18T09:41:01.116618+00:00",
+  "sources": "results/analyses/equal_n_shared_trunk_20261117/sources.json",
+  "device": "cuda:0",
+  "arguments": {
+    "sources": "results/analyses/equal_n_shared_trunk_20261117/sources.json",
+    "output": "results/analyses/equal_n_shared_trunk_20261117/latency_l40s",
+    "datasets": null,
+    "methods": [
+      "normflowsde",
+      "latent_nsf",
+      "latent_sde",
+      "sigker_sde",
+      "nf_dpf",
+      "nsf",
+      "flowsde",
+      "normflowsde_pf"
+    ],
+    "counts": [
+      2000
+    ],
+    "seeds": [
+      0
+    ],
+    "repeats": 30,
+    "chunk": 4,
+    "windows": null,
+    "solver": null
+  }
+}

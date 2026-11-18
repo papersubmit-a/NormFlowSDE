@@ -1,0 +1,120 @@
+\providecommand{\tbd}{\textbf{[TBD]}}
+\providecommand{\figplaceholder}[1]{\fbox{\parbox[c][0.28\linewidth][c]{0.96\linewidth}{\centering\small Figure placeholder: #1}}}
+
+\section{Empirical evaluation}\label{sec:experiments}
+We evaluate NormFlowSDE as a causal amortized Bayesian filter on two simulated systems and two robot datasets against seven learned estimators trained on the same data. Following Section~\ref{sec:related}, the eight methods form two groups of four: direct estimators, which sample the state trajectory conditioned on encoded measurements, and particle filters, which weight their particles with a learned measurement likelihood. One of the particle filters uses NormFlowSDE's own transition and separates the transition model from the direct update (Section~\ref{sec:experiments-methods}). All four datasets are observed through the same heavy-tailed, multimodal measurement noise, so that the comparison also tests how each method copes with a non-Gaussian likelihood. We evaluate the accuracy of the filtering distributions, the calibration of their uncertainty intervals, and the inference cost. All methods have the same information access, use the same data splits and update budgets (with one exception for NormFlowSDE on REASSEMBLE, stated in Section~\ref{sec:experiments-results}), and are scored with the same metrics. Every number in this section is produced from the frozen run directories by the scripts listed in Appendix~\ref{app:reproducibility}.
+
+\subsection{Datasets}\label{sec:experiments-data}
+Table~\ref{tab:datasets} summarizes the four datasets. Each sequence consists of a known initial state, a control sequence, and noisy observations of the subsequent states. The reference states are the states before the synthetic observation noise of Equation~\eqref{eq:obsnoise} is added. They supervise training and are used for scoring. However, no method sees them at test time, where only the initial state, the controls, and the noisy observations are available. In real-world applications, these labels come from simulation or from a more accurate reference sensor available during data collection. Every dataset is split by trajectory or episode before windowing, and normalization statistics are computed on the training split only.
+
+\paragraph{Observation noise.}
+Each observed coordinate is corrupted independently by the same three-component Gaussian mixture,
+\begin{equation}\label{eq:obsnoise}
+ V\sim 0.70\,\N\,\big(0,(0.5\sigma)^2\big)+0.15\,\N\,\big(2.5\sigma,(1.5\sigma)^2\big)+0.15\,\N\,\big(-2.5\sigma,(1.5\sigma)^2\big),
+\end{equation}
+whose scale $\sigma$ is 0.1 for the pendulum (in rad and rad/s), 0.5 for Lorenz--96, and 0.1 in normalized units for the two robot datasets. The mixture has standard deviation $1.65\,\sigma$. We compare a reconstructed noise density $q$ with the mixture density $p$ by the overlap coefficient
+\begin{equation}\label{eq:overlap}
+ \mathrm{OVL}(p,q)=\int\min\{p(v),q(v)\}\,dv=1-\TV(p,q),
+\end{equation}
+which equals one for identical densities and zero for densities with disjoint support. The Gaussian with the same mean and variance as the mixture has an overlap of 0.668 with it, which serves as a reference value for a Gaussian noise model.
+
+\begin{table}[t]
+\centering\footnotesize
+\begin{tabular}{lllll}
+\toprule
+ & Pendulum & Lorenz--96 & ALOHA insertion & REASSEMBLE \\
+\midrule
+Source & simulated & simulated & sim.\ demonstrations & real robot \\
+State dimension $d$ & 2 & 12 & 14 & 7 \\
+Observed coordinates & 2 & 6 & 14 & 7 \\
+Control dimension & 1 & -- & 14 & 9 \\
+Observation noise & mixture, $\sigma=0.1$ & mixture, $\sigma=0.5$ & mixture, $\sigma=0.1$ & mixture, $\sigma=0.1$ \\
+Time step $\Delta t$ & 0.05 & 0.02 & 0.02 & 1/30 \\
+Window length (steps) & 60 & 100 & 250 & 250 \\
+Train / val.\ / test windows & 224 / 48 / 48 & 1600 / 200 / 100 & 400 / 50 / 50 & 2000 / 300 / 300 \\
+Samples / particles $M$ & 128 & 200 & 200 & 500 \\
+Metric units & physical & physical & normalized & normalized \\
+\bottomrule
+\end{tabular}
+\caption{Datasets. The observation noise is the mixture of Equation~\eqref{eq:obsnoise} with the stated scale $\sigma$. The label ``sim.\ demonstrations'' refers to human teleoperation recorded in simulation. $M$ is the number of posterior draws scored per window (Appendix~\ref{app:protocol}).}
+\label{tab:datasets}
+\end{table}
+
+\paragraph{Controlled pendulum.}
+The first system is a damped pendulum driven by a scalar torque $u$. It is simulated as the It\^o SDE
+\begin{equation}\label{eq:pendulum}
+ d\theta=\omega\,dt+\sigma_\theta\,dW_\theta,\qquad
+ d\omega=\Big(\frac{u}{m\ell^{2}}-c\,\omega-\frac{g}{\ell}\sin\theta\Big)dt+\sigma_\omega\,dW_\omega,
+\end{equation}
+with $g=9.81$, $\ell=m=1$, damping $c=0.2$, and process-noise scales $\sigma_\theta=0.01$ and $\sigma_\omega=0.2$. The SDE is integrated by Euler--Maruyama with eight substeps per observation interval $\Delta t=0.05$. The initial state is known to every filter and is drawn as $\theta_0\sim\U(-\pi,\pi)$, $\omega_0\sim\N(0,0.6^{2})$. Both coordinates are observed. 
+
+\paragraph{Lorenz--96.}
+The second system is the twelve-dimensional Lorenz--96 model,
+\begin{equation}\label{eq:lorenz96}
+ \frac{dx_i}{dt}=(x_{i+1}-x_{i-2})x_{i-1}-x_i+F,
+ \qquad i=0,\ldots,11,\qquad F=8,
+\end{equation}
+with cyclic indices. It is integrated with a fourth-order Runge--Kutta scheme at $\Delta t=0.02$. Each window is an independent trajectory. Its initial state is drawn as $x(0)\sim\N(0,\,0.01^{2}I)$ and integrated for a spin-up of 500 steps so that it lies on the attractor. The state at the end of the spin-up is the known initial state $x_0$ of the window. Only every second coordinate is observed, so six coordinates must be inferred from the dynamics alone. 
+
+\paragraph{ALOHA insertion.}
+The third dataset consists of bimanual peg-insertion demonstrations from the ALOHA simulation benchmark, recorded by human teleoperation at 50\,Hz \citep{zhao2023aloha}. Each frame stores two different 14-dimensional joint vectors, which we keep apart. The \emph{commanded} joint positions are the leader-arm targets sent to the position controllers of the follower arms, and they serve as the control input. The \emph{measured} joint positions of the follower arms define the state. The two differ by the tracking error of the controllers, which is largest during contact. The recorded states are deterministic given the commands, so we perturb them by a slowly varying latent disturbance before normalization. This disturbance is a four-dimensional AR(1) velocity offset whose magnitude grows with the tracking error and is therefore largest during contact. The exact recipe is given in Appendix~\ref{app:reproducibility}. The perturbed trajectory is the reference state, and it is observed through the noise of Equation~\eqref{eq:obsnoise} with $\sigma=0.1$ in normalized units. 
+
+\paragraph{REASSEMBLE.}
+The fourth dataset consists of contact-rich assembly and disassembly episodes recorded on a real seven-degree-of-freedom robot arm at 30\,Hz \citep{sliwowski2025reassemble}. The state consists of the seven joint positions, all of which are observed. The nine-dimensional robot commands serve as controls. Unlike the other datasets, the dynamics are those of a physical system interacting with its environment, and no model of them is available.
+
+\subsection{Compared Methods}\label{sec:experiments-methods}
+All eight methods are causal: they start from the known initial state, and no estimate uses a measurement taken after its own time. The particle filters weight the prediction of $x_{k+1}$ with $y_{k+1}$. In contrast, the direct estimators produce $x_{k+1}$ from $x_k$ and the window feature $c_k$ of Equation~\eqref{eq:sequence-conditioning}, which ends at $y_k$. The \emph{direct estimators} are NormFlowSDE, latent NSF, latent SDE, and SigKer SDE. The three baselines use the encoder of NormFlowSDE (the same window of ten measurements and the same width) and have the parameter count of NormFlowSDE. Because our data pair states with measurements, their latent state is identified with the physical state and supervised by the reference states (Appendix~\ref{app:direct-baselines}). The \emph{particle filters} (Section~\ref{sec:related-pf}) obtain their uncertainty through Bayesian weighting with learned transition and measurement models. NF-DPF, NSF-PF, FlowSDE-PF, and NormFlowSDE-PF are bootstrap filters that share the learned measurement flow and differ only in the transition. NormFlowSDE-PF uses the transition of Equation~\eqref{eq:normflowsde-overview}, conditioned on the control and the time but not on observations, with the particle counts and the training and selection recipe of NSF-PF (Appendix~\ref{app:normflowsde-pf}). It separates the transition model of NormFlowSDE from the way it is used. For the two simulated systems, pendulum and Lorenz--96, we also report model-based reference filters that use the true dynamics and the true noise scale: an extended Kalman filter (EKF) and an unscented Kalman filter (UKF) with the moment-matched Gaussian likelihood, and a bootstrap particle filter with the exact mixture likelihood. These references indicate the accuracy attainable with perfect models and are not competitors.
+
+\subsection{Benchmark Results}\label{sec:experiments-results}
+Tables~\ref{tab:results-sim} and~\ref{tab:results-robot} compare the eight methods on the simulated systems and the robot datasets. Each configuration is trained with three independent seeds, and we report the mean and standard deviation over seeds. Accuracy is measured by the RMSE of the posterior mean, averaged over test windows. Distributional accuracy is measured by the continuous ranked probability score (CRPS) and the energy score \citep{gneiting2007proper}, averaged over coordinates. Calibration is measured by the empirical coverage of central 90\% marginal intervals, pooled over windows, steps and coordinates, which is read together with their mean width. Inference cost is the median wall-clock time to filter one test window on a single GPU, measured for every method on the same device. 
+
+\begin{table}[htbp]
+\centering\footnotesize
+\resizebox{\linewidth}{!}{%
+\input{tables/benchmark_sim}
+}
+\caption{Test results on the simulated systems for the four direct estimators and the four particle filters (PF). Entries are the mean $\pm$ standard deviation over three training seeds. Each method returns $M$ posterior draws per window as in Table~\ref{tab:datasets}, and the particle filters run with the particle count of the dataset protocol. Bold marks the best learned method per dataset, which for coverage is the one closest to the nominal level of 0.90. RMSE and width are in the metric units of Table~\ref{tab:datasets}. Latency is the median time in milliseconds to filter one test window, measured for seed 0 on one NVIDIA L40S with compilation excluded (Appendix~\ref{app:protocol}), and bold marks the fastest learned method. The rows labeled ``ref.'' are model-based reference filters with the true dynamics, which are not competitors.}
+\label{tab:results-sim}
+\end{table}
+
+\paragraph{Simulated systems.}
+On the pendulum and Lorenz--96, the most accurate learned method is a particle filter. NSF-PF reaches the lowest RMSE and CRPS on both systems. On the pendulum, NormFlowSDE is the second most accurate method (0.074 against 0.065) and more accurate than the other three particle filters. On Lorenz--96, NSF-PF (0.156) and NormFlowSDE-PF (0.197) are clearly ahead, and NormFlowSDE (0.273) is as accurate as NF-DPF (0.272) and more accurate than FlowSDE-PF. NormFlowSDE is the most accurate direct estimator on both systems. Both systems have smooth, low-dimensional dynamics that a one-step transition model can learn accurately from clean state pairs. Once these models are accurate, Bayesian weighting is close to optimal. The reference filters put the numbers in perspective. On the pendulum, the exact-likelihood particle filter with the true model reaches 0.041. However, the Gaussian filters, including EKF and UKF, which are with the true dynamics but the moment-matched likelihood,  reach only 0.058. About 70\% of the gap between the best learned filter and the exact-likelihood reference is therefore caused by the noise model alone. On Lorenz--96 the reference particle filter reaches 0.019, an order of magnitude below every learned method. This is due to the exact chaotic dynamics whereas the other learned state estimators have only 6 out of 12 observable states. 
+
+Judged by coverage and interval width together, NormFlowSDE is the only direct estimator whose 90\% intervals are both calibrated and informative on the two systems: its coverage is within 0.02 of the nominal level (0.920 and 0.910). FlowSDE-PF is closer to nominal (0.906 and 0.899), but its intervals are 53\% and 7\% wider than those of NormFlowSDE and its RMSE is higher, so it is calibrated but not sharp. The same holds for latent NSF, whose near-nominal coverage (0.889 and 0.875) rests on intervals 1.4 and 2.5 times as wide as those of NormFlowSDE. Conversely, narrow intervals do not guarantee coverage: NSF-PF, the most accurate method, under-covers on the pendulum (0.858), and NormFlowSDE-PF under-covers on both systems (0.875 and 0.876).
+
+\begin{table}[htbp]
+\centering\footnotesize
+\resizebox{\linewidth}{!}{%
+\input{tables/benchmark_robot}
+}
+\caption{Test results on the robot datasets, in the format of Table~\ref{tab:results-sim}.}
+\label{tab:results-robot}
+\end{table}
+
+\paragraph{Robot datasets.}
+On ALOHA and REASSEMBLE the direct route is the more accurate one. On both datasets every direct estimator is more accurate than the corresponding particle filter. The RMSE of NormFlowSDE is 26\% lower than that of the best particle filter, FlowSDE-PF, on ALOHA and 39\% lower on REASSEMBLE. Here the transition dynamics are high-dimensional, and for REASSEMBLE they are those of a physical, contact-rich system. The particle filters rely on a learned one-step transition model and a learned measurement density, and errors in either directly affect their weights. NF-DPF in particular loses accuracy and coverage on ALOHA. The direct estimators instead learn the observation-conditioned update and use every observed coordinate without an explicit likelihood. Within the direct group, NormFlowSDE attains the lowest RMSE and CRPS on both datasets, with an RMSE 6\% and 5\% below that of latent NSF. NormFlowSDE, latent NSF, and the latent SDE all cover within 0.025 of the nominal level on both datasets (0.88 to 0.92), which no particle filter achieves. NormFlowSDE is the closest of the three on ALOHA (0.91), and latent NSF is slightly closer on REASSEMBLE (0.89 against 0.91). Among these three, latent NSF has the narrowest intervals on both datasets. The signature-kernel SDE is strongly under-dispersed.
+
+\paragraph{Calibration.}
+Figure~\ref{fig:calibration} shows the empirical coverage of central intervals at nominal levels from 10\% to 95\% for all eight learned methods, with the direct estimators in the top row and the particle filters in the bottom row. The intervals of NormFlowSDE are close to nominal at the high levels on all four datasets (within 0.02 at the 90\% level and within 0.005 at the 95\% level). At the central levels they are slightly too wide: its coverage at the 50\% level is 0.54 to 0.58. Among the direct baselines, latent NSF lies closest to the diagonal on every dataset (within 0.025 at every level). The latent SDE is calibrated on ALOHA, over-dispersed on the pendulum and REASSEMBLE, and under-dispersed on Lorenz--96. The signature-kernel SDE is strongly under-dispersed on every dataset. 
+
+The particle filters are miscalibrated in both directions depending on the dataset. NF-DPF is over-dispersed at the central levels on the pendulum and strongly under-dispersed on ALOHA. FlowSDE-PF is nominal at the 90\% level on both simulated systems but over-dispersed at the central levels on the pendulum (0.64 at the 50\% level), it is over-dispersed at every level on REASSEMBLE, and it is the best calibrated particle filter on ALOHA (within 0.035 at every level). NSF-PF is under-dispersed on the pendulum and ALOHA and over-dispersed at the central levels on Lorenz--96 and REASSEMBLE. NormFlowSDE-PF is under-dispersed at the high levels on the pendulum and ALOHA and over-dispersed on REASSEMBLE. Among the methods whose 90\% coverage lies within 0.025 of the nominal level on the robot datasets, latent NSF has the narrowest intervals, closely followed by NormFlowSDE. The signature-kernel SDE has even narrower intervals on both datasets, but they come with under-coverage. The reference filters are over-dispersed on Lorenz--96, so even the true model does not yield calibrated intervals on the chaotic system.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/calibration.pdf}
+\caption{Calibration of central marginal intervals at nominal levels from 10\% to 95\%, pooled over test windows, steps, and coordinates. The curves show the mean over three seeds, and the shaded bands show the range over seeds. The top row shows the direct estimators. The bottom row shows the particle filters, including the pendulum ablation of NormFlowSDE-PF without the learned scale. On REASSEMBLE, the curves of NSF-PF and NormFlowSDE-PF coincide. The diagonal indicates perfect calibration. The gray curves are the reference filters with the true model on the simulated systems.}
+\label{fig:calibration}
+\end{figure}
+
+\paragraph{Shape of the observation noise.}
+Figure~\ref{fig:noise-recovery} shows how well each method recovers the mixture noise of Equation~\eqref{eq:obsnoise} on REASSEMBLE. For every method, it compares the distribution of the implied residuals $y-\E[x\mid y]$, that is, the measurements minus the posterior mean, with the true mixture. The implied residuals of the direct estimators keep the spread of the data (standard deviation 0.163 to 0.172 against 0.165) and follow the shape of the mixture. NormFlowSDE has the largest overlap to the ground truth. In contrast, the implied residuals of the particle filters overlap less with the mixture (0.88 to 0.91) and are 6\% to 11\% narrower than the data, because their posterior means partly follow the noisy measurements. The learned measurement flows $q(y\mid x)$ of the particle filters, drawn in blue in panels (a) to (d), explain this difference. All four coincide with the moment-matched Gaussian, and their overlap with the mixture is 0.67, which is the analytic value for that Gaussian. Maximum-likelihood training thus matches the variance of the noise but not its sharp central component or its side modes. The particles are therefore weighted with a Gaussian likelihood, which is the same deficit that limits the EKF and UKF on the pendulum.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/measurement_density_reassemble_grid.pdf}
+\caption{Observation noise on REASSEMBLE as represented by the four particle filters (top, a--d) and the four direct estimators (bottom, e--h), shown for seed 0 in normalized units. Gray: histogram of the data residuals $y-x$; black: the mixture of Equation~\eqref{eq:obsnoise}; orange, dashed: the implied residuals $y-\E[x\mid y]$ of each method's posterior mean on all test windows; blue (particle filters only): the learned observation model $q(y\mid x)$ as a density of the residual $y-x$, averaged over test states, with the 10\% to 90\% range over states, which is barely wider than the line. The numbers in each panel are overlap coefficients of Equation~\eqref{eq:overlap} with the mixture, where one means identical densities: in orange for a kernel density estimate of the implied residuals, and in blue for the observation model.}
+\label{fig:noise-recovery}
+\end{figure}
+
+\paragraph{Latency.}
+A direct estimator requires one network evaluation per time step, without weighting or resampling. A particle filter additionally evaluates the measurement density for every particle at every step and resamples when the effective sample size drops. The latency columns of Tables~\ref{tab:results-sim} and~\ref{tab:results-robot} report the median time to filter one test window in the configuration of each row. All eight learned methods and the reference filters were timed on the same GPU. Every direct estimator is faster than every particle filter on every dataset. NormFlowSDE is faster than the fastest particle filter by a factor of 3.9 to 4.2. The cost advantage is a property of the direct route rather than of NormFlowSDE alone. The direct baselines also need one encoder and update evaluation per step and no likelihood evaluation, and their cost is similar. Latent NSF is the fastest method on every dataset. It is faster than NormFlowSDE by a factor of 1.2 on the pendulum and 1.6 to 1.7 on the other datasets (1.7 to 6.4\,ms against 2.0 to 10.3\,ms), because Latent NSF samples from a Gaussian posterior whereas NormFlowSDE update passes through a conditional coupling flow during inference. NormFlowSDE is within 0.02\,ms of the latent SDE and the signature-kernel SDE on the pendulum and 0.5 to 1.1\,ms slower than them on the other three datasets.

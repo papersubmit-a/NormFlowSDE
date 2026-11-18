@@ -1,0 +1,4 @@
+sigker_sde aloha 1 _sweep/sigmadefault_lr1e-3 --learning-rate 1e-3
+sigker_sde aloha 2 _sweep/sigmadefault_lr1e-3 --learning-rate 1e-3
+sigker_sde reassemble 1 _sweep/sigma1.0_lr1e-3 --sig-sigma 1.0 --learning-rate 1e-3
+sigker_sde reassemble 2 _sweep/sigma1.0_lr1e-3 --sig-sigma 1.0 --learning-rate 1e-3

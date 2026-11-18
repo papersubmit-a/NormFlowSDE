@@ -1,0 +1,34 @@
+{
+  "dataset": "pendulum",
+  "filter": "pf",
+  "misspecification": 0.1,
+  "seed": 0,
+  "noise": 2.0,
+  "selection": [
+    {
+      "noise": 1.0,
+      "rmse": 0.0685149420859797
+    },
+    {
+      "noise": 2.0,
+      "rmse": 0.05572843056860947
+    },
+    {
+      "noise": 4.0,
+      "rmse": 0.056478292130159334
+    },
+    {
+      "noise": 8.0,
+      "rmse": 0.06559038837521282
+    }
+  ],
+  "particles": 500,
+  "draws": 128,
+  "seconds": 31.901350747793913,
+  "test": {
+    "rmse": 0.058000751377620056,
+    "crps": 0.026173129983307467,
+    "coverage_90": 0.8651041666666667,
+    "mean_interval_width": 0.13840829622992487
+  }
+}

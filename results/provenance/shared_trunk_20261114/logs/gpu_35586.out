@@ -1,0 +1,11 @@
+NVIDIA A30, 24576 MiB
+2026-11-14T21:50:11+01:00 group normflowsde pendulum seeds 0
+2026-11-14T21:50:23+01:00 a task of normflowsde:pendulum failed
+2026-11-14T21:50:23+01:00 group normflowsde lorenz96 seeds 0
+2026-11-14T21:50:29+01:00 a task of normflowsde:lorenz96 failed
+2026-11-14T21:50:29+01:00 group nf_dpf pendulum seeds 0
+2026-11-14T21:52:46+01:00 group normflowsde aloha seeds 0
+2026-11-14T21:52:53+01:00 a task of normflowsde:aloha failed
+2026-11-14T21:52:53+01:00 group normflowsde reassemble seeds 0
+2026-11-14T21:52:59+01:00 a task of normflowsde:reassemble failed
+2026-11-14T21:52:59+01:00 gpu job done failed=1

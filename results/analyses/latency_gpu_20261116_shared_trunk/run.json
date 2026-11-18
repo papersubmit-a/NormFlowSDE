@@ -1,0 +1,28 @@
+{
+  "finished_at": "2026-11-16T09:51:41.577456+00:00",
+  "sources": "results/analyses/latency_gpu_20261116_shared_trunk/sources.json",
+  "device": "cuda:0",
+  "arguments": {
+    "sources": "results/analyses/latency_gpu_20261116_shared_trunk/sources.json",
+    "output": "results/analyses/latency_gpu_20261116_shared_trunk",
+    "datasets": [
+      "reassemble"
+    ],
+    "methods": [
+      "nf_dpf",
+      "nsf",
+      "flowsde",
+      "normflowsde_pf"
+    ],
+    "counts": [
+      500
+    ],
+    "seeds": [
+      0
+    ],
+    "repeats": 30,
+    "chunk": 8,
+    "windows": null,
+    "solver": null
+  }
+}

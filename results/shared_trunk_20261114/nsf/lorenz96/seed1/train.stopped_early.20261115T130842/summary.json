@@ -1,0 +1,25 @@
+{
+  "method": "nsf",
+  "seed": 1,
+  "best_step": 14000,
+  "best_validation_rmse": 0.15415335001626007,
+  "best_validation_coverage_90": 0.9191166666666667,
+  "test": {
+    "rmse": 0.1606792348905761,
+    "crps": 0.08158609567423494,
+    "coverage_90": 0.9096166666666666,
+    "mean_interval_width": 0.46900554621534424,
+    "latency_ms_per_trajectory": 16.11285505350679
+  },
+  "jitter": 0.005,
+  "stopped_early": {
+    "completed_updates": 14499,
+    "planned_updates": 18500,
+    "last_validation_step": 14000,
+    "reason": "cancelled on a 2-4 core CPU allocation after about 13 h (10-30x slower than on a GPU)",
+    "note": "learning-rate schedule (cosine to planned_updates) not completed; checkpoint = best validation RMSE among the validations reached",
+    "test_scored_on": [
+      "cuda:0"
+    ]
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "status": "complete",
+  "method": "nsf",
+  "dataset": "reassemble",
+  "seed": 0,
+  "variant": "learned-dynamics bootstrap particle filter + joint (checkpoint, process-noise inflation) validation selection + validation-selected process-noise inflation",
+  "inference_access": "filtering: x[k+1] uses observations through x[k+1] via a bootstrap particle filter (learned dynamics prediction, learned measurement-density update); no future observations",
+  "arguments": {
+    "method": "nsf",
+    "dataset": "reassemble",
+    "data_cache": "results/datasets/reassemble",
+    "output": "results/provenance/shared_trunk_20261114/smoke/nsf/reassemble/seed0/train",
+    "seed": 0,
+    "steps": 6,
+    "batch_windows": 16,
+    "learning_rate": 0.0003,
+    "hidden_size": 113,
+    "hidden_depth": 3,
+    "flow_layers": 2,
+    "diffusion_hidden_size": null,
+    "alpha": 1.0,
+    "learned_scale": false,
+    "shared_trunk": false,
+    "diffusion": 0.01,
+    "flow_substeps": 4,
+    "epr_weight": 0.0,
+    "measurement_hidden": 64,
+    "measurement_depth": 2,
+    "measurement_layers": 4,
+    "particles": null,
+    "eval_every": 3,
+    "validation_windows": 4,
+    "eval_chunk": 8,
+    "selection_jitters": "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+    "smoke": true
+  },
+  "particles": 32,
+  "posterior_samples": 16,
+  "parameter_count": 119805,
+  "dynamics_parameters": 90103,
+  "measurement_parameters": 29702,
+  "devices": [
+    "cpu:0"
+  ],
+  "training_seconds": 10.705876123160124,
+  "best_step": 6,
+  "best_validation_rmse": 2.6818909645080566,
+  "best_validation_coverage_90": 0.5897142857142857,
+  "jitter": 0.005,
+  "test": {
+    "rmse": 12.517401648891301,
+    "crps": 2.4661396007550036,
+    "coverage_90": 0.6277695238095238,
+    "mean_interval_width": 2.3284993568418506,
+    "latency_ms_per_trajectory": 112.33007907867432
+  },
+  "jitter_selection": [
+    {
+      "jitter": 0.0,
+      "rmse": 2.7511191368103027,
+      "coverage_90": 0.6135714285714285
+    },
+    {
+      "jitter": 0.005,
+      "rmse": 2.6818909645080566,
+      "coverage_90": 0.5897142857142857
+    },
+    {
+      "jitter": 0.01,
+      "rmse": 3.1492996215820312,
+      "coverage_90": 0.5782857142857143
+    },
+    {
+      "jitter": 0.02,
+      "rmse": 3.2269585132598877,
+      "coverage_90": 0.5558571428571428
+    },
+    {
+      "jitter": 0.03,
+      "rmse": 3.4244821071624756,
+      "coverage_90": 0.5745714285714286
+    },
+    {
+      "jitter": 0.05,
+      "rmse": 3.6384787559509277,
+      "coverage_90": 0.558
+    },
+    {
+      "jitter": 0.075,
+      "rmse": 3.5978565216064453,
+      "coverage_90": 0.6264285714285714
+    },
+    {
+      "jitter": 0.1,
+      "rmse": 4.557435035705566,
+      "coverage_90": 0.6171428571428571
+    },
+    {
+      "jitter": 0.15,
+      "rmse": 4.296919822692871,
+      "coverage_90": 0.6484285714285715
+    },
+    {
+      "jitter": 0.2,
+      "rmse": 6.086831569671631,
+      "coverage_90": 0.5807142857142857
+    }
+  ],
+  "source_run": "results/provenance/shared_trunk_20261114/smoke/nsf/reassemble/seed0/train"
+}

@@ -1,0 +1,228 @@
+{
+ "budget": 10000,
+ "measurement_flow": {
+  "measurement_hidden": 16,
+  "measurement_depth": 2,
+  "measurement_layers": 2
+ },
+ "pendulum": {
+  "normflowsde": {
+   "config": {
+    "d_x": 2,
+    "d_y": 3,
+    "d_u": 1,
+    "d_c": 16,
+    "d_hidden_enc": 16,
+    "depth": 2,
+    "n_realnvp_layers": 2,
+    "observation_window": 10,
+    "direct_control": true,
+    "time_step": 0.05,
+    "flow_type": "realnvp",
+    "shared_trunk": true,
+    "d_hidden_diffusion": 16,
+    "d_hidden": 53
+   },
+   "stage2": 9940,
+   "stage1": 9938
+  },
+  "nsf": {
+   "hidden_size": 48,
+   "total": 9928,
+   "dynamics": 8700,
+   "measurement": 1228
+  },
+  "flowsde": {
+   "hidden_size": 59,
+   "total": 9912,
+   "dynamics": 8684,
+   "measurement": 1228
+  },
+  "normflowsde_pf": {
+   "hidden_size": 63,
+   "total": 9806,
+   "dynamics": 8578,
+   "measurement": 1228,
+   "shared_trunk": true,
+   "learned_scale": true,
+   "diffusion_hidden_size": 16
+  },
+  "nf_dpf": {
+   "hidden_size": 32,
+   "hidden_depth": 2,
+   "flow_layers": 2,
+   "total": 9572,
+   "measurement": 1228
+  },
+  "latent_nsf": {
+   "hidden_size": 32,
+   "total": 9740
+  },
+  "latent_sde": {
+   "hidden_size": 44,
+   "total": 9960
+  },
+  "sigker_sde": {
+   "hidden_size": 50,
+   "total": 9788
+  }
+ },
+ "lorenz96": {
+  "normflowsde": {
+   "config": {
+    "d_x": 12,
+    "d_y": 7,
+    "d_u": 1,
+    "d_c": 128,
+    "d_hidden": 266,
+    "depth": 3,
+    "n_realnvp_layers": 2,
+    "observation_window": 10,
+    "d_hidden_enc": 128,
+    "d_hidden_diffusion": 64,
+    "direct_control": false,
+    "observation_stride": 1,
+    "time_step": 0.02,
+    "flow_type": "realnvp",
+    "realnvp_alpha": 1.5,
+    "shared_trunk": true
+   },
+   "stage2": 365382,
+   "previous_stage2": 365360,
+   "stage1": 365370
+  },
+  "nsf": {
+   "hidden_size": 224,
+   "total": 365124,
+   "dynamics": 334728,
+   "measurement": 30396
+  },
+  "flowsde": {
+   "hidden_size": 282,
+   "total": 365715,
+   "dynamics": 335319,
+   "measurement": 30396
+  },
+  "normflowsde_pf": {
+   "hidden_size": 363,
+   "total": 364658,
+   "dynamics": 334262,
+   "measurement": 30396,
+   "shared_trunk": true,
+   "learned_scale": true,
+   "diffusion_hidden_size": 64,
+   "alpha": 1.5
+  },
+  "nf_dpf": {
+   "hidden_size": 155,
+   "hidden_depth": 3,
+   "flow_layers": 2,
+   "total": 366270,
+   "measurement": 30396
+  }
+ },
+ "aloha": {
+  "normflowsde": {
+   "config": {
+    "d_x": 14,
+    "d_y": 28,
+    "d_u": 14,
+    "d_c": 64,
+    "d_hidden": 153,
+    "depth": 3,
+    "n_realnvp_layers": 2,
+    "observation_window": 10,
+    "d_hidden_enc": 64,
+    "d_hidden_diffusion": 64,
+    "direct_control": true,
+    "time_step": 0.02,
+    "flow_type": "realnvp",
+    "shared_trunk": true
+   },
+   "stage2": 129567,
+   "previous_stage2": 129656,
+   "stage1": 129553
+  },
+  "nsf": {
+   "hidden_size": 107,
+   "total": 129639,
+   "dynamics": 91355,
+   "measurement": 38284
+  },
+  "flowsde": {
+   "hidden_size": 141,
+   "total": 129111,
+   "dynamics": 90827,
+   "measurement": 38284
+  },
+  "normflowsde_pf": {
+   "hidden_size": 165,
+   "total": 129431,
+   "dynamics": 91147,
+   "measurement": 38284,
+   "shared_trunk": true,
+   "learned_scale": true,
+   "diffusion_hidden_size": 64,
+   "alpha": 1.0
+  },
+  "nf_dpf": {
+   "hidden_size": 70,
+   "hidden_depth": 3,
+   "flow_layers": 2,
+   "total": 128892,
+   "measurement": 38284
+  }
+ },
+ "reassemble": {
+  "normflowsde": {
+   "config": {
+    "d_x": 7,
+    "d_y": 16,
+    "d_u": 9,
+    "d_c": 64,
+    "d_hidden": 150,
+    "depth": 3,
+    "n_realnvp_layers": 2,
+    "observation_window": 10,
+    "d_hidden_enc": 64,
+    "d_hidden_diffusion": 64,
+    "direct_control": true,
+    "time_step": 0.03333333333333333,
+    "flow_type": "realnvp",
+    "shared_trunk": true
+   },
+   "stage2": 120032,
+   "previous_stage2": 120412,
+   "stage1": 120025
+  },
+  "nsf": {
+   "hidden_size": 113,
+   "total": 119805,
+   "dynamics": 90103,
+   "measurement": 29702
+  },
+  "flowsde": {
+   "hidden_size": 144,
+   "total": 120438,
+   "dynamics": 90736,
+   "measurement": 29702
+  },
+  "normflowsde_pf": {
+   "hidden_size": 169,
+   "total": 119758,
+   "dynamics": 90056,
+   "measurement": 29702,
+   "shared_trunk": true,
+   "learned_scale": true,
+   "diffusion_hidden_size": 64,
+   "alpha": 1.0
+  },
+  "nf_dpf": {
+   "hidden_size": 77,
+   "hidden_depth": 3,
+   "flow_layers": 2,
+   "total": 119953,
+   "measurement": 29702
+  }
+ }
+}

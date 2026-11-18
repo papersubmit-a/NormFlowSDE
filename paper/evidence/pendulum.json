@@ -1,0 +1,634 @@
+[
+  {
+    "noise": "gaussian",
+    "key": "norm",
+    "name": "NormFlowSDE",
+    "source": "results/results_state_estimation/pendulum/gaussian/norm_flow_sde_pendulum_reconstruction_continuity/seed2026/metrics.json",
+    "data": {
+      "case": "controlled_stochastic_pendulum_unwrapped_angle",
+      "finite_time_drift": {
+        "angle_drift_rmse": 0.1387704759836197,
+        "delta_t": 0.05,
+        "interpretation": "conditional mean increment divided by delta_t",
+        "rmse": 0.3371434509754181,
+        "torque": 0.0,
+        "velocity_drift_rmse": 0.45615148544311523
+      },
+      "model": {
+        "control_dim": 1,
+        "coupling_layers": 6,
+        "hidden_depth": 2,
+        "hidden_size": 88,
+        "name": "NormalizedRealNVPFlowSDE",
+        "solver": "euler",
+        "state_dim": 2,
+        "time_embedding": 16,
+        "trainable_parameters": 68932
+      },
+      "normalization": {
+        "control_mean": [
+          0.046349916607141495
+        ],
+        "control_std": [
+          1.840938687324524
+        ],
+        "state_mean": [
+          -0.03164924681186676,
+          0.004434973932802677
+        ],
+        "state_std": [
+          1.8833897113800049,
+          2.726924419403076
+        ]
+      },
+      "one_step": {
+        "covariance_error": 0.003514946438372135,
+        "coverage_50": 0.544921875,
+        "coverage_80": 0.8173828125,
+        "coverage_95": 0.9482421875,
+        "crps": 0.01852809265255928,
+        "energy_score": 0.03516354411840439,
+        "mae": 0.025612017139792442,
+        "marginal_wasserstein": 0.016332218423485756,
+        "nll": -5.911172866821289,
+        "rmse": 0.05716593191027641,
+        "width_50": 0.044787630438804626,
+        "width_80": 0.0841808021068573,
+        "width_95": 0.12718817591667175
+      },
+      "recursive": {
+        "covariance_error": 0.7958707809448242,
+        "coverage_50": 0.4784722328186035,
+        "coverage_80": 0.7819444537162781,
+        "coverage_95": 0.9645833373069763,
+        "crps": 0.20583191514015198,
+        "energy_score": 0.3299846053123474,
+        "mae": 0.31326112151145935,
+        "marginal_wasserstein": 0.1897985339164734,
+        "rmse": 0.828694224357605,
+        "width_50": 0.5146437287330627,
+        "width_80": 0.9667747020721436,
+        "width_95": 1.2541638612747192
+      },
+      "runtime": {
+        "backend": "gpu",
+        "compilation_excluded": true,
+        "device": "NVIDIA L40S",
+        "ensemble_samples": 128,
+        "horizon": 60,
+        "seconds_per_generated_trajectory": 4.953936392363782e-06,
+        "seconds_total": 0.007609246298670769,
+        "trajectories": 12
+      },
+      "seed": 2026,
+      "training": {
+        "batch_size": 256,
+        "continuity_selection_weight": 0.25,
+        "drift_learning_rate": 0.0005,
+        "drift_steps": 2400,
+        "first_drift_loss": 3.572005271911621,
+        "gradient_clip_norm": 1.0,
+        "joint_continuity_weight": 2.0,
+        "joint_drift_weight": 5.0,
+        "joint_learning_rate": 0.0002,
+        "joint_steps": 2000,
+        "last_joint_loss": -5.578920841217041,
+        "num_test_trajectories": 48,
+        "num_train_trajectories": 224,
+        "num_validation_trajectories": 48,
+        "schedule": "drift_pretraining_then_joint_nll_drift_and_continuity",
+        "seconds": 48.46958622522652,
+        "seed": 2028,
+        "selected_validation_continuity_rmse": 0.14552433788776398,
+        "selected_validation_rollout_angle_rmse": 0.2986779808998108,
+        "selected_validation_rollout_final_rmse": 1.3531500101089478,
+        "selected_validation_rollout_rmse": 0.5079247951507568,
+        "selected_validation_rollout_velocity_rmse": 0.6532737612724304,
+        "selected_validation_score": 0.5443058796226978,
+        "validation_nll": -5.9711761474609375
+      }
+    }
+  },
+  {
+    "noise": "gaussian",
+    "key": "fm",
+    "name": "FlowSDE",
+    "source": "results/results_state_estimation/pendulum/gaussian/fm_flow_sde_pendulum_reconstruction/seed2026/metrics.json",
+    "data": {
+      "case": "controlled_stochastic_pendulum_unwrapped_angle",
+      "drift": {
+        "angle_drift_rmse": 0.13497892022132874,
+        "rmse": 0.4501238465309143,
+        "velocity_drift_rmse": 0.6220961809158325
+      },
+      "model": {
+        "control_dim": 1,
+        "diffusion_D": 0.01,
+        "diffusion_scale": 0.1414213562373095,
+        "hidden_depth": 3,
+        "hidden_size": 128,
+        "name": "FMFlowSDE",
+        "state_dim": 2,
+        "trainable_parameters": 69387
+      },
+      "one_step": {
+        "covariance_error": 0.0013823348563164473,
+        "coverage_50": 0.6552734375,
+        "coverage_80": 0.8056640625,
+        "coverage_95": 0.8974609375,
+        "crps": 0.02153652161359787,
+        "energy_score": 0.03588065877556801,
+        "mae": 0.025291230529546738,
+        "marginal_wasserstein": 0.024514824151992798,
+        "rmse": 0.05218488350510597,
+        "width_50": 0.04259209707379341,
+        "width_80": 0.08069721609354019,
+        "width_95": 0.12114350497722626
+      },
+      "recursive": {
+        "covariance_error": 0.21894095838069916,
+        "coverage_50": 0.6798611283302307,
+        "coverage_80": 0.9020833373069763,
+        "coverage_95": 0.9611111283302307,
+        "crps": 0.1830432415008545,
+        "energy_score": 0.29164132475852966,
+        "mae": 0.2606297731399536,
+        "marginal_wasserstein": 0.24655787646770477,
+        "rmse": 0.5481138825416565,
+        "width_50": 0.5098994374275208,
+        "width_80": 1.0225591659545898,
+        "width_95": 1.5860209465026855
+      },
+      "regularization": {
+        "bridge_noise_scale": 0.01,
+        "epr_weight": 0.0001,
+        "hjb_weight": 1e-05,
+        "orthogonality_weight": 1e-05
+      },
+      "runtime": {
+        "backend": "gpu",
+        "compilation_excluded": true,
+        "device": "NVIDIA L40S",
+        "ensemble_samples": 128,
+        "horizon": 60,
+        "seconds_per_generated_trajectory": 5.9866494363329066e-06,
+        "seconds_total": 0.009195493534207344,
+        "solver": "Euler-Maruyama",
+        "solver_substeps": 5,
+        "trajectories": 12
+      },
+      "scientific_note": "FlowSDE uses paper-faithful fixed isotropic diffusion; the reference pendulum has anisotropic noise scales [0.01, 0.2]. This is transition reconstruction, not an observation-conditioned posterior filter.",
+      "seed": 2026,
+      "training": {
+        "batch_size": 256,
+        "first_total_loss": 50.081790924072266,
+        "last_total_loss": 1.7296613454818726,
+        "learning_rate": 0.0003,
+        "num_test_trajectories": 48,
+        "num_train_trajectories": 224,
+        "num_validation_trajectories": 48,
+        "seconds": 266.27644175104797,
+        "seed": 2028,
+        "steps": 3000,
+        "validation_flow_loss": 3.173722743988037,
+        "validation_total_loss": 3.244537830352783
+      }
+    }
+  },
+  {
+    "noise": "gaussian",
+    "key": "nsf",
+    "name": "NSF",
+    "source": "results/results_state_estimation/pendulum/gaussian/nsf_pendulum_reconstruction_fair/seed2026/metrics.json",
+    "data": {
+      "case": "controlled_stochastic_pendulum_unwrapped_angle",
+      "finite_time_drift": {
+        "angle_drift_rmse": 0.15123116970062256,
+        "delta_t": 0.05,
+        "interpretation": "conditional mean increment divided by delta_t, not an explicit learned drift",
+        "rmse": 0.5610913038253784,
+        "torque": 0.0,
+        "velocity_drift_rmse": 0.7789583206176758
+      },
+      "model": {
+        "control_dim": 1,
+        "coupling_layers": 6,
+        "hidden_depth": 2,
+        "hidden_size": 94,
+        "state_dim": 2,
+        "trainable_parameters": 69588
+      },
+      "normalization": {
+        "control_mean": [
+          0.046349916607141495
+        ],
+        "control_std": [
+          1.840938687324524
+        ],
+        "state_mean": [
+          -0.05159126967191696,
+          -0.02771434560418129
+        ],
+        "state_std": [
+          1.923819661140442,
+          2.7443389892578125
+        ]
+      },
+      "one_step": {
+        "covariance_error": 0.0056160567328333855,
+        "coverage_50": 0.478515625,
+        "coverage_80": 0.779296875,
+        "coverage_95": 0.9248046875,
+        "crps": 0.024751387536525726,
+        "energy_score": 0.04764220118522644,
+        "mae": 0.03345908969640732,
+        "marginal_wasserstein": 0.0247664675116539,
+        "nll": -5.901179313659668,
+        "rmse": 0.10921990871429443,
+        "width_50": 0.04478463530540466,
+        "width_80": 0.08386533707380295,
+        "width_95": 0.12640565633773804
+      },
+      "process_noise": {
+        "gmm_components": 1,
+        "gmm_separation": null,
+        "matched_marginal_variance": true,
+        "model": "gaussian",
+        "zero_mean": true
+      },
+      "recursive": {
+        "covariance_error": 0.4132828414440155,
+        "coverage_50": 0.4472222328186035,
+        "coverage_80": 0.6763889193534851,
+        "coverage_95": 0.8520833253860474,
+        "crps": 0.2986842393875122,
+        "energy_score": 0.46382302045822144,
+        "mae": 0.3762868344783783,
+        "marginal_wasserstein": 0.21884609758853912,
+        "rmse": 1.0904325246810913,
+        "width_50": 0.3184903860092163,
+        "width_80": 0.6002670526504517,
+        "width_95": 0.9664466381072998
+      },
+      "redistribution_status": "private-not-approved",
+      "runtime": {
+        "backend": "gpu",
+        "compilation_excluded": true,
+        "device": "NVIDIA L40S",
+        "ensemble_samples": 128,
+        "horizon": 60,
+        "seconds_per_generated_trajectory": 5.31501912822326e-06,
+        "seconds_total": 0.008163869380950928,
+        "trajectories": 12
+      },
+      "seed": 2026,
+      "training": {
+        "batch_size": 256,
+        "continuity_selection_weight": 0.25,
+        "gradient_clip_norm": 1.0,
+        "joint_continuity_weight": 2.0,
+        "joint_learning_rate": 0.0002,
+        "joint_mean_weight": 5.0,
+        "joint_rollout_weight": 2.0,
+        "joint_steps": 2000,
+        "mean_learning_rate": 0.0005,
+        "mean_pretrain_steps": 2400,
+        "num_test_trajectories": 48,
+        "num_train_trajectories": 224,
+        "num_validation_trajectories": 48,
+        "rollout_batch_size": 8,
+        "rollout_horizon": 60,
+        "schedule": "mean_pretraining_then_joint_exact_nll_mean_continuity_full_rollout",
+        "seconds": 159.54705477505922,
+        "seed": 2028,
+        "selected_validation_continuity_rmse": 0.14975984394550323,
+        "selected_validation_rollout_rmse": 0.8164567351341248,
+        "selected_validation_score": 0.8538966961205006,
+        "validation_nll": -5.960193157196045
+      }
+    }
+  },
+  {
+    "noise": "gmm",
+    "key": "norm",
+    "name": "NormFlowSDE",
+    "source": "results/results_state_estimation/pendulum/gmm/norm_flow_sde_pendulum_reconstruction_continuity/seed2026/metrics.json",
+    "data": {
+      "case": "controlled_stochastic_pendulum_unwrapped_angle",
+      "finite_time_drift": {
+        "angle_drift_rmse": 0.13502556085586548,
+        "delta_t": 0.05,
+        "interpretation": "conditional mean increment divided by delta_t",
+        "rmse": 0.2838948369026184,
+        "torque": 0.0,
+        "velocity_drift_rmse": 0.3781013786792755
+      },
+      "model": {
+        "control_dim": 1,
+        "coupling_layers": 6,
+        "hidden_depth": 2,
+        "hidden_size": 88,
+        "name": "NormalizedRealNVPFlowSDE",
+        "solver": "euler",
+        "state_dim": 2,
+        "time_embedding": 16,
+        "trainable_parameters": 68932
+      },
+      "normalization": {
+        "control_mean": [
+          0.046349916607141495
+        ],
+        "control_std": [
+          1.840938687324524
+        ],
+        "state_mean": [
+          -0.01190923061221838,
+          0.03337971493601799
+        ],
+        "state_std": [
+          1.9154748916625977,
+          2.7563843727111816
+        ]
+      },
+      "one_step": {
+        "covariance_error": 0.0006337478989735246,
+        "coverage_50": 0.4306640625,
+        "coverage_80": 0.7919921875,
+        "coverage_95": 0.9541015625,
+        "crps": 0.016615036875009537,
+        "energy_score": 0.03138649836182594,
+        "mae": 0.02361443266272545,
+        "marginal_wasserstein": 0.009897737763822079,
+        "nll": -6.087947845458984,
+        "rmse": 0.043142251670360565,
+        "width_50": 0.03587053343653679,
+        "width_80": 0.06772008538246155,
+        "width_95": 0.1020418107509613
+      },
+      "process_noise": {
+        "gmm_components": 2,
+        "gmm_separation": 0.8,
+        "matched_marginal_variance": true,
+        "model": "gmm",
+        "zero_mean": true
+      },
+      "recursive": {
+        "covariance_error": 0.3889642059803009,
+        "coverage_50": 0.5027778148651123,
+        "coverage_80": 0.8097222447395325,
+        "coverage_95": 0.9493055939674377,
+        "crps": 0.253944456577301,
+        "energy_score": 0.39748963713645935,
+        "mae": 0.3566597104072571,
+        "marginal_wasserstein": 0.09147319197654724,
+        "rmse": 1.0858464241027832,
+        "width_50": 0.372306227684021,
+        "width_80": 0.8645957112312317,
+        "width_95": 1.1729997396469116
+      },
+      "runtime": {
+        "backend": "gpu",
+        "compilation_excluded": true,
+        "device": "NVIDIA L40S",
+        "ensemble_samples": 128,
+        "horizon": 60,
+        "seconds_per_generated_trajectory": 4.503996024141088e-06,
+        "seconds_total": 0.006918137893080711,
+        "trajectories": 12
+      },
+      "seed": 2026,
+      "training": {
+        "batch_size": 256,
+        "continuity_selection_weight": 0.25,
+        "drift_learning_rate": 0.0005,
+        "drift_steps": 2400,
+        "first_drift_loss": 3.573268413543701,
+        "gradient_clip_norm": 1.0,
+        "joint_continuity_weight": 2.0,
+        "joint_drift_weight": 5.0,
+        "joint_learning_rate": 0.0002,
+        "joint_steps": 2000,
+        "last_joint_loss": -5.546176910400391,
+        "num_test_trajectories": 48,
+        "num_train_trajectories": 224,
+        "num_validation_trajectories": 48,
+        "schedule": "drift_pretraining_then_joint_nll_drift_and_continuity",
+        "seconds": 48.60897986404598,
+        "seed": 2028,
+        "selected_validation_continuity_rmse": 0.1534116566181183,
+        "selected_validation_rollout_angle_rmse": 0.21392440795898438,
+        "selected_validation_rollout_final_rmse": 0.6447200179100037,
+        "selected_validation_rollout_rmse": 0.341496080160141,
+        "selected_validation_rollout_velocity_rmse": 0.43298444151878357,
+        "selected_validation_score": 0.37984899431467056,
+        "validation_nll": -6.086605548858643
+      }
+    }
+  },
+  {
+    "noise": "gmm",
+    "key": "fm",
+    "name": "FlowSDE",
+    "source": "results/results_state_estimation/pendulum/gmm/fm_flow_sde_pendulum_reconstruction/seed2026/metrics.json",
+    "data": {
+      "case": "controlled_stochastic_pendulum_unwrapped_angle",
+      "drift": {
+        "angle_drift_rmse": 0.153484046459198,
+        "rmse": 0.45538973808288574,
+        "velocity_drift_rmse": 0.6254616379737854
+      },
+      "model": {
+        "control_dim": 1,
+        "diffusion_D": 0.01,
+        "diffusion_scale": 0.1414213562373095,
+        "hidden_depth": 3,
+        "hidden_size": 128,
+        "name": "FMFlowSDE",
+        "state_dim": 2,
+        "trainable_parameters": 69387
+      },
+      "one_step": {
+        "covariance_error": 0.0013936094474047422,
+        "coverage_50": 0.6376953125,
+        "coverage_80": 0.7587890625,
+        "coverage_95": 0.89453125,
+        "crps": 0.020172547549009323,
+        "energy_score": 0.0332220159471035,
+        "mae": 0.024096503853797913,
+        "marginal_wasserstein": 0.022005200386047363,
+        "rmse": 0.04505283385515213,
+        "width_50": 0.042575109750032425,
+        "width_80": 0.08069019019603729,
+        "width_95": 0.12108741700649261
+      },
+      "process_noise": {
+        "gmm_components": 2,
+        "gmm_separation": 0.8,
+        "matched_marginal_variance": true,
+        "model": "gmm",
+        "zero_mean": true
+      },
+      "recursive": {
+        "covariance_error": 0.15316776931285858,
+        "coverage_50": 0.6979166865348816,
+        "coverage_80": 0.8979166746139526,
+        "coverage_95": 0.9743055701255798,
+        "crps": 0.2753342092037201,
+        "energy_score": 0.4266107380390167,
+        "mae": 0.3578065037727356,
+        "marginal_wasserstein": 0.24673640727996826,
+        "rmse": 1.145529866218567,
+        "width_50": 0.4901394844055176,
+        "width_80": 1.0054560899734497,
+        "width_95": 1.652815818786621
+      },
+      "regularization": {
+        "bridge_noise_scale": 0.01,
+        "epr_weight": 0.0001,
+        "hjb_weight": 1e-05,
+        "orthogonality_weight": 1e-05
+      },
+      "runtime": {
+        "backend": "gpu",
+        "compilation_excluded": true,
+        "device": "NVIDIA L40S",
+        "ensemble_samples": 128,
+        "horizon": 60,
+        "seconds_per_generated_trajectory": 5.938192771282047e-06,
+        "seconds_total": 0.009121064096689224,
+        "solver": "Euler-Maruyama",
+        "solver_substeps": 5,
+        "trajectories": 12
+      },
+      "scientific_note": "FlowSDE uses paper-faithful fixed isotropic diffusion; the reference pendulum has anisotropic noise scales [0.01, 0.2]. This is transition reconstruction, not an observation-conditioned posterior filter.",
+      "seed": 2026,
+      "training": {
+        "batch_size": 256,
+        "first_total_loss": 52.554473876953125,
+        "last_total_loss": 1.663962721824646,
+        "learning_rate": 0.0003,
+        "num_test_trajectories": 48,
+        "num_train_trajectories": 224,
+        "num_validation_trajectories": 48,
+        "seconds": 266.58429824374616,
+        "seed": 2028,
+        "steps": 3000,
+        "validation_flow_loss": 1.6533294916152954,
+        "validation_total_loss": 1.696230411529541
+      }
+    }
+  },
+  {
+    "noise": "gmm",
+    "key": "nsf",
+    "name": "NSF",
+    "source": "results/results_state_estimation/pendulum/gmm/nsf_pendulum_reconstruction/seed2026/metrics.json",
+    "data": {
+      "case": "controlled_stochastic_pendulum_unwrapped_angle",
+      "finite_time_drift": {
+        "angle_drift_rmse": 0.1472027599811554,
+        "delta_t": 0.05,
+        "interpretation": "conditional mean increment divided by delta_t, not an explicit learned drift",
+        "rmse": 0.5264250636100769,
+        "torque": 0.0,
+        "velocity_drift_rmse": 0.7297794222831726
+      },
+      "model": {
+        "control_dim": 1,
+        "coupling_layers": 6,
+        "hidden_depth": 2,
+        "hidden_size": 94,
+        "state_dim": 2,
+        "trainable_parameters": 69588
+      },
+      "normalization": {
+        "control_mean": [
+          0.046349916607141495
+        ],
+        "control_std": [
+          1.840938687324524
+        ],
+        "state_mean": [
+          -0.01190923061221838,
+          0.03337971493601799
+        ],
+        "state_std": [
+          1.9154748916625977,
+          2.7563843727111816
+        ]
+      },
+      "one_step": {
+        "covariance_error": 0.006168658845126629,
+        "coverage_50": 0.3662109375,
+        "coverage_80": 0.701171875,
+        "coverage_95": 0.91015625,
+        "crps": 0.02415384352207184,
+        "energy_score": 0.04645868390798569,
+        "mae": 0.034218236804008484,
+        "marginal_wasserstein": 0.023498019203543663,
+        "nll": -6.049967288970947,
+        "rmse": 0.09865733236074448,
+        "width_50": 0.044443193823099136,
+        "width_80": 0.08319153636693954,
+        "width_95": 0.1254054605960846
+      },
+      "process_noise": {
+        "gmm_components": 2,
+        "gmm_separation": 0.8,
+        "matched_marginal_variance": true,
+        "model": "gmm",
+        "zero_mean": true
+      },
+      "recursive": {
+        "covariance_error": 0.18863408267498016,
+        "coverage_50": 0.3291666805744171,
+        "coverage_80": 0.6166666746139526,
+        "coverage_95": 0.7645833492279053,
+        "crps": 0.3267088532447815,
+        "energy_score": 0.5133329033851624,
+        "mae": 0.440279483795166,
+        "marginal_wasserstein": 0.17611338198184967,
+        "rmse": 1.1590163707733154,
+        "width_50": 0.3934740722179413,
+        "width_80": 0.7683600783348083,
+        "width_95": 1.1595710515975952
+      },
+      "redistribution_status": "private-not-approved",
+      "runtime": {
+        "backend": "gpu",
+        "compilation_excluded": true,
+        "device": "NVIDIA L40S",
+        "ensemble_samples": 128,
+        "horizon": 60,
+        "seconds_per_generated_trajectory": 5.290510064999883e-06,
+        "seconds_total": 0.00812622345983982,
+        "trajectories": 12
+      },
+      "seed": 2026,
+      "training": {
+        "batch_size": 256,
+        "continuity_selection_weight": 0.25,
+        "gradient_clip_norm": 1.0,
+        "joint_continuity_weight": 2.0,
+        "joint_learning_rate": 0.0002,
+        "joint_mean_weight": 5.0,
+        "joint_rollout_weight": 2.0,
+        "joint_steps": 2000,
+        "mean_learning_rate": 0.0005,
+        "mean_pretrain_steps": 2400,
+        "num_test_trajectories": 48,
+        "num_train_trajectories": 224,
+        "num_validation_trajectories": 48,
+        "rollout_batch_size": 8,
+        "rollout_horizon": 60,
+        "schedule": "mean_pretraining_then_joint_exact_nll_mean_continuity_full_rollout",
+        "seconds": 159.65390718914568,
+        "seed": 2028,
+        "selected_validation_continuity_rmse": 0.14675340056419373,
+        "selected_validation_rollout_rmse": 0.8975319266319275,
+        "selected_validation_score": 0.9342202767729759,
+        "validation_nll": -6.105967998504639
+      }
+    }
+  }
+]

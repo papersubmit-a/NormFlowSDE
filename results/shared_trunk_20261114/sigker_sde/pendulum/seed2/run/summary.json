@@ -1,0 +1,14 @@
+{
+  "method": "sigker_sde",
+  "seed": 2,
+  "best_step": 7600,
+  "best_validation_rmse": 0.13780498945004807,
+  "best_validation_coverage_90": 0.284375,
+  "test": {
+    "rmse": 0.1808907018000612,
+    "crps": 0.09566944198607466,
+    "coverage_90": 0.2664930555555556,
+    "mean_interval_width": 0.14335743243530116,
+    "latency_ms_per_trajectory": 3.9068758487701416
+  }
+}

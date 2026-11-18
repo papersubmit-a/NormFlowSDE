@@ -1,0 +1,6 @@
+_sweep/beta1_euler --beta 1 --posterior-step euler
+_sweep/beta0.1_residual --beta 0.1 --posterior-step residual
+_sweep/beta0.1_euler --beta 0.1 --posterior-step euler
+_sweep/beta0.01_residual --beta 0.01 --posterior-step residual
+_sweep/beta0.01_euler --beta 0.01 --posterior-step euler
+_sweep/beta0_residual --beta 0 --posterior-step residual

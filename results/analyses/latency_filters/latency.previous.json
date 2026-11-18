@@ -1,0 +1,83 @@
+{
+ "protocol": "as inference_cost.py: jitted batch-size-one full-window calls, compilation excluded, median over repeats",
+ "rows": [
+  {
+   "dataset": "pendulum",
+   "filter": "ekf",
+   "noise": 1.0,
+   "particles": null,
+   "draws": 128,
+   "device": "cuda:0",
+   "repeats": 30,
+   "compile_seconds": 0.840450044721365,
+   "ms_per_window_median": 12.26847805082798,
+   "ms_per_window_p90": 12.308696284890175,
+   "ms_per_step_median": 0.20447463418046632
+  },
+  {
+   "dataset": "pendulum",
+   "filter": "ukf",
+   "noise": 1.0,
+   "particles": null,
+   "draws": 128,
+   "device": "cuda:0",
+   "repeats": 30,
+   "compile_seconds": 0.5785581506788731,
+   "ms_per_window_median": 12.180227786302567,
+   "ms_per_window_p90": 12.300289049744606,
+   "ms_per_step_median": 0.2030037964383761
+  },
+  {
+   "dataset": "pendulum",
+   "filter": "pf",
+   "noise": 1.0,
+   "particles": 500,
+   "draws": 128,
+   "device": "cuda:0",
+   "repeats": 30,
+   "compile_seconds": 1.2133321650326252,
+   "ms_per_window_median": 10.432837530970573,
+   "ms_per_window_p90": 10.460201650857925,
+   "ms_per_step_median": 0.17388062551617622
+  },
+  {
+   "dataset": "lorenz96",
+   "filter": "ekf",
+   "noise": 0.001,
+   "particles": null,
+   "draws": 200,
+   "device": "cuda:0",
+   "repeats": 30,
+   "compile_seconds": 0.8315371796488762,
+   "ms_per_window_median": 12.706486508250237,
+   "ms_per_window_p90": 12.750433385372162,
+   "ms_per_step_median": 0.12706486508250237
+  },
+  {
+   "dataset": "lorenz96",
+   "filter": "ukf",
+   "noise": 0.001,
+   "particles": null,
+   "draws": 200,
+   "device": "cuda:0",
+   "repeats": 30,
+   "compile_seconds": 0.7245825864374638,
+   "ms_per_window_median": 18.983878195285797,
+   "ms_per_window_p90": 19.038192927837372,
+   "ms_per_step_median": 0.18983878195285797
+  },
+  {
+   "dataset": "lorenz96",
+   "filter": "pf",
+   "noise": 0.001,
+   "particles": 1000,
+   "draws": 200,
+   "device": "cuda:0",
+   "repeats": 30,
+   "compile_seconds": 1.3299065306782722,
+   "ms_per_window_median": 15.4117401689291,
+   "ms_per_window_p90": 15.446273237466812,
+   "ms_per_step_median": 0.154117401689291
+  }
+ ]
+}

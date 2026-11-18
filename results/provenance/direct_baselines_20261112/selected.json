@@ -1,0 +1,750 @@
+{
+  "latent_nsf:pendulum": {
+    "selected": {
+      "config": "beta1_residual_lr1e-3",
+      "extra": "--beta 1 --posterior-step residual --learning-rate 1e-3",
+      "best_validation_rmse": 0.09674650436258282,
+      "best_validation_coverage_90": 0.8831597222222223,
+      "best_step": 8400
+    },
+    "candidates": [
+      {
+        "config": "beta1_residual_lr1e-3",
+        "extra": "--beta 1 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 0.09674650436258282,
+        "best_validation_coverage_90": 0.8831597222222223,
+        "best_step": 8400
+      },
+      {
+        "config": "beta0.1_residual_lr1e-3",
+        "extra": "--beta 0.1 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 0.09847489018812634,
+        "best_validation_coverage_90": 0.8612847222222222,
+        "best_step": 8400
+      },
+      {
+        "config": "beta0.01_residual_lr1e-3",
+        "extra": "--beta 0.01 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 0.11441975721194142,
+        "best_validation_coverage_90": 0.8574652777777778,
+        "best_step": 8400
+      },
+      {
+        "config": "beta0_residual_lr1e-3",
+        "extra": "--beta 0 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 0.13150262498871557,
+        "best_validation_coverage_90": 0.8734375,
+        "best_step": 8400
+      },
+      {
+        "config": "beta0_residual",
+        "extra": "--beta 0 --posterior-step residual --learning-rate 3e-4",
+        "best_validation_rmse": 0.16179911498150507,
+        "best_validation_coverage_90": 0.8887152777777778,
+        "best_step": 3600
+      },
+      {
+        "config": "beta0.01_residual",
+        "extra": "--beta 0.01 --posterior-step residual --learning-rate 3e-4",
+        "best_validation_rmse": 0.16187011813163463,
+        "best_validation_coverage_90": 0.8809027777777778,
+        "best_step": 3600
+      },
+      {
+        "config": "beta0.1_residual",
+        "extra": "--beta 0.1 --posterior-step residual --learning-rate 3e-4",
+        "best_validation_rmse": 0.16294592497509608,
+        "best_validation_coverage_90": 0.8717013888888889,
+        "best_step": 3600
+      },
+      {
+        "config": "default",
+        "extra": "",
+        "best_validation_rmse": 0.1677540931183598,
+        "best_validation_coverage_90": 0.8855902777777778,
+        "best_step": 2800
+      },
+      {
+        "config": "beta1_euler",
+        "extra": "--beta 1 --posterior-step euler",
+        "best_validation_rmse": 0.1854053512742607,
+        "best_validation_coverage_90": 0.8904513888888889,
+        "best_step": 3600
+      },
+      {
+        "config": "beta0.1_euler",
+        "extra": "--beta 0.1 --posterior-step euler",
+        "best_validation_rmse": 0.18678704285499795,
+        "best_validation_coverage_90": 0.8836805555555556,
+        "best_step": 4000
+      },
+      {
+        "config": "beta0.01_euler",
+        "extra": "--beta 0.01 --posterior-step euler",
+        "best_validation_rmse": 0.18811041704411716,
+        "best_validation_coverage_90": 0.8765625,
+        "best_step": 4400
+      }
+    ]
+  },
+  "latent_nsf:lorenz96": {
+    "selected": {
+      "config": "beta0_residual_lr1e-3",
+      "extra": "--beta 0 --posterior-step residual --learning-rate 1e-3",
+      "best_validation_rmse": 0.8542256981772212,
+      "best_validation_coverage_90": 0.858975,
+      "best_step": 18000
+    },
+    "candidates": [
+      {
+        "config": "beta0_residual_lr1e-3",
+        "extra": "--beta 0 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 0.8542256981772212,
+        "best_validation_coverage_90": 0.858975,
+        "best_step": 18000
+      },
+      {
+        "config": "beta0_residual",
+        "extra": "--beta 0 --posterior-step residual --learning-rate 3e-4",
+        "best_validation_rmse": 1.3507929052527354,
+        "best_validation_coverage_90": 0.8719875,
+        "best_step": 18500
+      },
+      {
+        "config": "beta0.01_residual_lr1e-3",
+        "extra": "--beta 0.01 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 2.121350360558115,
+        "best_validation_coverage_90": 0.7903125,
+        "best_step": 6500
+      },
+      {
+        "config": "beta0.01_residual",
+        "extra": "--beta 0.01 --posterior-step residual --learning-rate 3e-4",
+        "best_validation_rmse": 2.501597505501816,
+        "best_validation_coverage_90": 0.9090333333333334,
+        "best_step": 500
+      },
+      {
+        "config": "beta0.1_residual",
+        "extra": "--beta 0.1 --posterior-step residual --learning-rate 3e-4",
+        "best_validation_rmse": 2.659379391760812,
+        "best_validation_coverage_90": 0.93345,
+        "best_step": 500
+      },
+      {
+        "config": "beta0.1_residual_lr1e-3",
+        "extra": "--beta 0.1 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 3.7010211278137404,
+        "best_validation_coverage_90": 0.768925,
+        "best_step": 1000
+      },
+      {
+        "config": "beta0.01_euler",
+        "extra": "--beta 0.01 --posterior-step euler",
+        "best_validation_rmse": 3.942004381594213,
+        "best_validation_coverage_90": 0.9599708333333333,
+        "best_step": 4500
+      },
+      {
+        "config": "default",
+        "extra": "",
+        "best_validation_rmse": 4.463013965999288,
+        "best_validation_coverage_90": 0.8816625,
+        "best_step": 500
+      },
+      {
+        "config": "beta1_residual_lr1e-3",
+        "extra": "--beta 1 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 5.084431941257818,
+        "best_validation_coverage_90": 0.8152625,
+        "best_step": 500
+      },
+      {
+        "config": "beta1_euler",
+        "extra": "--beta 1 --posterior-step euler",
+        "best_validation_rmse": 6.077200338365662,
+        "best_validation_coverage_90": 0.9308666666666666,
+        "best_step": 7000
+      },
+      {
+        "config": "beta0.1_euler",
+        "extra": "--beta 0.1 --posterior-step euler",
+        "best_validation_rmse": 6.335652390755376,
+        "best_validation_coverage_90": 0.9369541666666666,
+        "best_step": 5000
+      }
+    ]
+  },
+  "latent_nsf:aloha": {
+    "selected": {
+      "config": "beta0_residual",
+      "extra": "--beta 0 --posterior-step residual --learning-rate 3e-4",
+      "best_validation_rmse": 0.05815328285098076,
+      "best_validation_coverage_90": 0.8557428571428571,
+      "best_step": 3750
+    },
+    "candidates": [
+      {
+        "config": "beta0_residual",
+        "extra": "--beta 0 --posterior-step residual --learning-rate 3e-4",
+        "best_validation_rmse": 0.05815328285098076,
+        "best_validation_coverage_90": 0.8557428571428571,
+        "best_step": 3750
+      },
+      {
+        "config": "beta0.01_residual",
+        "extra": "--beta 0.01 --posterior-step residual --learning-rate 3e-4",
+        "best_validation_rmse": 0.05853099003434181,
+        "best_validation_coverage_90": 0.8104742857142857,
+        "best_step": 4750
+      },
+      {
+        "config": "beta0.1_residual",
+        "extra": "--beta 0.1 --posterior-step residual --learning-rate 3e-4",
+        "best_validation_rmse": 0.05898883193731308,
+        "best_validation_coverage_90": 0.8252285714285714,
+        "best_step": 3750
+      },
+      {
+        "config": "default",
+        "extra": "",
+        "best_validation_rmse": 0.05982323735952377,
+        "best_validation_coverage_90": 0.82148,
+        "best_step": 3750
+      },
+      {
+        "config": "beta0.01_residual_lr1e-3",
+        "extra": "--beta 0.01 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 0.059973496943712234,
+        "best_validation_coverage_90": 0.7481942857142857,
+        "best_step": 4500
+      },
+      {
+        "config": "beta0_residual_lr1e-3",
+        "extra": "--beta 0 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 0.06000080704689026,
+        "best_validation_coverage_90": 0.7807257142857142,
+        "best_step": 5500
+      },
+      {
+        "config": "beta1_residual_lr1e-3",
+        "extra": "--beta 1 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 0.06185956299304962,
+        "best_validation_coverage_90": 0.7745371428571428,
+        "best_step": 4500
+      },
+      {
+        "config": "beta0.1_residual_lr1e-3",
+        "extra": "--beta 0.1 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 0.06282815337181091,
+        "best_validation_coverage_90": 0.7367142857142858,
+        "best_step": 4500
+      }
+    ]
+  },
+  "latent_nsf:reassemble": {
+    "selected": {
+      "config": "beta1_residual_lr1e-3",
+      "extra": "--beta 1 --posterior-step residual --learning-rate 1e-3",
+      "best_validation_rmse": 0.0407753549516201,
+      "best_validation_coverage_90": 0.8538990476190477,
+      "best_step": 11000
+    },
+    "candidates": [
+      {
+        "config": "beta1_residual_lr1e-3",
+        "extra": "--beta 1 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 0.0407753549516201,
+        "best_validation_coverage_90": 0.8538990476190477,
+        "best_step": 11000
+      },
+      {
+        "config": "beta0.01_residual_lr1e-3",
+        "extra": "--beta 0.01 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 0.04171480983495712,
+        "best_validation_coverage_90": 0.830727619047619,
+        "best_step": 11000
+      },
+      {
+        "config": "beta0.1_residual_lr1e-3",
+        "extra": "--beta 0.1 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 0.04206277057528496,
+        "best_validation_coverage_90": 0.82744,
+        "best_step": 11000
+      },
+      {
+        "config": "beta0_residual_lr1e-3",
+        "extra": "--beta 0 --posterior-step residual --learning-rate 1e-3",
+        "best_validation_rmse": 0.044183630496263504,
+        "best_validation_coverage_90": 0.8602171428571429,
+        "best_step": 10000
+      },
+      {
+        "config": "default",
+        "extra": "",
+        "best_validation_rmse": 0.05643603578209877,
+        "best_validation_coverage_90": 0.8557714285714285,
+        "best_step": 11000
+      },
+      {
+        "config": "beta0.1_residual",
+        "extra": "--beta 0.1 --posterior-step residual --learning-rate 3e-4",
+        "best_validation_rmse": 0.056929029524326324,
+        "best_validation_coverage_90": 0.8309542857142858,
+        "best_step": 11000
+      },
+      {
+        "config": "beta0.01_residual",
+        "extra": "--beta 0.01 --posterior-step residual --learning-rate 3e-4",
+        "best_validation_rmse": 0.05747159942984581,
+        "best_validation_coverage_90": 0.8272419047619047,
+        "best_step": 10500
+      },
+      {
+        "config": "beta0_residual",
+        "extra": "--beta 0 --posterior-step residual --learning-rate 3e-4",
+        "best_validation_rmse": 0.0577862411737442,
+        "best_validation_coverage_90": 0.8661447619047619,
+        "best_step": 11000
+      }
+    ]
+  },
+  "latent_sde:pendulum": {
+    "selected": {
+      "config": "beta0.1_lr1e-3",
+      "extra": "--beta 0.1 --learning-rate 1e-3",
+      "best_validation_rmse": 0.09653075459568929,
+      "best_validation_coverage_90": 0.9251736111111111,
+      "best_step": 8400
+    },
+    "candidates": [
+      {
+        "config": "beta0.1_lr1e-3",
+        "extra": "--beta 0.1 --learning-rate 1e-3",
+        "best_validation_rmse": 0.09653075459568929,
+        "best_validation_coverage_90": 0.9251736111111111,
+        "best_step": 8400
+      },
+      {
+        "config": "beta0.01_lr1e-3",
+        "extra": "--beta 0.01 --learning-rate 1e-3",
+        "best_validation_rmse": 0.09790674400643125,
+        "best_validation_coverage_90": 0.9048611111111111,
+        "best_step": 8400
+      },
+      {
+        "config": "beta1_lr1e-3",
+        "extra": "--beta 1 --learning-rate 1e-3",
+        "best_validation_rmse": 0.09985525565106229,
+        "best_validation_coverage_90": 0.9508680555555555,
+        "best_step": 8000
+      },
+      {
+        "config": "beta0.1_lr3e-4",
+        "extra": "--beta 0.1 --learning-rate 3e-4",
+        "best_validation_rmse": 0.10858803602785701,
+        "best_validation_coverage_90": 0.9703125,
+        "best_step": 8400
+      },
+      {
+        "config": "default",
+        "extra": "",
+        "best_validation_rmse": 0.1115265976347608,
+        "best_validation_coverage_90": 0.978125,
+        "best_step": 8400
+      },
+      {
+        "config": "beta0.01_lr3e-4",
+        "extra": "--beta 0.01 --learning-rate 3e-4",
+        "best_validation_rmse": 0.11175090703250086,
+        "best_validation_coverage_90": 0.9578125,
+        "best_step": 8400
+      }
+    ]
+  },
+  "latent_sde:lorenz96": {
+    "selected": {
+      "config": "beta0.01_lr1e-3",
+      "extra": "--beta 0.01 --learning-rate 1e-3",
+      "best_validation_rmse": 0.3303852202212657,
+      "best_validation_coverage_90": 0.7811916666666666,
+      "best_step": 18500
+    },
+    "candidates": [
+      {
+        "config": "beta0.01_lr1e-3",
+        "extra": "--beta 0.01 --learning-rate 1e-3",
+        "best_validation_rmse": 0.3303852202212657,
+        "best_validation_coverage_90": 0.7811916666666666,
+        "best_step": 18500
+      },
+      {
+        "config": "beta0.1_lr1e-3",
+        "extra": "--beta 0.1 --learning-rate 1e-3",
+        "best_validation_rmse": 0.33633384958196566,
+        "best_validation_coverage_90": 0.8270458333333334,
+        "best_step": 18500
+      },
+      {
+        "config": "beta1_lr1e-3",
+        "extra": "--beta 1 --learning-rate 1e-3",
+        "best_validation_rmse": 0.3495002629852793,
+        "best_validation_coverage_90": 0.9082416666666666,
+        "best_step": 18000
+      },
+      {
+        "config": "default",
+        "extra": "",
+        "best_validation_rmse": 0.5807352749080669,
+        "best_validation_coverage_90": 0.9502041666666666,
+        "best_step": 18500
+      },
+      {
+        "config": "beta0.01_lr3e-4",
+        "extra": "--beta 0.01 --learning-rate 3e-4",
+        "best_validation_rmse": 0.5828416598789058,
+        "best_validation_coverage_90": 0.8779958333333333,
+        "best_step": 18000
+      },
+      {
+        "config": "beta0.1_lr3e-4",
+        "extra": "--beta 0.1 --learning-rate 3e-4",
+        "best_validation_rmse": 0.5839635894820246,
+        "best_validation_coverage_90": 0.9062833333333333,
+        "best_step": 18000
+      }
+    ]
+  },
+  "latent_sde:aloha": {
+    "selected": {
+      "config": "beta0.01_lr1e-3",
+      "extra": "--beta 0.01 --learning-rate 1e-3",
+      "best_validation_rmse": 0.06256917119026184,
+      "best_validation_coverage_90": 0.8351142857142857,
+      "best_step": 4500
+    },
+    "candidates": [
+      {
+        "config": "beta0.01_lr1e-3",
+        "extra": "--beta 0.01 --learning-rate 1e-3",
+        "best_validation_rmse": 0.06256917119026184,
+        "best_validation_coverage_90": 0.8351142857142857,
+        "best_step": 4500
+      },
+      {
+        "config": "beta0.1_lr1e-3",
+        "extra": "--beta 0.1 --learning-rate 1e-3",
+        "best_validation_rmse": 0.066957026720047,
+        "best_validation_coverage_90": 0.8333028571428571,
+        "best_step": 4500
+      },
+      {
+        "config": "beta1_lr1e-3",
+        "extra": "--beta 1 --learning-rate 1e-3",
+        "best_validation_rmse": 0.0787646695971489,
+        "best_validation_coverage_90": 0.9255657142857143,
+        "best_step": 2750
+      },
+      {
+        "config": "beta0.01_lr3e-4",
+        "extra": "--beta 0.01 --learning-rate 3e-4",
+        "best_validation_rmse": 0.08408093452453613,
+        "best_validation_coverage_90": 0.8959828571428572,
+        "best_step": 9000
+      },
+      {
+        "config": "beta0.1_lr3e-4",
+        "extra": "--beta 0.1 --learning-rate 3e-4",
+        "best_validation_rmse": 0.087824247777462,
+        "best_validation_coverage_90": 0.8868742857142857,
+        "best_step": 9000
+      },
+      {
+        "config": "default",
+        "extra": "",
+        "best_validation_rmse": 0.0963067039847374,
+        "best_validation_coverage_90": 0.8760685714285714,
+        "best_step": 9000
+      }
+    ]
+  },
+  "latent_sde:reassemble": {
+    "selected": {
+      "config": "beta0.01_lr1e-3",
+      "extra": "--beta 0.01 --learning-rate 1e-3",
+      "best_validation_rmse": 0.04086253419518471,
+      "best_validation_coverage_90": 0.8762914285714286,
+      "best_step": 11000
+    },
+    "candidates": [
+      {
+        "config": "beta0.01_lr1e-3",
+        "extra": "--beta 0.01 --learning-rate 1e-3",
+        "best_validation_rmse": 0.04086253419518471,
+        "best_validation_coverage_90": 0.8762914285714286,
+        "best_step": 11000
+      },
+      {
+        "config": "beta0.1_lr1e-3",
+        "extra": "--beta 0.1 --learning-rate 1e-3",
+        "best_validation_rmse": 0.041256796568632126,
+        "best_validation_coverage_90": 0.8897828571428571,
+        "best_step": 11000
+      },
+      {
+        "config": "beta1_lr1e-3",
+        "extra": "--beta 1 --learning-rate 1e-3",
+        "best_validation_rmse": 0.04168767109513283,
+        "best_validation_coverage_90": 0.9149180952380952,
+        "best_step": 11000
+      },
+      {
+        "config": "beta0.01_lr3e-4",
+        "extra": "--beta 0.01 --learning-rate 3e-4",
+        "best_validation_rmse": 0.05681459605693817,
+        "best_validation_coverage_90": 0.913,
+        "best_step": 11000
+      },
+      {
+        "config": "beta0.1_lr3e-4",
+        "extra": "--beta 0.1 --learning-rate 3e-4",
+        "best_validation_rmse": 0.05761416256427765,
+        "best_validation_coverage_90": 0.9220304761904762,
+        "best_step": 11000
+      },
+      {
+        "config": "default",
+        "extra": "",
+        "best_validation_rmse": 0.06052819639444351,
+        "best_validation_coverage_90": 0.9376019047619047,
+        "best_step": 10500
+      }
+    ]
+  },
+  "sigker_sde:pendulum": {
+    "selected": {
+      "config": "sigma0.5_lr1e-3",
+      "extra": "--sig-sigma 0.5 --learning-rate 1e-3",
+      "best_validation_rmse": 0.13113029552000618,
+      "best_validation_coverage_90": 0.2421875,
+      "best_step": 8000
+    },
+    "candidates": [
+      {
+        "config": "sigma0.5_lr1e-3",
+        "extra": "--sig-sigma 0.5 --learning-rate 1e-3",
+        "best_validation_rmse": 0.13113029552000618,
+        "best_validation_coverage_90": 0.2421875,
+        "best_step": 8000
+      },
+      {
+        "config": "sigma1.0_lr1e-3",
+        "extra": "--sig-sigma 1.0 --learning-rate 1e-3",
+        "best_validation_rmse": 0.148379549882474,
+        "best_validation_coverage_90": 0.5506944444444445,
+        "best_step": 8000
+      },
+      {
+        "config": "sigma1.0",
+        "extra": "--sig-sigma 1.0 --learning-rate 3e-4",
+        "best_validation_rmse": 0.16077568676488335,
+        "best_validation_coverage_90": 0.5171875,
+        "best_step": 8000
+      },
+      {
+        "config": "sigma0.5",
+        "extra": "--sig-sigma 0.5 --learning-rate 3e-4",
+        "best_validation_rmse": 0.17995396003557038,
+        "best_validation_coverage_90": 0.11059027777777777,
+        "best_step": 8400
+      },
+      {
+        "config": "default",
+        "extra": "",
+        "best_validation_rmse": 0.18203357096953163,
+        "best_validation_coverage_90": 0.8581597222222223,
+        "best_step": 3600
+      },
+      {
+        "config": "sigmadefault_lr1e-3",
+        "extra": "--learning-rate 1e-3",
+        "best_validation_rmse": 0.19312863576504027,
+        "best_validation_coverage_90": 0.56875,
+        "best_step": 1600
+      },
+      {
+        "config": "sigmadefault_lr1e-4",
+        "extra": "--learning-rate 1e-4",
+        "best_validation_rmse": 0.20816184697085274,
+        "best_validation_coverage_90": 0.615625,
+        "best_step": 8400
+      },
+      {
+        "config": "sigma0.3",
+        "extra": "--sig-sigma 0.3",
+        "best_validation_rmse": 0.2535162607417594,
+        "best_validation_coverage_90": 0.2107638888888889,
+        "best_step": 8400
+      }
+    ]
+  },
+  "sigker_sde:lorenz96": {
+    "selected": {
+      "config": "sigmadefault_lr1e-3",
+      "extra": "--learning-rate 1e-3",
+      "best_validation_rmse": 0.46242120885726834,
+      "best_validation_coverage_90": 0.5062541666666667,
+      "best_step": 18500
+    },
+    "candidates": [
+      {
+        "config": "sigmadefault_lr1e-3",
+        "extra": "--learning-rate 1e-3",
+        "best_validation_rmse": 0.46242120885726834,
+        "best_validation_coverage_90": 0.5062541666666667,
+        "best_step": 18500
+      },
+      {
+        "config": "sigma1.0_lr1e-3",
+        "extra": "--sig-sigma 1.0 --learning-rate 1e-3",
+        "best_validation_rmse": 0.544927300067374,
+        "best_validation_coverage_90": 0.6301041666666667,
+        "best_step": 13500
+      },
+      {
+        "config": "default",
+        "extra": "",
+        "best_validation_rmse": 0.7599093759399522,
+        "best_validation_coverage_90": 0.5556875,
+        "best_step": 18000
+      },
+      {
+        "config": "sigma1.0",
+        "extra": "--sig-sigma 1.0 --learning-rate 3e-4",
+        "best_validation_rmse": 1.1691130595287982,
+        "best_validation_coverage_90": 0.6619208333333333,
+        "best_step": 18500
+      },
+      {
+        "config": "sigma0.5",
+        "extra": "--sig-sigma 0.5 --learning-rate 3e-4",
+        "best_validation_rmse": 4.159878416079834,
+        "best_validation_coverage_90": 0.6970833333333334,
+        "best_step": 3000
+      },
+      {
+        "config": "sigma0.5_lr1e-3",
+        "extra": "--sig-sigma 0.5 --learning-rate 1e-3",
+        "best_validation_rmse": 4.577296703028895,
+        "best_validation_coverage_90": 0.6496041666666666,
+        "best_step": 500
+      }
+    ]
+  },
+  "sigker_sde:aloha": {
+    "selected": {
+      "config": "sigmadefault_lr1e-3",
+      "extra": "--learning-rate 1e-3",
+      "best_validation_rmse": 0.06785379350185394,
+      "best_validation_coverage_90": 0.06246285714285714,
+      "best_step": 4500
+    },
+    "candidates": [
+      {
+        "config": "sigmadefault_lr1e-3",
+        "extra": "--learning-rate 1e-3",
+        "best_validation_rmse": 0.06785379350185394,
+        "best_validation_coverage_90": 0.06246285714285714,
+        "best_step": 4500
+      },
+      {
+        "config": "sigma1.0_lr1e-3",
+        "extra": "--sig-sigma 1.0 --learning-rate 1e-3",
+        "best_validation_rmse": 0.08132679760456085,
+        "best_validation_coverage_90": 0.5331314285714286,
+        "best_step": 7500
+      },
+      {
+        "config": "default",
+        "extra": "",
+        "best_validation_rmse": 0.09236247837543488,
+        "best_validation_coverage_90": 0.3164057142857143,
+        "best_step": 9000
+      },
+      {
+        "config": "sigma1.0",
+        "extra": "--sig-sigma 1.0 --learning-rate 3e-4",
+        "best_validation_rmse": 0.1742870956659317,
+        "best_validation_coverage_90": 0.6296628571428572,
+        "best_step": 9000
+      },
+      {
+        "config": "sigma0.5",
+        "extra": "--sig-sigma 0.5 --learning-rate 3e-4",
+        "best_validation_rmse": 0.7164925336837769,
+        "best_validation_coverage_90": 0.8821085714285715,
+        "best_step": 750
+      },
+      {
+        "config": "sigma0.5_lr1e-3",
+        "extra": "--sig-sigma 0.5 --learning-rate 1e-3",
+        "best_validation_rmse": 0.9013002514839172,
+        "best_validation_coverage_90": 0.9343085714285714,
+        "best_step": 500
+      }
+    ]
+  },
+  "sigker_sde:reassemble": {
+    "selected": {
+      "config": "sigma1.0_lr1e-3",
+      "extra": "--sig-sigma 1.0 --learning-rate 1e-3",
+      "best_validation_rmse": 0.05015827715396881,
+      "best_validation_coverage_90": 0.24928,
+      "best_step": 11000
+    },
+    "candidates": [
+      {
+        "config": "sigma1.0_lr1e-3",
+        "extra": "--sig-sigma 1.0 --learning-rate 1e-3",
+        "best_validation_rmse": 0.05015827715396881,
+        "best_validation_coverage_90": 0.24928,
+        "best_step": 11000
+      },
+      {
+        "config": "sigmadefault_lr1e-3",
+        "extra": "--learning-rate 1e-3",
+        "best_validation_rmse": 0.05194799602031708,
+        "best_validation_coverage_90": 0.11931809523809524,
+        "best_step": 11000
+      },
+      {
+        "config": "default",
+        "extra": "",
+        "best_validation_rmse": 0.058906350284814835,
+        "best_validation_coverage_90": 0.12040761904761904,
+        "best_step": 11000
+      },
+      {
+        "config": "sigma1.0",
+        "extra": "--sig-sigma 1.0 --learning-rate 3e-4",
+        "best_validation_rmse": 0.06064436584711075,
+        "best_validation_coverage_90": 0.25032190476190475,
+        "best_step": 11000
+      },
+      {
+        "config": "sigma0.5",
+        "extra": "--sig-sigma 0.5 --learning-rate 3e-4",
+        "best_validation_rmse": 0.11171416938304901,
+        "best_validation_coverage_90": 0.6438114285714286,
+        "best_step": 11000
+      },
+      {
+        "config": "sigma0.5_lr1e-3",
+        "extra": "--sig-sigma 0.5 --learning-rate 1e-3",
+        "best_validation_rmse": 0.11902166903018951,
+        "best_validation_coverage_90": 0.7067295238095238,
+        "best_step": 5000
+      }
+    ]
+  }
+}

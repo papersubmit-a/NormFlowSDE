@@ -1,0 +1,12 @@
+NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB
+2026-11-15T11:15:34+01:00 group nsf reassemble seeds 0+1+2
+0 MiB, 0 %
+2026-11-15T11:49:02+01:00 group nf_dpf reassemble seeds 0+1+2
+0 MiB, 0 %
+2026-11-15T12:37:03+01:00 group nf_dpf lorenz96 seeds 0+2
+0 MiB, 0 %
+2026-11-15T12:57:56+01:00 group nsf lorenz96 seeds 2
+0 MiB, 0 %
+2026-11-15T13:10:20+01:00 group normflowsde_pf reassemble seeds 1
+0 MiB, 0 %
+2026-11-15T13:33:40+01:00 rerun job done failed=0

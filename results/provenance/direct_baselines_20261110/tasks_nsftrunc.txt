@@ -1,0 +1,4 @@
+latent_nsf lorenz96 0
+latent_nsf aloha 0
+latent_nsf reassemble 0
+latent_nsf pendulum 0

@@ -1,0 +1,110 @@
+{
+  "status": "complete",
+  "method": "nsf",
+  "dataset": "aloha",
+  "seed": 0,
+  "variant": "learned-dynamics bootstrap particle filter + joint (checkpoint, process-noise inflation) validation selection + validation-selected process-noise inflation",
+  "inference_access": "filtering: x[k+1] uses observations through x[k+1] via a bootstrap particle filter (learned dynamics prediction, learned measurement-density update); no future observations",
+  "arguments": {
+    "method": "nsf",
+    "dataset": "aloha",
+    "data_cache": "results/datasets/aloha",
+    "output": "results/provenance/shared_trunk_20261114/smoke/nsf/aloha/seed0/train",
+    "seed": 0,
+    "steps": 6,
+    "batch_windows": 16,
+    "learning_rate": 0.0003,
+    "hidden_size": 107,
+    "hidden_depth": 3,
+    "flow_layers": 2,
+    "diffusion_hidden_size": null,
+    "alpha": 1.0,
+    "learned_scale": false,
+    "shared_trunk": false,
+    "diffusion": 0.01,
+    "flow_substeps": 4,
+    "epr_weight": 0.0,
+    "measurement_hidden": 64,
+    "measurement_depth": 2,
+    "measurement_layers": 4,
+    "particles": null,
+    "eval_every": 3,
+    "validation_windows": 4,
+    "eval_chunk": 8,
+    "selection_jitters": "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+    "smoke": true
+  },
+  "particles": 32,
+  "posterior_samples": 16,
+  "parameter_count": 129639,
+  "dynamics_parameters": 91355,
+  "measurement_parameters": 38284,
+  "devices": [
+    "cpu:0"
+  ],
+  "training_seconds": 13.64565342804417,
+  "best_step": 6,
+  "best_validation_rmse": 1.411909818649292,
+  "best_validation_coverage_90": 0.6292142857142857,
+  "jitter": 0.005,
+  "test": {
+    "rmse": 1.7181757494347567,
+    "crps": 0.9391235592225896,
+    "coverage_90": 0.6128285714285714,
+    "mean_interval_width": 2.025160980203067,
+    "latency_ms_per_trajectory": 150.1084533520043
+  },
+  "jitter_selection": [
+    {
+      "jitter": 0.0,
+      "rmse": 1.4731504917144775,
+      "coverage_90": 0.6069285714285715
+    },
+    {
+      "jitter": 0.005,
+      "rmse": 1.411909818649292,
+      "coverage_90": 0.6292142857142857
+    },
+    {
+      "jitter": 0.01,
+      "rmse": 1.4533964395523071,
+      "coverage_90": 0.6007142857142858
+    },
+    {
+      "jitter": 0.02,
+      "rmse": 1.507009744644165,
+      "coverage_90": 0.5945
+    },
+    {
+      "jitter": 0.03,
+      "rmse": 1.52020263671875,
+      "coverage_90": 0.6136428571428572
+    },
+    {
+      "jitter": 0.05,
+      "rmse": 1.5879892110824585,
+      "coverage_90": 0.6147142857142858
+    },
+    {
+      "jitter": 0.075,
+      "rmse": 1.6444653272628784,
+      "coverage_90": 0.6612857142857143
+    },
+    {
+      "jitter": 0.1,
+      "rmse": 1.8062185049057007,
+      "coverage_90": 0.6571428571428571
+    },
+    {
+      "jitter": 0.15,
+      "rmse": 2.5039496421813965,
+      "coverage_90": 0.6133571428571428
+    },
+    {
+      "jitter": 0.2,
+      "rmse": 2.9546608924865723,
+      "coverage_90": 0.5813571428571429
+    }
+  ],
+  "source_run": "results/provenance/shared_trunk_20261114/smoke/nsf/aloha/seed0/train"
+}

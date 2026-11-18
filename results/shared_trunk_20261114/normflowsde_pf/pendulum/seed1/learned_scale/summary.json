@@ -1,0 +1,15 @@
+{
+  "method": "normflowsde",
+  "seed": 1,
+  "best_step": 8400,
+  "best_validation_rmse": 0.07152572267141874,
+  "best_validation_coverage_90": 0.8991319444444444,
+  "test": {
+    "rmse": 0.08972638957594854,
+    "crps": 0.04262370761669148,
+    "coverage_90": 0.8772569444444445,
+    "mean_interval_width": 0.209040871491347,
+    "latency_ms_per_trajectory": 89.16379883885384
+  },
+  "jitter": 0.0
+}

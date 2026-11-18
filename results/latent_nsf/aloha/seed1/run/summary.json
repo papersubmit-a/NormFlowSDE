@@ -1,0 +1,14 @@
+{
+  "method": "latent_nsf",
+  "seed": 1,
+  "best_step": 3500,
+  "best_validation_rmse": 0.05789970979094505,
+  "best_validation_coverage_90": 0.8742685714285714,
+  "test": {
+    "rmse": 0.05799950134336303,
+    "crps": 0.03202183574107748,
+    "coverage_90": 0.8862114285714285,
+    "mean_interval_width": 0.18173180805406092,
+    "latency_ms_per_trajectory": 132.24537298083305
+  }
+}

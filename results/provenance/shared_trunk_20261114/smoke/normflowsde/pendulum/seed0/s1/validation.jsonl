@@ -1,0 +1,3 @@
+{"step": 250, "validation_rmse": 1.0176074233461743, "best_validation_rmse": 1.0176074233461743}
+{"step": 500, "validation_rmse": 0.31005964068671665, "best_validation_rmse": 0.31005964068671665}
+{"step": 600, "validation_rmse": 0.2333106804968972, "best_validation_rmse": 0.2333106804968972}

@@ -1,0 +1,14 @@
+{
+  "method": "latent_sde",
+  "seed": 2,
+  "best_step": 11000,
+  "best_validation_rmse": 0.042411282658576965,
+  "best_validation_coverage_90": 0.8701714285714286,
+  "test": {
+    "rmse": 0.03692357612973507,
+    "crps": 0.020143491492194722,
+    "coverage_90": 0.9165961904761905,
+    "mean_interval_width": 0.12315426772876387,
+    "latency_ms_per_trajectory": 646.7598062008619
+  }
+}

@@ -1,0 +1,2 @@
+sigker_sde lorenz96 1 _sweep/sigmadefault_lr1e-3 --learning-rate 1e-3
+sigker_sde lorenz96 2 _sweep/sigmadefault_lr1e-3 --learning-rate 1e-3

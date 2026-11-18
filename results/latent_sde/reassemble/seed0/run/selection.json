@@ -1,0 +1,6 @@
+{
+  "config": "beta0.01_lr1e-3",
+  "extra_args": "--beta 0.01 --learning-rate 1e-3",
+  "seed0_best_validation_rmse": 0.04086253419518471,
+  "rule": "lowest seed-0 best_validation_rmse over GRID.md (select.py -> selected.json)"
+}

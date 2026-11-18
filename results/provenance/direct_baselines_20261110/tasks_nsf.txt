@@ -1,0 +1,12 @@
+latent_nsf lorenz96 0
+latent_nsf lorenz96 1
+latent_nsf lorenz96 2
+latent_nsf reassemble 0
+latent_nsf reassemble 1
+latent_nsf reassemble 2
+latent_nsf aloha 0
+latent_nsf aloha 1
+latent_nsf aloha 2
+latent_nsf pendulum 0
+latent_nsf pendulum 1
+latent_nsf pendulum 2

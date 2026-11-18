@@ -1,0 +1,18 @@
+{
+  "method": "nf_dpf",
+  "seed": 1,
+  "best_step": 1500,
+  "initial_validation": {
+    "rmse": 1.4955071921631913,
+    "crps": 0.9000861836676826,
+    "coverage_90": 0.09311666666666667
+  },
+  "best_validation_rmse": 0.26052633950129006,
+  "best_validation_crps": 0.14269013373002296,
+  "test": {
+    "rmse": 0.2661298192697634,
+    "crps": 0.1446569843642784,
+    "coverage_90": 0.871475,
+    "mean_interval_width": 0.7422420665757283
+  }
+}

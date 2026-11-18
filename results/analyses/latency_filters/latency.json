@@ -1,0 +1,84 @@
+{
+ "protocol": "as inference_cost.py: jitted batch-size-one full-window calls, compilation excluded, median over repeats",
+ "note": "Measured in job 35428 (L40S, 2026-11-13); rows recovered from its log after the script's final save failed (OUT undefined, fixed). Previous measurement: latency.previous.json.",
+ "rows": [
+  {
+   "dataset": "pendulum",
+   "filter": "ekf",
+   "noise": 1.0,
+   "particles": null,
+   "draws": 128,
+   "device": "cuda:0",
+   "repeats": 30,
+   "compile_seconds": 0.9847090737894177,
+   "ms_per_window_median": 11.475380742922425,
+   "ms_per_window_p90": 11.49451402015984,
+   "ms_per_step_median": 0.19125634571537375
+  },
+  {
+   "dataset": "pendulum",
+   "filter": "ukf",
+   "noise": 1.0,
+   "particles": null,
+   "draws": 128,
+   "device": "cuda:0",
+   "repeats": 30,
+   "compile_seconds": 0.745124617125839,
+   "ms_per_window_median": 11.742366710677743,
+   "ms_per_window_p90": 11.76022607833147,
+   "ms_per_step_median": 0.19570611184462905
+  },
+  {
+   "dataset": "pendulum",
+   "filter": "pf",
+   "noise": 1.0,
+   "particles": 500,
+   "draws": 128,
+   "device": "cuda:0",
+   "repeats": 30,
+   "compile_seconds": 1.463167242705822,
+   "ms_per_window_median": 10.419389000162482,
+   "ms_per_window_p90": 10.432226909324527,
+   "ms_per_step_median": 0.17365648333604136
+  },
+  {
+   "dataset": "lorenz96",
+   "filter": "ekf",
+   "noise": 0.001,
+   "particles": null,
+   "draws": 200,
+   "device": "cuda:0",
+   "repeats": 30,
+   "compile_seconds": 1.0626738569699228,
+   "ms_per_window_median": 12.035962659865618,
+   "ms_per_window_p90": 12.082081940025091,
+   "ms_per_step_median": 0.12035962659865618
+  },
+  {
+   "dataset": "lorenz96",
+   "filter": "ukf",
+   "noise": 0.001,
+   "particles": null,
+   "draws": 200,
+   "device": "cuda:0",
+   "repeats": 30,
+   "compile_seconds": 0.9987599826417863,
+   "ms_per_window_median": 18.11128598637879,
+   "ms_per_window_p90": 18.133069900795817,
+   "ms_per_step_median": 0.1811128598637879
+  },
+  {
+   "dataset": "lorenz96",
+   "filter": "pf",
+   "noise": 0.001,
+   "particles": 1000,
+   "draws": 200,
+   "device": "cuda:0",
+   "repeats": 30,
+   "compile_seconds": 1.675703626126051,
+   "ms_per_window_median": 15.546804759651423,
+   "ms_per_window_p90": 15.573815768584609,
+   "ms_per_step_median": 0.15546804759651423
+  }
+ ]
+}

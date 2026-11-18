@@ -1,0 +1,554 @@
+{
+ "pendulum/normflowsde": {
+  "rmse": 0.07364929181701273,
+  "crps": 0.038747194758875295,
+  "coverage_90": 0.9200231481481481,
+  "mean_interval_width": 0.2320940319754871,
+  "rmse_sd": 0.002887729032435152,
+  "crps_sd": 0.0012306352826159086,
+  "coverage_90_sd": 0.002142767196941387,
+  "mean_interval_width_sd": 0.00609499927315961,
+  "runs": [
+   "results/shared_trunk_20261114/normflowsde/pendulum/seed0/s2",
+   "results/shared_trunk_20261114/normflowsde/pendulum/seed1/s2",
+   "results/shared_trunk_20261114/normflowsde/pendulum/seed2/s2"
+  ],
+  "latency_ms": 1.9834828563034534
+ },
+ "pendulum/latent_nsf": {
+  "rmse": 0.15341531120182553,
+  "crps": 0.06659163753982406,
+  "coverage_90": 0.8893518518518518,
+  "mean_interval_width": 0.3223982447732607,
+  "rmse_sd": 0.032487029292468605,
+  "crps_sd": 0.009987203607618166,
+  "coverage_90_sd": 0.0037811102370184555,
+  "mean_interval_width_sd": 0.024227986579045853,
+  "runs": [
+   "results/shared_trunk_20261114/latent_nsf/pendulum/seed0/run",
+   "results/shared_trunk_20261114/latent_nsf/pendulum/seed1/run",
+   "results/shared_trunk_20261114/latent_nsf/pendulum/seed2/run"
+  ],
+  "latency_ms": 1.703763147816062
+ },
+ "pendulum/latent_sde": {
+  "rmse": 0.10633238421406371,
+  "crps": 0.05310197972881393,
+  "coverage_90": 0.9332754629629629,
+  "mean_interval_width": 0.3387765562682024,
+  "rmse_sd": 0.002413267038166458,
+  "crps_sd": 0.0020766373020490963,
+  "coverage_90_sd": 0.011945571517669,
+  "mean_interval_width_sd": 0.006926702200474088,
+  "runs": [
+   "results/shared_trunk_20261114/latent_sde/pendulum/seed0/run",
+   "results/shared_trunk_20261114/latent_sde/pendulum/seed1/run",
+   "results/shared_trunk_20261114/latent_sde/pendulum/seed2/run"
+  ],
+  "latency_ms": 1.978612970560789
+ },
+ "pendulum/sigker_sde": {
+  "rmse": 0.181499427263403,
+  "crps": 0.09933601885444122,
+  "coverage_90": 0.1744212962962963,
+  "mean_interval_width": 0.10683424247251377,
+  "rmse_sd": 0.01726548574845587,
+  "crps_sd": 0.010704316795331166,
+  "coverage_90_sd": 0.07977092079124916,
+  "mean_interval_width_sd": 0.03208684318667684,
+  "runs": [
+   "results/shared_trunk_20261114/sigker_sde/pendulum/seed0/run",
+   "results/shared_trunk_20261114/sigker_sde/pendulum/seed1/run",
+   "results/shared_trunk_20261114/sigker_sde/pendulum/seed2/run"
+  ],
+  "latency_ms": 1.9969928544014692
+ },
+ "pendulum/nf_dpf": {
+  "rmse": 0.07917706284755777,
+  "crps": 0.03922599382581423,
+  "coverage_90": 0.9127893518518518,
+  "mean_interval_width": 0.2499602296624388,
+  "rmse_sd": 0.0052868904605460135,
+  "crps_sd": 0.0020710181797159873,
+  "coverage_90_sd": 0.0038089080259037893,
+  "mean_interval_width_sd": 0.019188519013171618,
+  "runs": [
+   "results/shared_trunk_20261114/nf_dpf/pendulum/seed0/s2",
+   "results/shared_trunk_20261114/nf_dpf/pendulum/seed1/s2",
+   "results/shared_trunk_20261114/nf_dpf/pendulum/seed2/s2"
+  ],
+  "latency_ms": 8.483337936922908
+ },
+ "pendulum/nsf": {
+  "rmse": 0.0650256243754039,
+  "crps": 0.033255160621561496,
+  "coverage_90": 0.8583912037037037,
+  "mean_interval_width": 0.1767173850726318,
+  "rmse_sd": 0.00043765057222239256,
+  "crps_sd": 0.00014186986049137732,
+  "coverage_90_sd": 0.006116764010057282,
+  "mean_interval_width_sd": 0.003152580197381743,
+  "runs": [
+   "results/shared_trunk_20261114/nsf/pendulum/seed0/jitter",
+   "results/shared_trunk_20261114/nsf/pendulum/seed1/jitter",
+   "results/shared_trunk_20261114/nsf/pendulum/seed2/jitter"
+  ],
+  "latency_ms": 8.63249902613461
+ },
+ "pendulum/flowsde": {
+  "rmse": 0.11897384531649184,
+  "crps": 0.06250936407325995,
+  "coverage_90": 0.9059606481481481,
+  "mean_interval_width": 0.355430242791638,
+  "rmse_sd": 0.0016777787190417005,
+  "crps_sd": 0.0005587050286102474,
+  "coverage_90_sd": 0.001613120354718351,
+  "mean_interval_width_sd": 0.0226960334095834,
+  "runs": [
+   "results/shared_trunk_20261114/flowsde/pendulum/seed0/D0.01",
+   "results/shared_trunk_20261114/flowsde/pendulum/seed1/D0.01",
+   "results/shared_trunk_20261114/flowsde/pendulum/seed2/D0.01"
+  ],
+  "latency_ms": 10.909253265708685
+ },
+ "pendulum/normflowsde_pf": {
+  "rmse": 0.09588048264244999,
+  "crps": 0.04512871535516991,
+  "coverage_90": 0.8746527777777778,
+  "mean_interval_width": 0.21575857756021902,
+  "rmse_sd": 0.005818627818029849,
+  "crps_sd": 0.0023048592975666938,
+  "coverage_90_sd": 0.0033798476274187164,
+  "mean_interval_width_sd": 0.005944795108645584,
+  "runs": [
+   "results/shared_trunk_20261114/normflowsde_pf/pendulum/seed0/learned_scale",
+   "results/shared_trunk_20261114/normflowsde_pf/pendulum/seed1/learned_scale",
+   "results/shared_trunk_20261114/normflowsde_pf/pendulum/seed2/learned_scale"
+  ],
+  "latency_ms": 8.207624778151512
+ },
+ "pendulum/reference_ekf": {
+  "rmse": 0.05776246701588196,
+  "crps": 0.029622564509676767,
+  "coverage_90": 0.8701388888888889,
+  "mean_interval_width": 0.16502743538977524,
+  "rmse_sd": 3.2393701341459544e-05,
+  "crps_sd": 2.818375698680246e-05,
+  "coverage_90_sd": 0.0012152777777777774,
+  "mean_interval_width_sd": 0.00016245239925592422
+ },
+ "pendulum/reference_pf": {
+  "rmse": 0.04061193773098115,
+  "crps": 0.01920090098863405,
+  "coverage_90": 0.8950231481481482,
+  "mean_interval_width": 0.11287626897486618,
+  "rmse_sd": 0.0003107200977218877,
+  "crps_sd": 0.0001181841014522328,
+  "coverage_90_sd": 0.0016409082035598963,
+  "mean_interval_width_sd": 3.052658845163689e-05
+ },
+ "lorenz96/normflowsde": {
+  "rmse": 0.2725206931318875,
+  "crps": 0.14638021277854196,
+  "coverage_90": 0.9102305555555555,
+  "mean_interval_width": 0.8767304157407103,
+  "rmse_sd": 0.0019431802274083136,
+  "crps_sd": 0.0010195530240669922,
+  "coverage_90_sd": 0.003614749235706007,
+  "mean_interval_width_sd": 0.0058914935206444636,
+  "runs": [
+   "results/shared_trunk_20261114/normflowsde/lorenz96/seed0/s2",
+   "results/shared_trunk_20261114/normflowsde/lorenz96/seed1/s2",
+   "results/shared_trunk_20261114/normflowsde/lorenz96/seed2/s2"
+  ],
+  "latency_ms": 4.887988092377782
+ },
+ "lorenz96/latent_nsf": {
+  "rmse": 0.8230433184374898,
+  "crps": 0.4020976569899901,
+  "coverage_90": 0.8749333333333333,
+  "mean_interval_width": 2.1569384327416454,
+  "rmse_sd": 0.014712324929569753,
+  "crps_sd": 0.003997575909796433,
+  "coverage_90_sd": 0.0030301379689893866,
+  "mean_interval_width_sd": 0.034128841398394755,
+  "runs": [
+   "results/latent_nsf/lorenz96/seed0/run",
+   "results/latent_nsf/lorenz96/seed1/run",
+   "results/latent_nsf/lorenz96/seed2/run"
+  ],
+  "latency_ms": 2.9432049486786127
+ },
+ "lorenz96/latent_sde": {
+  "rmse": 0.3303946346415323,
+  "crps": 0.18364533734358018,
+  "coverage_90": 0.8001527777777778,
+  "mean_interval_width": 0.7674854298641799,
+  "rmse_sd": 0.0060533587624351255,
+  "crps_sd": 0.0036882010322797135,
+  "coverage_90_sd": 0.005688318520669619,
+  "mean_interval_width_sd": 0.005405876465060661,
+  "runs": [
+   "results/latent_sde/lorenz96/seed0/run",
+   "results/latent_sde/lorenz96/seed1/run",
+   "results/latent_sde/lorenz96/seed2/run"
+  ],
+  "latency_ms": 4.206212004646659
+ },
+ "lorenz96/sigker_sde": {
+  "rmse": 0.45363703778121817,
+  "crps": 0.26452280562764513,
+  "coverage_90": 0.5418111111111111,
+  "mean_interval_width": 0.603615368248244,
+  "rmse_sd": 0.007101559110124095,
+  "crps_sd": 0.006853474719656676,
+  "coverage_90_sd": 0.034361014663477296,
+  "mean_interval_width_sd": 0.0460630823137971,
+  "runs": [
+   "results/sigker_sde/lorenz96/seed0/run",
+   "results/sigker_sde/lorenz96/seed1/run",
+   "results/sigker_sde/lorenz96/seed2/run"
+  ],
+  "latency_ms": 4.391497001051903
+ },
+ "lorenz96/nf_dpf": {
+  "rmse": 0.2723848859035411,
+  "crps": 0.14763053958645717,
+  "coverage_90": 0.8834416666666667,
+  "mean_interval_width": 0.7797719944971295,
+  "rmse_sd": 0.007309458776280957,
+  "crps_sd": 0.0038369380863014593,
+  "coverage_90_sd": 0.011655268241348103,
+  "mean_interval_width_sd": 0.04339695949512151,
+  "runs": [
+   "results/shared_trunk_20261114/nf_dpf/lorenz96/seed0/s2",
+   "results/shared_trunk_20261114/nf_dpf/lorenz96/seed1/s2",
+   "results/shared_trunk_20261114/nf_dpf/lorenz96/seed2/s2"
+  ],
+  "latency_ms": 28.233535820618272
+ },
+ "lorenz96/nsf": {
+  "rmse": 0.15555158880862227,
+  "crps": 0.07829703019434521,
+  "coverage_90": 0.921225,
+  "mean_interval_width": 0.47308491881798176,
+  "rmse_sd": 0.004558826024912182,
+  "crps_sd": 0.002145119075910816,
+  "coverage_90_sd": 0.004873853141452286,
+  "mean_interval_width_sd": 0.0009339234040288165,
+  "runs": [
+   "results/shared_trunk_20261114/nsf/lorenz96/seed0/jitter",
+   "results/shared_trunk_20261114/nsf/lorenz96/seed1/jitter",
+   "results/shared_trunk_20261114/nsf/lorenz96/seed2/jitter"
+  ],
+  "latency_ms": 20.83864016458392
+ },
+ "lorenz96/flowsde": {
+  "rmse": 0.30170091035555663,
+  "crps": 0.16338816736150216,
+  "coverage_90": 0.8991444444444444,
+  "mean_interval_width": 0.9349383018286782,
+  "rmse_sd": 0.003837561168892878,
+  "crps_sd": 0.0025903215165876637,
+  "coverage_90_sd": 0.0019189177601894474,
+  "mean_interval_width_sd": 0.0012192199937502196,
+  "runs": [
+   "results/shared_trunk_20261114/flowsde/lorenz96/seed0/D0.01",
+   "results/shared_trunk_20261114/flowsde/lorenz96/seed1/D0.01",
+   "results/shared_trunk_20261114/flowsde/lorenz96/seed2/D0.01"
+  ],
+  "latency_ms": 30.081958742812276
+ },
+ "lorenz96/normflowsde_pf": {
+  "rmse": 0.19743750939034618,
+  "crps": 0.10110440568735281,
+  "coverage_90": 0.8757055555555555,
+  "mean_interval_width": 0.47590832226327046,
+  "rmse_sd": 0.007121631642555921,
+  "crps_sd": 0.003970012860925492,
+  "coverage_90_sd": 0.0034395608300629857,
+  "mean_interval_width_sd": 0.002523818175406873,
+  "runs": [
+   "results/shared_trunk_20261114/normflowsde_pf/lorenz96/seed0/learned_scale",
+   "results/shared_trunk_20261114/normflowsde_pf/lorenz96/seed1/learned_scale",
+   "results/shared_trunk_20261114/normflowsde_pf/lorenz96/seed2/learned_scale"
+  ],
+  "latency_ms": 20.604568533599377
+ },
+ "lorenz96/reference_ekf": {
+  "rmse": 0.02289125583084765,
+  "crps": 0.00931515224972127,
+  "coverage_90": 0.996675,
+  "mean_interval_width": 0.09055044848324809,
+  "rmse_sd": 3.654520696249209e-05,
+  "crps_sd": 9.401589274274166e-06,
+  "coverage_90_sd": 0.0001089724735884921,
+  "mean_interval_width_sd": 6.167856795280606e-05
+ },
+ "lorenz96/reference_pf": {
+  "rmse": 0.01881555783048556,
+  "crps": 0.007742631621979024,
+  "coverage_90": 0.990275,
+  "mean_interval_width": 0.0673746625621043,
+  "rmse_sd": 6.593199255823909e-05,
+  "crps_sd": 6.161077321813219e-06,
+  "coverage_90_sd": 0.00010639287779004958,
+  "mean_interval_width_sd": 4.719947674060116e-05
+ },
+ "aloha/normflowsde": {
+  "rmse": 0.05232420514340059,
+  "crps": 0.029133551700769426,
+  "coverage_90": 0.9112495238095238,
+  "mean_interval_width": 0.17870902186290977,
+  "rmse_sd": 7.968078956651282e-05,
+  "crps_sd": 0.0001077903795500212,
+  "coverage_90_sd": 0.008335026331426774,
+  "mean_interval_width_sd": 0.006553037313883688,
+  "runs": [
+   "results/shared_trunk_20261114/normflowsde/aloha/seed0/s2",
+   "results/shared_trunk_20261114/normflowsde/aloha/seed1/s2",
+   "results/shared_trunk_20261114/normflowsde/aloha/seed2/s2"
+  ],
+  "latency_ms": 9.723650990054011
+ },
+ "aloha/latent_nsf": {
+  "rmse": 0.05587704704294398,
+  "crps": 0.030772468099931918,
+  "coverage_90": 0.8782590476190476,
+  "mean_interval_width": 0.17093805197018672,
+  "rmse_sd": 0.0018418231498141316,
+  "crps_sd": 0.0010821384353450713,
+  "coverage_90_sd": 0.021495958297532373,
+  "mean_interval_width_sd": 0.013262969463076741,
+  "runs": [
+   "results/latent_nsf/aloha/seed0/run",
+   "results/latent_nsf/aloha/seed1/run",
+   "results/latent_nsf/aloha/seed2/run"
+  ],
+  "latency_ms": 5.816769087687135
+ },
+ "aloha/latent_sde": {
+  "rmse": 0.05966163907379383,
+  "crps": 0.03317063437079675,
+  "coverage_90": 0.8843142857142857,
+  "mean_interval_width": 0.18563975595716845,
+  "rmse_sd": 0.0006489636728494602,
+  "crps_sd": 0.0004418652367529278,
+  "coverage_90_sd": 0.02156817685993012,
+  "mean_interval_width_sd": 0.01331387506761842,
+  "runs": [
+   "results/latent_sde/aloha/seed0/run",
+   "results/latent_sde/aloha/seed1/run",
+   "results/latent_sde/aloha/seed2/run"
+  ],
+  "latency_ms": 8.65450338460505
+ },
+ "aloha/sigker_sde": {
+  "rmse": 0.0647623656253307,
+  "crps": 0.042586387465086764,
+  "coverage_90": 0.25016,
+  "mean_interval_width": 0.037239324038194146,
+  "rmse_sd": 0.0015453263597184257,
+  "crps_sd": 0.003853586025787287,
+  "coverage_90_sd": 0.1584326040450317,
+  "mean_interval_width_sd": 0.024914261198242558,
+  "runs": [
+   "results/sigker_sde/aloha/seed0/run",
+   "results/sigker_sde/aloha/seed1/run",
+   "results/sigker_sde/aloha/seed2/run"
+  ],
+  "latency_ms": 9.064679965376854
+ },
+ "aloha/nf_dpf": {
+  "rmse": 0.0969211028735881,
+  "crps": 0.05648897165502521,
+  "coverage_90": 0.7514552380952381,
+  "mean_interval_width": 0.2198060245320721,
+  "rmse_sd": 0.0044359576944061965,
+  "crps_sd": 0.002604042244718562,
+  "coverage_90_sd": 0.009411257407296586,
+  "mean_interval_width_sd": 0.004574575450526922,
+  "runs": [
+   "results/shared_trunk_20261114/nf_dpf/aloha/seed0/s2",
+   "results/shared_trunk_20261114/nf_dpf/aloha/seed1/s2",
+   "results/shared_trunk_20261114/nf_dpf/aloha/seed2/s2"
+  ],
+  "latency_ms": 50.23138877004385
+ },
+ "aloha/nsf": {
+  "rmse": 0.08282842130177759,
+  "crps": 0.04836820245471232,
+  "coverage_90": 0.8301980952380953,
+  "mean_interval_width": 0.23209369681714564,
+  "rmse_sd": 0.0005972982118722519,
+  "crps_sd": 0.00032710122773379243,
+  "coverage_90_sd": 0.001422436350093795,
+  "mean_interval_width_sd": 0.0004479874330576385,
+  "runs": [
+   "results/shared_trunk_20261114/nsf/aloha/seed0/jitter",
+   "results/shared_trunk_20261114/nsf/aloha/seed1/jitter",
+   "results/shared_trunk_20261114/nsf/aloha/seed2/jitter"
+  ],
+  "latency_ms": 38.24974875897169
+ },
+ "aloha/flowsde": {
+  "rmse": 0.07082446022513313,
+  "crps": 0.040797776575778426,
+  "coverage_90": 0.8679714285714286,
+  "mean_interval_width": 0.21776614961036686,
+  "rmse_sd": 0.0008218832504489771,
+  "crps_sd": 0.00047544895171982166,
+  "coverage_90_sd": 0.002565332456475182,
+  "mean_interval_width_sd": 0.002218821030931307,
+  "runs": [
+   "results/shared_trunk_20261114/flowsde/aloha/seed0/D0.05",
+   "results/shared_trunk_20261114/flowsde/aloha/seed1/D0.05",
+   "results/shared_trunk_20261114/flowsde/aloha/seed2/D0.05"
+  ],
+  "latency_ms": 48.43997536227107
+ },
+ "aloha/normflowsde_pf": {
+  "rmse": 0.07779960367206472,
+  "crps": 0.04532556397720873,
+  "coverage_90": 0.8535333333333334,
+  "mean_interval_width": 0.23192591566128878,
+  "rmse_sd": 0.00019935094807803345,
+  "crps_sd": 0.00016183665692583938,
+  "coverage_90_sd": 0.0013032121487930796,
+  "mean_interval_width_sd": 0.000718772914490742,
+  "runs": [
+   "results/shared_trunk_20261114/normflowsde_pf/aloha/seed0/learned_scale",
+   "results/shared_trunk_20261114/normflowsde_pf/aloha/seed1/learned_scale",
+   "results/shared_trunk_20261114/normflowsde_pf/aloha/seed2/learned_scale"
+  ],
+  "latency_ms": 37.80158353038132
+ },
+ "reassemble/normflowsde": {
+  "rmse": 0.03194630957260954,
+  "crps": 0.017618428986577048,
+  "coverage_90": 0.911871746031746,
+  "mean_interval_width": 0.1052673292590508,
+  "rmse_sd": 0.0007930009268037033,
+  "crps_sd": 0.00040811428582712434,
+  "coverage_90_sd": 0.001306179741751731,
+  "mean_interval_width_sd": 0.001822857219033116,
+  "runs": [
+   "results/shared_trunk_20261114/normflowsde/reassemble/seed0/s2",
+   "results/shared_trunk_20261114/normflowsde/reassemble/seed1/s2",
+   "results/shared_trunk_20261114/normflowsde/reassemble/seed2/s2"
+  ],
+  "latency_ms": 10.3378314524889
+ },
+ "reassemble/latent_nsf": {
+  "rmse": 0.033531054792322545,
+  "crps": 0.017959564703542263,
+  "coverage_90": 0.8899130158730159,
+  "mean_interval_width": 0.09924326457127562,
+  "rmse_sd": 0.0004872778963260571,
+  "crps_sd": 0.00026816104115581703,
+  "coverage_90_sd": 0.0012606147344420443,
+  "mean_interval_width_sd": 0.001350653613924916,
+  "runs": [
+   "results/latent_nsf/reassemble/seed0/run",
+   "results/latent_nsf/reassemble/seed1/run",
+   "results/latent_nsf/reassemble/seed2/run"
+  ],
+  "latency_ms": 6.361149484291673
+ },
+ "reassemble/latent_sde": {
+  "rmse": 0.036451315556189176,
+  "crps": 0.01990620660538495,
+  "coverage_90": 0.9180971428571428,
+  "mean_interval_width": 0.12273262777495385,
+  "rmse_sd": 0.00041115979656801383,
+  "crps_sd": 0.00020710152127409638,
+  "coverage_90_sd": 0.0022871836546929816,
+  "mean_interval_width_sd": 0.0006112832896133191,
+  "runs": [
+   "results/latent_sde/reassemble/seed0/run",
+   "results/latent_sde/reassemble/seed1/run",
+   "results/latent_sde/reassemble/seed2/run"
+  ],
+  "latency_ms": 9.79203637689352
+ },
+ "reassemble/sigker_sde": {
+  "rmse": 0.04943549459429064,
+  "crps": 0.030710475162369265,
+  "coverage_90": 0.3824584126984127,
+  "mean_interval_width": 0.051931248169605156,
+  "rmse_sd": 0.007310299633995873,
+  "crps_sd": 0.0022339866212938795,
+  "coverage_90_sd": 0.20159416708918929,
+  "mean_interval_width_sd": 0.037321344876584985,
+  "runs": [
+   "results/sigker_sde/reassemble/seed0/run",
+   "results/sigker_sde/reassemble/seed1/run",
+   "results/sigker_sde/reassemble/seed2/run"
+  ],
+  "latency_ms": 9.770129574462771
+ },
+ "reassemble/nf_dpf": {
+  "rmse": 0.05980971093878604,
+  "crps": 0.033055430605062414,
+  "coverage_90": 0.8726730158730158,
+  "mean_interval_width": 0.17913450143548637,
+  "rmse_sd": 0.0007036518134974054,
+  "crps_sd": 0.00036678012130302755,
+  "coverage_90_sd": 0.008332645486351204,
+  "mean_interval_width_sd": 0.0026652963601268126,
+  "runs": [
+   "results/shared_trunk_20261114/nf_dpf/reassemble/seed0/s2",
+   "results/shared_trunk_20261114/nf_dpf/reassemble/seed1/s2",
+   "results/shared_trunk_20261114/nf_dpf/reassemble/seed2/s2"
+  ],
+  "latency_ms": 48.83578745648265
+ },
+ "reassemble/nsf": {
+  "rmse": 0.06118970100312548,
+  "crps": 0.03430230438323961,
+  "coverage_90": 0.9171415873015873,
+  "mean_interval_width": 0.21377435160120228,
+  "rmse_sd": 0.00020170285957396537,
+  "crps_sd": 7.724205834273653e-05,
+  "coverage_90_sd": 0.00023494551562797087,
+  "mean_interval_width_sd": 0.00013576444242638952,
+  "runs": [
+   "results/shared_trunk_20261114/nsf/reassemble/seed0/jitter",
+   "results/shared_trunk_20261114/nsf/reassemble/seed1/jitter",
+   "results/shared_trunk_20261114/nsf/reassemble/seed2/jitter"
+  ],
+  "latency_ms": 43.96129562519491
+ },
+ "reassemble/flowsde": {
+  "rmse": 0.052556314727093,
+  "crps": 0.029666957773476204,
+  "coverage_90": 0.951568253968254,
+  "mean_interval_width": 0.21144329114628865,
+  "rmse_sd": 0.0014083052440834753,
+  "crps_sd": 0.000870215536943303,
+  "coverage_90_sd": 0.0016580187431640499,
+  "mean_interval_width_sd": 0.005196840393033179,
+  "runs": [
+   "results/shared_trunk_20261114/flowsde/reassemble/seed0/D0.03",
+   "results/shared_trunk_20261114/flowsde/reassemble/seed1/D0.03",
+   "results/shared_trunk_20261114/flowsde/reassemble/seed2/D0.03"
+  ],
+  "latency_ms": 54.78594568558037
+ },
+ "reassemble/normflowsde_pf": {
+  "rmse": 0.061820997672995114,
+  "crps": 0.03475394487102063,
+  "coverage_90": 0.9193885714285714,
+  "mean_interval_width": 0.21884729180559465,
+  "rmse_sd": 0.0005698715019719387,
+  "crps_sd": 0.0004134296134956075,
+  "coverage_90_sd": 0.0016448355237611652,
+  "mean_interval_width_sd": 0.004456020037625823,
+  "runs": [
+   "results/shared_trunk_20261114/normflowsde_pf/reassemble/seed0/learned_scale",
+   "results/shared_trunk_20261114/normflowsde_pf/reassemble/seed1/learned_scale",
+   "results/shared_trunk_20261114/normflowsde_pf/reassemble/seed2/learned_scale"
+  ],
+  "latency_ms": 41.79460066370666
+ }
+}

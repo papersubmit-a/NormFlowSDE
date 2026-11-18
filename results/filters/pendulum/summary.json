@@ -1,0 +1,1640 @@
+{
+  "created_at": "2026-10-22T13:24:22.772638+00:00",
+  "dataset": "pendulum",
+  "data_cache": "/home/anon/bayesinf_jax/results/results_normflowsde_paper/datasets/pendulum",
+  "smoke": false,
+  "rows": [
+    {
+      "dataset": "pendulum",
+      "filter": "ekf",
+      "misspecification": 0.0,
+      "seed": 0,
+      "noise": 1.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.05767355459161875
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.05966503210138178
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.0648809636525517
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07282774016596129
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 3.8270476534962654,
+      "test": {
+        "rmse": 0.05778157253901963,
+        "crps": 0.029651117015593902,
+        "coverage_90": 0.8696180555555556,
+        "mean_interval_width": 0.16521042677948622
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ekf",
+      "misspecification": 0.0,
+      "seed": 1,
+      "noise": 1.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.057696324478710405
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.05967408140699493
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.06489258630257533
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07286749695972573
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.144214954227209,
+      "test": {
+        "rmse": 0.05772506490735801,
+        "crps": 0.02959476457518246,
+        "coverage_90": 0.8715277777777778,
+        "mean_interval_width": 0.16490021301731406
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ekf",
+      "misspecification": 0.0,
+      "seed": 2,
+      "noise": 1.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.057623346872026214
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.05960080810638077
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.06481560107186507
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07277762457096891
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.255080569535494,
+      "test": {
+        "rmse": 0.05778076360126825,
+        "crps": 0.02962181193825394,
+        "coverage_90": 0.8692708333333333,
+        "mean_interval_width": 0.16497166637252547
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ekf",
+      "misspecification": 0.1,
+      "seed": 0,
+      "noise": 4.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.08303745229480781
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.07306645722850463
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.07104073296098458
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07533593256311108
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.1920767575502396,
+      "test": {
+        "rmse": 0.07214885660257864,
+        "crps": 0.036104137430278176,
+        "coverage_90": 0.9046875,
+        "mean_interval_width": 0.21769151422061578
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ekf",
+      "misspecification": 0.1,
+      "seed": 1,
+      "noise": 4.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.0830624974147744
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.0730905201207181
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.07107209588131118
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07539260213931037
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.1320670135319233,
+      "test": {
+        "rmse": 0.07209848946457627,
+        "crps": 0.036092669234367554,
+        "coverage_90": 0.9029513888888889,
+        "mean_interval_width": 0.21730229113604776
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ekf",
+      "misspecification": 0.1,
+      "seed": 2,
+      "noise": 4.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.08313876471938444
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.07312823131896377
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.0710624430350474
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07533933331562283
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.1664530523121357,
+      "test": {
+        "rmse": 0.07216226519283318,
+        "crps": 0.03612029859688552,
+        "coverage_90": 0.9020833333333333,
+        "mean_interval_width": 0.21741453824744264
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ekf",
+      "misspecification": 0.25,
+      "seed": 0,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.14547327462918405
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.11151411949086583
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.09146751404635663
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.08445645651404869
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.166046429425478,
+      "test": {
+        "rmse": 0.0852297180837965,
+        "crps": 0.04208204843459709,
+        "coverage_90": 0.9013888888888889,
+        "mean_interval_width": 0.24603423476966557
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ekf",
+      "misspecification": 0.25,
+      "seed": 1,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.14548790966617997
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.11153839183607785
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.09151092028921311
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.08453061565073854
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.1966455057263374,
+      "test": {
+        "rmse": 0.08522028023120047,
+        "crps": 0.04209694155040052,
+        "coverage_90": 0.8989583333333333,
+        "mean_interval_width": 0.24557358119622397
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ekf",
+      "misspecification": 0.25,
+      "seed": 2,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.14561404773533063
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.11163455506245011
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.09155408485992204
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.08451366720553188
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.171269655227661,
+      "test": {
+        "rmse": 0.08525266202156341,
+        "crps": 0.04212721640592335,
+        "coverage_90": 0.8954861111111111,
+        "mean_interval_width": 0.24571697970411902
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ekf",
+      "misspecification": 0.5,
+      "seed": 0,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.22910332627598995
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.16708517163941314
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.12464003221525573
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.10129026035682143
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.1689534336328506,
+      "test": {
+        "rmse": 0.1021029950339834,
+        "crps": 0.05093506083686418,
+        "coverage_90": 0.8458333333333333,
+        "mean_interval_width": 0.24666523980065505
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ekf",
+      "misspecification": 0.5,
+      "seed": 1,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.22910678136596574
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.16710225545719717
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.12468411130495055
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.10137420195110948
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.1344549357891083,
+      "test": {
+        "rmse": 0.10212584863124814,
+        "crps": 0.05100344653844962,
+        "coverage_90": 0.8451388888888889,
+        "mean_interval_width": 0.24617361376641483
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ekf",
+      "misspecification": 0.5,
+      "seed": 2,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.2292605804861293
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.16723316413173342
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.1247668732559304
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.10139182735781377
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.182169333100319,
+      "test": {
+        "rmse": 0.10217542692462911,
+        "crps": 0.051032764157822846,
+        "coverage_90": 0.8430555555555556,
+        "mean_interval_width": 0.24632961474467419
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ukf",
+      "misspecification": 0.0,
+      "seed": 0,
+      "noise": 1.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.05766270858678787
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.05965786763316342
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.06487711007823053
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07282606007119731
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.2218245826661587,
+      "test": {
+        "rmse": 0.05778079979366645,
+        "crps": 0.029651500006801765,
+        "coverage_90": 0.8696180555555556,
+        "mean_interval_width": 0.16521150915812585
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ukf",
+      "misspecification": 0.0,
+      "seed": 1,
+      "noise": 1.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.05768497289611859
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.05966652733397474
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.06488848582881188
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07286568617129564
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.195094808936119,
+      "test": {
+        "rmse": 0.05772431613808562,
+        "crps": 0.029594995967267636,
+        "coverage_90": 0.8713541666666667,
+        "mean_interval_width": 0.164901284671475
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ukf",
+      "misspecification": 0.0,
+      "seed": 2,
+      "noise": 1.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.0576132785392899
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.05959435984871677
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.0648123215686859
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07277637846281583
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.2176759503781796,
+      "test": {
+        "rmse": 0.05778040665543351,
+        "crps": 0.029622169578414848,
+        "coverage_90": 0.8696180555555556,
+        "mean_interval_width": 0.16497273330201298
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ukf",
+      "misspecification": 0.1,
+      "seed": 0,
+      "noise": 4.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.08316831181275551
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.07315429941556371
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.07109022157346716
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07536029385947086
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.2238399758934975,
+      "test": {
+        "rmse": 0.0721994273388812,
+        "crps": 0.036127366483739196,
+        "coverage_90": 0.9043402777777778,
+        "mean_interval_width": 0.21769295540118938
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ukf",
+      "misspecification": 0.1,
+      "seed": 1,
+      "noise": 4.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.08319297175145644
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.0731780410758328
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.07112137684097573
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07541685649193151
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.205168515443802,
+      "test": {
+        "rmse": 0.07214908448394908,
+        "crps": 0.0361160640014946,
+        "coverage_90": 0.9027777777777778,
+        "mean_interval_width": 0.2173035885423331
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ukf",
+      "misspecification": 0.1,
+      "seed": 2,
+      "noise": 4.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.08326985806872311
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.07321648427518783
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.07111238586245247
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.0753640833953864
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.1926384903490543,
+      "test": {
+        "rmse": 0.07221313395378061,
+        "crps": 0.03614378694233042,
+        "coverage_90": 0.9020833333333333,
+        "mean_interval_width": 0.21741582965906872
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ukf",
+      "misspecification": 0.25,
+      "seed": 0,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.14562773972654117
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.11163139250408333
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.0915448945267407
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.08449993748132116
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.208889041095972,
+      "test": {
+        "rmse": 0.08527398419509878,
+        "crps": 0.04210359907381025,
+        "coverage_90": 0.9010416666666666,
+        "mean_interval_width": 0.2460354278289039
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ukf",
+      "misspecification": 0.25,
+      "seed": 1,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.14564217274099375
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.11165546920671317
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.09158813695364554
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.08457398948629323
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.1883609518408775,
+      "test": {
+        "rmse": 0.08526455174703225,
+        "crps": 0.04211851535702217,
+        "coverage_90": 0.8989583333333333,
+        "mean_interval_width": 0.24557470939435996
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ukf",
+      "misspecification": 0.25,
+      "seed": 2,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.14576858851423627
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.11175200482438347
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.09163172748032113
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.08455743054812713
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.1992070488631725,
+      "test": {
+        "rmse": 0.08529709229609256,
+        "crps": 0.04214892656878037,
+        "coverage_90": 0.8954861111111111,
+        "mean_interval_width": 0.24571812972841758
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ukf",
+      "misspecification": 0.5,
+      "seed": 0,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.22924865954288917
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.1671988389782332
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.12472091590035173
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.10134120360101685
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.1917494647204876,
+      "test": {
+        "rmse": 0.10215472621148629,
+        "crps": 0.050962905721494374,
+        "coverage_90": 0.8458333333333333,
+        "mean_interval_width": 0.24666619767080064
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ukf",
+      "misspecification": 0.5,
+      "seed": 1,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.2292519965438622
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.1672157999857047
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.12476487978551236
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.10142505154529391
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.228677086532116,
+      "test": {
+        "rmse": 0.10217759597396812,
+        "crps": 0.051031349220611116,
+        "coverage_90": 0.8447916666666667,
+        "mean_interval_width": 0.24617450864945825
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "ukf",
+      "misspecification": 0.5,
+      "seed": 2,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.2294059438381345
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.1673469152577242
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.12484790174944878
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.10144295160496834
+        }
+      ],
+      "particles": null,
+      "draws": 128,
+      "seconds": 2.2019514590501785,
+      "test": {
+        "rmse": 0.10222725778551707,
+        "crps": 0.0510607270024797,
+        "coverage_90": 0.8430555555555556,
+        "mean_interval_width": 0.24633053634854554
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf",
+      "misspecification": 0.0,
+      "seed": 0,
+      "noise": 1.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.04298072744528277
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.04519125421011024
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.05225964630848603
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.0642954565740065
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 32.08642781153321,
+      "test": {
+        "rmse": 0.04025837575753871,
+        "crps": 0.019074893272582147,
+        "coverage_90": 0.896875,
+        "mean_interval_width": 0.1128649567673833
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf",
+      "misspecification": 0.0,
+      "seed": 1,
+      "noise": 1.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.04294526255090863
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.04516331123929945
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.05199176629502452
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.06387577103993199
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.88216967880726,
+      "test": {
+        "rmse": 0.04084156214047111,
+        "crps": 0.019218528382963396,
+        "coverage_90": 0.8944444444444445,
+        "mean_interval_width": 0.11291083698054945
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf",
+      "misspecification": 0.0,
+      "seed": 2,
+      "noise": 1.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.04287737999645158
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.045123934603257664
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.052175021334273965
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.06385844519481286
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.981797140091658,
+      "test": {
+        "rmse": 0.040735875294933624,
+        "crps": 0.019309281310356603,
+        "coverage_90": 0.89375,
+        "mean_interval_width": 0.1128530131766658
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf",
+      "misspecification": 0.1,
+      "seed": 0,
+      "noise": 2.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.0685149420859797
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.05572843056860947
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.056478292130159334
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.06559038837521282
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.901350747793913,
+      "test": {
+        "rmse": 0.058000751377620056,
+        "crps": 0.026173129983307467,
+        "coverage_90": 0.8651041666666667,
+        "mean_interval_width": 0.13840829622992487
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf",
+      "misspecification": 0.1,
+      "seed": 1,
+      "noise": 4.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.06844708158888581
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.05649797969841729
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.05623181164329597
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.06608974551307152
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.958771347999573,
+      "test": {
+        "rmse": 0.058133832998910916,
+        "crps": 0.025916042781170115,
+        "coverage_90": 0.9157986111111112,
+        "mean_interval_width": 0.15976279696490187
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf",
+      "misspecification": 0.1,
+      "seed": 2,
+      "noise": 2.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.06997410538679802
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.056237347646699444
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.05650686490179139
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.0659060262258192
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.93833939731121,
+      "test": {
+        "rmse": 0.057275810416872186,
+        "crps": 0.025775991628078875,
+        "coverage_90": 0.8755208333333333,
+        "mean_interval_width": 0.13875163844990954
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf",
+      "misspecification": 0.25,
+      "seed": 0,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.22335997450354392
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.12705135324647365
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.079770171735056
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07295530597325102
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.97397055476904,
+      "test": {
+        "rmse": 0.0751089343300441,
+        "crps": 0.032539556190764936,
+        "coverage_90": 0.9085069444444445,
+        "mean_interval_width": 0.1949857339173103
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf",
+      "misspecification": 0.25,
+      "seed": 1,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.2221317620837516
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.12776751182299373
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.07985620853589616
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07379697570395564
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.98460016399622,
+      "test": {
+        "rmse": 0.07493631593125642,
+        "crps": 0.03245246971164537,
+        "coverage_90": 0.9086805555555556,
+        "mean_interval_width": 0.19433273052046143
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf",
+      "misspecification": 0.25,
+      "seed": 2,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.22567472071986458
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.13466602099980518
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.07894368808903895
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07388159894652334
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.934376031160355,
+      "test": {
+        "rmse": 0.07507749291279063,
+        "crps": 0.032545797639366,
+        "coverage_90": 0.9125,
+        "mean_interval_width": 0.19482858707479594
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf",
+      "misspecification": 0.5,
+      "seed": 0,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.48014358537268215
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.2894998030761868
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.15866750600550028
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.09377242971540412
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.860615640878677,
+      "test": {
+        "rmse": 0.09503441295141364,
+        "crps": 0.04104599164023133,
+        "coverage_90": 0.8583333333333333,
+        "mean_interval_width": 0.20705522260717132
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf",
+      "misspecification": 0.5,
+      "seed": 1,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.48452538297642117
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.2888457972127332
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.15471724851271157
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.09490730562669152
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.939855821430683,
+      "test": {
+        "rmse": 0.0955749922375212,
+        "crps": 0.04151575803423282,
+        "coverage_90": 0.8513888888888889,
+        "mean_interval_width": 0.20771798571067268
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf",
+      "misspecification": 0.5,
+      "seed": 2,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.4835325738719282
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.29320263650608425
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.1531125460424573
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.09483907855712674
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.96783361211419,
+      "test": {
+        "rmse": 0.09618995190096254,
+        "crps": 0.04193362100714766,
+        "coverage_90": 0.8498263888888888,
+        "mean_interval_width": 0.20655898445204235
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf_gauss",
+      "misspecification": 0.0,
+      "seed": 0,
+      "noise": 1.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.05808613268144173
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.05998161256734753
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.06505437507894023
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07242596138808369
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.547529712319374,
+      "test": {
+        "rmse": 0.05767381558722917,
+        "crps": 0.02976362634500063,
+        "coverage_90": 0.8715277777777778,
+        "mean_interval_width": 0.1654760598050359
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf_gauss",
+      "misspecification": 0.0,
+      "seed": 1,
+      "noise": 1.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.05794480307550195
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.05945311712159492
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.06473443229836112
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07276961387955742
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.602474197745323,
+      "test": {
+        "rmse": 0.05776320600203297,
+        "crps": 0.02966795471439907,
+        "coverage_90": 0.8670138888888889,
+        "mean_interval_width": 0.16455006996144111
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf_gauss",
+      "misspecification": 0.0,
+      "seed": 2,
+      "noise": 1.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.05774898218399277
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.05977862555901709
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.06477905252317276
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.0731088476886122
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.537778824567795,
+      "test": {
+        "rmse": 0.057972670210938215,
+        "crps": 0.02980450012651723,
+        "coverage_90": 0.8708333333333333,
+        "mean_interval_width": 0.1650508767053853
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf_gauss",
+      "misspecification": 0.1,
+      "seed": 0,
+      "noise": 4.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.0852188787785809
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.07363773946742656
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.07116650631169263
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07552607717925353
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.616737458854914,
+      "test": {
+        "rmse": 0.07277538478865019,
+        "crps": 0.03681018248126125,
+        "coverage_90": 0.8909722222222223,
+        "mean_interval_width": 0.21765163954363467
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf_gauss",
+      "misspecification": 0.1,
+      "seed": 1,
+      "noise": 4.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.08558885031553454
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.07378056280269436
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.07161868371956885
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07549415640876461
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.61720087006688,
+      "test": {
+        "rmse": 0.07207880257250367,
+        "crps": 0.03630134840968062,
+        "coverage_90": 0.9055555555555556,
+        "mean_interval_width": 0.2176547861059508
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf_gauss",
+      "misspecification": 0.1,
+      "seed": 2,
+      "noise": 4.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.08575959452091463
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.07335574999962717
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.07114088119993818
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.07524096173423173
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.57555863261223,
+      "test": {
+        "rmse": 0.07228111606183112,
+        "crps": 0.036245828296898625,
+        "coverage_90": 0.9074652777777777,
+        "mean_interval_width": 0.21718741595988883
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf_gauss",
+      "misspecification": 0.25,
+      "seed": 0,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.19196906755727114
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.12299095497755065
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.09222555791825408
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.08420567877221219
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.4012986458838,
+      "test": {
+        "rmse": 0.0847170539870109,
+        "crps": 0.04190741179306433,
+        "coverage_90": 0.9041666666666667,
+        "mean_interval_width": 0.2445942351410408
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf_gauss",
+      "misspecification": 0.25,
+      "seed": 1,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.18827329760854639
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.12179246159368168
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.09234599599017039
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.08459644278443178
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.538791965693235,
+      "test": {
+        "rmse": 0.08521167830863291,
+        "crps": 0.04231187184821884,
+        "coverage_90": 0.9067708333333333,
+        "mean_interval_width": 0.24514378257994313
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf_gauss",
+      "misspecification": 0.25,
+      "seed": 2,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.1937886509817808
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.12211984789575704
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.09229472211088903
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.08429393825052824
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.513639960438013,
+      "test": {
+        "rmse": 0.08542970051772007,
+        "crps": 0.04217026571800144,
+        "coverage_90": 0.8951388888888889,
+        "mean_interval_width": 0.24462784875844248
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf_gauss",
+      "misspecification": 0.5,
+      "seed": 0,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.45100780305311283
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.2491625406156264
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.13748372130906358
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.10226731400977052
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.64507434517145,
+      "test": {
+        "rmse": 0.1039582070054254,
+        "crps": 0.052358247354740074,
+        "coverage_90": 0.8237847222222222,
+        "mean_interval_width": 0.24192796680215992
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf_gauss",
+      "misspecification": 0.5,
+      "seed": 1,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.44803517753576894
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.24288155258414537
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.1396895971479245
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.10220290164131351
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.573826033622026,
+      "test": {
+        "rmse": 0.10255396318198744,
+        "crps": 0.05101940631757741,
+        "coverage_90": 0.8439236111111111,
+        "mean_interval_width": 0.2428156594783547
+      }
+    },
+    {
+      "dataset": "pendulum",
+      "filter": "pf_gauss",
+      "misspecification": 0.5,
+      "seed": 2,
+      "noise": 8.0,
+      "selection": [
+        {
+          "noise": 1.0,
+          "rmse": 0.45889304075538256
+        },
+        {
+          "noise": 2.0,
+          "rmse": 0.25110104335920586
+        },
+        {
+          "noise": 4.0,
+          "rmse": 0.139848535398543
+        },
+        {
+          "noise": 8.0,
+          "rmse": 0.10212837757202631
+        }
+      ],
+      "particles": 500,
+      "draws": 128,
+      "seconds": 31.56426254659891,
+      "test": {
+        "rmse": 0.10363401353933012,
+        "crps": 0.051972961120963855,
+        "coverage_90": 0.8230902777777778,
+        "mean_interval_width": 0.24102364509558089
+      }
+    }
+  ]
+}

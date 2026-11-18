@@ -1,0 +1,9 @@
+E1112 22:08:45.509888 2320631 slow_operation_alarm.cc:73] 
+********************************
+[Compiling module loop_exponential_fusion.2 for GPU] Very slow compile? If you want to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+********************************
+E1112 22:09:55.436917 2320629 slow_operation_alarm.cc:140] The operation took 3m9.927129948s
+
+********************************
+[Compiling module loop_exponential_fusion.2 for GPU] Very slow compile? If you want to file a bug, run with envvar XLA_FLAGS=--xla_dump_to=/tmp/foo and attach the results.
+********************************

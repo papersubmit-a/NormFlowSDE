@@ -1,0 +1,12 @@
+sigker_sde aloha 0
+sigker_sde aloha 1
+sigker_sde aloha 2
+sigker_sde reassemble 0
+sigker_sde reassemble 1
+sigker_sde reassemble 2
+sigker_sde lorenz96 0
+sigker_sde lorenz96 1
+sigker_sde lorenz96 2
+sigker_sde pendulum 0
+sigker_sde pendulum 1
+sigker_sde pendulum 2

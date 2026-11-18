@@ -1,0 +1,157 @@
+{
+ "rows": [
+  {
+   "dataset": "pendulum",
+   "n": 128,
+   "horizon": 60,
+   "run": "results/shared_trunk_20261114/normflowsde/pendulum/seed0/s2",
+   "device": "cuda:0",
+   "variants": {
+    "sample_posterior": {
+     "ms": 1.8869321793317795,
+     "p90": 1.9087374210357666,
+     "compile_s": 3.7421792410314083
+    },
+    "hoisted_unroll1": {
+     "ms": 1.8905755132436752,
+     "p90": 1.9158151000738144,
+     "compile_s": 3.6774145402014256,
+     "max_abs_difference": 0.0004183053970336914
+    },
+    "hoisted_unroll2": {
+     "ms": 1.7923172563314438,
+     "p90": 1.8093742430210114,
+     "compile_s": 1.4440393075346947,
+     "max_abs_difference": 0.0004183053970336914
+    },
+    "hoisted_unroll4": {
+     "ms": 1.8204990774393082,
+     "p90": 1.8597804009914398,
+     "compile_s": 1.256710883229971,
+     "max_abs_difference": 0.0004183053970336914
+    },
+    "hoisted_unroll8": {
+     "ms": 1.4386754482984543,
+     "p90": 1.4811210334300995,
+     "compile_s": 1.7175875566899776,
+     "max_abs_difference": 0.0004183053970336914
+    }
+   }
+  },
+  {
+   "dataset": "lorenz96",
+   "n": 200,
+   "horizon": 100,
+   "run": "results/shared_trunk_20261114/normflowsde/lorenz96/seed0/s2",
+   "device": "cuda:0",
+   "variants": {
+    "sample_posterior": {
+     "ms": 5.48921525478363,
+     "p90": 5.56144155561924,
+     "compile_s": 8.597883190959692
+    },
+    "hoisted_unroll1": {
+     "ms": 4.787411540746689,
+     "p90": 4.828552529215813,
+     "compile_s": 15.970079269260168,
+     "max_abs_difference": 0.000916600227355957
+    },
+    "hoisted_unroll2": {
+     "ms": 4.352224990725517,
+     "p90": 4.4371578842401505,
+     "compile_s": 1.9508503787219524,
+     "max_abs_difference": 0.000916600227355957
+    },
+    "hoisted_unroll4": {
+     "ms": 4.2762476950883865,
+     "p90": 4.357603192329407,
+     "compile_s": 2.174383945763111,
+     "max_abs_difference": 0.000916600227355957
+    },
+    "hoisted_unroll8": {
+     "ms": 3.9434898644685745,
+     "p90": 4.313074424862862,
+     "compile_s": 3.597633045166731,
+     "max_abs_difference": 0.000916600227355957
+    }
+   }
+  },
+  {
+   "dataset": "aloha",
+   "n": 200,
+   "horizon": 250,
+   "run": "results/shared_trunk_20261114/normflowsde/aloha/seed0/s2",
+   "device": "cuda:0",
+   "variants": {
+    "sample_posterior": {
+     "ms": 10.538613423705101,
+     "p90": 10.576765984296799,
+     "compile_s": 6.9063286408782005
+    },
+    "hoisted_unroll1": {
+     "ms": 8.60176794230938,
+     "p90": 8.674244955182076,
+     "compile_s": 5.180460195988417,
+     "max_abs_difference": 0.0006334781646728516
+    },
+    "hoisted_unroll2": {
+     "ms": 7.760854437947273,
+     "p90": 7.811900973320007,
+     "compile_s": 1.8563413582742214,
+     "max_abs_difference": 0.0006093382835388184
+    },
+    "hoisted_unroll4": {
+     "ms": 7.488129660487175,
+     "p90": 7.551470771431923,
+     "compile_s": 2.0699279457330704,
+     "max_abs_difference": 0.0006093382835388184
+    },
+    "hoisted_unroll8": {
+     "ms": 7.348325103521347,
+     "p90": 7.451850548386574,
+     "compile_s": 2.3137332536280155,
+     "max_abs_difference": 0.0006093382835388184
+    }
+   }
+  },
+  {
+   "dataset": "reassemble",
+   "n": 500,
+   "horizon": 250,
+   "run": "results/shared_trunk_20261114/normflowsde/reassemble/seed0/s2",
+   "device": "cuda:0",
+   "variants": {
+    "sample_posterior": {
+     "ms": 11.656645685434341,
+     "p90": 11.705468967556953,
+     "compile_s": 8.746588006615639
+    },
+    "hoisted_unroll1": {
+     "ms": 9.68281552195549,
+     "p90": 9.742216020822525,
+     "compile_s": 7.12913553789258,
+     "max_abs_difference": 0.0014804601669311523
+    },
+    "hoisted_unroll2": {
+     "ms": 8.756417781114578,
+     "p90": 8.846710994839668,
+     "compile_s": 1.9662449583411217,
+     "max_abs_difference": 0.0014804601669311523
+    },
+    "hoisted_unroll4": {
+     "ms": 8.514156565070152,
+     "p90": 8.62579308450222,
+     "compile_s": 2.1748103089630604,
+     "max_abs_difference": 0.0014804601669311523
+    },
+    "hoisted_unroll8": {
+     "ms": 8.382171392440796,
+     "p90": 8.46819393336773,
+     "compile_s": 2.3908450938761234,
+     "max_abs_difference": 0.0014804601669311523
+    }
+   }
+  }
+ ],
+ "repeats": 30
+}

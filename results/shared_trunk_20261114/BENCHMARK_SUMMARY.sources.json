@@ -1,0 +1,762 @@
+{
+ "cells": {
+  "normflowsde/pendulum": {
+   "runs": [
+    "results/shared_trunk_20261114/normflowsde/pendulum/seed0/s2",
+    "results/shared_trunk_20261114/normflowsde/pendulum/seed1/s2",
+    "results/shared_trunk_20261114/normflowsde/pendulum/seed2/s2"
+   ],
+   "test_rmse": [
+    0.07069963227369178,
+    0.07377741805832935,
+    0.07647082511901705
+   ],
+   "test_crps": [
+    0.0373261800274818,
+    0.03945872618079241,
+    0.03945667806835168
+   ],
+   "test_coverage_90": [
+    0.9223958333333333,
+    0.9194444444444444,
+    0.9182291666666667
+   ],
+   "latency_ms": 1.8373709172010422
+  },
+  "latent_nsf/pendulum": {
+   "runs": [
+    "results/shared_trunk_20261114/latent_nsf/pendulum/seed0/run",
+    "results/shared_trunk_20261114/latent_nsf/pendulum/seed1/run",
+    "results/shared_trunk_20261114/latent_nsf/pendulum/seed2/run"
+   ],
+   "test_rmse": [
+    0.18966129700421108,
+    0.14366360596500444,
+    0.12692103063626106
+   ],
+   "test_crps": [
+    0.07789262953171042,
+    0.06293109654324937,
+    0.058951186544512396
+   ],
+   "test_coverage_90": [
+    0.8862847222222222,
+    0.8935763888888889,
+    0.8881944444444444
+   ],
+   "latency_ms": 1.6628038138151169
+  },
+  "latent_sde/pendulum": {
+   "runs": [
+    "results/shared_trunk_20261114/latent_sde/pendulum/seed0/run",
+    "results/shared_trunk_20261114/latent_sde/pendulum/seed1/run",
+    "results/shared_trunk_20261114/latent_sde/pendulum/seed2/run"
+   ],
+   "test_rmse": [
+    0.10445007337939104,
+    0.10549406295586983,
+    0.10905301630693028
+   ],
+   "test_crps": [
+    0.0517104150898976,
+    0.052106583945277035,
+    0.055488940151267166
+   ],
+   "test_coverage_90": [
+    0.9425347222222222,
+    0.9375,
+    0.9197916666666667
+   ],
+   "latency_ms": 1.9596964120864868
+  },
+  "sigker_sde/pendulum": {
+   "runs": [
+    "results/shared_trunk_20261114/sigker_sde/pendulum/seed0/run",
+    "results/shared_trunk_20261114/sigker_sde/pendulum/seed1/run",
+    "results/shared_trunk_20261114/sigker_sde/pendulum/seed2/run"
+   ],
+   "test_rmse": [
+    0.16454635426108255,
+    0.1990612257290653,
+    0.1808907018000612
+   ],
+   "test_crps": [
+    0.09094680472779927,
+    0.11139180984944973,
+    0.09566944198607466
+   ],
+   "test_coverage_90": [
+    0.12604166666666666,
+    0.13072916666666667,
+    0.2664930555555556
+   ],
+   "latency_ms": 2.0659398287534714
+  },
+  "nf_dpf/pendulum": {
+   "runs": [
+    "results/shared_trunk_20261114/nf_dpf/pendulum/seed0/s2",
+    "results/shared_trunk_20261114/nf_dpf/pendulum/seed1/s2",
+    "results/shared_trunk_20261114/nf_dpf/pendulum/seed2/s2"
+   ],
+   "test_rmse": [
+    0.08342494272270011,
+    0.08085020707636782,
+    0.07325603874360538
+   ],
+   "test_crps": [
+    0.04102965754827239,
+    0.039684020112676494,
+    0.036964303816493814
+   ],
+   "test_coverage_90": [
+    0.9085069444444445,
+    0.9157986111111112,
+    0.9140625
+   ],
+   "latency_ms": 8.463116362690926
+  },
+  "nsf/pendulum": {
+   "runs": [
+    "results/shared_trunk_20261114/nsf/pendulum/seed0/jitter",
+    "results/shared_trunk_20261114/nsf/pendulum/seed1/jitter",
+    "results/shared_trunk_20261114/nsf/pendulum/seed2/jitter"
+   ],
+   "test_rmse": [
+    0.06477312931322847,
+    0.06553097968278929,
+    0.06477276413019398
+   ],
+   "test_crps": [
+    0.0334136365915745,
+    0.03321185427320253,
+    0.03313999099990746
+   ],
+   "test_coverage_90": [
+    0.8550347222222222,
+    0.8654513888888888,
+    0.8546875
+   ],
+   "latency_ms": 8.51881317794323
+  },
+  "flowsde/pendulum": {
+   "runs": [
+    "results/shared_trunk_20261114/flowsde/pendulum/seed0/D0.01",
+    "results/shared_trunk_20261114/flowsde/pendulum/seed1/D0.01",
+    "results/shared_trunk_20261114/flowsde/pendulum/seed2/D0.01"
+   ],
+   "test_rmse": [
+    0.12003845784241685,
+    0.11703979315740483,
+    0.11984328494965384
+   ],
+   "test_crps": [
+    0.0629388379500495,
+    0.06271153893712184,
+    0.06187771533260852
+   ],
+   "test_coverage_90": [
+    0.9078125,
+    0.9052083333333333,
+    0.9048611111111111
+   ],
+   "latency_ms": 10.696480050683022
+  },
+  "normflowsde_pf/pendulum": {
+   "runs": [
+    "results/shared_trunk_20261114/normflowsde_pf/pendulum/seed0/learned_scale",
+    "results/shared_trunk_20261114/normflowsde_pf/pendulum/seed1/learned_scale",
+    "results/shared_trunk_20261114/normflowsde_pf/pendulum/seed2/learned_scale"
+   ],
+   "test_rmse": [
+    0.09662262369980239,
+    0.08972638957594854,
+    0.10129243465159903
+   ],
+   "test_crps": [
+    0.045602708752930404,
+    0.04262370761669148,
+    0.047159729695887845
+   ],
+   "test_coverage_90": [
+    0.8708333333333333,
+    0.8772569444444445,
+    0.8758680555555556
+   ],
+   "latency_ms": 8.218582719564438
+  },
+  "normflowsde/lorenz96": {
+   "runs": [
+    "results/shared_trunk_20261114/normflowsde/lorenz96/seed0/s2",
+    "results/shared_trunk_20261114/normflowsde/lorenz96/seed1/s2",
+    "results/shared_trunk_20261114/normflowsde/lorenz96/seed2/s2"
+   ],
+   "test_rmse": [
+    0.27440887331049757,
+    0.27052682634917635,
+    0.27262637973598847
+   ],
+   "test_crps": [
+    0.14742843053829666,
+    0.14539197243562285,
+    0.1463202353617064
+   ],
+   "test_coverage_90": [
+    0.9078666666666667,
+    0.9143916666666667,
+    0.9084333333333333
+   ],
+   "latency_ms": 4.871943965554237
+  },
+  "latent_nsf/lorenz96": {
+   "runs": [
+    "results/latent_nsf/lorenz96/seed0/run",
+    "results/latent_nsf/lorenz96/seed1/run",
+    "results/latent_nsf/lorenz96/seed2/run"
+   ],
+   "test_rmse": [
+    0.8400243747315699,
+    0.8149832553717303,
+    0.8141223252091692
+   ],
+   "test_crps": [
+    0.40671365191276776,
+    0.39978215557943,
+    0.39979716347777267
+   ],
+   "test_coverage_90": [
+    0.8772,
+    0.8761083333333334,
+    0.8714916666666667
+   ],
+   "latency_ms": 2.9075294733047485
+  },
+  "latent_sde/lorenz96": {
+   "runs": [
+    "results/latent_sde/lorenz96/seed0/run",
+    "results/latent_sde/lorenz96/seed1/run",
+    "results/latent_sde/lorenz96/seed2/run"
+   ],
+   "test_rmse": [
+    0.33640803737614056,
+    0.3243020957914199,
+    0.3304737707570365
+   ],
+   "test_crps": [
+    0.18708803252482578,
+    0.17975288075724105,
+    0.18409509874867375
+   ],
+   "test_coverage_90": [
+    0.7936166666666666,
+    0.8039833333333334,
+    0.8028583333333333
+   ],
+   "latency_ms": 4.229912534356117
+  },
+  "sigker_sde/lorenz96": {
+   "runs": [
+    "results/sigker_sde/lorenz96/seed0/run",
+    "results/sigker_sde/lorenz96/seed1/run",
+    "results/sigker_sde/lorenz96/seed2/run"
+   ],
+   "test_rmse": [
+    0.4544285417964349,
+    0.46030968607636635,
+    0.4461728854708533
+   ],
+   "test_crps": [
+    0.266584631703986,
+    0.2701086720671484,
+    0.256875113111801
+   ],
+   "test_coverage_90": [
+    0.531675,
+    0.5136583333333333,
+    0.5801
+   ],
+   "latency_ms": 4.594974219799042
+  },
+  "nf_dpf/lorenz96": {
+   "runs": [
+    "results/shared_trunk_20261114/nf_dpf/lorenz96/seed0/s2",
+    "results/shared_trunk_20261114/nf_dpf/lorenz96/seed1/s2",
+    "results/shared_trunk_20261114/nf_dpf/lorenz96/seed2/s2"
+   ],
+   "test_rmse": [
+    0.2706048950322673,
+    0.2661298192697634,
+    0.2804199434085926
+   ],
+   "test_crps": [
+    0.14627292431265868,
+    0.1446569843642784,
+    0.15196171008243442
+   ],
+   "test_coverage_90": [
+    0.8840916666666667,
+    0.871475,
+    0.8947583333333333
+   ],
+   "latency_ms": 29.386287555098534
+  },
+  "nsf/lorenz96": {
+   "runs": [
+    "results/shared_trunk_20261114/nsf/lorenz96/seed0/jitter",
+    "results/shared_trunk_20261114/nsf/lorenz96/seed1/jitter",
+    "results/shared_trunk_20261114/nsf/lorenz96/seed2/jitter"
+   ],
+   "test_rmse": [
+    0.15127378771730698,
+    0.15503376052115203,
+    0.16034721818740777
+   ],
+   "test_crps": [
+    0.07627930142423106,
+    0.07806166236332414,
+    0.08055012679548042
+   ],
+   "test_coverage_90": [
+    0.924725,
+    0.9232916666666666,
+    0.9156583333333334
+   ],
+   "latency_ms": 20.714865997433662
+  },
+  "flowsde/lorenz96": {
+   "runs": [
+    "results/shared_trunk_20261114/flowsde/lorenz96/seed0/D0.01",
+    "results/shared_trunk_20261114/flowsde/lorenz96/seed1/D0.01",
+    "results/shared_trunk_20261114/flowsde/lorenz96/seed2/D0.01"
+   ],
+   "test_rmse": [
+    0.297418662009859,
+    0.3028553037878679,
+    0.30482876526894304
+   ],
+   "test_crps": [
+    0.16076099766569737,
+    0.16346350744305954,
+    0.16593999697574954
+   ],
+   "test_coverage_90": [
+    0.9013583333333334,
+    0.8979583333333333,
+    0.8981166666666667
+   ],
+   "latency_ms": 30.31834401190281
+  },
+  "normflowsde_pf/lorenz96": {
+   "runs": [
+    "results/shared_trunk_20261114/normflowsde_pf/lorenz96/seed0/learned_scale",
+    "results/shared_trunk_20261114/normflowsde_pf/lorenz96/seed1/learned_scale",
+    "results/shared_trunk_20261114/normflowsde_pf/lorenz96/seed2/learned_scale"
+   ],
+   "test_rmse": [
+    0.191521037658846,
+    0.1954496196066588,
+    0.20534187090553374
+   ],
+   "test_crps": [
+    0.0980000661723498,
+    0.09973539259408871,
+    0.1055777582956199
+   ],
+   "test_coverage_90": [
+    0.8793666666666666,
+    0.8725416666666667,
+    0.8752083333333334
+   ],
+   "latency_ms": 20.25703340768814
+  },
+  "normflowsde/aloha": {
+   "runs": [
+    "results/shared_trunk_20261114/normflowsde/aloha/seed0/s2",
+    "results/shared_trunk_20261114/normflowsde/aloha/seed1/s2",
+    "results/shared_trunk_20261114/normflowsde/aloha/seed2/s2"
+   ],
+   "test_rmse": [
+    0.052296580215553626,
+    0.05226201316174994,
+    0.0524140220528982
+   ],
+   "test_crps": [
+    0.029118893259076902,
+    0.029033840679235087,
+    0.02924792116399629
+   ],
+   "test_coverage_90": [
+    0.9035714285714286,
+    0.9100628571428572,
+    0.9201142857142857
+   ],
+   "latency_ms": 9.785842150449753
+  },
+  "latent_nsf/aloha": {
+   "runs": [
+    "results/latent_nsf/aloha/seed0/run",
+    "results/latent_nsf/aloha/seed1/run",
+    "results/latent_nsf/aloha/seed2/run"
+   ],
+   "test_rmse": [
+    0.05493288108257021,
+    0.05799950134336303,
+    0.0546987587028987
+   ],
+   "test_crps": [
+    0.03016605902135065,
+    0.03202183574107748,
+    0.030129509537367625
+   ],
+   "test_coverage_90": [
+    0.8946457142857143,
+    0.8862114285714285,
+    0.85392
+   ],
+   "latency_ms": 5.776038393378258
+  },
+  "latent_sde/aloha": {
+   "runs": [
+    "results/latent_sde/aloha/seed0/run",
+    "results/latent_sde/aloha/seed1/run",
+    "results/latent_sde/aloha/seed2/run"
+   ],
+   "test_rmse": [
+    0.058913260048010015,
+    0.06006900197969002,
+    0.06000265519368144
+   ],
+   "test_crps": [
+    0.032660534979636745,
+    0.03341599666195856,
+    0.03343537147079496
+   ],
+   "test_coverage_90": [
+    0.8713314285714285,
+    0.8724,
+    0.9092114285714286
+   ],
+   "latency_ms": 8.609356358647346
+  },
+  "sigker_sde/aloha": {
+   "runs": [
+    "results/sigker_sde/aloha/seed0/run",
+    "results/sigker_sde/aloha/seed1/run",
+    "results/sigker_sde/aloha/seed2/run"
+   ],
+   "test_rmse": [
+    0.0663354546812265,
+    0.06324638523679857,
+    0.06470525695796706
+   ],
+   "test_crps": [
+    0.04652238379505622,
+    0.03882087019700653,
+    0.04241590840319753
+   ],
+   "test_coverage_90": [
+    0.08558285714285714,
+    0.4016342857142857,
+    0.26326285714285713
+   ],
+   "latency_ms": 9.171633049845695
+  },
+  "nf_dpf/aloha": {
+   "runs": [
+    "results/shared_trunk_20261114/nf_dpf/aloha/seed0/s2",
+    "results/shared_trunk_20261114/nf_dpf/aloha/seed1/s2",
+    "results/shared_trunk_20261114/nf_dpf/aloha/seed2/s2"
+   ],
+   "test_rmse": [
+    0.09511276891011439,
+    0.10197559115300446,
+    0.09367494855764544
+   ],
+   "test_crps": [
+    0.055325605423037535,
+    0.0594718982551293,
+    0.054669411286908776
+   ],
+   "test_coverage_90": [
+    0.7606285714285714,
+    0.7418228571428571,
+    0.7519142857142858
+   ],
+   "latency_ms": 50.045834854245186
+  },
+  "nsf/aloha": {
+   "runs": [
+    "results/shared_trunk_20261114/nsf/aloha/seed0/jitter",
+    "results/shared_trunk_20261114/nsf/aloha/seed1/jitter",
+    "results/shared_trunk_20261114/nsf/aloha/seed2/jitter"
+   ],
+   "test_rmse": [
+    0.08336871077818854,
+    0.08292953202166732,
+    0.08218702110547692
+   ],
+   "test_crps": [
+    0.04867981438959016,
+    0.04839724430228949,
+    0.048027548672257316
+   ],
+   "test_coverage_90": [
+    0.8286228571428571,
+    0.8305828571428572,
+    0.8313885714285715
+   ],
+   "latency_ms": 38.31009939312935
+  },
+  "flowsde/aloha": {
+   "runs": [
+    "results/shared_trunk_20261114/flowsde/aloha/seed0/D0.05",
+    "results/shared_trunk_20261114/flowsde/aloha/seed1/D0.05",
+    "results/shared_trunk_20261114/flowsde/aloha/seed2/D0.05"
+   ],
+   "test_rmse": [
+    0.07168483169482427,
+    0.07004741316644948,
+    0.07074113581412562
+   ],
+   "test_crps": [
+    0.041332887065261704,
+    0.04042394678692955,
+    0.040636495875144014
+   ],
+   "test_coverage_90": [
+    0.8667428571428571,
+    0.87092,
+    0.8662514285714286
+   ],
+   "latency_ms": 48.67178946733475
+  },
+  "normflowsde_pf/aloha": {
+   "runs": [
+    "results/shared_trunk_20261114/normflowsde_pf/aloha/seed0/learned_scale",
+    "results/shared_trunk_20261114/normflowsde_pf/aloha/seed1/learned_scale",
+    "results/shared_trunk_20261114/normflowsde_pf/aloha/seed2/learned_scale"
+   ],
+   "test_rmse": [
+    0.07801549143531862,
+    0.07762248497018118,
+    0.07776083461069437
+   ],
+   "test_crps": [
+    0.04550733103512533,
+    0.04519710843716253,
+    0.04527225245933834
+   ],
+   "test_coverage_90": [
+    0.8523428571428572,
+    0.8549257142857143,
+    0.8533314285714285
+   ],
+   "latency_ms": 37.63239085674286
+  },
+  "normflowsde/reassemble": {
+   "runs": [
+    "results/shared_trunk_20261114/normflowsde/reassemble/seed0/s2",
+    "results/shared_trunk_20261114/normflowsde/reassemble/seed1/s2",
+    "results/shared_trunk_20261114/normflowsde/reassemble/seed2/s2"
+   ],
+   "test_rmse": [
+    0.03137786333244736,
+    0.03285222564258281,
+    0.03160883974279845
+   ],
+   "test_crps": [
+    0.01729633028528544,
+    0.018077381996592586,
+    0.01748157467785312
+   ],
+   "test_coverage_90": [
+    0.9132761904761905,
+    0.9106933333333334,
+    0.9116457142857143
+   ],
+   "latency_ms": 10.142361745238304
+  },
+  "latent_nsf/reassemble": {
+   "runs": [
+    "results/latent_nsf/reassemble/seed0/run",
+    "results/latent_nsf/reassemble/seed1/run",
+    "results/latent_nsf/reassemble/seed2/run"
+   ],
+   "test_rmse": [
+    0.03302519773818099,
+    0.033997340364811016,
+    0.033570626273975626
+   ],
+   "test_crps": [
+    0.01766314191107572,
+    0.018185303450262466,
+    0.01803024874928861
+   ],
+   "test_coverage_90": [
+    0.8913657142857143,
+    0.8891066666666667,
+    0.8892666666666666
+   ],
+   "latency_ms": 6.418885663151741
+  },
+  "latent_sde/reassemble": {
+   "runs": [
+    "results/latent_sde/reassemble/seed0/run",
+    "results/latent_sde/reassemble/seed1/run",
+    "results/latent_sde/reassemble/seed2/run"
+   ],
+   "test_rmse": [
+    0.036257373435048625,
+    0.03617299710378383,
+    0.03692357612973507
+   ],
+   "test_crps": [
+    0.019761816308034537,
+    0.01981331201592559,
+    0.020143491492194722
+   ],
+   "test_coverage_90": [
+    0.9207295238095238,
+    0.9169657142857143,
+    0.9165961904761905
+   ],
+   "latency_ms": 9.642885997891426
+  },
+  "sigker_sde/reassemble": {
+   "runs": [
+    "results/sigker_sde/reassemble/seed0/run",
+    "results/sigker_sde/reassemble/seed1/run",
+    "results/sigker_sde/reassemble/seed2/run"
+   ],
+   "test_rmse": [
+    0.04530129068164822,
+    0.045129077173900176,
+    0.057876115927323536
+   ],
+   "test_crps": [
+    0.02951748379213123,
+    0.029326244991388244,
+    0.03328769670358832
+   ],
+   "test_coverage_90": [
+    0.2620438095238095,
+    0.2701390476190476,
+    0.6151923809523809
+   ],
+   "latency_ms": 9.96856763958931
+  },
+  "nf_dpf/reassemble": {
+   "runs": [
+    "results/shared_trunk_20261114/nf_dpf/reassemble/seed0/s2",
+    "results/shared_trunk_20261114/nf_dpf/reassemble/seed1/s2",
+    "results/shared_trunk_20261114/nf_dpf/reassemble/seed2/s2"
+   ],
+   "test_rmse": [
+    0.05918801058106558,
+    0.06057359795229206,
+    0.059667524283000484
+   ],
+   "test_crps": [
+    0.03267430394760645,
+    0.03340594552213949,
+    0.0330860423454413
+   ],
+   "test_coverage_90": [
+    0.8822742857142857,
+    0.8673295238095238,
+    0.8684152380952381
+   ],
+   "latency_ms": 48.89648035168648
+  },
+  "nsf/reassemble": {
+   "runs": [
+    "results/shared_trunk_20261114/nsf/reassemble/seed0/jitter",
+    "results/shared_trunk_20261114/nsf/reassemble/seed1/jitter",
+    "results/shared_trunk_20261114/nsf/reassemble/seed2/jitter"
+   ],
+   "test_rmse": [
+    0.06140946898669136,
+    0.061013029522919524,
+    0.061146604499765556
+   ],
+   "test_crps": [
+    0.034373178763651244,
+    0.034219974206053085,
+    0.03431376018001451
+   ],
+   "test_coverage_90": [
+    0.9173657142857143,
+    0.9171619047619047,
+    0.9168971428571429
+   ],
+   "latency_ms": 43.126337230205536
+  },
+  "flowsde/reassemble": {
+   "runs": [
+    "results/shared_trunk_20261114/flowsde/reassemble/seed0/D0.03",
+    "results/shared_trunk_20261114/flowsde/reassemble/seed1/D0.03",
+    "results/shared_trunk_20261114/flowsde/reassemble/seed2/D0.03"
+   ],
+   "test_rmse": [
+    0.05137660736612581,
+    0.05411546793165204,
+    0.05217686888350115
+   ],
+   "test_crps": [
+    0.0288654937896687,
+    0.030592586605465773,
+    0.029542792925294138
+   ],
+   "test_coverage_90": [
+    0.9531942857142857,
+    0.94988,
+    0.9516304761904761
+   ],
+   "latency_ms": 54.53254655003548
+  },
+  "normflowsde_pf/reassemble": {
+   "runs": [
+    "results/shared_trunk_20261114/normflowsde_pf/reassemble/seed0/learned_scale",
+    "results/shared_trunk_20261114/normflowsde_pf/reassemble/seed1/learned_scale",
+    "results/shared_trunk_20261114/normflowsde_pf/reassemble/seed2/learned_scale"
+   ],
+   "test_rmse": [
+    0.06229720394205972,
+    0.06118960810246809,
+    0.061976180974457534
+   ],
+   "test_crps": [
+    0.03506199048033151,
+    0.03428408196084763,
+    0.034915762171882754
+   ],
+   "test_coverage_90": [
+    0.9204838095238095,
+    0.9174971428571429,
+    0.920184761904762
+   ],
+   "latency_ms": 41.50807857513428
+  }
+ },
+ "best": {
+  "pendulum": {
+   "rmse": "nsf",
+   "crps": "nsf",
+   "coverage": "flowsde"
+  },
+  "lorenz96": {
+   "rmse": "nsf",
+   "crps": "nsf",
+   "coverage": "flowsde"
+  },
+  "aloha": {
+   "rmse": "normflowsde",
+   "crps": "normflowsde",
+   "coverage": "normflowsde"
+  },
+  "reassemble": {
+   "rmse": "normflowsde",
+   "crps": "normflowsde",
+   "coverage": "latent_nsf"
+  }
+ }
+}

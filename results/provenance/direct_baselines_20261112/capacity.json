@@ -1,0 +1,74 @@
+{
+  "latent_nsf:pendulum": {
+    "hidden_size": 92,
+    "parameters": 104280,
+    "target": 103600,
+    "relative_difference": 0.006563706563706528
+  },
+  "latent_sde:pendulum": {
+    "hidden_size": 177,
+    "parameters": 103459,
+    "target": 103600,
+    "relative_difference": -0.0013610038610039066
+  },
+  "sigker_sde:pendulum": {
+    "hidden_size": 213,
+    "parameters": 103350,
+    "target": 103600,
+    "relative_difference": -0.0024131274131273805
+  },
+  "latent_nsf:lorenz96": {
+    "hidden_size": 138,
+    "parameters": 364466,
+    "target": 365360,
+    "relative_difference": -0.0024469016860083626
+  },
+  "latent_sde:lorenz96": {
+    "hidden_size": 178,
+    "parameters": 366022,
+    "target": 365360,
+    "relative_difference": 0.0018119115393036012
+  },
+  "sigker_sde:lorenz96": {
+    "hidden_size": 203,
+    "parameters": 366202,
+    "target": 365360,
+    "relative_difference": 0.0023045763082987225
+  },
+  "latent_nsf:aloha": {
+    "hidden_size": 63,
+    "parameters": 129973,
+    "target": 129656,
+    "relative_difference": 0.0024449312025667247
+  },
+  "latent_sde:aloha": {
+    "hidden_size": 107,
+    "parameters": 129084,
+    "target": 129656,
+    "relative_difference": -0.004411673968038543
+  },
+  "sigker_sde:aloha": {
+    "hidden_size": 126,
+    "parameters": 129972,
+    "target": 129656,
+    "relative_difference": 0.002437218485839443
+  },
+  "latent_nsf:reassemble": {
+    "hidden_size": 70,
+    "parameters": 120180,
+    "target": 120412,
+    "relative_difference": -0.0019267182672823013
+  },
+  "latent_sde:reassemble": {
+    "hidden_size": 107,
+    "parameters": 120269,
+    "target": 120412,
+    "relative_difference": -0.001187589276816281
+  },
+  "sigker_sde:reassemble": {
+    "hidden_size": 124,
+    "parameters": 120118,
+    "target": 120412,
+    "relative_difference": -0.002441617114573247
+  }
+}

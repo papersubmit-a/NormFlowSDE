@@ -1,0 +1,110 @@
+{
+  "status": "complete",
+  "method": "nsf",
+  "dataset": "pendulum",
+  "seed": 1,
+  "variant": "learned-dynamics bootstrap particle filter + joint (checkpoint, process-noise inflation) validation selection + validation-selected process-noise inflation",
+  "inference_access": "filtering: x[k+1] uses observations through x[k+1] via a bootstrap particle filter (learned dynamics prediction, learned measurement-density update); no future observations",
+  "arguments": {
+    "method": "nsf",
+    "dataset": "pendulum",
+    "data_cache": "results/datasets/pendulum",
+    "output": "results/shared_trunk_20261114/nsf/pendulum/seed1/train",
+    "seed": 1,
+    "steps": 8400,
+    "batch_windows": 16,
+    "learning_rate": 0.0003,
+    "hidden_size": 48,
+    "hidden_depth": 2,
+    "flow_layers": 2,
+    "diffusion_hidden_size": null,
+    "alpha": 1.0,
+    "learned_scale": false,
+    "shared_trunk": false,
+    "diffusion": 0.01,
+    "flow_substeps": 4,
+    "epr_weight": 0.0,
+    "measurement_hidden": 16,
+    "measurement_depth": 2,
+    "measurement_layers": 2,
+    "particles": null,
+    "eval_every": 400,
+    "validation_windows": 10000,
+    "eval_chunk": 8,
+    "selection_jitters": "0,0.005,0.01,0.02,0.03,0.05,0.075,0.1,0.15,0.2",
+    "smoke": false
+  },
+  "particles": 500,
+  "posterior_samples": 128,
+  "parameter_count": 9928,
+  "dynamics_parameters": 8700,
+  "measurement_parameters": 1228,
+  "devices": [
+    "cpu:0"
+  ],
+  "training_seconds": 800.2453137561679,
+  "best_step": 4400,
+  "best_validation_rmse": 0.06420454359219589,
+  "best_validation_coverage_90": 0.8729166666666667,
+  "jitter": 0.0,
+  "test": {
+    "rmse": 0.06553097968278929,
+    "crps": 0.03321185427320253,
+    "coverage_90": 0.8654513888888888,
+    "mean_interval_width": 0.17456655477194388,
+    "latency_ms_per_trajectory": 75.5264200270176
+  },
+  "jitter_selection": [
+    {
+      "jitter": 0.0,
+      "rmse": 0.06420454359219589,
+      "coverage_90": 0.8729166666666667
+    },
+    {
+      "jitter": 0.005,
+      "rmse": 0.06504404674214216,
+      "coverage_90": 0.9164930555555556
+    },
+    {
+      "jitter": 0.01,
+      "rmse": 0.0691113709722127,
+      "coverage_90": 0.9289930555555556
+    },
+    {
+      "jitter": 0.02,
+      "rmse": 0.07708647696705277,
+      "coverage_90": 0.9364583333333333
+    },
+    {
+      "jitter": 0.03,
+      "rmse": 0.08450039273483194,
+      "coverage_90": 0.9310763888888889
+    },
+    {
+      "jitter": 0.05,
+      "rmse": 0.09944243443954126,
+      "coverage_90": 0.9225694444444444
+    },
+    {
+      "jitter": 0.075,
+      "rmse": 0.1144507305134788,
+      "coverage_90": 0.9027777777777778
+    },
+    {
+      "jitter": 0.1,
+      "rmse": 0.12599877981127128,
+      "coverage_90": 0.8935763888888889
+    },
+    {
+      "jitter": 0.15,
+      "rmse": 0.14063387111363315,
+      "coverage_90": 0.8805555555555555
+    },
+    {
+      "jitter": 0.2,
+      "rmse": 0.14864962386480227,
+      "coverage_90": 0.8753472222222223
+    }
+  ],
+  "source_run": "results/shared_trunk_20261114/nsf/pendulum/seed1/train"
+}

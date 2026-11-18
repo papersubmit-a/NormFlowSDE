@@ -1,0 +1,107 @@
+{
+  "status": "complete",
+  "method": "nf_dpf",
+  "seed": 1,
+  "init_run": "results/shared_trunk_20261114/nf_dpf/reassemble/seed1/s1",
+  "warm_start": true,
+  "inference_access": "filtering: x[k+1] incorporates its current measurement y[k+1]",
+  "arguments": {
+    "method": "nf_dpf",
+    "dataset": "reassemble",
+    "seed": 1,
+    "output": "results/shared_trunk_20261114/nf_dpf/reassemble/seed1/s2",
+    "data_cache": "results/datasets/reassemble",
+    "init_run": "results/shared_trunk_20261114/nf_dpf/reassemble/seed1/s1",
+    "from_scratch": false,
+    "steps": 6000,
+    "learning_rate": 0.0001,
+    "horizons": [
+      8,
+      25,
+      50,
+      250
+    ],
+    "batches": [
+      32,
+      16,
+      8,
+      8
+    ],
+    "draws": 8,
+    "rollout_weight": 1.0,
+    "mean_mse_weight": 0.0,
+    "anchor_weight": 0.0,
+    "epr_weight": null,
+    "training_particles": 64,
+    "crps_weight": 1.0,
+    "ess_weight": 0.01,
+    "measurement_nll_weight": 1.0,
+    "measurement_supervised_only": false,
+    "measurement_batch_windows": 16,
+    "remat": true,
+    "skip_nonfinite": true,
+    "eval_every": 500,
+    "validation_windows": 300,
+    "validation_draws": 32,
+    "eval_chunk": 25,
+    "skip_test": false,
+    "smoke": false
+  },
+  "model_config": {
+    "state_dim": 7,
+    "observation_dim": 7,
+    "control_dim": 9,
+    "hidden_size": 77,
+    "hidden_depth": 3,
+    "num_flow_layers": 2,
+    "max_log_scale": 2.0,
+    "base_scale": 0.2,
+    "measurement_hidden_size": 64,
+    "measurement_hidden_depth": 2,
+    "measurement_flow_layers": 4
+  },
+  "parameter_count": 119953,
+  "curriculum": [
+    {
+      "horizon": 8,
+      "trajectories_per_update": 32,
+      "steps": 1500
+    },
+    {
+      "horizon": 25,
+      "trajectories_per_update": 16,
+      "steps": 1500
+    },
+    {
+      "horizon": 50,
+      "trajectories_per_update": 8,
+      "steps": 1500
+    },
+    {
+      "horizon": 250,
+      "trajectories_per_update": 8,
+      "steps": 1500
+    }
+  ],
+  "devices": [
+    "cuda:0"
+  ],
+  "initial_validation": {
+    "rmse": 0.21033762395381927,
+    "crps": 0.0803598373050615,
+    "coverage_90": 0.25482285714285713
+  },
+  "best_step": 4500,
+  "best_validation_rmse": 0.06237015500664711,
+  "best_validation_crps": 0.020642463677656445,
+  "training_seconds": 2805.354592625983,
+  "sampled_trajectories": 96000,
+  "sampled_transition_targets": 4584000,
+  "skipped_nonfinite_updates": 1,
+  "test": {
+    "rmse": 0.06057359795229206,
+    "crps": 0.03340594552213949,
+    "coverage_90": 0.8673295238095238,
+    "mean_interval_width": 0.17699705483973618
+  }
+}

@@ -1,0 +1,247 @@
+{
+ "_note": "GPU latency of the shared-trunk campaign models (2026-11-16): results/shared_trunk_20261114 for NormFlowSDE, the four particle filters and all pendulum models; the direct baselines on Lorenz-96 / ALOHA / REASSEMBLE are the previous selected runs (not retrained). FlowSDE-PF: the diffusion level in selected.json. Paths relative to the archive root.",
+ "pendulum": {
+  "data_cache": "results/datasets/pendulum",
+  "methods": {
+   "normflowsde": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/normflowsde/pendulum/seed0/s2",
+     "1": "results/shared_trunk_20261114/normflowsde/pendulum/seed1/s2",
+     "2": "results/shared_trunk_20261114/normflowsde/pendulum/seed2/s2"
+    }
+   },
+   "latent_nsf": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/latent_nsf/pendulum/seed0/run",
+     "1": "results/shared_trunk_20261114/latent_nsf/pendulum/seed1/run",
+     "2": "results/shared_trunk_20261114/latent_nsf/pendulum/seed2/run"
+    }
+   },
+   "latent_sde": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/latent_sde/pendulum/seed0/run",
+     "1": "results/shared_trunk_20261114/latent_sde/pendulum/seed1/run",
+     "2": "results/shared_trunk_20261114/latent_sde/pendulum/seed2/run"
+    }
+   },
+   "sigker_sde": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/sigker_sde/pendulum/seed0/run",
+     "1": "results/shared_trunk_20261114/sigker_sde/pendulum/seed1/run",
+     "2": "results/shared_trunk_20261114/sigker_sde/pendulum/seed2/run"
+    }
+   },
+   "nf_dpf": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/nf_dpf/pendulum/seed0/s2",
+     "1": "results/shared_trunk_20261114/nf_dpf/pendulum/seed1/s2",
+     "2": "results/shared_trunk_20261114/nf_dpf/pendulum/seed2/s2"
+    }
+   },
+   "nsf": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/nsf/pendulum/seed0/jitter",
+     "1": "results/shared_trunk_20261114/nsf/pendulum/seed1/jitter",
+     "2": "results/shared_trunk_20261114/nsf/pendulum/seed2/jitter"
+    }
+   },
+   "flowsde": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/flowsde/pendulum/seed0/D0.01",
+     "1": "results/shared_trunk_20261114/flowsde/pendulum/seed1/D0.01",
+     "2": "results/shared_trunk_20261114/flowsde/pendulum/seed2/D0.01"
+    }
+   },
+   "normflowsde_pf": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/normflowsde_pf/pendulum/seed0/learned_scale",
+     "1": "results/shared_trunk_20261114/normflowsde_pf/pendulum/seed1/learned_scale",
+     "2": "results/shared_trunk_20261114/normflowsde_pf/pendulum/seed2/learned_scale"
+    }
+   }
+  }
+ },
+ "lorenz96": {
+  "data_cache": "results/datasets/lorenz96",
+  "methods": {
+   "normflowsde": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/normflowsde/lorenz96/seed0/s2",
+     "1": "results/shared_trunk_20261114/normflowsde/lorenz96/seed1/s2",
+     "2": "results/shared_trunk_20261114/normflowsde/lorenz96/seed2/s2"
+    }
+   },
+   "latent_nsf": {
+    "seeds": {
+     "0": "results/latent_nsf/lorenz96/seed0/run",
+     "1": "results/latent_nsf/lorenz96/seed1/run",
+     "2": "results/latent_nsf/lorenz96/seed2/run"
+    }
+   },
+   "latent_sde": {
+    "seeds": {
+     "0": "results/latent_sde/lorenz96/seed0/run",
+     "1": "results/latent_sde/lorenz96/seed1/run",
+     "2": "results/latent_sde/lorenz96/seed2/run"
+    }
+   },
+   "sigker_sde": {
+    "seeds": {
+     "0": "results/sigker_sde/lorenz96/seed0/run",
+     "1": "results/sigker_sde/lorenz96/seed1/run",
+     "2": "results/sigker_sde/lorenz96/seed2/run"
+    }
+   },
+   "nf_dpf": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/nf_dpf/lorenz96/seed0/s2",
+     "1": "results/shared_trunk_20261114/nf_dpf/lorenz96/seed1/s2",
+     "2": "results/shared_trunk_20261114/nf_dpf/lorenz96/seed2/s2"
+    }
+   },
+   "nsf": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/nsf/lorenz96/seed0/jitter",
+     "1": "results/shared_trunk_20261114/nsf/lorenz96/seed1/jitter",
+     "2": "results/shared_trunk_20261114/nsf/lorenz96/seed2/jitter"
+    }
+   },
+   "flowsde": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/flowsde/lorenz96/seed0/D0.01",
+     "1": "results/shared_trunk_20261114/flowsde/lorenz96/seed1/D0.01",
+     "2": "results/shared_trunk_20261114/flowsde/lorenz96/seed2/D0.01"
+    }
+   },
+   "normflowsde_pf": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/normflowsde_pf/lorenz96/seed0/learned_scale",
+     "1": "results/shared_trunk_20261114/normflowsde_pf/lorenz96/seed1/learned_scale",
+     "2": "results/shared_trunk_20261114/normflowsde_pf/lorenz96/seed2/learned_scale"
+    }
+   }
+  }
+ },
+ "aloha": {
+  "data_cache": "results/datasets/aloha",
+  "methods": {
+   "normflowsde": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/normflowsde/aloha/seed0/s2",
+     "1": "results/shared_trunk_20261114/normflowsde/aloha/seed1/s2",
+     "2": "results/shared_trunk_20261114/normflowsde/aloha/seed2/s2"
+    }
+   },
+   "latent_nsf": {
+    "seeds": {
+     "0": "results/latent_nsf/aloha/seed0/run",
+     "1": "results/latent_nsf/aloha/seed1/run",
+     "2": "results/latent_nsf/aloha/seed2/run"
+    }
+   },
+   "latent_sde": {
+    "seeds": {
+     "0": "results/latent_sde/aloha/seed0/run",
+     "1": "results/latent_sde/aloha/seed1/run",
+     "2": "results/latent_sde/aloha/seed2/run"
+    }
+   },
+   "sigker_sde": {
+    "seeds": {
+     "0": "results/sigker_sde/aloha/seed0/run",
+     "1": "results/sigker_sde/aloha/seed1/run",
+     "2": "results/sigker_sde/aloha/seed2/run"
+    }
+   },
+   "nf_dpf": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/nf_dpf/aloha/seed0/s2",
+     "1": "results/shared_trunk_20261114/nf_dpf/aloha/seed1/s2",
+     "2": "results/shared_trunk_20261114/nf_dpf/aloha/seed2/s2"
+    }
+   },
+   "nsf": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/nsf/aloha/seed0/jitter",
+     "1": "results/shared_trunk_20261114/nsf/aloha/seed1/jitter",
+     "2": "results/shared_trunk_20261114/nsf/aloha/seed2/jitter"
+    }
+   },
+   "flowsde": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/flowsde/aloha/seed0/D0.05",
+     "1": "results/shared_trunk_20261114/flowsde/aloha/seed1/D0.05",
+     "2": "results/shared_trunk_20261114/flowsde/aloha/seed2/D0.05"
+    }
+   },
+   "normflowsde_pf": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/normflowsde_pf/aloha/seed0/learned_scale",
+     "1": "results/shared_trunk_20261114/normflowsde_pf/aloha/seed1/learned_scale",
+     "2": "results/shared_trunk_20261114/normflowsde_pf/aloha/seed2/learned_scale"
+    }
+   }
+  }
+ },
+ "reassemble": {
+  "data_cache": "results/datasets/reassemble",
+  "methods": {
+   "normflowsde": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/normflowsde/reassemble/seed0/s2",
+     "1": "results/shared_trunk_20261114/normflowsde/reassemble/seed1/s2",
+     "2": "results/shared_trunk_20261114/normflowsde/reassemble/seed2/s2"
+    }
+   },
+   "latent_nsf": {
+    "seeds": {
+     "0": "results/latent_nsf/reassemble/seed0/run",
+     "1": "results/latent_nsf/reassemble/seed1/run",
+     "2": "results/latent_nsf/reassemble/seed2/run"
+    }
+   },
+   "latent_sde": {
+    "seeds": {
+     "0": "results/latent_sde/reassemble/seed0/run",
+     "1": "results/latent_sde/reassemble/seed1/run",
+     "2": "results/latent_sde/reassemble/seed2/run"
+    }
+   },
+   "sigker_sde": {
+    "seeds": {
+     "0": "results/sigker_sde/reassemble/seed0/run",
+     "1": "results/sigker_sde/reassemble/seed1/run",
+     "2": "results/sigker_sde/reassemble/seed2/run"
+    }
+   },
+   "nf_dpf": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/nf_dpf/reassemble/seed0/s2",
+     "1": "results/shared_trunk_20261114/nf_dpf/reassemble/seed1/s2",
+     "2": "results/shared_trunk_20261114/nf_dpf/reassemble/seed2/s2"
+    }
+   },
+   "nsf": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/nsf/reassemble/seed0/jitter",
+     "1": "results/shared_trunk_20261114/nsf/reassemble/seed1/jitter",
+     "2": "results/shared_trunk_20261114/nsf/reassemble/seed2/jitter"
+    }
+   },
+   "flowsde": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/flowsde/reassemble/seed0/D0.03",
+     "1": "results/shared_trunk_20261114/flowsde/reassemble/seed1/D0.03",
+     "2": "results/shared_trunk_20261114/flowsde/reassemble/seed2/D0.03"
+    }
+   },
+   "normflowsde_pf": {
+    "seeds": {
+     "0": "results/shared_trunk_20261114/normflowsde_pf/reassemble/seed0/learned_scale",
+     "1": "results/shared_trunk_20261114/normflowsde_pf/reassemble/seed1/learned_scale",
+     "2": "results/shared_trunk_20261114/normflowsde_pf/reassemble/seed2/learned_scale"
+    }
+   }
+  }
+ }
+}

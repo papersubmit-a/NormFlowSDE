@@ -1,0 +1,14 @@
+latent_nsf _sweep/beta1_euler --beta 1 --posterior-step euler
+latent_nsf _sweep/beta0.1_residual --beta 0.1 --posterior-step residual
+latent_nsf _sweep/beta0.1_euler --beta 0.1 --posterior-step euler
+latent_nsf _sweep/beta0.01_residual --beta 0.01 --posterior-step residual
+latent_nsf _sweep/beta0.01_euler --beta 0.01 --posterior-step euler
+latent_nsf _sweep/beta0_residual --beta 0 --posterior-step residual
+latent_sde _sweep/beta1_lr1e-3 --beta 1 --learning-rate 1e-3
+latent_sde _sweep/beta0.1_lr3e-4 --beta 0.1 --learning-rate 3e-4
+latent_sde _sweep/beta0.1_lr1e-3 --beta 0.1 --learning-rate 1e-3
+latent_sde _sweep/beta0.01_lr3e-4 --beta 0.01 --learning-rate 3e-4
+sigker_sde _sweep/sigma0.3 --sig-sigma 0.3
+sigker_sde _sweep/sigma0.5 --sig-sigma 0.5
+sigker_sde _sweep/sigma1.0 --sig-sigma 1.0
+sigker_sde _sweep/sigmadefault_lr1e-4 --learning-rate 1e-4

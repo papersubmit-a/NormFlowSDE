@@ -1,0 +1,46 @@
+{
+  "pendulum": {
+    "max_abs_difference": 0.0,
+    "context_shape": [
+      8,
+      60,
+      16
+    ],
+    "window": 10,
+    "direct_control": true,
+    "hidden": 16
+  },
+  "lorenz96": {
+    "max_abs_difference": 0.0,
+    "context_shape": [
+      8,
+      100,
+      128
+    ],
+    "window": 10,
+    "direct_control": false,
+    "hidden": 128
+  },
+  "aloha": {
+    "max_abs_difference": 0.0,
+    "context_shape": [
+      8,
+      250,
+      64
+    ],
+    "window": 10,
+    "direct_control": true,
+    "hidden": 64
+  },
+  "reassemble": {
+    "max_abs_difference": 0.0,
+    "context_shape": [
+      8,
+      250,
+      64
+    ],
+    "window": 10,
+    "direct_control": true,
+    "hidden": 64
+  }
+}

@@ -1,0 +1,15 @@
+[INFO] Extracting squashfs filesystem...
+Parallel unsquashfs: Using 4 processors
+64148 inodes (139879 blocks) to write
+
+
+created 63325 files
+created 7118 directories
+created 820 symlinks
+created 0 devices
+created 0 fifos
+created 0 sockets
+created 3 hardlinks
+E1112 22:13:56.936771 3940067 numa_hwloc.cc:121] Call to hwloc_set_cpubind() failed: Invalid argument [22]
+E1112 22:13:56.936843 3940068 numa_hwloc.cc:121] Call to hwloc_set_cpubind() failed: Invalid argument [22]
+E1112 22:13:56.936877 3940069 numa_hwloc.cc:121] Call to hwloc_set_cpubind() failed: Invalid argument [22]

@@ -1,0 +1,14 @@
+{
+  "rmse": 5.082340722239753,
+  "mae": 3.9464929312492734,
+  "coverage_90": 0.822475,
+  "mean_interval_width": 13.513458177409065,
+  "rmse_observed": 4.967074099418498,
+  "rmse_unobserved": 5.142343837882271,
+  "metric_space": "physical",
+  "eval_windows": 100,
+  "horizon": 100,
+  "posterior_samples": 200,
+  "inference_access": "filtering: x[k+1] incorporates its current measurement y[k+1]",
+  "milliseconds_per_trajectory": 2117.954923817888
+}

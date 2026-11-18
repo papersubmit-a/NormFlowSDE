@@ -1,0 +1,6 @@
+{
+  "config": "beta0_residual",
+  "extra_args": "--beta 0 --posterior-step residual --learning-rate 3e-4",
+  "seed0_best_validation_rmse": 0.05815328285098076,
+  "rule": "lowest seed-0 best_validation_rmse over GRID.md (select.py -> selected.json)"
+}

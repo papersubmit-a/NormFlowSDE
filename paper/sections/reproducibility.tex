@@ -1,0 +1,221 @@
+\section{Implementation and reproducibility details}\label{app:reproducibility}
+This appendix summarizes the data generation, the training of all methods, and the evaluation protocol needed to reproduce the results in Section~\ref{sec:experiments}.
+
+\subsection{Data generation}\label{app:data}
+Each dataset is a cache of fixed-length windows, each with a known initial state, a control sequence, noisy observations, and the reference states used for training and scoring. The data are split by trajectory or episode before windowing, and normalization statistics are computed on the training split only. Pendulum and Lorenz--96 metrics are reported in physical units. The observation noise of Equation~\eqref{eq:obsnoise} is drawn independently for every observed coordinate and time step. The caches are rebuilt deterministically from fixed seeds and were verified against stored checksums before training.
+
+\paragraph{Pendulum.}
+The dataset contains 320 trajectories of 60 steps that follow Equation~\eqref{eq:pendulum} with $g=9.81$, $\ell=m=1$, $c=0.2$, $\sigma_\theta=0.01$, and $\sigma_\omega=0.2$. They are integrated by Euler--Maruyama with eight substeps per interval $\Delta t=0.05$. The torque is a smooth, bounded random signal, $u_k=3\tanh(r_k)$, where $r_k$ is a first-order autoregressive process. The angle is unwrapped. Each trajectory is one window. The split is 224 / 48 / 48, and the noise scale is $\sigma=0.1$.
+
+\paragraph{Lorenz--96.}
+The dataset contains 2000 independent trajectories of Equation~\eqref{eq:lorenz96} ($d=12$, $F=8$, RK4 at $\Delta t=0.02$). Each trajectory starts from a small random perturbation of the origin and is integrated for 500 spin-up steps. The next 100 steps form the window, and the state at the end of the spin-up is the known initial state. Every second coordinate is observed with $\sigma=0.5$. The split is 1600 / 200 / 200 trajectories, of which the first 100 test windows are scored.
+
+\paragraph{ALOHA insertion.}
+The 50 teleoperation episodes of the simulated bimanual insertion task \citep{zhao2023aloha} at 50\,Hz are split 40 / 5 / 5. The 14 commanded joint positions are the controls and the 14 measured follower-joint positions, perturbed as described in Appendix~\ref{app:aloha-disturbance}, are the states. Windows of 250 steps are cut with a stride of 25 frames, giving 400 / 50 / 50 windows. States and controls are normalized per joint, and the noise ($\sigma=0.1$) is added in normalized units.
+
+\paragraph{REASSEMBLE.}
+The 148 episodes of the 30\,Hz real-robot dataset \citep{sliwowski2025reassemble} are split 94 / 17 / 37. The state is the seven joint positions and the nine-dimensional command is the control. Windows of 250 steps are cut without overlap. The training split is capped at 2000 windows, and 300 windows each are used for validation and test. Normalization and noise are as for ALOHA.
+
+\subsection{ALOHA latent disturbance}\label{app:aloha-disturbance}
+The recorded ALOHA states are deterministic given the commands, so we add a slowly varying latent disturbance per episode in joint-position units before normalization. With $q_k$ denoting the recorded joint positions and $u_k$ the commands, the disturbed joint positions $\tilde q_k$ and the disturbance $d_k$ follow
+\begin{equation}\label{eq:alohadisturbance}
+ \tilde q_{k+1}=\tilde q_k+(q_{k+1}-q_k)+\Delta t\,B\,d_k,\qquad
+ d_{k+1}=\rho\,d_k+\sigma_d\,(1+\gamma\,r_k)\,\xi_k,\qquad \xi_k\sim\N(0,I_4),
+\end{equation}
+starting from $\tilde q_0=q_0$ and $d_0=0$, with $\rho=0.98$, $\sigma_d=0.05$, $\gamma=2$, $\Delta t=0.02$, and $B=0.35\,Q$ for a fixed random orthonormal $14\times4$ matrix $Q$. The regime variable $r_k$ is the command-tracking error of the frame relative to its median over the training episodes, capped at 3, so that the disturbance grows during contact. The disturbed trajectory $\tilde q$ is the reference state, and the commands are unchanged. The observation of $\tilde q_{k+1}$ adds the noise of Equation~\eqref{eq:obsnoise}.
+
+\subsection{Evaluation protocol}\label{app:protocol}
+All methods filter causally from the known initial state and never see future observations or intermediate reference states. For every test window a method returns $M$ posterior draws per time step ($M=128$, 200, 200, 500 on the pendulum, Lorenz--96, ALOHA, and REASSEMBLE). The particle filters run with the same particle count and return $M$ draws from the weighted particles. RMSE is computed per window and averaged over windows. CRPS is the empirical marginal CRPS of the draws, averaged over windows, steps, and coordinates. The energy score is computed on the state vector at each step. Coverage is the fraction of reference values inside the central interval between the empirical quantiles of the draws, pooled over windows, steps, and coordinates, and width is the mean length of that interval. Every method is trained with three seeds on the same caches and with the same total number of optimizer updates per dataset (8400, 18500, 9000, 11000, the largest of the four methods' tuned recipes). Checkpoints and hyperparameters are selected on the validation split, by the lowest validation RMSE unless stated otherwise, and no post-hoc calibration is applied. Tables report the mean and sample standard deviation over the three seeds. Latency is measured for the seed-0 checkpoint of every method on one NVIDIA L40S GPU with batch size one. Compilation is excluded, and the reported value is the median over 30 calls of the time to filter one test window.
+
+\subsection{\method}\label{app:normflowsde}
+\paragraph{Architecture.}
+The feature network $T_\varphi$ of Equation~\eqref{eq:shared-feature} receives the state, the window feature, an embedding of the time, and, where available, the control. It is a multilayer perceptron with GELU activations, and its last hidden layer is the feature $\chi_k$. The drift is a linear layer on the feature. In each coupling layer of the conditional RealNVP noise flow, the log scales and shifts are computed from the unchanged noise coordinates and the feature by a network with one hidden tanh layer. The encoder is a bidirectional GRU that reads only the last $o=10$ measurements, each concatenated with its control (the window feature of Equation~\eqref{eq:sequence-conditioning}). Table~\ref{tab:nfsde-arch} lists the sizes, and Table~\ref{tab:params} lists the parameter counts of all methods.
+\begin{table}[htbp]
+\centering\footnotesize
+\begin{tabular}{lcccc}
+\toprule
+ & Pendulum & Lorenz--96 & ALOHA & REASSEMBLE \\
+\midrule
+Window feature $d_c$ / encoder width & 16 / 16 & 128 / 128 & 64 / 64 & 64 / 64 \\
+Feature network width / depth & 53 / 2 & 266 / 3 & 153 / 3 & 150 / 3 \\
+Coupling layers / coupling hidden width & 2 / 16 & 2 / 64 & 2 / 64 & 2 / 64 \\
+Log-scale bound $\alpha$ (stage 1 / 2) & 1 / 1 & 1.5 / 1.5 & 1 / 1 & 1 / 2 \\
+\bottomrule
+\end{tabular}
+\caption{\method architecture per dataset. All four datasets use the explicit Euler update of Equation~\eqref{eq:normflowsde-overview} in training and inference.}
+\label{tab:nfsde-arch}
+\end{table}
+
+\paragraph{Stage 1: composite objective.}
+The first stage minimizes the objective of Equation~\eqref{eq:normflowsde_loss} on random training windows with the multiple-shooting partition of Section~\ref{sec:training}, using a bounded flow without the learned scale. Table~\ref{tab:nfsde-stage1} lists the dataset-specific settings. Four generated trajectories per window enter the state and transition terms. The rollout term is the energy score of Equation~\eqref{eq:energy-score-estimator} over the full window, evaluated every few updates with the stated number of draws. The solver uses the explicit Euler update of Equation~\eqref{eq:normflowsde-overview}. The optimizer is AdamW with gradient clipping. Lorenz--96 uses a warm-up and cosine learning-rate schedule, epoch-wise shuffling, and a small auxiliary one-step likelihood term, whereas the other datasets use a constant learning rate. The checkpoint with the lowest validation RMSE initializes the second stage.
+\begin{table}[htbp]
+\centering\footnotesize
+\begin{tabular}{lcccc}
+\toprule
+ & Pendulum & Lorenz--96 & ALOHA & REASSEMBLE \\
+\midrule
+Updates & 4400 & 14500 & 5000 & 7000 \\
+Trajectories per update & 16 & 64 & 1 & 4 \\
+Learning rate & $6\times10^{-4}$ & $2\times10^{-3}$ & $3\times10^{-4}$ & $10^{-3}$ \\
+Segment length (states) & 11 & 5 & 5 & 5 \\
+$\sigma_{\mathrm{state}}$ (normalized units) & 1 & $1/\sqrt2$ & 1 & 1 \\
+$\lambda_{\mathrm{cont}}$ & 1 & 0.1 & 1 & 1 \\
+$\lambda_{\mathrm{rollout}}$ / rollout draws & 30 / 4 & 1 / 8 & 0 / -- & 0.5 / 4 \\
+\bottomrule
+\end{tabular}
+\caption{Stage-1 settings of \method. On ALOHA the rollout term is switched off in stage 1 and enters only through stage 2.}
+\label{tab:nfsde-stage1}
+\end{table}
+
+\paragraph{Stage 2: full-horizon energy score with the learned scale.}
+The second stage warm-starts from the stage-1 checkpoint and adds the learned per-coordinate scale of Equation~\eqref{eq:learned-noise-scale}, initialized so that the model is unchanged at the first step. It minimizes the energy score of Equation~\eqref{eq:energy-score-estimator} of $M=16$ complete filtering rollouts per window, generated exactly as at inference, for 4000 updates (8000 on REASSEMBLE) on batches of 16 windows with a warm-up and cosine schedule (learning rates $3\times10^{-3}$, $3\times10^{-5}$, $3\times10^{-4}$, and $3\times10^{-5}$ on the four datasets). 
+
+\subsection{Particle filters}\label{app:baselines}
+The widths of all baselines were chosen so that each method's parameter count matches \method per dataset as closely as its architecture allows (Table~\ref{tab:params}).
+\begin{table}[htbp]
+\centering\footnotesize
+\begin{tabular}{lcccc}
+\toprule
+Parameters ($\times10^3$) & Pendulum & Lorenz--96 & ALOHA & REASSEMBLE \\
+\midrule
+\method (stage 2) & 9.9 & 365.4 & 129.6 & 120.0 \\
+NF-DPF & 9.6 & 366.3 & 128.9 & 120.0 \\
+NSF-PF & 9.9 & 365.1 & 129.6 & 119.8 \\
+FlowSDE-PF & 9.9 & 365.7 & 129.1 & 120.4 \\
+\method-PF & 9.8 & 364.7 & 129.4 & 119.8 \\
+Latent NSF & 9.7 & 364.5 & 130.0 & 120.2 \\
+Latent SDE & 10.0 & 366.0 & 129.1 & 120.3 \\
+SigKer SDE & 9.8 & 366.2 & 130.0 & 120.1 \\
+\bottomrule
+\end{tabular}
+\caption{Parameter counts of the selected models. The count of \method includes the $d$ parameters of the learned scale, which the stage-1 model does not have. The \method-PF model is a transition of the same architecture with the learned scale plus the measurement flow of NSF-PF.}
+\label{tab:params}
+\end{table}
+
+\paragraph{NF-DPF.}
+Our implementation of \citet{chen2025flowparticle} has a conditional-RealNVP transition, an observation-conditioned proposal flow, and a conditional-RealNVP measurement density, with importance weights that include the transition and proposal densities. Training has two stages. The first trains on short 8-step windows with 32 particles and differentiable optimal-transport resampling, starting with the supervised likelihoods of the three components and then switching to the end-to-end filtering error. The second warm-starts the best stage-1 checkpoint and trains on a curriculum of increasing horizons up to the full window with 64 particles, minimizing the weighted-particle CRPS together with the measurement likelihood. At test time the filter runs with the protocol particle count and systematic resampling.
+
+\paragraph{NSF-PF and FlowSDE-PF.}
+The transition is the exact-density Neural Stochastic Flow of \citet{kiyohara2025nsf} or a FlowSDE drift \citep{lou2026flowsde} with fixed isotropic diffusion trained by bridge flow matching and integrated by Euler--Maruyama with four substeps per interval. Both transitions condition on the control and the time but not on observations. The measurement density $q(y\mid x)$ is a conditional RealNVP with four coupling layers (two on the pendulum), and all four particle filters use this architecture. Dynamics and measurement flow are trained jointly by maximum likelihood on random training windows for the full update budget. During training, a bootstrap particle filter is run on the validation windows at regular intervals. Checkpoints and a process-noise inflation are selected jointly by validation RMSE, which is an isotropic Gaussian jitter added to every predicted particle.
+
+\paragraph{\method-PF.}\label{app:normflowsde-pf}
+The transition has the architecture of \method (Appendix~\ref{app:normflowsde}): a feature network with a linear drift head and the conditional RealNVP noise flow with the learned per-coordinate scale of Equation~\eqref{eq:learned-noise-scale}. Its feature network has widths 63, 363, 165, and 169 on the four datasets, chosen so that the filter with its measurement flow matches the parameter count of \method (Table~\ref{tab:params}). It conditions on the control and the time but not on observations, and it uses the explicit Euler update, for which the change-of-variables density is exact. The measurement density, the joint maximum-likelihood training, the update budget, and the joint validation selection of the checkpoint and the process-noise inflation are those of NSF-PF.
+
+Table~\ref{tab:pf-hparams} lists the hyperparameters of the final particle filters.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llcccc}
+\toprule
+Method & Hyperparameter & Pendulum & Lorenz--96 & ALOHA & REASSEMBLE \\
+\midrule
+All four & Transition hidden layers & 2 & 3 & 3 & 3 \\
+ & Measurement flow: coupling layers & 2 & 4 & 4 & 4 \\
+ & Measurement flow: hidden width / layers & 16 / 2 & 64 / 2 & 64 / 2 & 64 / 2 \\
+\midrule
+NF-DPF & Hidden width & 32 & 155 & 70 & 77 \\
+ & Coupling layers & 2 & 2 & 2 & 2 \\
+ & Stage 1: updates & 4400 & 12500 & 3000 & 5000 \\
+ & Stage 1: particles & 32 & 32 & 32 & 32 \\
+ & Stage 2: updates & 4000 & 6000 & 6000 & 6000 \\
+ & Stage 2: learning rate & $10^{-4}$ & $10^{-4}$ & $10^{-4}$ & $10^{-4}$ \\
+ & Stage 2: horizons & 8, 25, 60 & 8, 25, 50, 100 & 8, 25, 50, 250 & 8, 25, 50, 250 \\
+ & Stage 2: windows per update & 32, 16, 8 & 32, 16, 8, 8 & 32, 16, 8, 8 & 32, 16, 8, 8 \\
+ & Stage 2: particles & 64 & 64 & 64 & 64 \\
+\midrule
+NSF-PF, FlowSDE-PF, & Optimizer updates & 8400 & 18500 & 9000 & 11000 \\
+\method-PF & Batch size (windows) & 16 & 16 & 16 & 16 \\
+ & Learning rate & $3\times10^{-4}$ & $3\times10^{-4}$ & $3\times10^{-4}$ & $3\times10^{-4}$ \\
+\midrule
+NSF-PF & Hidden width & 48 & 224 & 107 & 113 \\
+ & Coupling layers & 2 & 2 & 2 & 2 \\
+ & Inflation $\tau$ & 0 & 0.005 & 0.05 & 0.03 \\
+\midrule
+FlowSDE-PF & Hidden width & 59 & 282 & 141 & 144 \\
+ & Diffusion coefficient & 0.01 & 0.01 & 0.05 & 0.03 \\
+ & Euler--Maruyama substeps & 4 & 4 & 4 & 4 \\
+ & Inflation $\tau$ & 0.02, 0.03, 0.01 & 0 & 0.005 & 0 \\
+\midrule
+\method-PF & Feature network width & 63 & 363 & 165 & 169 \\
+ & Coupling layers / coupling hidden width & 2 / 16 & 2 / 64 & 2 / 64 & 2 / 64 \\
+ & Log-scale bound $\alpha$ & 1 & 1.5 & 1 & 1 \\
+ & Inflation $\tau$ & 0 & 0.005 & 0.05 & 0.03 \\
+\bottomrule
+\end{tabular}
+}
+\caption{Hyperparameters of the final particle filters. The process-noise inflation $\tau$ is the standard deviation of the Gaussian jitter added to every predicted particle, selected per seed on the validation windows from $\{0, 0.005, 0.01, 0.02, 0.03, 0.05, 0.075, 0.1, 0.15, 0.2\}$. The three seeds selected the same value except for FlowSDE-PF on the pendulum, where the values of seeds 0, 1, and 2 are listed. All other entries are identical for the three seeds.}
+\label{tab:pf-hparams}
+\end{table}
+
+\subsection{Direct baselines: latent NSF, latent SDE, and signature-kernel SDE}\label{app:direct-baselines}
+The three direct baselines use the encoder of \method (Equation~\eqref{eq:sequence-conditioning}) with its settings: a bidirectional GRU of the width of \method (16, 128, 64, and 64 on the pendulum, Lorenz--96, ALOHA, and REASSEMBLE) over the window of the $o=10$ most recent measurements, in which the known initial state, restricted to its observed coordinates, takes the place of the measurement at $k=0$.
+
+\paragraph{Latent NSF.} The prior transition is an NSF with the depth and coupling layers of NSF-PF, and the emission model is the measurement flow of the particle filters. The published posterior of Equation~\eqref{eq:latent-nsf-posterior} never sees the known initial state, which leaves the unobserved Lorenz--96 coordinates unidentifiable. We therefore make the posterior Markov in the state, as in structured inference networks \citep{krishnan2017structured}: $q_\varphi(x_{k+1}\mid x_k,y_{0:k})=\N(x_k+m_k,\mathrm{diag}\,s_k^2)$. Here $(m_k,s_k)$ are computed from $x_k$, the GRU state $h_k$, the control, and the time by a network with the width and depth of the prior. The posterior is rolled out from the known initial state like the other direct estimators. The loss is the $\beta$-NELBO of \citet[Equation~16]{kiyohara2025nsf}, with the KL terms estimated by Monte Carlo along an ancestral posterior path, a KL weight $\beta$ selected below, and linear annealing over the first 30\% of the updates. State supervision adds the negative log density of each true state under the posterior along that path and the NSF negative log likelihood of the true states at gaps of one to four steps. For gaps longer than one step, the prior is conditioned on the mean control over the gap. Because every gap is supervised directly, the skip-ahead KL, which has no closed form for a Markov posterior, and the flow consistency penalty are omitted. Samples are posterior paths from the known initial state. With the selected $\beta=0$, the KL terms vanish and the NSF prior no longer shapes the posterior, which is then trained by the state supervision alone.
+
+\paragraph{Latent SDE.} Following \citet{li2020scalable}, the prior SDE $dx=f_\theta(x,u,t)\,dt+g_\theta(x,u,t)\,dW$ and the posterior SDE $dx=h_\varphi(x,h_k,u,t)\,dt+g_\theta(x,u,t)\,dW$ share a diagonal diffusion. Both are discretized by Euler--Maruyama with one step per interval. The ELBO is the Gaussian log likelihood of the true states under the posterior path, with a learned per-coordinate decoder standard deviation, minus the path KL divergence $\tfrac12\sum\|(h_\varphi-f_\theta)/g_\theta\|^2\Delta t$, with the KL weight annealed as above. Samples are posterior paths plus decoder noise.
+
+\paragraph{Signature-kernel SDE.} Following \citet{issa2023sigkernel}, the generator is an SDE whose drift and diagonal diffusion receive the state, $h_k$, the control, and the time, integrated from the known initial state by Euler--Maruyama. For each training window, $m=8$ generator paths are compared with the reference state path by the unbiased estimate of the score in Equation~\eqref{eq:sigker-score}. Every path includes the initial state and is augmented with normalized time. The signature kernel uses an RBF static kernel in the normalized state coordinates, whose bandwidth (default $\sqrt d$) is selected below, and it is computed with the explicit second-order Goursat scheme of \citet{salvi2021goursat}. The training is non-adversarial, since there is no discriminator. This baseline replaces an SDE-GAN \citep{kidger2021gan} with the same generator and a neural-CDE discriminator on the joint path $(t,x,y,u)$, whose conditional Wasserstein training with gradient penalty collapsed to near-zero spread on every dataset.
+
+All three use the recipe of NSF-PF: batches of 16 random training windows, AdamW with warm-up and cosine decay, gradient clipping at 1, and the update budget of the dataset (8400, 18500, 9000, 11000). The checkpoint with the lowest validation RMSE, computed from 64 draws on all validation windows at the evaluation interval of NSF-PF, is tested with the protocol's draw count. Widths were chosen to match the parameter count of \method (Table~\ref{tab:params}). Table~\ref{tab:baseline-hparams} lists the hyperparameters of the final models. The learning rate, the KL weight, and the kernel bandwidth were selected per dataset on seed 0 by the same validation RMSE, from the learning rates $\{3\times10^{-4},10^{-3}\}$, the KL weights $\beta\in\{1,0.1,0.01,0\}$ for latent NSF and $\beta\in\{1,0.1,0.01\}$ for the latent SDE, and the RBF bandwidths $\{\sqrt d,1,0.5\}$, and the selected configuration was then trained with two further seeds. Several selections lie at the edge of this grid, and many selected checkpoints are among the last of the budget, so the baselines might improve further with larger learning rates or budgets.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\begin{tabular}{llcccc}
+\toprule
+Method & Hyperparameter & Pendulum & Lorenz--96 & ALOHA & REASSEMBLE \\
+\midrule
+All three & Optimizer updates & 8400 & 18500 & 9000 & 11000 \\
+ & Batch size (windows) & 16 & 16 & 16 & 16 \\
+ & Encoder width & 16 & 128 & 64 & 64 \\
+ & Hidden layers & 2 & 3 & 3 & 3 \\
+\midrule
+Latent NSF & Learning rate & $10^{-3}$ & $10^{-3}$ & $3\times10^{-4}$ & $10^{-3}$ \\
+ & KL weight $\beta$ & 1 & 0 & 0 & 1 \\
+ & Hidden width & 32 & 138 & 63 & 70 \\
+\midrule
+Latent SDE & Learning rate & $10^{-3}$ & $10^{-3}$ & $10^{-3}$ & $10^{-3}$ \\
+ & KL weight $\beta$ & 0.1 & 0.01 & 0.01 & 0.01 \\
+ & Hidden width & 44 & 178 & 107 & 107 \\
+\midrule
+SigKer SDE & Learning rate & $10^{-3}$ & $10^{-3}$ & $10^{-3}$ & $10^{-3}$ \\
+ & RBF bandwidth & 0.5 & $\sqrt d$ & $\sqrt d$ & 1 \\
+ & Generator paths $m$ & 8 & 8 & 8 & 8 \\
+ & Hidden width & 50 & 203 & 126 & 124 \\
+\bottomrule
+\end{tabular}
+\caption{Hyperparameters of the final direct baselines, identical for the three seeds of each cell. The encoder window is ten measurements on every dataset, as for \method.}
+\label{tab:baseline-hparams}
+\end{table}
+
+\subsection{Model-based reference filters}\label{app:references}
+On the pendulum and Lorenz--96 the data-generating model is known. The EKF and UKF use the true dynamics with the moment-matched Gaussian likelihood of the mixture. The bootstrap particle filter uses the true dynamics with the exact mixture likelihood and the protocol particle count. The process-noise scale of each filter is selected on the validation windows from a small grid, and the smallest grid value was selected for every filter and seed. On the pendulum this value is the true process noise. Lorenz--96 is deterministic, so a small additive state noise keeps the filters from collapsing. Three filter seeds are run on the same caches as the learned methods. Table~\ref{tab:reference-hparams} lists the settings.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\begin{tabular}{llcc}
+\toprule
+Filter & Setting & Pendulum & Lorenz--96 \\
+\midrule
+All three & Dynamics & Euler, 8 substeps & Runge--Kutta 4 \\
+ & Process noise & $\sqrt{\kappa}\,(\sigma_\theta,\sigma_\omega)$, $\kappa=1$ & additive, std.\ 0.001 per step \\
+ & Process-noise grid & $\kappa\in\{1,2,4,8\}$ & $\{0.001,0.003,0.01,0.03,0.1,0.3\}$ \\
+ & Posterior draws $M$ & 128 & 200 \\
+\midrule
+EKF & Linearization & exact Jacobian & exact Jacobian \\
+ & Likelihood & moment-matched Gaussian & moment-matched Gaussian \\
+\midrule
+UKF & Sigma points & $2d=4$, equal weights & $2d=24$, equal weights \\
+ & Likelihood & moment-matched Gaussian & moment-matched Gaussian \\
+\midrule
+Bootstrap PF & Particles & 500 & 1000 \\
+ & Likelihood & exact mixture & exact mixture \\
+ & Resampling & systematic, if $\mathrm{ESS}<N/2$ & systematic, if $\mathrm{ESS}<N/2$ \\
+\bottomrule
+\end{tabular}
+\caption{Settings of the model-based reference filters. The dynamics are those of the data generation (Appendix~\ref{app:data}). The EKF and UKF return $M$ draws from their Gaussian filtering distributions, and the particle filter returns $M$ draws from its weighted particles. $d$ is the state dimension and $N$ the particle count. $\mathrm{ESS}$ is the effective sample size.}
+\label{tab:reference-hparams}
+\end{table}
+
+\subsection{Software, hardware, and code availability}\label{app:scripts}
+All models are implemented in JAX 0.10 with Equinox 0.13 and Optax 0.2 under Python 3.12. Training ran on single NVIDIA A30 GPUs or on CPU nodes, and all latencies were measured on one NVIDIA L40S GPU (Appendix~\ref{app:protocol}). The code, the manuscript, and the frozen run directories are available at \url{https://github.com/papersubmit-a/NormFlowSDE}. The layout of the archive and the commands that rebuild the tables and figures are documented in its \path{README.md}. The code is released under the MIT License. The posterior and data arrays are not included in the repository because of their size and redistribution restrictions.
