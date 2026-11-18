@@ -19,3 +19,6 @@ paper/vendor/*.fdb_latexmk
 paper/vendor/*.fls
 paper/vendor/*.log
 .vscode/
+
+# Beyond PDF local preview output
+beyond_pdf/_preview/

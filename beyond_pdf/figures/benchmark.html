@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>benchmark</title>
+<style>/*__CSS__*/</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/*__LIB__*/</script>
+<script>const DATA = /*__DATA__*/;</script>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const METRICS = {
+    rmse: { label: 'RMSE', axis: 'RMSE of the posterior mean', log: true, get: r => r.m.rmse },
+    crps: { label: 'CRPS', axis: 'CRPS', log: true, get: r => r.m.crps },
+    coverr: { label: '|coverage − 0.90|', axis: '|90% coverage − 0.90|', log: true, get: r => [Math.abs(r.m.cov[0] - 0.9), r.m.cov[1]] },
+    width: { label: 'Interval width', axis: 'Mean width of the 90% interval', log: true, get: r => r.m.width },
+  };
+  const state = { ds: DATA.datasets[0].key, metric: 'rmse', refs: true };
+  const r1 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r1, 'Dataset');
+  const dsSeg = NF.html('div', { class: 'seg' }, r1); const dsBtn = {};
+  for (const d of DATA.datasets) { const b = NF.html('button', { type: 'button' }, dsSeg, d.label); b.onclick = () => { state.ds = d.key; render(); }; dsBtn[d.key] = b; }
+  const r2 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r2, 'Metric');
+  const mSeg = NF.html('div', { class: 'seg' }, r2); const mBtn = {};
+  for (const k in METRICS) { const b = NF.html('button', { type: 'button' }, mSeg, METRICS[k].label); b.onclick = () => { state.metric = k; render(); }; mBtn[k] = b; }
+  const rl = NF.html('label', { style: 'font-size:12px;color:#59636e;cursor:pointer' }, r2);
+  const rcb = NF.html('input', { type: 'checkbox', checked: '' }, rl); rl.append(' model-based references');
+  rcb.onchange = () => { state.refs = rcb.checked; render(); };
+  const plot = NF.html('div', { style: 'position:relative' }, app);
+  const tip = NF.tooltip(plot);
+  const leg = NF.html('div', { class: 'legend-inline', style: 'margin-top:4px' }, app);
+  leg.innerHTML = '<span>● direct estimator</span><span>◆ particle filter</span><span style="color:#868e96">■ model-based reference (true dynamics)</span>' +
+    '<span><span class="k" style="border-top:1.5px dashed #495057"></span>Pareto front of the learned methods</span><span>error bars: ± 1 s.d. over three seeds</span>';
+
+  function marker(g, route, cx, cy, c, big) {
+    const s = big ? 6.5 : 5.2;
+    if (route === 'direct') return NF.el('circle', { cx, cy, r: s, fill: c, stroke: '#fff', 'stroke-width': 1.2 }, g);
+    if (route === 'pf') return NF.el('path', { d: `M${cx},${cy - s * 1.3}L${cx + s * 1.1},${cy}L${cx},${cy + s * 1.3}L${cx - s * 1.1},${cy}Z`, fill: c, stroke: '#fff', 'stroke-width': 1.2 }, g);
+    return NF.el('rect', { x: cx - s * 0.9, y: cy - s * 0.9, width: s * 1.8, height: s * 1.8, fill: c, stroke: '#fff', 'stroke-width': 1.2 }, g);
+  }
+
+  function render() {
+    for (const k in dsBtn) dsBtn[k].classList.toggle('on', k === state.ds);
+    for (const k in mBtn) mBtn[k].classList.toggle('on', k === state.metric);
+    plot.querySelectorAll('svg').forEach(s => s.remove());
+    const W = plot.clientWidth || 600, H = Math.max(280, Math.min(400, W * 0.58));
+    const m = { l: 62, r: 16, t: 12, b: 42 };
+    const svg = NF.el('svg', { width: W, height: H });
+    plot.insertBefore(svg, plot.firstChild);
+    const ds = DATA.datasets.find(d => d.key === state.ds);
+    const M = METRICS[state.metric];
+    const rows = ds.rows.filter(r => state.refs || r.route !== 'ref').map(r => ({ ...r, v: M.get(r) }));
+    const lat = rows.map(r => r.latency);
+    const x = NF.log(Math.min(...lat) / 1.35, Math.max(...lat) * 1.35, m.l, W - m.r);
+    const ys = rows.flatMap(r => [Math.max(r.v[0] - r.v[1], r.v[0] * 0.5), r.v[0] + r.v[1]]).filter(v => v > 0);
+    const y = NF.log(Math.min(...ys) / 1.25, Math.max(...ys) * 1.25, H - m.b, m.t);
+    const g = NF.el('g', {}, svg);
+    NF.axes(g, x, y, { xlabel: 'Latency per test window (ms, one NVIDIA L40S) →  slower', ylabel: M.axis + '  (lower is better)', ylabelOffset: 48 });
+    // Pareto front among learned methods
+    const learned = rows.filter(r => r.route !== 'ref').sort((a, b) => a.latency - b.latency);
+    const front = []; let best = Infinity;
+    for (const r of learned) if (r.v[0] < best) { front.push(r); best = r.v[0]; }
+    if (front.length) {
+      let d = `M${x(front[0].latency)},${y(front[0].v[0])}`;
+      for (let i = 1; i < front.length; i++) d += `H${x(front[i].latency)}V${y(front[i].v[0])}`;
+      d += `H${W - m.r}`;
+      NF.el('path', { d, fill: 'none', stroke: '#495057', 'stroke-width': 1.5, 'stroke-dasharray': '5 4' }, g);
+    }
+    const pts = [];
+    for (const r of rows) {
+      const c = r.route === 'ref' ? '#868e96' : NF.METHODS[r.key].color;
+      const cx = x(r.latency), cy = y(r.v[0]);
+      if (r.v[1] > 0) NF.el('line', { x1: cx, x2: cx, y1: y(Math.max(r.v[0] - r.v[1], y.domain[0])), y2: y(r.v[0] + r.v[1]), stroke: c, 'stroke-width': 1.4 }, g);
+      pts.push({ r, cx, cy, c });
+    }
+    // labels with simple vertical collision avoidance
+    const lab = pts.map(p => ({ ...p, ly: p.cy - 9, right: p.cx < W - 130 })).sort((a, b) => a.ly - b.ly);
+    for (let i = 1; i < lab.length; i++) for (let j = 0; j < i; j++) {
+      const a = lab[j], b = lab[i];
+      if (Math.abs(a.cx - b.cx) < 110 && a.right === b.right && b.ly - a.ly < 12) b.ly = a.ly + 12;
+    }
+    for (const p of lab) {
+      NF.el('text', { x: p.right ? p.cx + 9 : p.cx - 9, y: p.ly + 4, 'text-anchor': p.right ? 'start' : 'end', fill: p.c,
+        'font-weight': p.r.key === 'normflowsde' ? 700 : 400, 'font-size': 11 }, g, p.r.label);
+    }
+    for (const p of pts) {
+      const mk = marker(g, p.r.route, p.cx, p.cy, p.c, p.r.key === 'normflowsde');
+      mk.style.cursor = 'pointer';
+      mk.addEventListener('mousemove', ev => {
+        const r = svg.getBoundingClientRect(), q = p.r.m;
+        const f = a => `${a[0].toFixed(4)} ± ${a[1].toFixed(4)}`;
+        tip.show(ev.clientX - r.left, ev.clientY - r.top, `<b style="color:${p.c}">${p.r.label}</b> <span class="note">${p.r.route === 'ref' ? 'reference, true model' : p.r.route === 'pf' ? 'particle filter' : 'direct estimator'}</span>` +
+          `<table><tr><td>RMSE</td><td class="n">${f(q.rmse)}</td></tr><tr><td>CRPS</td><td class="n">${f(q.crps)}</td></tr>` +
+          `<tr><td>90% coverage</td><td class="n">${q.cov[0].toFixed(3)} ± ${q.cov[1].toFixed(3)}</td></tr><tr><td>width</td><td class="n">${f(q.width)}</td></tr>` +
+          `<tr><td>latency</td><td class="n">${p.r.latencyLabel} ms</td></tr></table>`);
+      });
+      mk.addEventListener('mouseleave', () => tip.hide());
+    }
+    NF.reportHeight();
+  }
+  NF.onResize(render);
+})();
+</script>
+</body>
+</html>

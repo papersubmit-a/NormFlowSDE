@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>noise_explainer</title>
+<style>/*__CSS__*/
+.two { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; }
+@media (max-width: 640px) { .two { grid-template-columns: 1fr; } }
+.ptitle { font-size: 12px; font-weight: 600; margin: 0 0 2px 4px; }
+.ptitle span { font-weight: 400; color: var(--muted); }
+.btn { font: inherit; font-size: 12px; border: 1px solid var(--fg); background: var(--fg); color: #fff; border-radius: 6px; padding: 3px 10px; cursor: pointer; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/*__LIB__*/</script>
+<script>const DATA = /*__DATA__*/;</script>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const MIX = DATA.mixture; // [{w, mu, sd}] in units of sigma
+  const st = { noise: 'mixture', n: 0, seed: 1 };
+  const r1 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r1, 'Measurement noise');
+  const seg = NF.html('div', { class: 'seg' }, r1); const sb = {};
+  for (const [k, l] of [['mixture', 'Mixture (used in the paper)'], ['gauss', 'Gaussian, same variance']]) {
+    const b = NF.html('button', { type: 'button' }, seg, l); b.onclick = () => { st.noise = k; render(); }; sb[k] = b;
+  }
+  const btn = NF.html('button', { class: 'btn', type: 'button' }, r1, 'New measurements');
+  btn.onclick = () => { st.seed++; render(); };
+  const two = NF.html('div', { class: 'two' }, app);
+  const L = NF.html('div', {}, two), R = NF.html('div', {}, two);
+  NF.html('div', { class: 'ptitle' }, L).innerHTML = 'Noise density <span>in units of σ</span>';
+  NF.html('div', { class: 'ptitle' }, R).innerHTML = 'An illustrative signal observed through this noise <span>(σ = 0.5, 200 measurements)</span>';
+  const stat = NF.html('div', { class: 'note stat' }, app);
+
+  const N = (x, m, s) => Math.exp(-0.5 * ((x - m) / s) ** 2) / (s * Math.sqrt(2 * Math.PI));
+  const pMix = x => MIX.reduce((a, c) => a + c.w * N(x, c.mu, c.sd), 0);
+  const sdMix = Math.sqrt(MIX.reduce((a, c) => a + c.w * (c.sd ** 2 + c.mu ** 2), 0));
+  const pG = x => N(x, 0, sdMix);
+  const X = Array.from({ length: 601 }, (_, i) => -7 + i * 14 / 600);
+  let ovl = 0; for (let i = 1; i < X.length; i++) ovl += Math.min(pMix(X[i]), pG(X[i])) * (X[i] - X[i - 1]);
+
+  function rng(seed) { let s = seed * 2654435761 % 4294967296; return () => (s = (s * 1664525 + 1013904223) % 4294967296) / 4294967296; }
+  function randn(r) { let u = 0; while (!u) u = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * r()); }
+  function draw(r) {
+    if (st.noise === 'gauss') return sdMix * randn(r);
+    let u = r(), k = 0; while (k < MIX.length - 1 && u > MIX[k].w) { u -= MIX[k].w; k++; }
+    return MIX[k].mu + MIX[k].sd * randn(r);
+  }
+
+  let svgs = [];
+  function render() {
+    for (const k in sb) sb[k].classList.toggle('on', k === st.noise);
+    svgs.forEach(s => s.remove()); svgs = [];
+    const H = 230, m = { l: 36, r: 8, t: 8, b: 32 };
+    const WL = L.clientWidth, WR = R.clientWidth;
+    const s1 = NF.el('svg', { width: WL, height: H }, L); svgs.push(s1);
+    const x = NF.linear(-6, 6, m.l, WL - m.r), y = NF.linear(0, 0.62, H - m.b, m.t);
+    NF.axes(s1, x, y, { xlabel: 'noise v / σ', yticks: [0, 0.2, 0.4, 0.6] });
+    NF.el('path', { d: NF.path(X, X.map(pG), x, y), fill: 'none', stroke: '#1c7ed6', 'stroke-width': 2, 'stroke-dasharray': '6 4' }, s1);
+    NF.el('path', { d: NF.area(X, X.map(() => 0), X.map(pMix), x, y), fill: '#212529', 'fill-opacity': st.noise === 'mixture' ? .12 : .04, stroke: '#212529', 'stroke-width': 2 }, s1);
+    NF.el('text', { x: x(2.6), y: y(0.1) - 4, 'font-size': 10.5, fill: '#59636e' }, s1, 'side modes ±2.5σ');
+    NF.el('text', { x: x(1.0), y: y(0.55), 'font-size': 10.5, fill: '#212529' }, s1, 'sharp core');
+    NF.el('text', { x: x(-5.8), y: y(0.42), 'font-size': 10.5, fill: '#1c7ed6' }, s1, 'Gaussian fit');
+    // signal panel
+    const s2 = NF.el('svg', { width: WR, height: H }, R); svgs.push(s2);
+    const T = 200, r = rng(st.seed);
+    const t = Array.from({ length: T }, (_, i) => i / (T - 1) * 4);
+    const truth = t.map(v => 2.2 * Math.sin(1.4 * v) + 0.8 * Math.sin(3.7 * v + 0.5));
+    const obs = truth.map(v => v + draw(r) * 0.5);
+    const x2 = NF.linear(0, 4, m.l, WR - m.r), y2 = NF.linear(-5.5, 5.5, H - m.b, m.t);
+    NF.axes(s2, x2, y2, { xlabel: 'time', yticks: [-4, -2, 0, 2, 4] });
+    let out = 0;
+    for (let i = 0; i < T; i++) {
+      const big = Math.abs(obs[i] - truth[i]) > 2 * 0.5 * sdMix;
+      if (big) out++;
+      NF.el('circle', { cx: x2(t[i]), cy: y2(obs[i]), r: big ? 2.6 : 1.8, fill: big ? '#e8590c' : '#868e96', 'fill-opacity': big ? .9 : .7 }, s2);
+    }
+    NF.el('path', { d: NF.path(t, truth, x2, y2), fill: 'none', stroke: '#212529', 'stroke-width': 2 }, s2);
+    stat.innerHTML = `Mixture standard deviation ${sdMix.toFixed(2)}σ. Overlap of the moment-matched Gaussian with the mixture: <b>${ovl.toFixed(3)}</b> (the same for every σ). ` +
+      `Orange: measurements farther than two standard deviations from the signal (<b>${out}</b> of ${T} here). A Gaussian likelihood treats the side modes as rare outliers and the core as too wide.`;
+    NF.reportHeight();
+  }
+  NF.onResize(render);
+})();
+</script>
+</body>
+</html>

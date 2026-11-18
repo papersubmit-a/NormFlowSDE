@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>calibration</title>
+<style>/*__CSS__*/</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/*__LIB__*/</script>
+<script>const DATA = /*__DATA__*/;</script>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const DS = [['pendulum', 'Pendulum'], ['lorenz96', 'Lorenz–96'], ['aloha', 'ALOHA'], ['reassemble', 'REASSEMBLE']];
+  const DIRECT = ['normflowsde', 'latent_nsf', 'latent_sde', 'sigker_sde'];
+  const PF = ['nf_dpf', 'nsf', 'flowsde', 'normflowsde_pf'];
+  const EXTRA = {
+    pf: { label: 'Bootstrap PF (true model)', color: '#868e96', dashed: false },
+    ekf: { label: 'EKF (true model)', color: '#adb5bd', dashed: true },
+    normflowsde_pf_fixed_scale: { label: 'NormFlowSDE-PF, fixed scale', color: '#ffc078', dashed: true },
+  };
+  const info = k => NF.METHODS[k] ? { ...NF.METHODS[k], dashed: NF.METHODS[k].route === 'pf' } : EXTRA[k];
+  const state = { ds: 'pendulum', on: new Set([...DIRECT, ...PF, 'pf', 'ekf']), view: 'coverage' };
+
+  const r1 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r1, 'Dataset');
+  const dsSeg = NF.html('div', { class: 'seg' }, r1);
+  const dsBtn = {};
+  for (const [k, l] of DS) { const b = NF.html('button', { type: 'button' }, dsSeg, l); b.onclick = () => { state.ds = k; render(); }; dsBtn[k] = b; }
+  NF.html('span', { class: 'lbl' }, r1, 'Show');
+  const viewSeg = NF.html('div', { class: 'seg' }, r1);
+  const viewBtn = {};
+  for (const [k, l] of [['coverage', 'Coverage'], ['dev', 'Coverage − nominal']]) {
+    const b = NF.html('button', { type: 'button' }, viewSeg, l); b.onclick = () => { state.view = k; render(); }; viewBtn[k] = b;
+  }
+  const r2 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r2, 'Select');
+  const preset = NF.html('div', { class: 'seg' }, r2);
+  const presets = { 'Direct': DIRECT, 'Particle filters': PF, 'All': [...DIRECT, ...PF], 'NormFlowSDE vs best PF': ['normflowsde', 'nsf'] };
+  for (const p in presets) {
+    const b = NF.html('button', { type: 'button' }, preset, p);
+    b.onclick = () => { state.on = new Set([...presets[p], 'pf', 'ekf']); render(); };
+  }
+  const legendBox = NF.html('div', {}, app);
+  const plot = NF.html('div', { style: 'position:relative' }, app);
+  const tip = NF.tooltip(plot);
+  NF.html('div', { class: 'note' }, app, 'Lines: mean over three seeds; shaded: range over seeds. Click a legend entry to show or hide it; hover for values.');
+
+  let legend = null;
+  function buildLegend(keys) {
+    legendBox.innerHTML = '';
+    legend = NF.chips(legendBox, keys.map(k => ({ key: k, ...info(k) })), {
+      onClick: k => { state.on.has(k) ? state.on.delete(k) : state.on.add(k); render(); },
+    });
+  }
+
+  function stats(arrs) {
+    const n = arrs[0].length, mean = [], lo = [], hi = [];
+    for (let i = 0; i < n; i++) {
+      const v = arrs.map(a => a[i]);
+      mean.push(v.reduce((s, x) => s + x, 0) / v.length); lo.push(Math.min(...v)); hi.push(Math.max(...v));
+    }
+    return { mean, lo, hi };
+  }
+
+  function render() {
+    for (const k in dsBtn) dsBtn[k].classList.toggle('on', k === state.ds);
+    for (const k in viewBtn) viewBtn[k].classList.toggle('on', k === state.view);
+    const keys = Object.keys(DATA.curves).filter(k => k.startsWith(state.ds + '/')).map(k => k.split('/')[1]);
+    const order = [...DIRECT, ...PF, 'normflowsde_pf_fixed_scale', 'pf', 'ekf'].filter(k => keys.includes(k));
+    buildLegend(order);
+    legend.set(state.on);
+
+    plot.querySelectorAll('svg').forEach(s => s.remove());
+    const W = plot.clientWidth || 600, H = Math.max(260, Math.min(380, W * 0.55));
+    const m = { l: 56, r: 12, t: 8, b: 40 };
+    const svg = NF.el('svg', { width: W, height: H });
+    plot.insertBefore(svg, plot.firstChild);
+    const lv = DATA.levels;
+    const x = NF.linear(0, 1, m.l, W - m.r);
+    const series = order.filter(k => state.on.has(k)).map(k => {
+      const seeds = Object.values(DATA.curves[state.ds + '/' + k]);
+      const s = stats(seeds);
+      if (state.view === 'dev') { for (const f of ['mean', 'lo', 'hi']) s[f] = s[f].map((v, i) => v - lv[i]); }
+      return { k, ...s, n: seeds.length };
+    });
+    let y;
+    if (state.view === 'dev') {
+      let a = 0.05;
+      for (const s of series) for (const v of [...s.lo, ...s.hi]) a = Math.max(a, Math.abs(v));
+      a = Math.min(Math.ceil(a * 20) / 20, 0.8);
+      y = NF.linear(-a, a, H - m.b, m.t);
+    } else y = NF.linear(0, 1, H - m.b, m.t);
+    const g = NF.el('g', {}, svg);
+    NF.axes(g, x, y, { xlabel: 'Nominal level of the central interval', ylabel: state.view === 'dev' ? 'Empirical − nominal coverage' : 'Empirical coverage',
+      xticks: [0, 0.2, 0.4, 0.6, 0.8, 0.9, 1], xfmt: v => Math.round(v * 100) + '%', yfmt: v => state.view === 'dev' ? (v > 0 ? '+' : '') + NF.fmt(v, 2) : Math.round(v * 100) + '%' });
+    if (state.view === 'dev') NF.el('line', { x1: x(0), x2: x(1), y1: y(0), y2: y(0), stroke: '#495057', 'stroke-dasharray': '4 3' }, g);
+    else NF.el('line', { x1: x(0), x2: x(1), y1: y(0), y2: y(1), stroke: '#495057', 'stroke-dasharray': '4 3' }, g);
+    NF.el('text', { x: x(0.02), y: state.view === 'dev' ? y(0) - 5 : y(0.06), fill: '#495057', 'font-size': 11 }, g, 'perfect calibration');
+    for (const s of series) {
+      const c = info(s.k).color;
+      if (s.n > 1) NF.el('path', { d: NF.area(lv, s.lo, s.hi, x, y), fill: c, 'fill-opacity': 0.13, stroke: 'none' }, g);
+    }
+    for (const s of series) {
+      const it = info(s.k);
+      NF.el('path', { d: NF.path(lv, s.mean, x, y), fill: 'none', stroke: it.color, 'stroke-width': s.k === 'normflowsde' ? 3 : 2,
+        'stroke-dasharray': it.dashed ? '6 3' : null }, g);
+      for (let i = 0; i < lv.length; i++) NF.el('circle', { cx: x(lv[i]), cy: y(s.mean[i]), r: 2.3, fill: it.color }, g);
+    }
+    const hover = NF.el('line', { y1: m.t, y2: H - m.b, stroke: '#adb5bd', visibility: 'hidden' }, g);
+    const overlay = NF.el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: 'transparent' }, svg);
+    overlay.addEventListener('mousemove', ev => {
+      const r = svg.getBoundingClientRect();
+      const px = ev.clientX - r.left;
+      let i = 0; for (let j = 1; j < lv.length; j++) if (Math.abs(x(lv[j]) - px) < Math.abs(x(lv[i]) - px)) i = j;
+      hover.setAttribute('x1', x(lv[i])); hover.setAttribute('x2', x(lv[i])); hover.setAttribute('visibility', 'visible');
+      const rows = series.slice().sort((a, b) => b.mean[i] - a.mean[i]).map(s => {
+        const it = info(s.k), v = s.mean[i];
+        const shown = state.view === 'dev' ? (v > 0 ? '+' : '') + v.toFixed(3) : v.toFixed(3);
+        return `<tr><td><span class="sw" style="background:${it.color}"></span> ${it.label}</td><td class="n">${shown}</td></tr>`;
+      }).join('');
+      tip.show(px, ev.clientY - r.top, `<b>Nominal ${Math.round(lv[i] * 100)}%</b><table>${rows}</table>`);
+    });
+    overlay.addEventListener('mouseleave', () => { tip.hide(); hover.setAttribute('visibility', 'hidden'); });
+    NF.reportHeight();
+  }
+  NF.onResize(render);
+})();
+</script>
+</body>
+</html>

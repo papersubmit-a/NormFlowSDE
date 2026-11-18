@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>weak_convergence</title>
+<style>:root {
+  --fg: #1f2328; --muted: #59636e; --grid: #eceef1; --axis: #8c959f;
+  --bg: #ffffff; --chip: #f3f4f6; --chip-on: #ffffff; --border: #d0d7de; --accent: #d9480f;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+  font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; overflow: hidden; }
+#app { position: relative; padding: 6px 4px 4px; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin: 0 0 6px; }
+.row .lbl { color: var(--muted); font-size: 12px; margin-right: -6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { font: inherit; font-size: 12px; border: 1px solid var(--border); background: var(--chip); color: var(--muted);
+  border-radius: 999px; padding: 2px 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; line-height: 18px; }
+.chip:hover { border-color: var(--axis); }
+.chip.on { background: var(--chip-on); color: var(--fg); border-color: var(--fg); box-shadow: 0 0 0 0.5px var(--fg) inset; }
+.chip .sw { width: 14px; height: 0; border-top: 2.5px solid var(--c); display: inline-block; opacity: .35; }
+.chip.on .sw { opacity: 1; }
+.chip .sw.dashed { border-top-style: dashed; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.seg button { font: inherit; font-size: 12px; border: 0; background: var(--chip); color: var(--muted); padding: 3px 10px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button.on { background: var(--fg); color: #fff; }
+svg { display: block; overflow: visible; }
+svg text { fill: var(--fg); font-size: 11px; }
+.grid line { stroke: var(--grid); stroke-width: 1; }
+.axis line { stroke: var(--axis); stroke-width: 1; }
+.axis text { fill: var(--muted); }
+.axis text.label { fill: var(--fg); font-size: 12px; }
+.tip { position: absolute; display: none; pointer-events: none; background: rgba(255,255,255,.97); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 8px; font-size: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.12); z-index: 5; white-space: nowrap; }
+.tip table { border-collapse: collapse; }
+.tip td { padding: 0 4px; }
+.tip td.n { text-align: right; font-variant-numeric: tabular-nums; }
+.tip .sw { display: inline-block; width: 10px; height: 3px; vertical-align: middle; }
+.note { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.stat { font-variant-numeric: tabular-nums; }
+.legend-inline { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); }
+.legend-inline span.k { display: inline-block; width: 16px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 4px; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/* Minimal dependency-free SVG plotting helpers shared by the interactive figures. */
+const NF = (() => {
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const METHODS = {
+    normflowsde:    { label: 'NormFlowSDE',    color: '#d9480f', route: 'direct' },
+    latent_nsf:     { label: 'Latent NSF',     color: '#1c7ed6', route: 'direct' },
+    latent_sde:     { label: 'Latent SDE',     color: '#2b8a3e', route: 'direct' },
+    sigker_sde:     { label: 'SigKer SDE',     color: '#7048e8', route: 'direct' },
+    nf_dpf:         { label: 'NF-DPF',         color: '#0b7285', route: 'pf' },
+    nsf:            { label: 'NSF-PF',         color: '#c2255c', route: 'pf' },
+    flowsde:        { label: 'FlowSDE-PF',     color: '#5c940d', route: 'pf' },
+    normflowsde_pf: { label: 'NormFlowSDE-PF', color: '#f08c00', route: 'pf' },
+  };
+
+  function el(tag, attrs = {}, parent = null, text = null) {
+    const e = document.createElementNS(SVGNS, tag);
+    for (const k in attrs) if (attrs[k] !== undefined && attrs[k] !== null) e.setAttribute(k, attrs[k]);
+    if (text !== null) e.textContent = text;
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  function html(tag, attrs = {}, parent = null, text = null) {
+    const e = document.createElement(tag);
+    for (const k in attrs) {
+      if (k === 'class') e.className = attrs[k];
+      else if (k === 'style') e.style.cssText = attrs[k];
+      else e.setAttribute(k, attrs[k]);
+    }
+    if (text !== null) e.textContent = text;
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  function linear(d0, d1, r0, r1) {
+    const f = v => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
+    f.inv = p => d0 + (p - r0) / (r1 - r0) * (d1 - d0);
+    f.domain = [d0, d1]; f.range = [r0, r1]; f.isLog = false;
+    return f;
+  }
+
+  function log(d0, d1, r0, r1) {
+    const l0 = Math.log10(d0), l1 = Math.log10(d1);
+    const f = v => r0 + (Math.log10(Math.max(v, 1e-300)) - l0) / (l1 - l0) * (r1 - r0);
+    f.inv = p => Math.pow(10, l0 + (p - r0) / (r1 - r0) * (l1 - l0));
+    f.domain = [d0, d1]; f.range = [r0, r1]; f.isLog = true;
+    return f;
+  }
+
+  function niceStep(span, n) {
+    const raw = span / Math.max(n, 1);
+    const p = Math.pow(10, Math.floor(Math.log10(raw)));
+    const m = raw / p;
+    return (m < 1.5 ? 1 : m < 3 ? 2 : m < 7 ? 5 : 10) * p;
+  }
+
+  function ticks(a, b, n = 5) {
+    const s = niceStep(b - a, n), out = [];
+    for (let v = Math.ceil(a / s - 1e-9) * s; v <= b + s * 1e-9; v += s) out.push(Math.abs(v) < s * 1e-9 ? 0 : v);
+    return out;
+  }
+
+  function logTicks(a, b) {
+    const out = [];
+    const span = Math.log10(b) - Math.log10(a);
+    const mults = span > 2.5 ? [1] : span > 1.2 ? [1, 2, 5] : [1, 2, 3, 5, 7];
+    for (let e = Math.floor(Math.log10(a)); e <= Math.ceil(Math.log10(b)); e++)
+      for (const m of mults) { const v = m * Math.pow(10, e); if (v >= a * 0.999 && v <= b * 1.001) out.push(v); }
+    return out;
+  }
+
+  function fmt(v, digits = 3) {
+    if (v === null || v === undefined || !isFinite(v)) return '–';
+    const a = Math.abs(v);
+    if (a !== 0 && (a < 1e-3 || a >= 1e5)) return v.toExponential(1);
+    return Number(v.toPrecision(digits)).toString();
+  }
+
+  function tickFmt(v) {
+    const a = Math.abs(v);
+    if (a !== 0 && a < 1e-3) return v.toExponential(0);
+    return Number(v.toPrecision(3)).toString();
+  }
+
+  function axes(g, x, y, o = {}) {
+    const [x0, x1] = x.range, [y0, y1] = y.range;
+    const xt = o.xticks || (x.isLog ? logTicks(...x.domain) : ticks(...x.domain, o.nx || 6));
+    const yt = o.yticks || (y.isLog ? logTicks(...y.domain) : ticks(...y.domain, o.ny || 5));
+    const grid = el('g', { class: 'grid' }, g);
+    for (const v of yt) el('line', { x1: x0, x2: x1, y1: y(v), y2: y(v) }, grid);
+    for (const v of xt) el('line', { x1: x(v), x2: x(v), y1: y0, y2: y1 }, grid);
+    const ax = el('g', { class: 'axis' }, g);
+    el('line', { x1: x0, x2: x1, y1: y0, y2: y0 }, ax);
+    el('line', { x1: x0, x2: x0, y1: y0, y2: y1 }, ax);
+    const xf = o.xfmt || tickFmt, yf = o.yfmt || tickFmt;
+    for (const v of xt) el('text', { x: x(v), y: y0 + 15, 'text-anchor': 'middle' }, ax, xf(v));
+    for (const v of yt) el('text', { x: x0 - 6, y: y(v) + 4, 'text-anchor': 'end' }, ax, yf(v));
+    if (o.xlabel) el('text', { x: (x0 + x1) / 2, y: y0 + 33, 'text-anchor': 'middle', class: 'label' }, ax, o.xlabel);
+    if (o.ylabel) el('text', { x: 0, y: 0, 'text-anchor': 'middle', class: 'label',
+      transform: `translate(${x0 - (o.ylabelOffset || 44)},${(y0 + y1) / 2}) rotate(-90)` }, ax, o.ylabel);
+  }
+
+  function path(xs, ys, x, y) {
+    let d = '';
+    for (let i = 0; i < xs.length; i++) {
+      if (ys[i] === null || !isFinite(ys[i])) continue;
+      d += (d ? 'L' : 'M') + x(xs[i]).toFixed(1) + ',' + y(ys[i]).toFixed(1);
+    }
+    return d;
+  }
+
+  function area(xs, lo, hi, x, y) {
+    let d = '';
+    for (let i = 0; i < xs.length; i++) d += (i ? 'L' : 'M') + x(xs[i]).toFixed(1) + ',' + y(hi[i]).toFixed(1);
+    for (let i = xs.length - 1; i >= 0; i--) d += 'L' + x(xs[i]).toFixed(1) + ',' + y(lo[i]).toFixed(1);
+    return d + 'Z';
+  }
+
+  function tooltip(container) {
+    const t = html('div', { class: 'tip' }, container);
+    return {
+      show(px, py, content) {
+        t.innerHTML = content; t.style.display = 'block';
+        const cw = container.clientWidth, tw = t.offsetWidth;
+        t.style.left = Math.min(Math.max(px + 14, 4), cw - tw - 4) + 'px';
+        t.style.top = Math.max(py - 10, 0) + 'px';
+      },
+      hide() { t.style.display = 'none'; },
+    };
+  }
+
+  function chips(parent, items, opts = {}) {
+    /* items: [{key, label, color?, dashed?, title?}]; returns {set(keys)} */
+    const box = html('div', { class: 'chips' + (opts.cls ? ' ' + opts.cls : '') }, parent);
+    const btns = {};
+    for (const it of items) {
+      const b = html('button', { class: 'chip', type: 'button', title: it.title || '' }, box);
+      if (it.color) {
+        const sw = html('span', { class: 'sw' + (it.dashed ? ' dashed' : '') }, b);
+        sw.style.setProperty('--c', it.color);
+      }
+      html('span', {}, b, it.label);
+      b.addEventListener('click', () => opts.onClick && opts.onClick(it.key));
+      btns[it.key] = b;
+    }
+    return {
+      set(active) { for (const k in btns) btns[k].classList.toggle('on', active.has ? active.has(k) : active === k); },
+      buttons: btns,
+    };
+  }
+
+  function onResize(fn) {
+    let w = 0;
+    const run = () => { const nw = document.body.clientWidth; if (nw !== w) { w = nw; fn(); } reportHeight(); };
+    window.addEventListener('resize', run);
+    run();
+  }
+
+  function reportHeight() {
+    try {
+      const app = document.getElementById('app');
+      const h = Math.ceil(app ? app.getBoundingClientRect().height + 6 : document.body.scrollHeight);
+      window.parent.postMessage({ nfFrame: window.name || document.title, height: h }, '*');
+    } catch (e) { /* ignore */ }
+  }
+
+  return { METHODS, el, html, linear, log, ticks, logTicks, fmt, axes, path, area, tooltip, chips, onResize, reportHeight };
+})();
+</script>
+<script>const DATA = {"stats":[{"key":"z1","label":"mean of z₁","note":null},{"key":"z2","label":"mean of z₂","note":null},{"key":"z1^2","label":"E[z₁²]","note":null},{"key":"z1*z2","label":"E[z₁z₂]","note":null},{"key":"cos(z1+z2)","label":"E[cos(z₁+z₂)]","note":null},{"key":"exp(-|z|^2)","label":"E[exp(−|z|²)]","note":null},{"key":"E[max_t |Z_t|_inf]","label":"E[maxₜ‖Zₜ‖∞]","note":"Path maximum on the grid t ∈ h₀ℕ."},{"key":"skewness z1","label":"skewness z₁","note":"Higher moments: the limit is Gaussian, so skewness and excess kurtosis vanish."},{"key":"excess kurtosis z1","label":"excess kurtosis z₁","note":"Higher moments: the limit is Gaussian, so skewness and excess kurtosis vanish."},{"key":"skewness z2","label":"skewness z₂","note":null},{"key":"excess kurtosis z2","label":"excess kurtosis z₂","note":null}],"rows":[{"scheme":"trained limit SDE","h":0.00078125,"errors":{"z1":{"error":-0.0022828292888535384,"se":0.000958260673382639},"z2":{"error":-0.012662423242660426,"se":0.0011580691922397559},"z1^2":{"error":-0.0022221890668129574,"se":0.0005249491933739338},"z1*z2":{"error":-0.0031145259343622056,"se":0.0005620212210340508},"cos(z1+z2)":{"error":0.0065458486264139415,"se":0.0008496822248223423},"exp(-|z|^2)":{"error":0.005416045409734616,"se":0.0006035987032338733},"E[max_t |Z_t|_inf]":{"error":-0.0017568282054960527,"se":0.0005340743941343071},"skewness z1":{"error":-0.007307371590286493,"se":null},"excess kurtosis z1":{"error":-0.016086101531982422,"se":null},"skewness z2":{"error":-0.0016063719522207975,"se":null},"excess kurtosis z2":{"error":0.012112617492675781,"se":null}}},{"scheme":"centered","h":0.1,"errors":{"z1":{"error":-0.05611216840446481,"se":0.0014384081858866092},"z2":{"error":-0.0009594178388830921,"se":0.0016993664327712467},"z1^2":{"error":0.002443629295945965,"se":0.0007547585524690084},"z1*z2":{"error":-0.011071258754205435,"se":0.0008021973585872825},"cos(z1+z2)":{"error":0.0022686841112190548,"se":0.0011982124762532885},"exp(-|z|^2)":{"error":-0.010639898049181418,"se":0.0008605256608150971},"E[max_t |Z_t|_inf]":{"error":0.0016425438953340254,"se":0.0007605650985647841},"skewness z1":{"error":-0.10847333818674088,"se":null},"excess kurtosis z1":{"error":-0.03528547286987305,"se":null},"skewness z2":{"error":-0.08572423458099365,"se":null},"excess kurtosis z2":{"error":0.013939857482910156,"se":null}}},{"scheme":"centered","h":0.05,"errors":{"z1":{"error":-0.02875525323179634,"se":0.0013863233015087009},"z2":{"error":-0.010095474499154933,"se":0.0016662025697073935},"z1^2":{"error":-0.0025508454389321644,"se":0.0007277196163872532},"z1*z2":{"error":-0.008425537669687427,"se":0.000782707173327849},"cos(z1+z2)":{"error":0.00690613088356018,"se":0.001179843190650501},"exp(-|z|^2)":{"error":-0.0010334052573813812,"se":0.0008475127886771925},"E[max_t |Z_t|_inf]":{"error":-0.0021095684932768144,"se":0.0007417105398166822},"skewness z1":{"error":-0.09874977916479111,"se":null},"excess kurtosis z1":{"error":-0.011363506317138672,"se":null},"skewness z2":{"error":-0.07364606112241745,"se":null},"excess kurtosis z2":{"error":-0.021903276443481445,"se":null}}},{"scheme":"centered","h":0.025,"errors":{"z1":{"error":-0.015545244906448874,"se":0.001364577104424503},"z2":{"error":-0.010920669908244585,"se":0.0016547603887593976},"z1^2":{"error":-0.003691238886931708,"se":0.0007230770856916286},"z1*z2":{"error":-0.006254055320756791,"se":0.00078340230574766},"cos(z1+z2)":{"error":0.007115090850120409,"se":0.001188307798762128},"exp(-|z|^2)":{"error":0.0023059641691599575,"se":0.0008506691824517713},"E[max_t |Z_t|_inf]":{"error":-0.002455871479421834,"se":0.0007317943169088041},"skewness z1":{"error":-0.06541316956281662,"se":null},"excess kurtosis z1":{"error":-0.02522897720336914,"se":null},"skewness z2":{"error":-0.038204457610845566,"se":null},"excess kurtosis z2":{"error":-0.02280426025390625,"se":null}}},{"scheme":"centered","h":0.0125,"errors":{"z1":{"error":-0.005250295112168291,"se":0.0013631318660124335},"z2":{"error":-0.007119767572190683,"se":0.0016498436363366472},"z1^2":{"error":-0.001541058891834396,"se":0.0007413638850810939},"z1*z2":{"error":-0.0031377358757330165,"se":0.0007947081781074857},"cos(z1+z2)":{"error":0.0037006879293163264,"se":0.0012003567510201565},"exp(-|z|^2)":{"error":0.0012447904914761887,"se":0.0008545894438052349},"E[max_t |Z_t|_inf]":{"error":-0.002826969997793416,"se":0.000732443185782516},"skewness z1":{"error":-0.04621214419603348,"se":null},"excess kurtosis z1":{"error":0.003840923309326172,"se":null},"skewness z2":{"error":-0.02640981413424015,"se":null},"excess kurtosis z2":{"error":0.028530359268188477,"se":null}}},{"scheme":"centered","h":0.00625,"errors":{"z1":{"error":-0.006017702539019398,"se":0.0013641166295621779},"z2":{"error":-0.0077729927124178255,"se":0.0016384603776283396},"z1^2":{"error":-0.0015519004242630918,"se":0.0007510329925859466},"z1*z2":{"error":-0.003854844154804027,"se":0.0007909540439654631},"cos(z1+z2)":{"error":0.0054082348554578275,"se":0.001197337984107615},"exp(-|z|^2)":{"error":0.0030469525412680776,"se":0.0008548612021018608},"E[max_t |Z_t|_inf]":{"error":-0.001955073254019002,"se":0.0007324145144528973},"skewness z1":{"error":-0.04381091147661209,"se":null},"excess kurtosis z1":{"error":0.06346988677978516,"se":null},"skewness z2":{"error":-0.02301706001162529,"se":null},"excess kurtosis z2":{"error":0.025345802307128906,"se":null}}},{"scheme":"centered","h":0.003125,"errors":{"z1":{"error":-0.004429365447560951,"se":0.0013582096293023095},"z2":{"error":-0.011106858022250976,"se":0.0016415797290603015},"z1^2":{"error":-0.0022177218298096435,"se":0.0007406105274070246},"z1*z2":{"error":-0.002980649570688651,"se":0.0007910890710627653},"cos(z1+z2)":{"error":0.005428924853630668,"se":0.0011963350000568005},"exp(-|z|^2)":{"error":0.003973189188426596,"se":0.0008532058042369645},"E[max_t |Z_t|_inf]":{"error":-0.0013012103008329667,"se":0.0007288455510365747},"skewness z1":{"error":-0.023313963785767555,"se":null},"excess kurtosis z1":{"error":-0.0076906681060791016,"se":null},"skewness z2":{"error":-0.017583543434739113,"se":null},"excess kurtosis z2":{"error":-0.00031065940856933594,"se":null}}},{"scheme":"uncentered","h":0.1,"errors":{"z1":{"error":-0.2449929228639139,"se":0.0014343954732436385},"z2":{"error":-0.7846444668702525,"se":0.0016947773087717113},"z1^2":{"error":0.010444074111950835,"se":0.000846561791527107},"z1*z2":{"error":0.028166458436643393,"se":0.0011270867331763723},"cos(z1+z2)":{"error":-0.09569275828474855,"se":0.0015442058835682634},"exp(-|z|^2)":{"error":-0.09504189924914408,"se":0.0010052648842168832},"E[max_t |Z_t|_inf]":{"error":-0.08863834656944869,"se":0.0007471227773265869},"skewness z1":{"error":-0.12261782586574554,"se":null},"excess kurtosis z1":{"error":0.01575446128845215,"se":null},"skewness z2":{"error":-0.08637037873268127,"se":null},"excess kurtosis z2":{"error":0.007415056228637695,"se":null}}},{"scheme":"uncentered","h":0.05,"errors":{"z1":{"error":-0.40191310719485657,"se":0.001230939553331942},"z2":{"error":-1.4821916212088104,"se":0.0015172264057456055},"z1^2":{"error":0.03644334397768875,"se":0.0009017086323540608},"z1*z2":{"error":0.2825391103123989,"se":0.0018248790273058587},"cos(z1+z2)":{"error":-0.6625534362284914,"se":0.001978888764019904},"exp(-|z|^2)":{"error":-0.46991177998052724,"se":0.0008042663006610133},"E[max_t |Z_t|_inf]":{"error":-0.17595569409599898,"se":0.0007417900134476149},"skewness z1":{"error":-0.1085340604186058,"se":null},"excess kurtosis z1":{"error":-0.01038980484008789,"se":null},"skewness z2":{"error":-0.05574233457446098,"se":null},"excess kurtosis z2":{"error":-0.014478445053100586,"se":null}}},{"scheme":"uncentered","h":0.025,"errors":{"z1":{"error":-0.47735816476763177,"se":0.0010624767458880407},"z2":{"error":-2.4191485375483786,"se":0.0013557190457912996},"z1^2":{"error":0.05824072148216894,"se":0.0008751804959249074},"z1*z2":{"error":0.6893349759329759,"se":0.0025858204098004184},"cos(z1+z2)":{"error":-1.4314261423131454,"se":0.0011974958592035274},"exp(-|z|^2)":{"error":-0.7072236415083966,"se":0.00012188694869797327},"E[max_t |Z_t|_inf]":{"error":0.4191635438037813,"se":0.001214202418098179},"skewness z1":{"error":-0.10385836660861969,"se":null},"excess kurtosis z1":{"error":0.014170169830322266,"se":null},"skewness z2":{"error":-0.061318010091781616,"se":null},"excess kurtosis z2":{"error":-0.007999420166015625,"se":null}}},{"scheme":"uncentered","h":0.0125,"errors":{"z1":{"error":-0.5889297420967972,"se":0.0009181938878416019},"z2":{"error":-3.685940430408434,"se":0.0012191533151370026},"z1^2":{"error":0.13005709707612031,"se":0.0009162416149779458},"z1*z2":{"error":1.504339327768959,"se":0.0034606168129182203},"cos(z1+z2)":{"error":-1.4062674928828376,"se":0.0011908521824675355},"exp(-|z|^2)":{"error":-0.7269319132309495,"se":7.0660576511333e-07},"E[max_t |Z_t|_inf]":{"error":1.7492824383808077,"se":0.0010455971340444243},"skewness z1":{"error":-0.07756543904542923,"se":null},"excess kurtosis z1":{"error":-0.010013103485107422,"se":null},"skewness z2":{"error":-0.05347145348787308,"se":null},"excess kurtosis z2":{"error":0.01616835594177246,"se":null}}},{"scheme":"uncentered","h":0.00625,"errors":{"z1":{"error":-0.8683515408163225,"se":0.0008063595922878464},"z2":{"error":-5.682410285778813,"se":0.0011186553938061794},"z1^2":{"error":0.4534316830628138,"se":0.001228257516121498},"z1*z2":{"error":3.9307846244613525,"se":0.004827428629308977},"cos(z1+z2)":{"error":0.16605723109097859,"se":0.0004904682052485885},"exp(-|z|^2)":{"error":-0.7269783507888087,"se":5.77965338537729e-13},"E[max_t |Z_t|_inf]":{"error":3.7949944325519502,"se":0.0009300352882195903},"skewness z1":{"error":-0.06193668022751808,"se":null},"excess kurtosis z1":{"error":0.01942276954650879,"se":null},"skewness z2":{"error":-0.041552212089300156,"se":null},"excess kurtosis z2":{"error":0.01007699966430664,"se":null}}},{"scheme":"uncentered","h":0.003125,"errors":{"z1":{"error":-1.5320300807594713,"se":0.0007643232509948343},"z2":{"error":-9.495233826972024,"se":0.0011479082289165118},"z1^2":{"error":1.8731155073873886,"se":0.0021654609311956034},"z1*z2":{"error":12.876724793943488,"se":0.008000869947925893},"cos(z1+z2)":{"error":-1.0698057891869226,"se":0.0014393271337217915},"exp(-|z|^2)":{"error":-0.7269783507969269,"se":1.470414799126185e-33},"E[max_t |Z_t|_inf]":{"error":7.592114526851267,"se":0.0009641983788981638},"skewness z1":{"error":-0.052651070058345795,"se":null},"excess kurtosis z1":{"error":0.00849771499633789,"se":null},"skewness z2":{"error":-0.04193485155701637,"se":null},"excess kurtosis z2":{"error":0.0039196014404296875,"se":null}}}],"truth":{"z1":0.12737412544142274,"z2":0.27450687898794757,"z1^2":0.13822773900849292,"z1*z2":0.10447743701262685,"cos(z1+z2)":0.7391564984662927,"exp(-|z|^2)":0.7269783507969269,"skewness z1":0.0,"excess kurtosis z1":0.0,"skewness z2":0.0,"excess kurtosis z2":0.0,"E[max_t |Z_t|_inf]":1.9151534251140654},"thm":"A.2"};</script>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const SCHEMES = {
+    centered: { label: `centered scheme (Theorem ${DATA.thm})`, color: '#1c7ed6' },
+    uncentered: { label: 'uncentered refinement', color: '#e8590c' },
+  };
+  const state = { stat: DATA.stats[0].key, view: 'abs' };
+  const r1 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r1, 'Statistic at T = 2');
+  const chips = NF.chips(r1, DATA.stats.map(s => ({ key: s.key, label: s.label })), { onClick: k => { state.stat = k; render(); } });
+  const r2 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r2, 'Error axis');
+  const seg = NF.html('div', { class: 'seg' }, r2);
+  const vb = {};
+  for (const [k, l] of [['abs', '|error|, log scale'], ['signed', 'signed error, linear']]) {
+    const b = NF.html('button', { type: 'button' }, seg, l); b.onclick = () => { state.view = k; render(); }; vb[k] = b;
+  }
+  const plot = NF.html('div', { style: 'position:relative' }, app);
+  const tip = NF.tooltip(plot);
+  const leg = NF.html('div', { class: 'legend-inline', style: 'margin-top:4px' }, app);
+  leg.innerHTML = `<span><span class="k" style="border-top:2.5px solid ${SCHEMES.centered.color}"></span>${SCHEMES.centered.label}</span>` +
+    `<span><span class="k" style="border-top:2.5px solid ${SCHEMES.uncentered.color}"></span>${SCHEMES.uncentered.label}, z + h f + √h g</span>` +
+    `<span><span class="k" style="border-top:2px dotted #212529"></span>limit SDE of the fitted model (learning-error floor)</span>`;
+  const note = NF.html('div', { class: 'note' }, app);
+
+  function rowsFor(scheme) { return DATA.rows.filter(r => r.scheme === scheme).sort((a, b) => b.h - a.h); }
+
+  function render() {
+    chips.set(new Set([state.stat]));
+    for (const k in vb) vb[k].classList.toggle('on', k === state.view);
+    plot.querySelectorAll('svg').forEach(s => s.remove());
+    const W = plot.clientWidth || 600, H = Math.max(250, Math.min(340, W * 0.5));
+    const m = { l: 60, r: 14, t: 10, b: 42 };
+    const svg = NF.el('svg', { width: W, height: H });
+    plot.insertBefore(svg, plot.firstChild);
+    const hs = rowsFor('centered').map(r => r.h);
+    const x = NF.log(hs[0] * 1.25, hs[hs.length - 1] / 1.25, m.l, W - m.r);
+    const lim = DATA.rows.find(r => r.scheme === 'trained limit SDE').errors[state.stat];
+    const series = ['centered', 'uncentered'].map(s => ({ s, pts: rowsFor(s).map(r => ({ h: r.h, e: r.errors[state.stat].error, se: r.errors[state.stat].se })) }));
+    let y;
+    const all = series.flatMap(s => s.pts).concat([{ e: lim.error, se: lim.se }]);
+    if (state.view === 'abs') {
+      const vals = all.flatMap(p => [Math.abs(p.e), Math.abs(p.e) + 2 * (p.se || 0)]).filter(v => v > 0);
+      const lo = Math.max(Math.min(...vals) / 2, 1e-5), hi = Math.max(...vals) * 1.6;
+      y = NF.log(lo, hi, H - m.b, m.t);
+    } else {
+      const a = Math.max(...all.map(p => Math.abs(p.e) + 2 * (p.se || 0))) * 1.1;
+      y = NF.linear(-a, a, H - m.b, m.t);
+    }
+    const g = NF.el('g', {}, svg);
+    const names = ['h₀', 'h₀/2', 'h₀/4', 'h₀/8', 'h₀/16', 'h₀/32'];
+    NF.axes(g, x, y, { xticks: hs, xfmt: v => names[Math.round(Math.log2(hs[0] / v))] || NF.fmt(v),
+      xlabel: 'Inference step h (h₀ = 0.1, the training step)', ylabel: state.view === 'abs' ? '|error| vs exact OU law' : 'error vs exact OU law' });
+    if (state.view === 'signed') NF.el('line', { x1: m.l, x2: W - m.r, y1: y(0), y2: y(0), stroke: '#868e96' }, g);
+    const clip = NF.el('clipPath', { id: 'c' }, svg);
+    NF.el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b }, clip);
+    const pg = NF.el('g', { 'clip-path': 'url(#c)' }, g);
+    const tr = v => state.view === 'abs' ? Math.abs(v) : v;
+    // floor band
+    const fl = tr(lim.error), fse = 2 * (lim.se || 0);
+    const flo = state.view === 'abs' ? Math.max(fl - fse, y.domain[0]) : fl - fse;
+    NF.el('rect', { x: m.l, width: W - m.l - m.r, y: y(fl + fse), height: Math.max(y(flo) - y(fl + fse), 0), fill: '#212529', 'fill-opacity': 0.07 }, pg);
+    NF.el('line', { x1: m.l, x2: W - m.r, y1: y(fl), y2: y(fl), stroke: '#212529', 'stroke-width': 1.6, 'stroke-dasharray': '2 3' }, pg);
+    const dots = [];
+    for (const s of series) {
+      const c = SCHEMES[s.s].color;
+      NF.el('path', { d: NF.path(s.pts.map(p => p.h), s.pts.map(p => tr(p.e)), x, y), fill: 'none', stroke: c, 'stroke-width': 2.4 }, pg);
+      for (const p of s.pts) {
+        const v = tr(p.e), se2 = 2 * (p.se || 0);
+        const lo = state.view === 'abs' ? Math.max(v - se2, y.domain[0]) : v - se2;
+        NF.el('line', { x1: x(p.h), x2: x(p.h), y1: y(lo), y2: y(v + se2), stroke: c, 'stroke-width': 1.2 }, pg);
+        NF.el('circle', { cx: x(p.h), cy: y(v), r: 3.5, fill: '#fff', stroke: c, 'stroke-width': 2 }, pg);
+        dots.push({ s: s.s, p });
+      }
+    }
+    const overlay = NF.el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: 'transparent' }, svg);
+    overlay.addEventListener('mousemove', ev => {
+      const r = svg.getBoundingClientRect(), px = ev.clientX - r.left;
+      let i = 0; for (let j = 1; j < hs.length; j++) if (Math.abs(x(hs[j]) - px) < Math.abs(x(hs[i]) - px)) i = j;
+      const h = hs[i];
+      let rows = '';
+      for (const s of series) { const p = s.pts.find(q => q.h === h); rows += `<tr><td><span class="sw" style="background:${SCHEMES[s.s].color}"></span> ${s.s}</td><td class="n">${p.e.toFixed(4)} ± ${(2 * p.se).toFixed(4)}</td></tr>`; }
+      rows += `<tr><td>limit SDE (floor)</td><td class="n">${lim.error.toFixed(4)} ± ${(2 * lim.se).toFixed(4)}</td></tr>`;
+      tip.show(px, ev.clientY - r.top, `<b>h = ${names[i]} = ${h}</b><table>${rows}</table><div class="note">error ± 2 standard errors</div>`);
+    });
+    overlay.addEventListener('mouseleave', () => tip.hide());
+    const st = DATA.stats.find(s => s.key === state.stat);
+    note.textContent = `Exact value under the Ornstein–Uhlenbeck law: ${NF.fmt(DATA.truth[state.stat], 4)}. Bars: ± 2 Monte Carlo standard errors.` + (st.note ? ' ' + st.note : '');
+    NF.reportHeight();
+  }
+  NF.onResize(render);
+})();
+</script>
+</body>
+</html>

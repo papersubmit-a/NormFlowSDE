@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>race</title>
+<style>/*__CSS__*/
+.lane { display: grid; grid-template-columns: 128px 1fr 150px; align-items: center; gap: 8px; margin: 3px 0; }
+.lane .nm { font-size: 12px; text-align: right; white-space: nowrap; }
+.lane .nm small { display: block; color: var(--muted); font-size: 10.5px; }
+.track { position: relative; height: 18px; background: #f1f3f5; border-radius: 4px; overflow: hidden; }
+.bar { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 4px; }
+.lane .steps { font-size: 10.5px; color: #59636e; margin-left: 4px; }
+.lane .ms { font-size: 12px; font-variant-numeric: tabular-nums; }
+.btn { font: inherit; font-size: 12px; border: 1px solid var(--fg); background: var(--fg); color: #fff; border-radius: 6px; padding: 3px 12px; cursor: pointer; }
+.grp { font-size: 11px; color: var(--muted); margin: 8px 0 2px 136px; text-transform: uppercase; letter-spacing: .04em; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/*__LIB__*/</script>
+<script>const DATA = /*__DATA__*/;</script>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const st = { ds: DATA.datasets[3].key };
+  const r1 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r1, 'Dataset');
+  const seg = NF.html('div', { class: 'seg' }, r1); const sb = {};
+  for (const d of DATA.datasets) { const b = NF.html('button', { type: 'button' }, seg, d.label); b.onclick = () => { st.ds = d.key; build(); run(); }; sb[d.key] = b; }
+  const go = NF.html('button', { class: 'btn', type: 'button' }, r1, '▶ Filter one test window');
+  go.onclick = () => run();
+  const lanes = NF.html('div', {}, app);
+  const note = NF.html('div', { class: 'note' }, app);
+  let L = [], raf = null;
+
+  function build() {
+    for (const k in sb) sb[k].classList.toggle('on', k === st.ds);
+    const d = DATA.datasets.find(x => x.key === st.ds);
+    lanes.innerHTML = ''; L = [];
+    for (const [route, title] of [['direct', 'Direct estimators: one network pass per step'], ['pf', `Particle filters: ${d.M} particles per step, transition + likelihood + resampling`]]) {
+      NF.html('div', { class: 'grp' }, lanes, title);
+      for (const r of d.rows.filter(x => x.route === route)) {
+        const lane = NF.html('div', { class: 'lane' }, lanes);
+        const nm = NF.html('div', { class: 'nm' }, lane);
+        nm.innerHTML = r.key === 'normflowsde' ? `<b>${r.label}</b>` : r.label;
+        const tr = NF.html('div', { class: 'track' }, lane);
+        const bar = NF.html('div', { class: 'bar' }, tr);
+        bar.style.background = NF.METHODS[r.key].color;
+        const msbox = NF.html('div', { class: 'ms' }, lane);
+        const ms = NF.html('span', {}, msbox, '');
+        const steps = NF.html('span', { class: 'steps' }, msbox);
+        L.push({ r, bar, steps, ms });
+        // finished state by default (also what a printout shows)
+        const slowest = Math.max(...d.rows.filter(x => x.route !== 'ref').map(x => x.latency));
+        bar.style.width = (r.latency / slowest * 100).toFixed(1) + '%';
+        ms.textContent = `${r.latency.toFixed(1)} ms`;
+      }
+    }
+    const dir = d.rows.find(x => x.key === 'normflowsde').latency;
+    const fastPF = Math.min(...d.rows.filter(x => x.route === 'pf').map(x => x.latency));
+    note.innerHTML = `Each bar grows with elapsed time and stops when the method has filtered the window; its final length is the measured median latency per test window (Tables ${DATA.tables}, one NVIDIA L40S, slowed down for display). ` +
+      `A window has ${d.steps} steps. On ${d.label}, NormFlowSDE finishes in ${dir.toFixed(1)} ms, <b>${(fastPF / dir).toFixed(1)}×</b> faster than the fastest particle filter (${fastPF.toFixed(1)} ms).`;
+    NF.reportHeight();
+  }
+
+  function run() {
+    if (raf) cancelAnimationFrame(raf);
+    const d = DATA.datasets.find(x => x.key === st.ds);
+    const slowest = Math.max(...d.rows.filter(x => x.route !== 'ref').map(x => x.latency));
+    const scale = 5000 / slowest; // display ms per measured ms
+    const t0 = performance.now();
+    const tick = now => {
+      const el = (now - t0) / scale; // measured ms elapsed
+      let done = true;
+      for (const l of L) {
+        const f = Math.min(el / l.r.latency, 1);
+        if (f < 1) done = false;
+        l.bar.style.width = (Math.min(el, l.r.latency) / slowest * 100).toFixed(2) + '%';
+        l.steps.textContent = `step ${Math.floor(f * d.steps)}/${d.steps}`;
+        l.ms.textContent = f >= 1 ? `${l.r.latency.toFixed(1)} ms ✓` : `${el.toFixed(1)} ms`;
+      }
+      if (!done) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+  }
+  build();
+  NF.onResize(() => NF.reportHeight());
+  // start once the figure is scrolled into view
+  const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { run(); io.disconnect(); } });
+  io.observe(app);
+})();
+</script>
+</body>
+</html>

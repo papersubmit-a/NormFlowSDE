@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>noise_recovery</title>
+<style>/*__CSS__*/</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/*__LIB__*/</script>
+<script>const DATA = /*__DATA__*/;</script>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const ORDER = ['normflowsde', 'latent_nsf', 'latent_sde', 'sigker_sde', 'nf_dpf', 'nsf', 'flowsde', 'normflowsde_pf'];
+  const state = { mode: 'single', method: 'normflowsde', logy: false, gauss: true };
+
+  const r1 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r1, 'View');
+  const modeSeg = NF.html('div', { class: 'seg' }, r1);
+  const modeBtn = {};
+  for (const [k, l] of [['single', 'One method'], ['all', 'All implied residuals']]) {
+    const b = NF.html('button', { type: 'button' }, modeSeg, l); b.onclick = () => { state.mode = k; render(); }; modeBtn[k] = b;
+  }
+  NF.html('span', { class: 'lbl' }, r1, 'Density axis');
+  const ySeg = NF.html('div', { class: 'seg' }, r1);
+  const yBtn = {};
+  for (const [k, l] of [[false, 'Linear'], [true, 'Log (shows side modes)']]) {
+    const b = NF.html('button', { type: 'button' }, ySeg, l); b.onclick = () => { state.logy = k; render(); }; yBtn[k] = b;
+  }
+  const gl = NF.html('label', { style: 'font-size:12px;color:#59636e;cursor:pointer' }, r1);
+  const gcb = NF.html('input', { type: 'checkbox', checked: '' }, gl);
+  gl.append(' moment-matched Gaussian');
+  gcb.onchange = () => { state.gauss = gcb.checked; render(); };
+
+  const r2 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r2, 'Method');
+  const chips = NF.chips(r2, ORDER.map(k => ({ key: k, label: NF.METHODS[k].label, color: NF.METHODS[k].color, dashed: NF.METHODS[k].route === 'pf' })), {
+    onClick: k => { state.method = k; state.mode = 'single'; render(); },
+  });
+  const plot = NF.html('div', { style: 'position:relative' }, app);
+  const tip = NF.tooltip(plot);
+  const info = NF.html('div', { class: 'note stat' }, app);
+  const leg = NF.html('div', { class: 'legend-inline', style: 'margin-top:4px' }, app);
+
+  function render() {
+    for (const k in modeBtn) modeBtn[k].classList.toggle('on', k === state.mode);
+    for (const k in yBtn) yBtn[k].classList.toggle('on', String(k) === String(state.logy));
+    chips.set(state.mode === 'single' ? new Set([state.method]) : new Set(ORDER));
+    plot.querySelectorAll('svg').forEach(s => s.remove());
+    const W = plot.clientWidth || 600, H = Math.max(250, Math.min(360, W * 0.5));
+    const m = { l: 56, r: 12, t: 10, b: 40 };
+    const svg = NF.el('svg', { width: W, height: H });
+    plot.insertBefore(svg, plot.firstChild);
+    const xs = DATA.grid;
+    const x = NF.linear(xs[0], xs[xs.length - 1], m.l, W - m.r);
+    const ymax = Math.max(...DATA.gmm, ...DATA.hist.density) * 1.08;
+    const y = state.logy ? NF.log(0.01, ymax * 1.5, H - m.b, m.t) : NF.linear(0, ymax, H - m.b, m.t);
+    const g = NF.el('g', {}, svg);
+    NF.axes(g, x, y, { xlabel: 'Residual y − x (normalized units)', ylabel: 'Density' });
+    const clip = NF.el('clipPath', { id: 'c' }, svg);
+    NF.el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b }, clip);
+    const pg = NF.el('g', { 'clip-path': 'url(#c)' }, g);
+    const b = DATA.hist.bins;
+    for (let i = 0; i < DATA.hist.density.length; i++) {
+      const v = DATA.hist.density[i]; if (v <= 0) continue;
+      const y0 = y(state.logy ? 0.01 : 0);
+      NF.el('rect', { x: x(b[i]), width: Math.max(x(b[i + 1]) - x(b[i]) - 0.5, 0.5), y: y(v), height: Math.max(y0 - y(v), 0), fill: '#ced4da' }, pg);
+    }
+    const legItems = [['#ced4da', 'data residuals y − x', 'solid', 8], ['#212529', 'true mixture', 'solid', 2]];
+    if (state.gauss) {
+      NF.el('path', { d: NF.path(xs, DATA.gauss, x, y), fill: 'none', stroke: '#495057', 'stroke-width': 1.3, 'stroke-dasharray': '1.5 3' }, pg);
+      legItems.push(['#495057', 'moment-matched Gaussian (overlap 0.668)', 'dotted', 2]);
+    }
+    NF.el('path', { d: NF.path(xs, DATA.gmm, x, y), fill: 'none', stroke: '#212529', 'stroke-width': 2 }, pg);
+    if (state.mode === 'single') {
+      const d = DATA.methods[state.method], it = NF.METHODS[state.method];
+      if (d.slice_mean) {
+        NF.el('path', { d: NF.area(xs, d.slice_lo.map(v => Math.max(v, 1e-6)), d.slice_hi.map(v => Math.max(v, 1e-6)), x, y), fill: '#1c7ed6', 'fill-opacity': 0.2 }, pg);
+        NF.el('path', { d: NF.path(xs, d.slice_mean, x, y), fill: 'none', stroke: '#1c7ed6', 'stroke-width': 2.2 }, pg);
+        legItems.push(['#1c7ed6', 'learned observation model q(y | x)', 'solid', 2]);
+      }
+      NF.el('path', { d: NF.path(xs, d.implied_density, x, y), fill: 'none', stroke: it.color, 'stroke-width': 2.4, 'stroke-dasharray': '7 4' }, pg);
+      legItems.push([it.color, `implied residuals y − E[x | y] (${it.label})`, 'dashed', 2]);
+      info.innerHTML = `<b>${it.label}</b> (${it.route === 'pf' ? 'particle filter' : 'direct estimator'}) · overlap of implied residuals with the mixture: <b>${d.implied_overlap_with_gmm.toFixed(3)}</b>` +
+        (d.overlap_with_gmm !== undefined ? ` · overlap of learned q(y | x): <b>${d.overlap_with_gmm.toFixed(3)}</b>` : '') +
+        ` · std of implied residuals ${d.implied_resid_std.toFixed(3)} vs data ${DATA.data_resid_std.toFixed(3)}`;
+    } else {
+      for (const k of ORDER) {
+        const it = NF.METHODS[k];
+        NF.el('path', { d: NF.path(xs, DATA.methods[k].implied_density, x, y), fill: 'none', stroke: it.color, 'stroke-width': k === 'normflowsde' ? 2.6 : 1.6,
+          'stroke-dasharray': it.route === 'pf' ? '6 3' : null }, pg);
+      }
+      const ranked = ORDER.slice().sort((a, c) => DATA.methods[c].implied_overlap_with_gmm - DATA.methods[a].implied_overlap_with_gmm);
+      info.innerHTML = 'Overlap of implied residuals with the mixture: ' + ranked.map(k => `<span style="color:${NF.METHODS[k].color}">${NF.METHODS[k].label}</span> ${DATA.methods[k].implied_overlap_with_gmm.toFixed(3)}`).join(' · ');
+      legItems.push(['#868e96', 'implied residuals of each method (solid: direct, dashed: particle filter)', 'solid', 2]);
+    }
+    leg.innerHTML = legItems.map(([c, l, s, w]) => `<span><span class="k" style="border-top:${w}px ${s} ${c}"></span>${l}</span>`).join('');
+    const hover = NF.el('line', { y1: m.t, y2: H - m.b, stroke: '#adb5bd', visibility: 'hidden' }, g);
+    const overlay = NF.el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: 'transparent' }, svg);
+    overlay.addEventListener('mousemove', ev => {
+      const r = svg.getBoundingClientRect(), px = ev.clientX - r.left;
+      const v = x.inv(px); let i = 0;
+      for (let j = 1; j < xs.length; j++) if (Math.abs(xs[j] - v) < Math.abs(xs[i] - v)) i = j;
+      hover.setAttribute('x1', x(xs[i])); hover.setAttribute('x2', x(xs[i])); hover.setAttribute('visibility', 'visible');
+      let rows = `<tr><td>true mixture</td><td class="n">${DATA.gmm[i].toFixed(3)}</td></tr>`;
+      const keys = state.mode === 'single' ? [state.method] : ORDER;
+      for (const k of keys) rows += `<tr><td><span class="sw" style="background:${NF.METHODS[k].color}"></span> ${NF.METHODS[k].label} (implied)</td><td class="n">${DATA.methods[k].implied_density[i].toFixed(3)}</td></tr>`;
+      if (state.mode === 'single' && DATA.methods[state.method].slice_mean)
+        rows += `<tr><td><span class="sw" style="background:#1c7ed6"></span> learned q(y | x)</td><td class="n">${DATA.methods[state.method].slice_mean[i].toFixed(3)}</td></tr>`;
+      tip.show(px, ev.clientY - r.top, `<b>residual ${xs[i].toFixed(2)}</b><table>${rows}</table>`);
+    });
+    overlay.addEventListener('mouseleave', () => { tip.hide(); hover.setAttribute('visibility', 'hidden'); });
+    NF.reportHeight();
+  }
+  NF.onResize(render);
+})();
+</script>
+</body>
+</html>

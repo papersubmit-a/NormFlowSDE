@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>centering</title>
+<style>/*__CSS__*/
+.two { display: grid; grid-template-columns: 1.5fr 1fr; gap: 10px; }
+@media (max-width: 640px) { .two { grid-template-columns: 1fr; } }
+.ptitle { font-size: 12px; font-weight: 600; margin: 0 0 2px 4px; }
+.ptitle span { font-weight: 400; color: var(--muted); }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/*__LIB__*/</script>
+<script>const DATA = /*__DATA__*/;</script>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const { K, S, z0, h0, T, mix, m: MEAN } = DATA;
+  const st = { j: 0, centered: true };
+  const r1 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r1, 'Inference step h');
+  const hs = [0, 1, 2, 3, 4, 5];
+  const names = ['h₀', 'h₀/2', 'h₀/4', 'h₀/8', 'h₀/16', 'h₀/32'];
+  const hc = NF.chips(r1, hs.map(j => ({ key: j, label: names[j] })), { onClick: j => { st.j = j; render(); } });
+  const r2 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r2, 'Noise');
+  const seg = NF.html('div', { class: 'seg' }, r2); const sb = {};
+  for (const [k, l] of [[true, 'centered (Theorem ' + DATA.thm + ')'], [false, 'uncentered: z + h f + √h g']]) {
+    const b = NF.html('button', { type: 'button' }, seg, l); b.onclick = () => { st.centered = k; render(); }; sb[k] = b;
+  }
+  const two = NF.html('div', { class: 'two' }, app);
+  const L = NF.html('div', {}, two), R = NF.html('div', {}, two);
+  NF.html('div', { class: 'ptitle' }, L).innerHTML = 'Sample paths of z₁ <span>gray band: exact SDE law, mean ± 2 s.d.</span>';
+  NF.html('div', { class: 'ptitle' }, R).innerHTML = 'Distribution of z₁ at T = 2 <span>2000 chains</span>';
+  const stat = NF.html('div', { class: 'note stat' }, app);
+  NF.html('div', { class: 'note' }, app, 'Simulated in the browser from the data-generating chain of the Ornstein–Uhlenbeck study (Figure ' + DATA.fig + '), whose increments have skewed, non-Gaussian noise. The noise output has mean m = (' +
+    MEAN.map(v => v.toFixed(2)).join(', ') + '), which the drift absorbs at the training step h₀; both schemes coincide there.');
+
+  // exact OU law: mean e^{-Kt} z0, covariance ∫ e^{-Ks} S Sᵀ e^{-Kᵀs} ds
+  const mul = (A, B) => [[A[0][0] * B[0][0] + A[0][1] * B[1][0], A[0][0] * B[0][1] + A[0][1] * B[1][1]], [A[1][0] * B[0][0] + A[1][1] * B[1][0], A[1][0] * B[0][1] + A[1][1] * B[1][1]]];
+  const tr = A => [[A[0][0], A[1][0]], [A[0][1], A[1][1]]];
+  function expK(t) { // K = a I + b J with J = [[0,1],[-1,0]]
+    const a = K[0][0], b = K[0][1], e = Math.exp(-a * t), c = Math.cos(b * t), s = Math.sin(b * t);
+    return [[e * c, -e * s], [e * s, e * c]];
+  }
+  const SS = mul(S, tr(S));
+  function exact(t) {
+    const E = expK(t), mu = [E[0][0] * z0[0] + E[0][1] * z0[1], E[1][0] * z0[0] + E[1][1] * z0[1]];
+    let V = [[0, 0], [0, 0]]; const n = 400, ds = t / n;
+    for (let i = 0; i < n; i++) { const Q = expK((i + 0.5) * ds), M = mul(mul(Q, SS), tr(Q)); for (const a of [0, 1]) for (const b of [0, 1]) V[a][b] += M[a][b] * ds; }
+    return { mu, V };
+  }
+  const tg = Array.from({ length: 81 }, (_, i) => i * T / 80);
+  const band = tg.map(exact);
+
+  function rng(seed) { let s = seed >>> 0; return () => { s = (s + 0x6D2B79F5) >>> 0; let t = s; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function randn(r) { let u = 0; while (!u) u = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * r()); }
+  const eta = r => (r() < mix.w ? mix.mu1 : mix.mu2) + mix.s * randn(r);
+
+  const cache = {};
+  function simulate(j, centered) {
+    const key = j + '' + centered; if (cache[key]) return cache[key];
+    const h = h0 / 2 ** j, n = Math.round(T / h), r = rng(1234 + j);
+    const nc = 2000, np = 25, every = Math.max(1, Math.round(n / 80));
+    const paths = [], end = new Float64Array(nc);
+    for (let c = 0; c < nc; c++) {
+      let x = z0[0], y = z0[1]; const p = c < np ? [[0, x]] : null;
+      for (let k = 0; k < n; k++) {
+        const e1 = eta(r), e2 = eta(r);
+        const n1 = S[0][0] * e1 + S[0][1] * e2, n2 = S[1][0] * e1 + S[1][1] * e2;
+        const d1 = -(K[0][0] * x + K[0][1] * y), d2 = -(K[1][0] * x + K[1][1] * y);
+        if (centered) { x += h * d1 + Math.sqrt(h) * n1; y += h * d2 + Math.sqrt(h) * n2; }
+        else {  // drift f = -Kz - m/sqrt(h0), noise g = S eta + m
+          x += h * (d1 - MEAN[0] / Math.sqrt(h0)) + Math.sqrt(h) * (n1 + MEAN[0]);
+          y += h * (d2 - MEAN[1] / Math.sqrt(h0)) + Math.sqrt(h) * (n2 + MEAN[1]);
+        }
+        if (p && ((k + 1) % every === 0 || k === n - 1)) p.push([(k + 1) * h, x]);
+      }
+      if (p) paths.push(p);
+      end[c] = x;
+    }
+    return (cache[key] = { paths, end, h, n });
+  }
+
+  let svgs = [];
+  function render() {
+    hc.set(new Set([st.j]));
+    for (const k in sb) sb[k].classList.toggle('on', String(k) === String(st.centered));
+    svgs.forEach(s => s.remove()); svgs = [];
+    const sim = simulate(st.j, st.centered);
+    const H = 240, m = { l: 38, r: 8, t: 8, b: 32 };
+    const WL = L.clientWidth, WR = R.clientWidth;
+    const ex = band[band.length - 1], sdT = Math.sqrt(ex.V[0][0]);
+    let lo = -1.5, hi = 2.6;
+    for (const p of sim.paths) for (const q of p) { lo = Math.min(lo, q[1]); hi = Math.max(hi, q[1]); }
+    lo = Math.max(lo, -6); hi = Math.min(hi, 6);
+    const s1 = NF.el('svg', { width: WL, height: H }, L); svgs.push(s1);
+    const x = NF.linear(0, T, m.l, WL - m.r), y = NF.linear(lo, hi, H - m.b, m.t);
+    NF.axes(s1, x, y, { xlabel: 'time t' });
+    const clip = NF.el('clipPath', { id: 'c1' }, s1); NF.el('rect', { x: m.l, y: m.t, width: WL - m.l - m.r, height: H - m.t - m.b }, clip);
+    const g1 = NF.el('g', { 'clip-path': 'url(#c1)' }, s1);
+    NF.el('path', { d: NF.area(tg, band.map(b => b.mu[0] - 2 * Math.sqrt(b.V[0][0])), band.map(b => b.mu[0] + 2 * Math.sqrt(b.V[0][0])), x, y), fill: '#868e96', 'fill-opacity': .22 }, g1);
+    NF.el('path', { d: NF.path(tg, band.map(b => b.mu[0]), x, y), fill: 'none', stroke: '#495057', 'stroke-width': 1.5 }, g1);
+    const col = st.centered ? '#1c7ed6' : '#e8590c';
+    for (const p of sim.paths) NF.el('path', { d: NF.path(p.map(q => q[0]), p.map(q => q[1]), x, y), fill: 'none', stroke: col, 'stroke-width': 1, 'stroke-opacity': .55 }, g1);
+    // histogram at T
+    const s2 = NF.el('svg', { width: WR, height: H }, R); svgs.push(s2);
+    const end = Array.from(sim.end), mu = end.reduce((a, b) => a + b, 0) / end.length;
+    const sd = Math.sqrt(end.reduce((a, b) => a + (b - mu) ** 2, 0) / (end.length - 1));
+    const sk = end.reduce((a, b) => a + ((b - mu) / sd) ** 3, 0) / end.length;
+    const xl = Math.min(ex.mu[0] - 4 * sdT, mu - 3.5 * sd), xh = Math.max(ex.mu[0] + 4 * sdT, mu + 3.5 * sd);
+    const x2 = NF.linear(xl, xh, m.l, WR - m.r);
+    const nb = 36, bw = (xh - xl) / nb, cnt = new Array(nb).fill(0);
+    for (const v of end) { const i = Math.floor((v - xl) / bw); if (i >= 0 && i < nb) cnt[i]++; }
+    const dens = cnt.map(c => c / end.length / bw);
+    const pdf = v => Math.exp(-0.5 * ((v - ex.mu[0]) / sdT) ** 2) / (sdT * Math.sqrt(2 * Math.PI));
+    const y2 = NF.linear(0, Math.max(...dens, pdf(ex.mu[0])) * 1.1, H - m.b, m.t);
+    NF.axes(s2, x2, y2, { xlabel: 'z₁(T)', nx: 4 });
+    dens.forEach((v, i) => NF.el('rect', { x: x2(xl + i * bw), width: Math.max(x2(xl + bw) - x2(xl) - 0.6, 0.5), y: y2(v), height: y2(0) - y2(v), fill: col, 'fill-opacity': .45 }, s2));
+    const Xs = Array.from({ length: 200 }, (_, i) => xl + i * (xh - xl) / 199);
+    NF.el('path', { d: NF.path(Xs, Xs.map(pdf), x2, y2), fill: 'none', stroke: '#212529', 'stroke-width': 2 }, s2);
+    stat.innerHTML = `h = ${names[st.j]} = ${sim.h} (${sim.n} steps to T = 2) · mean of z₁(T): <b>${mu.toFixed(3)}</b> vs exact ${ex.mu[0].toFixed(3)} ` +
+      `(error ${(mu - ex.mu[0] >= 0 ? '+' : '')}${(mu - ex.mu[0]).toFixed(3)}) · skewness ${sk.toFixed(2)} (exact law: 0)` +
+      (st.centered ? '' : ' · the uncentered noise mean acts as a drift m(1/√h − 1/√h₀) that grows as h → 0');
+    NF.reportHeight();
+  }
+  NF.onResize(render);
+})();
+</script>
+</body>
+</html>

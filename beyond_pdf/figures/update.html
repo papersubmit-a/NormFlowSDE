@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>update</title>
+<style>/*__CSS__*/
+.panels { display: grid; grid-template-columns: 1fr 1.15fr 1.25fr; gap: 6px; }
+@media (max-width: 640px) { .panels { grid-template-columns: 1fr; } }
+.ptitle { font-size: 12px; font-weight: 600; margin: 0 0 2px 4px; }
+.ptitle span { font-weight: 400; color: var(--muted); }
+.sl { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.sl input { width: 120px; }
+.btn { font: inherit; font-size: 12px; border: 1px solid var(--fg); background: var(--fg); color: #fff; border-radius: 6px; padding: 3px 10px; cursor: pointer; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/*__LIB__*/</script>
+<script>const DATA = /*__DATA__*/;</script>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const C = NF.METHODS.normflowsde.color, G = '#1c7ed6';
+  const st = { z: 0.0, c: 0.6, a: 1.2, samples: [] };
+  const r1 = NF.html('div', { class: 'row' }, app);
+  function slider(label, key, min, max, step) {
+    const w = NF.html('label', { class: 'sl' }, r1);
+    w.append(label + ' ');
+    const s = NF.html('input', { type: 'range', min, max, step, value: st[key] }, w);
+    const v = NF.html('b', { class: 'stat' }, w, String(st[key]));
+    s.oninput = () => { st[key] = +s.value; v.textContent = (+s.value).toFixed(2); st.samples = []; render(); };
+  }
+  slider('current state zₖ', 'z', -1.5, 1.5, 0.05);
+  slider('measurement feature cₖ', 'c', -1, 1, 0.05);
+  slider('flow nonlinearity', 'a', 0, 2, 0.05);
+  const btn = NF.html('button', { class: 'btn', type: 'button' }, r1, 'Draw 300 samples');
+  btn.onclick = () => animate();
+  const panels = NF.html('div', { class: 'panels' }, app);
+  const P = [0, 1, 2].map(i => {
+    const box = NF.html('div', {}, panels);
+    NF.html('div', { class: 'ptitle' }, box).innerHTML = [
+      'Gaussian input <span>εₖ ~ N(0, 1)</span>',
+      'Noise map <span>flow g(ε; cₖ) vs. Euler–Maruyama σε</span>',
+      'Next state <span>zₖ₊₁ = zₖ + Δt f + √Δt · noise</span>'][i];
+    return box;
+  });
+  const leg = NF.html('div', { class: 'legend-inline', style: 'margin-top:4px' }, app);
+  leg.innerHTML = `<span><span class="k" style="border-top:2.5px solid ${C}"></span>NormFlowSDE: flow-transformed noise</span>` +
+    `<span><span class="k" style="border-top:2px dashed ${G}"></span>Euler–Maruyama: Gaussian noise with the same mean and variance</span>`;
+  const note = NF.html('div', { class: 'note' }, app,
+    'Schematic one-dimensional example with hand-chosen functions, not a trained model. Setting the flow nonlinearity to 0 recovers the Gaussian Euler–Maruyama update.');
+
+  // toy model ---------------------------------------------------------------------
+  const phi = e => Math.exp(-0.5 * e * e) / Math.sqrt(2 * Math.PI);
+  const drift = (z, c) => -0.6 * z + 0.5 * c;          // Δt f(z, c)
+  const sigma = 0.45;
+  const e0 = c => -1.1 * c;                             // the feature moves the flow's steep region
+  const g = (e, c, a) => sigma * (e + a * Math.tanh(2 * (e - e0(c))));
+  const dg = (e, c, a) => { const t = Math.tanh(2 * (e - e0(c))); return sigma * (1 + 2 * a * (1 - t * t)); };
+  const E = Array.from({ length: 801 }, (_, i) => -4.5 + i * 9 / 800);
+
+  function model() {
+    const base = st.z + drift(st.z, st.c);
+    const zs = E.map(e => base + g(e, st.c, st.a));
+    const ps = E.map(e => phi(e) / dg(e, st.c, st.a));
+    let m = 0, v = 0, w = 0;
+    for (let i = 0; i < E.length; i++) { const q = phi(E[i]); m += q * zs[i]; w += q; }
+    m /= w;
+    for (let i = 0; i < E.length; i++) v += phi(E[i]) * (zs[i] - m) ** 2;
+    v /= w;
+    return { base, zs, ps, m, sd: Math.sqrt(v) };
+  }
+
+  let svgs = [];
+  function render(progress = null) {
+    const M = model();
+    svgs.forEach(s => s.remove()); svgs = [];
+    const W = P[0].clientWidth || 200, H = 210, m = { l: 34, r: 8, t: 8, b: 30 };
+    // panel 1: epsilon density
+    const s1 = NF.el('svg', { width: P[0].clientWidth, height: H }, P[0]); svgs.push(s1);
+    const x1 = NF.linear(-3.5, 3.5, m.l, P[0].clientWidth - m.r), y1 = NF.linear(0, 0.45, H - m.b, m.t);
+    NF.axes(s1, x1, y1, { xlabel: 'ε', yticks: [0, 0.2, 0.4], ylabelOffset: 26 });
+    NF.el('path', { d: NF.area(E, E.map(() => 0), E.map(phi), x1, y1), fill: '#adb5bd', 'fill-opacity': .45, stroke: '#495057' }, s1);
+    // panel 2: noise map
+    const W2 = P[1].clientWidth;
+    const s2 = NF.el('svg', { width: W2, height: H }, P[1]); svgs.push(s2);
+    const x2 = NF.linear(-3.5, 3.5, m.l, W2 - m.r);
+    const gmax = Math.max(...E.filter(e => Math.abs(e) < 3.5).flatMap(e => [Math.abs(g(e, st.c, st.a)), Math.abs(M.m - M.base) + M.sd * Math.abs(e)]));
+    const y2 = NF.linear(-gmax * 1.05, gmax * 1.05, H - m.b, m.t);
+    NF.axes(s2, x2, y2, { xlabel: 'ε', ylabelOffset: 26 });
+    const sdEM = M.sd;
+    const cp = NF.el('clipPath', { id: 'clip2' }, s2);
+    NF.el('rect', { x: m.l, y: m.t, width: W2 - m.l - m.r, height: H - m.t - m.b }, cp);
+    const g2 = NF.el('g', { 'clip-path': 'url(#clip2)' }, s2);
+    NF.el('path', { d: NF.path(E, E.map(e => (M.m - M.base) + sdEM * e), x2, y2), fill: 'none', stroke: G, 'stroke-width': 2, 'stroke-dasharray': '6 4' }, g2);
+    NF.el('path', { d: NF.path(E, E.map(e => g(e, st.c, st.a)), x2, y2), fill: 'none', stroke: C, 'stroke-width': 2.6 }, g2);
+    NF.el('text', { x: m.l + 4, y: m.t + 12, fill: '#59636e', 'font-size': 10.5 }, s2, 'steep parts spread probability mass;');
+    NF.el('text', { x: m.l + 4, y: m.t + 25, fill: '#59636e', 'font-size': 10.5 }, s2, 'flat parts concentrate it');
+    // panel 3: next-state density
+    const W3 = P[2].clientWidth;
+    const s3 = NF.el('svg', { width: W3, height: H }, P[2]); svgs.push(s3);
+    const lo = M.m - 4.2 * M.sd, hi = M.m + 4.2 * M.sd;
+    const x3 = NF.linear(lo, hi, m.l, W3 - m.r);
+    const gauss = z => Math.exp(-0.5 * ((z - M.m) / M.sd) ** 2) / (M.sd * Math.sqrt(2 * Math.PI));
+    const pmax = Math.max(...M.ps.filter((_, i) => M.zs[i] > lo && M.zs[i] < hi), gauss(M.m));
+    const y3 = NF.linear(0, pmax * 1.1, H - m.b, m.t);
+    NF.axes(s3, x3, y3, { xlabel: 'zₖ₊₁', ylabelOffset: 26 });
+    const Z = Array.from({ length: 300 }, (_, i) => lo + i * (hi - lo) / 299);
+    NF.el('path', { d: NF.path(Z, Z.map(gauss), x3, y3), fill: 'none', stroke: G, 'stroke-width': 2, 'stroke-dasharray': '6 4' }, s3);
+    const keep = M.zs.map((z, i) => z > lo && z < hi ? i : -1).filter(i => i >= 0);
+    NF.el('path', { d: NF.area(keep.map(i => M.zs[i]), keep.map(() => 0), keep.map(i => M.ps[i]), x3, y3), fill: C, 'fill-opacity': .15, stroke: C, 'stroke-width': 2.4 }, s3);
+    NF.el('line', { x1: x3(st.z), x2: x3(st.z), y1: m.t, y2: H - m.b, stroke: '#212529', 'stroke-dasharray': '2 3' }, s3);
+    NF.el('text', { x: x3(st.z) + 3, y: m.t + 10, 'font-size': 10.5, fill: '#212529' }, s3, 'zₖ');
+    // samples (animated from panel 1 through panel 2 to panel 3)
+    if (st.samples.length) {
+      const t = progress === null ? 1 : progress;
+      for (const e of st.samples) {
+        const z = M.base + g(e, st.c, st.a);
+        NF.el('circle', { cx: x1(e), cy: H - m.b - 4 - (e * 997 % 1 + 1) % 1 * 18, r: 1.6, fill: '#495057', 'fill-opacity': .5 }, s1);
+        if (t > 0.33) NF.el('circle', { cx: x2(e), cy: y2(g(e, st.c, st.a)), r: 1.8, fill: C, 'fill-opacity': .5 }, s2);
+        if (t > 0.66) NF.el('circle', { cx: x3(z), cy: H - m.b - 4 - (Math.abs(e * 7919) % 1) * 18, r: 1.6, fill: C, 'fill-opacity': .55 }, s3);
+      }
+    }
+    NF.reportHeight();
+  }
+
+  function randn() { let u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+  function animate() {
+    st.samples = Array.from({ length: 300 }, randn);
+    const t0 = performance.now();
+    const step = now => { const p = Math.min((now - t0) / 1500, 1); render(p); if (p < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+  NF.onResize(() => render());
+})();
+</script>
+</body>
+</html>

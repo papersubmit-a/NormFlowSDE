@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>methods</title>
+<style>/*__CSS__*/
+.grp { min-width: 104px; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-right: 2px; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 6px 14px; margin-top: 6px; font-size: 12px; }
+.facts div b { display: block; font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+.box rect { rx: 8; }
+.box text { font-size: 12px; }
+.box text.sub { font-size: 10.5px; fill: #59636e; }
+@keyframes dash { to { stroke-dashoffset: -20; } }
+.flow { stroke-dasharray: 6 4; animation: dash 0.8s linear infinite; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/*__LIB__*/</script>
+<script>const DATA = /*__DATA__*/;</script>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const KIND = {
+    state: { fill: '#f1f3f5', stroke: '#868e96' },
+    dyn: { fill: '#e7f5ff', stroke: '#1c7ed6' },
+    noise: { fill: '#fff4e6', stroke: '#e8590c' },
+    weight: { fill: '#f3f0ff', stroke: '#7048e8' },
+    obs: { fill: '#fff9db', stroke: '#e67700' },
+  };
+  const st = { m: 'normflowsde' };
+  const r1 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'grp' }, r1, 'Direct');
+  const c1 = NF.chips(r1, ['normflowsde', 'latent_nsf', 'latent_sde', 'sigker_sde'].map(k => ({ key: k, label: NF.METHODS[k].label, color: NF.METHODS[k].color })), { onClick: k => { st.m = k; render(); } });
+  const r2 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'grp' }, r2, 'Particle filters');
+  const c2 = NF.chips(r2, ['nf_dpf', 'nsf', 'flowsde', 'normflowsde_pf'].map(k => ({ key: k, label: NF.METHODS[k].label, color: NF.METHODS[k].color, dashed: true })), { onClick: k => { st.m = k; render(); } });
+  const plot = NF.html('div', {}, app);
+  const facts = NF.html('div', { class: 'facts' }, app);
+  const leg = NF.html('div', { class: 'legend-inline', style: 'margin-top:6px' }, app);
+  leg.innerHTML = Object.entries({ obs: 'measurements', dyn: 'learned dynamics', noise: 'stochastic part', weight: 'Bayesian weighting', state: 'state / particles' })
+    .map(([k, l]) => `<span><span class="k" style="border-top:8px solid ${KIND[k].fill};outline:1px solid ${KIND[k].stroke}"></span>${l}</span>`).join('');
+
+  function render() {
+    c1.set(new Set([st.m])); c2.set(new Set([st.m]));
+    const M = DATA.methods[st.m];
+    plot.innerHTML = '';
+    const W = plot.clientWidth || 700, n = M.chain.length;
+    const gap = 26, bw = Math.min(170, (W - 20 - gap * (n - 1)) / n), bh = 64;
+    const H = 210, y0 = 108;
+    const total = n * bw + (n - 1) * gap, x0 = (W - total) / 2;
+    const svg = NF.el('svg', { width: W, height: H }, plot);
+    const defs = NF.el('defs', {}, svg);
+    const mk = NF.el('marker', { id: 'ah', viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }, defs);
+    NF.el('path', { d: 'M0,0L10,5L0,10z', fill: '#495057' }, mk);
+    const xs = M.chain.map((_, i) => x0 + i * (bw + gap));
+    // arrows between boxes
+    for (let i = 0; i < n - 1; i++)
+      NF.el('line', { x1: xs[i] + bw + 2, x2: xs[i + 1] - 3, y1: y0 + bh / 2, y2: y0 + bh / 2, stroke: '#495057', 'stroke-width': 1.8, 'marker-end': 'url(#ah)', class: 'flow' }, svg);
+    // loop back to the next step
+    const yb = y0 + bh + 18;
+    NF.el('path', { d: `M${xs[n - 1] + bw / 2},${y0 + bh + 2} V${yb} H${xs[0] + bw / 2} V${y0 + bh + 6}`, fill: 'none', stroke: '#adb5bd', 'stroke-width': 1.4, 'stroke-dasharray': '4 3', 'marker-end': 'url(#ah)' }, svg);
+    NF.el('text', { x: (xs[0] + xs[n - 1] + bw) / 2, y: yb + 13, 'text-anchor': 'middle', 'font-size': 10.5, fill: '#868e96' }, svg, 'next step k → k + 1');
+    // measurement input
+    const ob = M.obs;
+    const ow = Math.min(240, Math.max(150, ob.label.length * 6.4)), ox = Math.max(4, Math.min(W - ow - 4, xs[ob.into[0]] + bw / 2 - ow / 2));
+    const og = NF.el('g', { class: 'box' }, svg);
+    NF.el('rect', { x: ox, y: 8, width: ow, height: 44, fill: KIND.obs.fill, stroke: KIND.obs.stroke, 'stroke-width': 1.5, rx: 8 }, og);
+    NF.el('text', { x: ox + ow / 2, y: 27, 'text-anchor': 'middle', 'font-weight': 600 }, og, ob.label);
+    NF.el('text', { x: ox + ow / 2, y: 43, 'text-anchor': 'middle', class: 'sub' }, og, ob.sub);
+    for (const i of ob.into)
+      NF.el('path', { d: `M${ox + ow / 2},52 C${ox + ow / 2},80 ${xs[i] + bw / 2},78 ${xs[i] + bw / 2},${y0 - 3}`, fill: 'none', stroke: KIND.obs.stroke, 'stroke-width': 2, 'marker-end': 'url(#ah)', class: 'flow' }, svg);
+    // boxes
+    M.chain.forEach((b, i) => {
+      const g = NF.el('g', { class: 'box' }, svg), K = KIND[b.kind];
+      if (b.many) for (let j = 2; j >= 1; j--) NF.el('rect', { x: xs[i] + 4 * j, y: y0 - 4 * j, width: bw, height: bh, fill: K.fill, stroke: K.stroke, 'stroke-opacity': .5, rx: 8 }, g);
+      NF.el('rect', { x: xs[i], y: y0, width: bw, height: bh, fill: K.fill, stroke: K.stroke, 'stroke-width': 1.5, rx: 8 }, g);
+      NF.el('text', { x: xs[i] + bw / 2, y: y0 + 26, 'text-anchor': 'middle', 'font-weight': 600 }, g, b.label);
+      const words = b.sub.split(' '); let line = '', lines = [];
+      for (const w of words) { if ((line + ' ' + w).trim().length * 5.6 > bw - 10) { lines.push(line.trim()); line = w; } else line += ' ' + w; }
+      lines.push(line.trim());
+      lines.slice(0, 2).forEach((l, j) => NF.el('text', { x: xs[i] + bw / 2, y: y0 + 42 + j * 13, 'text-anchor': 'middle', class: 'sub' }, g, l));
+    });
+    facts.innerHTML = [['Measurements enter', M.facts.obs], ['Stochastic part', M.facts.noise], ['Transition density', M.facts.density], ['Training', M.facts.train]]
+      .map(([k, v]) => `<div><b>${k}</b>${v}</div>`).join('');
+    NF.reportHeight();
+  }
+  NF.onResize(render);
+})();
+</script>
+</body>
+</html>

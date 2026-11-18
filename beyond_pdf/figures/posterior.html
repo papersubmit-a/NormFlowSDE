@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>posterior</title>
+<style>/*__CSS__*/
+.thumbs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin: 2px 0 8px; }
+@media (max-width: 520px) { .thumbs { grid-template-columns: repeat(4, 1fr); } }
+.thumb { border: 1px solid var(--border); border-radius: 6px; padding: 2px 3px 0; cursor: pointer; background: #fff; }
+.thumb:hover { border-color: var(--axis); }
+.thumb.on { border-color: var(--fg); box-shadow: 0 0 0 1px var(--fg) inset; }
+.thumb .t { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; }
+.thumb .t b { color: var(--fg); font-weight: 600; }
+.main { display: flex; gap: 6px; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/*__LIB__*/</script>
+<script>const DATA = /*__DATA__*/;</script>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const C = NF.METHODS.normflowsde.color;
+  const obsSet = new Set(DATA.observed);
+  const ts = Array.from({ length: DATA.T }, (_, i) => i * DATA.dt);
+  const state = { w: Math.floor(DATA.windows.length / 2), c: 1, draws: false, ti: Math.floor(DATA.T * 0.6) };
+
+  const r1 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r1, 'Test window');
+  const wChips = NF.chips(r1, DATA.windows.map((w, i) => ({ key: i, label: `${w.pct}th pct · RMSE ${w.rmse.toFixed(2)}`, title: `test window ${w.index}` })),
+    { onClick: k => { state.w = k; render(); } });
+  const dl = NF.html('label', { style: 'font-size:12px;color:#59636e;cursor:pointer' }, r1);
+  const dcb = NF.html('input', { type: 'checkbox' }, dl); dl.append(` ${DATA.windows[0].draws[0].length} sampled paths`);
+  dcb.onchange = () => { state.draws = dcb.checked; render(); };
+  const thumbs = NF.html('div', { class: 'thumbs' }, app);
+  const main = NF.html('div', { class: 'main' }, app);
+  const plot = NF.html('div', { style: 'position:relative;flex:1 1 auto;min-width:0' }, main);
+  const side = NF.html('div', { style: 'flex:0 0 150px' }, main);
+  const tip = NF.tooltip(plot);
+  const leg = NF.html('div', { class: 'legend-inline', style: 'margin-top:4px' }, app);
+  leg.innerHTML = `<span><span class="k" style="border-top:8px solid ${C};opacity:.18"></span>90% interval</span>` +
+    `<span><span class="k" style="border-top:8px solid ${C};opacity:.4"></span>50% interval</span>` +
+    `<span><span class="k" style="border-top:2.5px solid ${C}"></span>posterior mean</span>` +
+    `<span><span class="k" style="border-top:2px solid #212529"></span>reference state</span>` +
+    `<span>● noisy measurement (observed coordinates only)</span>`;
+  const stat = NF.html('div', { class: 'note stat' }, app);
+
+  function sub(i) { return String(i).split('').map(d => '₀₁₂₃₄₅₆₇₈₉'[+d]).join(''); }
+
+  function drawThumbs() {
+    thumbs.innerHTML = '';
+    const w = DATA.windows[state.w];
+    for (let c = 0; c < DATA.d; c++) {
+      const b = NF.html('div', { class: 'thumb' + (c === state.c ? ' on' : '') }, thumbs);
+      const t = NF.html('div', { class: 't' }, b);
+      t.innerHTML = `<b>x${sub(c)}</b><span>${obsSet.has(c) ? 'observed' : 'hidden'}</span>`;
+      const tw = Math.max(b.clientWidth - 8, 40), th = 34;
+      const svg = NF.el('svg', { width: tw, height: th }, b);
+      const lo = Math.min(...w.q05[c], ...w.truth[c]), hi = Math.max(...w.q95[c], ...w.truth[c]);
+      const x = NF.linear(0, ts[ts.length - 1], 1, tw - 1), y = NF.linear(lo, hi, th - 2, 2);
+      NF.el('path', { d: NF.area(ts, w.q05[c], w.q95[c], x, y), fill: C, 'fill-opacity': 0.22 }, svg);
+      NF.el('path', { d: NF.path(ts, w.mean[c], x, y), fill: 'none', stroke: C, 'stroke-width': 1.3 }, svg);
+      NF.el('path', { d: NF.path(ts, w.truth[c], x, y), fill: 'none', stroke: '#212529', 'stroke-width': 1 }, svg);
+      b.onclick = () => { state.c = c; render(); };
+    }
+  }
+
+  function drawSide(w, c, y, H, m) {
+    side.innerHTML = '';
+    if (plot.clientWidth < 330) { side.style.display = 'none'; return; } else side.style.display = '';
+    const SW = 150;
+    const svg = NF.el('svg', { width: SW, height: H }, side);
+    const h = w.hist, counts = h.counts[c][state.ti], nb = counts.length;
+    const lo = h.lo[c], hi = h.hi[c], bw = (hi - lo) / nb, tot = counts.reduce((a, b) => a + b, 0) || 1;
+    const dens = counts.map(v => v / tot / bw), dmax = Math.max(...dens) || 1;
+    const x = NF.linear(0, dmax * 1.1, 6, SW - 8);
+    NF.el('line', { x1: 6, x2: 6, y1: m.t, y2: H - m.b, stroke: '#8c959f' }, svg);
+    for (let i = 0; i < nb; i++) {
+      const a = lo + i * bw;
+      const ya = y(a + bw), yb = y(a);
+      if (yb < m.t || ya > H - m.b) continue;
+      NF.el('rect', { x: 6, y: Math.max(ya, m.t), width: x(dens[i]) - 6, height: Math.max(Math.min(yb, H - m.b) - Math.max(ya, m.t) - 0.6, 0.5), fill: C, 'fill-opacity': 0.55 }, svg);
+    }
+    const tv = w.truth[c][state.ti];
+    NF.el('line', { x1: 6, x2: SW - 8, y1: y(tv), y2: y(tv), stroke: '#212529', 'stroke-width': 1.6 }, svg);
+    NF.el('text', { x: SW - 8, y: y(tv) - 4, 'text-anchor': 'end', 'font-size': 10 }, svg, 'reference');
+    NF.el('text', { x: 8, y: H - m.b + 15, 'font-size': 11, fill: '#59636e' }, svg, `marginal at t = ${ts[state.ti].toFixed(2)}`);
+    NF.el('text', { x: 8, y: H - m.b + 29, 'font-size': 11, fill: '#59636e' }, svg, `(${DATA.M} draws)`);
+  }
+
+  function render() {
+    wChips.set(new Set([state.w]));
+    drawThumbs();
+    const w = DATA.windows[state.w], c = state.c;
+    plot.querySelectorAll('svg').forEach(s => s.remove());
+    const W = plot.clientWidth || 500, H = Math.max(240, Math.min(330, W * 0.55));
+    const m = { l: 48, r: 8, t: 8, b: 40 };
+    const svg = NF.el('svg', { width: W, height: H });
+    plot.insertBefore(svg, plot.firstChild);
+    let lo = Math.min(...w.q05[c], ...w.truth[c]), hi = Math.max(...w.q95[c], ...w.truth[c]);
+    if (w.obs[c]) { const o = w.obs[c].filter(v => v !== null); lo = Math.min(lo, ...o); hi = Math.max(hi, ...o); }
+    const pad = (hi - lo) * 0.06;
+    const x = NF.linear(0, ts[ts.length - 1], m.l, W - m.r), y = NF.linear(lo - pad, hi + pad, H - m.b, m.t);
+    const g = NF.el('g', {}, svg);
+    NF.axes(g, x, y, { xlabel: 'time t', ylabel: `state x${sub(c)} (${obsSet.has(c) ? 'observed' : 'not observed'})`, ylabelOffset: 36 });
+    NF.el('path', { d: NF.area(ts, w.q05[c], w.q95[c], x, y), fill: C, 'fill-opacity': 0.16 }, g);
+    NF.el('path', { d: NF.area(ts, w.q25[c], w.q75[c], x, y), fill: C, 'fill-opacity': 0.3 }, g);
+    if (state.draws) for (const d of w.draws[c]) NF.el('path', { d: NF.path(ts, d, x, y), fill: 'none', stroke: C, 'stroke-width': 0.7, 'stroke-opacity': 0.45 }, g);
+    if (w.obs[c]) for (let i = 0; i < ts.length; i++) if (w.obs[c][i] !== null)
+      NF.el('circle', { cx: x(ts[i]), cy: y(w.obs[c][i]), r: 1.9, fill: '#495057', 'fill-opacity': 0.75 }, g);
+    NF.el('path', { d: NF.path(ts, w.mean[c], x, y), fill: 'none', stroke: C, 'stroke-width': 2.2 }, g);
+    NF.el('path', { d: NF.path(ts, w.truth[c], x, y), fill: 'none', stroke: '#212529', 'stroke-width': 1.6 }, g);
+    const cursor = NF.el('line', { y1: m.t, y2: H - m.b, x1: x(ts[state.ti]), x2: x(ts[state.ti]), stroke: '#868e96', 'stroke-dasharray': '3 3' }, g);
+    const overlay = NF.el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: 'transparent' }, svg);
+    overlay.addEventListener('mousemove', ev => {
+      const r = svg.getBoundingClientRect(), px = ev.clientX - r.left;
+      const i = Math.max(0, Math.min(DATA.T - 1, Math.round(x.inv(px) / DATA.dt)));
+      state.ti = i; cursor.setAttribute('x1', x(ts[i])); cursor.setAttribute('x2', x(ts[i]));
+      drawSide(w, c, y, H, m);
+      const o = w.obs[c] && w.obs[c][i] !== null ? `<tr><td>measurement</td><td class="n">${w.obs[c][i].toFixed(2)}</td></tr>` : '';
+      tip.show(px, ev.clientY - r.top, `<b>t = ${ts[i].toFixed(2)}</b><table><tr><td>reference</td><td class="n">${w.truth[c][i].toFixed(2)}</td></tr>` +
+        `<tr><td>posterior mean</td><td class="n">${w.mean[c][i].toFixed(2)}</td></tr><tr><td>90% interval</td><td class="n">[${w.q05[c][i].toFixed(2)}, ${w.q95[c][i].toFixed(2)}]</td></tr>${o}</table>`);
+    });
+    overlay.addEventListener('mouseleave', () => tip.hide());
+    drawSide(w, c, y, H, m);
+    let inside = 0, se = 0;
+    for (let i = 1; i < DATA.T; i++) { const v = w.truth[c][i]; if (v >= w.q05[c][i] && v <= w.q95[c][i]) inside++; se += (w.mean[c][i] - v) ** 2; }
+    stat.innerHTML = `Test window ${w.index} (${w.pct}th percentile of per-window RMSE): RMSE over all ${DATA.d} coordinates <b>${w.rmse.toFixed(3)}</b> · ` +
+      `x${sub(c)}: RMSE <b>${Math.sqrt(se / (DATA.T - 1)).toFixed(3)}</b>, reference inside the 90% interval at <b>${inside}</b> of ${DATA.T - 1} steps.`;
+    NF.reportHeight();
+  }
+  NF.onResize(render);
+})();
+</script>
+</body>
+</html>

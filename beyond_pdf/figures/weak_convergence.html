@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>weak_convergence</title>
+<style>/*__CSS__*/</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/*__LIB__*/</script>
+<script>const DATA = /*__DATA__*/;</script>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const SCHEMES = {
+    centered: { label: `centered scheme (Theorem ${DATA.thm})`, color: '#1c7ed6' },
+    uncentered: { label: 'uncentered refinement', color: '#e8590c' },
+  };
+  const state = { stat: DATA.stats[0].key, view: 'abs' };
+  const r1 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r1, 'Statistic at T = 2');
+  const chips = NF.chips(r1, DATA.stats.map(s => ({ key: s.key, label: s.label })), { onClick: k => { state.stat = k; render(); } });
+  const r2 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r2, 'Error axis');
+  const seg = NF.html('div', { class: 'seg' }, r2);
+  const vb = {};
+  for (const [k, l] of [['abs', '|error|, log scale'], ['signed', 'signed error, linear']]) {
+    const b = NF.html('button', { type: 'button' }, seg, l); b.onclick = () => { state.view = k; render(); }; vb[k] = b;
+  }
+  const plot = NF.html('div', { style: 'position:relative' }, app);
+  const tip = NF.tooltip(plot);
+  const leg = NF.html('div', { class: 'legend-inline', style: 'margin-top:4px' }, app);
+  leg.innerHTML = `<span><span class="k" style="border-top:2.5px solid ${SCHEMES.centered.color}"></span>${SCHEMES.centered.label}</span>` +
+    `<span><span class="k" style="border-top:2.5px solid ${SCHEMES.uncentered.color}"></span>${SCHEMES.uncentered.label}, z + h f + √h g</span>` +
+    `<span><span class="k" style="border-top:2px dotted #212529"></span>limit SDE of the fitted model (learning-error floor)</span>`;
+  const note = NF.html('div', { class: 'note' }, app);
+
+  function rowsFor(scheme) { return DATA.rows.filter(r => r.scheme === scheme).sort((a, b) => b.h - a.h); }
+
+  function render() {
+    chips.set(new Set([state.stat]));
+    for (const k in vb) vb[k].classList.toggle('on', k === state.view);
+    plot.querySelectorAll('svg').forEach(s => s.remove());
+    const W = plot.clientWidth || 600, H = Math.max(250, Math.min(340, W * 0.5));
+    const m = { l: 60, r: 14, t: 10, b: 42 };
+    const svg = NF.el('svg', { width: W, height: H });
+    plot.insertBefore(svg, plot.firstChild);
+    const hs = rowsFor('centered').map(r => r.h);
+    const x = NF.log(hs[0] * 1.25, hs[hs.length - 1] / 1.25, m.l, W - m.r);
+    const lim = DATA.rows.find(r => r.scheme === 'trained limit SDE').errors[state.stat];
+    const series = ['centered', 'uncentered'].map(s => ({ s, pts: rowsFor(s).map(r => ({ h: r.h, e: r.errors[state.stat].error, se: r.errors[state.stat].se })) }));
+    let y;
+    const all = series.flatMap(s => s.pts).concat([{ e: lim.error, se: lim.se }]);
+    if (state.view === 'abs') {
+      const vals = all.flatMap(p => [Math.abs(p.e), Math.abs(p.e) + 2 * (p.se || 0)]).filter(v => v > 0);
+      const lo = Math.max(Math.min(...vals) / 2, 1e-5), hi = Math.max(...vals) * 1.6;
+      y = NF.log(lo, hi, H - m.b, m.t);
+    } else {
+      const a = Math.max(...all.map(p => Math.abs(p.e) + 2 * (p.se || 0))) * 1.1;
+      y = NF.linear(-a, a, H - m.b, m.t);
+    }
+    const g = NF.el('g', {}, svg);
+    const names = ['h₀', 'h₀/2', 'h₀/4', 'h₀/8', 'h₀/16', 'h₀/32'];
+    NF.axes(g, x, y, { xticks: hs, xfmt: v => names[Math.round(Math.log2(hs[0] / v))] || NF.fmt(v),
+      xlabel: 'Inference step h (h₀ = 0.1, the training step)', ylabel: state.view === 'abs' ? '|error| vs exact OU law' : 'error vs exact OU law' });
+    if (state.view === 'signed') NF.el('line', { x1: m.l, x2: W - m.r, y1: y(0), y2: y(0), stroke: '#868e96' }, g);
+    const clip = NF.el('clipPath', { id: 'c' }, svg);
+    NF.el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b }, clip);
+    const pg = NF.el('g', { 'clip-path': 'url(#c)' }, g);
+    const tr = v => state.view === 'abs' ? Math.abs(v) : v;
+    // floor band
+    const fl = tr(lim.error), fse = 2 * (lim.se || 0);
+    const flo = state.view === 'abs' ? Math.max(fl - fse, y.domain[0]) : fl - fse;
+    NF.el('rect', { x: m.l, width: W - m.l - m.r, y: y(fl + fse), height: Math.max(y(flo) - y(fl + fse), 0), fill: '#212529', 'fill-opacity': 0.07 }, pg);
+    NF.el('line', { x1: m.l, x2: W - m.r, y1: y(fl), y2: y(fl), stroke: '#212529', 'stroke-width': 1.6, 'stroke-dasharray': '2 3' }, pg);
+    const dots = [];
+    for (const s of series) {
+      const c = SCHEMES[s.s].color;
+      NF.el('path', { d: NF.path(s.pts.map(p => p.h), s.pts.map(p => tr(p.e)), x, y), fill: 'none', stroke: c, 'stroke-width': 2.4 }, pg);
+      for (const p of s.pts) {
+        const v = tr(p.e), se2 = 2 * (p.se || 0);
+        const lo = state.view === 'abs' ? Math.max(v - se2, y.domain[0]) : v - se2;
+        NF.el('line', { x1: x(p.h), x2: x(p.h), y1: y(lo), y2: y(v + se2), stroke: c, 'stroke-width': 1.2 }, pg);
+        NF.el('circle', { cx: x(p.h), cy: y(v), r: 3.5, fill: '#fff', stroke: c, 'stroke-width': 2 }, pg);
+        dots.push({ s: s.s, p });
+      }
+    }
+    const overlay = NF.el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: 'transparent' }, svg);
+    overlay.addEventListener('mousemove', ev => {
+      const r = svg.getBoundingClientRect(), px = ev.clientX - r.left;
+      let i = 0; for (let j = 1; j < hs.length; j++) if (Math.abs(x(hs[j]) - px) < Math.abs(x(hs[i]) - px)) i = j;
+      const h = hs[i];
+      let rows = '';
+      for (const s of series) { const p = s.pts.find(q => q.h === h); rows += `<tr><td><span class="sw" style="background:${SCHEMES[s.s].color}"></span> ${s.s}</td><td class="n">${p.e.toFixed(4)} ± ${(2 * p.se).toFixed(4)}</td></tr>`; }
+      rows += `<tr><td>limit SDE (floor)</td><td class="n">${lim.error.toFixed(4)} ± ${(2 * lim.se).toFixed(4)}</td></tr>`;
+      tip.show(px, ev.clientY - r.top, `<b>h = ${names[i]} = ${h}</b><table>${rows}</table><div class="note">error ± 2 standard errors</div>`);
+    });
+    overlay.addEventListener('mouseleave', () => tip.hide());
+    const st = DATA.stats.find(s => s.key === state.stat);
+    note.textContent = `Exact value under the Ornstein–Uhlenbeck law: ${NF.fmt(DATA.truth[state.stat], 4)}. Bars: ± 2 Monte Carlo standard errors.` + (st.note ? ' ' + st.note : '');
+    NF.reportHeight();
+  }
+  NF.onResize(render);
+})();
+</script>
+</body>
+</html>

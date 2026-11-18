@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>methods</title>
+<style>:root {
+  --fg: #1f2328; --muted: #59636e; --grid: #eceef1; --axis: #8c959f;
+  --bg: #ffffff; --chip: #f3f4f6; --chip-on: #ffffff; --border: #d0d7de; --accent: #d9480f;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+  font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; overflow: hidden; }
+#app { position: relative; padding: 6px 4px 4px; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin: 0 0 6px; }
+.row .lbl { color: var(--muted); font-size: 12px; margin-right: -6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { font: inherit; font-size: 12px; border: 1px solid var(--border); background: var(--chip); color: var(--muted);
+  border-radius: 999px; padding: 2px 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; line-height: 18px; }
+.chip:hover { border-color: var(--axis); }
+.chip.on { background: var(--chip-on); color: var(--fg); border-color: var(--fg); box-shadow: 0 0 0 0.5px var(--fg) inset; }
+.chip .sw { width: 14px; height: 0; border-top: 2.5px solid var(--c); display: inline-block; opacity: .35; }
+.chip.on .sw { opacity: 1; }
+.chip .sw.dashed { border-top-style: dashed; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.seg button { font: inherit; font-size: 12px; border: 0; background: var(--chip); color: var(--muted); padding: 3px 10px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button.on { background: var(--fg); color: #fff; }
+svg { display: block; overflow: visible; }
+svg text { fill: var(--fg); font-size: 11px; }
+.grid line { stroke: var(--grid); stroke-width: 1; }
+.axis line { stroke: var(--axis); stroke-width: 1; }
+.axis text { fill: var(--muted); }
+.axis text.label { fill: var(--fg); font-size: 12px; }
+.tip { position: absolute; display: none; pointer-events: none; background: rgba(255,255,255,.97); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 8px; font-size: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.12); z-index: 5; white-space: nowrap; }
+.tip table { border-collapse: collapse; }
+.tip td { padding: 0 4px; }
+.tip td.n { text-align: right; font-variant-numeric: tabular-nums; }
+.tip .sw { display: inline-block; width: 10px; height: 3px; vertical-align: middle; }
+.note { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.stat { font-variant-numeric: tabular-nums; }
+.legend-inline { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); }
+.legend-inline span.k { display: inline-block; width: 16px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 4px; }
+
+.grp { min-width: 104px; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-right: 2px; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 6px 14px; margin-top: 6px; font-size: 12px; }
+.facts div b { display: block; font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+.box rect { rx: 8; }
+.box text { font-size: 12px; }
+.box text.sub { font-size: 10.5px; fill: #59636e; }
+@keyframes dash { to { stroke-dashoffset: -20; } }
+.flow { stroke-dasharray: 6 4; animation: dash 0.8s linear infinite; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>/* Minimal dependency-free SVG plotting helpers shared by the interactive figures. */
+const NF = (() => {
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const METHODS = {
+    normflowsde:    { label: 'NormFlowSDE',    color: '#d9480f', route: 'direct' },
+    latent_nsf:     { label: 'Latent NSF',     color: '#1c7ed6', route: 'direct' },
+    latent_sde:     { label: 'Latent SDE',     color: '#2b8a3e', route: 'direct' },
+    sigker_sde:     { label: 'SigKer SDE',     color: '#7048e8', route: 'direct' },
+    nf_dpf:         { label: 'NF-DPF',         color: '#0b7285', route: 'pf' },
+    nsf:            { label: 'NSF-PF',         color: '#c2255c', route: 'pf' },
+    flowsde:        { label: 'FlowSDE-PF',     color: '#5c940d', route: 'pf' },
+    normflowsde_pf: { label: 'NormFlowSDE-PF', color: '#f08c00', route: 'pf' },
+  };
+
+  function el(tag, attrs = {}, parent = null, text = null) {
+    const e = document.createElementNS(SVGNS, tag);
+    for (const k in attrs) if (attrs[k] !== undefined && attrs[k] !== null) e.setAttribute(k, attrs[k]);
+    if (text !== null) e.textContent = text;
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  function html(tag, attrs = {}, parent = null, text = null) {
+    const e = document.createElement(tag);
+    for (const k in attrs) {
+      if (k === 'class') e.className = attrs[k];
+      else if (k === 'style') e.style.cssText = attrs[k];
+      else e.setAttribute(k, attrs[k]);
+    }
+    if (text !== null) e.textContent = text;
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  function linear(d0, d1, r0, r1) {
+    const f = v => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
+    f.inv = p => d0 + (p - r0) / (r1 - r0) * (d1 - d0);
+    f.domain = [d0, d1]; f.range = [r0, r1]; f.isLog = false;
+    return f;
+  }
+
+  function log(d0, d1, r0, r1) {
+    const l0 = Math.log10(d0), l1 = Math.log10(d1);
+    const f = v => r0 + (Math.log10(Math.max(v, 1e-300)) - l0) / (l1 - l0) * (r1 - r0);
+    f.inv = p => Math.pow(10, l0 + (p - r0) / (r1 - r0) * (l1 - l0));
+    f.domain = [d0, d1]; f.range = [r0, r1]; f.isLog = true;
+    return f;
+  }
+
+  function niceStep(span, n) {
+    const raw = span / Math.max(n, 1);
+    const p = Math.pow(10, Math.floor(Math.log10(raw)));
+    const m = raw / p;
+    return (m < 1.5 ? 1 : m < 3 ? 2 : m < 7 ? 5 : 10) * p;
+  }
+
+  function ticks(a, b, n = 5) {
+    const s = niceStep(b - a, n), out = [];
+    for (let v = Math.ceil(a / s - 1e-9) * s; v <= b + s * 1e-9; v += s) out.push(Math.abs(v) < s * 1e-9 ? 0 : v);
+    return out;
+  }
+
+  function logTicks(a, b) {
+    const out = [];
+    const span = Math.log10(b) - Math.log10(a);
+    const mults = span > 2.5 ? [1] : span > 1.2 ? [1, 2, 5] : [1, 2, 3, 5, 7];
+    for (let e = Math.floor(Math.log10(a)); e <= Math.ceil(Math.log10(b)); e++)
+      for (const m of mults) { const v = m * Math.pow(10, e); if (v >= a * 0.999 && v <= b * 1.001) out.push(v); }
+    return out;
+  }
+
+  function fmt(v, digits = 3) {
+    if (v === null || v === undefined || !isFinite(v)) return '–';
+    const a = Math.abs(v);
+    if (a !== 0 && (a < 1e-3 || a >= 1e5)) return v.toExponential(1);
+    return Number(v.toPrecision(digits)).toString();
+  }
+
+  function tickFmt(v) {
+    const a = Math.abs(v);
+    if (a !== 0 && a < 1e-3) return v.toExponential(0);
+    return Number(v.toPrecision(3)).toString();
+  }
+
+  function axes(g, x, y, o = {}) {
+    const [x0, x1] = x.range, [y0, y1] = y.range;
+    const xt = o.xticks || (x.isLog ? logTicks(...x.domain) : ticks(...x.domain, o.nx || 6));
+    const yt = o.yticks || (y.isLog ? logTicks(...y.domain) : ticks(...y.domain, o.ny || 5));
+    const grid = el('g', { class: 'grid' }, g);
+    for (const v of yt) el('line', { x1: x0, x2: x1, y1: y(v), y2: y(v) }, grid);
+    for (const v of xt) el('line', { x1: x(v), x2: x(v), y1: y0, y2: y1 }, grid);
+    const ax = el('g', { class: 'axis' }, g);
+    el('line', { x1: x0, x2: x1, y1: y0, y2: y0 }, ax);
+    el('line', { x1: x0, x2: x0, y1: y0, y2: y1 }, ax);
+    const xf = o.xfmt || tickFmt, yf = o.yfmt || tickFmt;
+    for (const v of xt) el('text', { x: x(v), y: y0 + 15, 'text-anchor': 'middle' }, ax, xf(v));
+    for (const v of yt) el('text', { x: x0 - 6, y: y(v) + 4, 'text-anchor': 'end' }, ax, yf(v));
+    if (o.xlabel) el('text', { x: (x0 + x1) / 2, y: y0 + 33, 'text-anchor': 'middle', class: 'label' }, ax, o.xlabel);
+    if (o.ylabel) el('text', { x: 0, y: 0, 'text-anchor': 'middle', class: 'label',
+      transform: `translate(${x0 - (o.ylabelOffset || 44)},${(y0 + y1) / 2}) rotate(-90)` }, ax, o.ylabel);
+  }
+
+  function path(xs, ys, x, y) {
+    let d = '';
+    for (let i = 0; i < xs.length; i++) {
+      if (ys[i] === null || !isFinite(ys[i])) continue;
+      d += (d ? 'L' : 'M') + x(xs[i]).toFixed(1) + ',' + y(ys[i]).toFixed(1);
+    }
+    return d;
+  }
+
+  function area(xs, lo, hi, x, y) {
+    let d = '';
+    for (let i = 0; i < xs.length; i++) d += (i ? 'L' : 'M') + x(xs[i]).toFixed(1) + ',' + y(hi[i]).toFixed(1);
+    for (let i = xs.length - 1; i >= 0; i--) d += 'L' + x(xs[i]).toFixed(1) + ',' + y(lo[i]).toFixed(1);
+    return d + 'Z';
+  }
+
+  function tooltip(container) {
+    const t = html('div', { class: 'tip' }, container);
+    return {
+      show(px, py, content) {
+        t.innerHTML = content; t.style.display = 'block';
+        const cw = container.clientWidth, tw = t.offsetWidth;
+        t.style.left = Math.min(Math.max(px + 14, 4), cw - tw - 4) + 'px';
+        t.style.top = Math.max(py - 10, 0) + 'px';
+      },
+      hide() { t.style.display = 'none'; },
+    };
+  }
+
+  function chips(parent, items, opts = {}) {
+    /* items: [{key, label, color?, dashed?, title?}]; returns {set(keys)} */
+    const box = html('div', { class: 'chips' + (opts.cls ? ' ' + opts.cls : '') }, parent);
+    const btns = {};
+    for (const it of items) {
+      const b = html('button', { class: 'chip', type: 'button', title: it.title || '' }, box);
+      if (it.color) {
+        const sw = html('span', { class: 'sw' + (it.dashed ? ' dashed' : '') }, b);
+        sw.style.setProperty('--c', it.color);
+      }
+      html('span', {}, b, it.label);
+      b.addEventListener('click', () => opts.onClick && opts.onClick(it.key));
+      btns[it.key] = b;
+    }
+    return {
+      set(active) { for (const k in btns) btns[k].classList.toggle('on', active.has ? active.has(k) : active === k); },
+      buttons: btns,
+    };
+  }
+
+  function onResize(fn) {
+    let w = 0;
+    const run = () => { const nw = document.body.clientWidth; if (nw !== w) { w = nw; fn(); } reportHeight(); };
+    window.addEventListener('resize', run);
+    run();
+  }
+
+  function reportHeight() {
+    try {
+      const app = document.getElementById('app');
+      const h = Math.ceil(app ? app.getBoundingClientRect().height + 6 : document.body.scrollHeight);
+      window.parent.postMessage({ nfFrame: window.name || document.title, height: h }, '*');
+    } catch (e) { /* ignore */ }
+  }
+
+  return { METHODS, el, html, linear, log, ticks, logTicks, fmt, axes, path, area, tooltip, chips, onResize, reportHeight };
+})();
+</script>
+<script>const DATA = {"methods":{"normflowsde":{"chain":[{"label":"state xₖ","sub":"one sample path","kind":"state","many":false},{"label":"shared features","sub":"χₖ = T(xₖ, tₖ, uₖ, cₖ)","kind":"dyn","many":false},{"label":"drift + flow noise","sub":"Δt f(χₖ) + √Δt g(εₖ; χₖ)","kind":"noise","many":false},{"label":"state xₖ₊₁","sub":"sample from a non-Gaussian update","kind":"state","many":false}],"obs":{"label":"measurement window","sub":"yₖ₋ₒ₊₁ … yₖ → encoder → cₖ","into":[1]},"facts":{"obs":"encoded window conditions both the drift and the flow","noise":"conditional normalizing flow on the noise of each update (non-Gaussian)","density":"exact, by change of variables","train":"reconstruction + transition likelihood + segment continuity + rollout energy score"}},"latent_nsf":{"chain":[{"label":"state xₖ","sub":"previous sampled state","kind":"state","many":false},{"label":"GRU posterior","sub":"q(xₖ₊₁ | y≤ₖ, xₖ)","kind":"dyn","many":false},{"label":"Gaussian sample","sub":"N(m, diag s²)","kind":"noise","many":false},{"label":"state xₖ₊₁","sub":"sample","kind":"state","many":false}],"obs":{"label":"measurement window","sub":"yₖ₋ₒ₊₁ … yₖ → encoder → cₖ","into":[1]},"facts":{"obs":"recurrent encoder of past measurements outputs the posterior","noise":"Gaussian posterior; the NSF flow sits in the prior transition","density":"Gaussian posterior; NSF prior density exact","train":"β-weighted ELBO + flow consistency penalty"}},"latent_sde":{"chain":[{"label":"state xₖ","sub":"one sample path","kind":"state","many":false},{"label":"posterior drift","sub":"h(x, cₜ, t)","kind":"dyn","many":false},{"label":"Gaussian increment","sub":"learned diffusion g(x, t)","kind":"noise","many":false},{"label":"state xₖ₊₁","sub":"sample","kind":"state","many":false}],"obs":{"label":"measurement window","sub":"yₖ₋ₒ₊₁ … yₖ → encoder → cₖ","into":[1]},"facts":{"obs":"encoding enters the posterior drift","noise":"Gaussian increments given the state","density":"Gaussian given the state","train":"ELBO with path KL (Girsanov) between posterior and prior SDE"}},"sigker_sde":{"chain":[{"label":"state xₖ","sub":"one sample path","kind":"state","many":false},{"label":"drift","sub":"μ(x, c, t)","kind":"dyn","many":false},{"label":"Gaussian increment","sub":"diffusion σ(x, c, t)","kind":"noise","many":false},{"label":"state xₖ₊₁","sub":"sample","kind":"state","many":false}],"obs":{"label":"measurement window","sub":"yₖ₋ₒ₊₁ … yₖ → encoder → cₖ","into":[1,2]},"facts":{"obs":"encoding enters drift and diffusion","noise":"Gaussian increments given the state","density":"none: the score is evaluated from samples only","train":"signature-kernel score on paths"}},"nf_dpf":{"chain":[{"label":"particles xₖ","sub":"M weighted particles","kind":"state","many":true},{"label":"proposal flow","sub":"q(xₖ₊₁ | xₖ, yₖ₊₁)","kind":"noise","many":true},{"label":"weights","sub":"p(y | x) p(x | xₖ) / q","kind":"weight","many":true},{"label":"OT resampling","sub":"entropy-regularized, differentiable","kind":"weight","many":true},{"label":"particles xₖ₊₁","sub":"weighted posterior draws","kind":"state","many":true}],"obs":{"label":"new measurement yₖ₊₁","sub":"enters the proposal and the likelihood","into":[1,2]},"facts":{"obs":"proposal and measurement likelihood","noise":"flows for transition, proposal, and measurement","density":"exact for all three flows","train":"particle likelihood or supervised state error"}},"nsf":{"chain":[{"label":"particles xₖ","sub":"M weighted particles","kind":"state","many":true},{"label":"NSF transition","sub":"Gaussian candidate → flow","kind":"noise","many":true},{"label":"weights","sub":"flow likelihood q(yₖ₊₁ | x) of each particle","kind":"weight","many":true},{"label":"resample","sub":"M particles with replacement","kind":"weight","many":true},{"label":"particles xₖ₊₁","sub":"weighted posterior draws","kind":"state","many":true}],"obs":{"label":"new measurement yₖ₊₁","sub":"enters only through the likelihood","into":[2]},"facts":{"obs":"only through the shared measurement flow (bootstrap filter)","noise":"NSF: Gaussian candidate transformed by a conditional flow","density":"exact NSF transition density","train":"transition NLL + Chapman–Kolmogorov consistency; measurement flow by NLL"}},"flowsde":{"chain":[{"label":"particles xₖ","sub":"M weighted particles","kind":"state","many":true},{"label":"Euler–Maruyama","sub":"flow-matched drift, noise √(2D)","kind":"noise","many":true},{"label":"weights","sub":"flow likelihood q(yₖ₊₁ | x) of each particle","kind":"weight","many":true},{"label":"resample","sub":"M particles with replacement","kind":"weight","many":true},{"label":"particles xₖ₊₁","sub":"weighted posterior draws","kind":"state","many":true}],"obs":{"label":"new measurement yₖ₊₁","sub":"enters only through the likelihood","into":[2]},"facts":{"obs":"only through the shared measurement flow (bootstrap filter)","noise":"Gaussian with prescribed scalar diffusion D","density":"Gaussian per Euler–Maruyama step","train":"conditional flow matching + potential regularizers"}},"normflowsde_pf":{"chain":[{"label":"particles xₖ","sub":"M weighted particles","kind":"state","many":true},{"label":"NormFlowSDE step","sub":"drift + flow noise, no measurements","kind":"noise","many":true},{"label":"weights","sub":"flow likelihood q(yₖ₊₁ | x) of each particle","kind":"weight","many":true},{"label":"resample","sub":"M particles with replacement","kind":"weight","many":true},{"label":"particles xₖ₊₁","sub":"weighted posterior draws","kind":"state","many":true}],"obs":{"label":"new measurement yₖ₊₁","sub":"enters only through the likelihood","into":[2]},"facts":{"obs":"only through the shared measurement flow (bootstrap filter)","noise":"NormFlowSDE transition, conditioned on control and time","density":"exact, by change of variables","train":"training and selection recipe of NSF-PF"}}}};</script>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const KIND = {
+    state: { fill: '#f1f3f5', stroke: '#868e96' },
+    dyn: { fill: '#e7f5ff', stroke: '#1c7ed6' },
+    noise: { fill: '#fff4e6', stroke: '#e8590c' },
+    weight: { fill: '#f3f0ff', stroke: '#7048e8' },
+    obs: { fill: '#fff9db', stroke: '#e67700' },
+  };
+  const st = { m: 'normflowsde' };
+  const r1 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'grp' }, r1, 'Direct');
+  const c1 = NF.chips(r1, ['normflowsde', 'latent_nsf', 'latent_sde', 'sigker_sde'].map(k => ({ key: k, label: NF.METHODS[k].label, color: NF.METHODS[k].color })), { onClick: k => { st.m = k; render(); } });
+  const r2 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'grp' }, r2, 'Particle filters');
+  const c2 = NF.chips(r2, ['nf_dpf', 'nsf', 'flowsde', 'normflowsde_pf'].map(k => ({ key: k, label: NF.METHODS[k].label, color: NF.METHODS[k].color, dashed: true })), { onClick: k => { st.m = k; render(); } });
+  const plot = NF.html('div', {}, app);
+  const facts = NF.html('div', { class: 'facts' }, app);
+  const leg = NF.html('div', { class: 'legend-inline', style: 'margin-top:6px' }, app);
+  leg.innerHTML = Object.entries({ obs: 'measurements', dyn: 'learned dynamics', noise: 'stochastic part', weight: 'Bayesian weighting', state: 'state / particles' })
+    .map(([k, l]) => `<span><span class="k" style="border-top:8px solid ${KIND[k].fill};outline:1px solid ${KIND[k].stroke}"></span>${l}</span>`).join('');
+
+  function render() {
+    c1.set(new Set([st.m])); c2.set(new Set([st.m]));
+    const M = DATA.methods[st.m];
+    plot.innerHTML = '';
+    const W = plot.clientWidth || 700, n = M.chain.length;
+    const gap = 26, bw = Math.min(170, (W - 20 - gap * (n - 1)) / n), bh = 64;
+    const H = 210, y0 = 108;
+    const total = n * bw + (n - 1) * gap, x0 = (W - total) / 2;
+    const svg = NF.el('svg', { width: W, height: H }, plot);
+    const defs = NF.el('defs', {}, svg);
+    const mk = NF.el('marker', { id: 'ah', viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' }, defs);
+    NF.el('path', { d: 'M0,0L10,5L0,10z', fill: '#495057' }, mk);
+    const xs = M.chain.map((_, i) => x0 + i * (bw + gap));
+    // arrows between boxes
+    for (let i = 0; i < n - 1; i++)
+      NF.el('line', { x1: xs[i] + bw + 2, x2: xs[i + 1] - 3, y1: y0 + bh / 2, y2: y0 + bh / 2, stroke: '#495057', 'stroke-width': 1.8, 'marker-end': 'url(#ah)', class: 'flow' }, svg);
+    // loop back to the next step
+    const yb = y0 + bh + 18;
+    NF.el('path', { d: `M${xs[n - 1] + bw / 2},${y0 + bh + 2} V${yb} H${xs[0] + bw / 2} V${y0 + bh + 6}`, fill: 'none', stroke: '#adb5bd', 'stroke-width': 1.4, 'stroke-dasharray': '4 3', 'marker-end': 'url(#ah)' }, svg);
+    NF.el('text', { x: (xs[0] + xs[n - 1] + bw) / 2, y: yb + 13, 'text-anchor': 'middle', 'font-size': 10.5, fill: '#868e96' }, svg, 'next step k → k + 1');
+    // measurement input
+    const ob = M.obs;
+    const ow = Math.min(240, Math.max(150, ob.label.length * 6.4)), ox = Math.max(4, Math.min(W - ow - 4, xs[ob.into[0]] + bw / 2 - ow / 2));
+    const og = NF.el('g', { class: 'box' }, svg);
+    NF.el('rect', { x: ox, y: 8, width: ow, height: 44, fill: KIND.obs.fill, stroke: KIND.obs.stroke, 'stroke-width': 1.5, rx: 8 }, og);
+    NF.el('text', { x: ox + ow / 2, y: 27, 'text-anchor': 'middle', 'font-weight': 600 }, og, ob.label);
+    NF.el('text', { x: ox + ow / 2, y: 43, 'text-anchor': 'middle', class: 'sub' }, og, ob.sub);
+    for (const i of ob.into)
+      NF.el('path', { d: `M${ox + ow / 2},52 C${ox + ow / 2},80 ${xs[i] + bw / 2},78 ${xs[i] + bw / 2},${y0 - 3}`, fill: 'none', stroke: KIND.obs.stroke, 'stroke-width': 2, 'marker-end': 'url(#ah)', class: 'flow' }, svg);
+    // boxes
+    M.chain.forEach((b, i) => {
+      const g = NF.el('g', { class: 'box' }, svg), K = KIND[b.kind];
+      if (b.many) for (let j = 2; j >= 1; j--) NF.el('rect', { x: xs[i] + 4 * j, y: y0 - 4 * j, width: bw, height: bh, fill: K.fill, stroke: K.stroke, 'stroke-opacity': .5, rx: 8 }, g);
+      NF.el('rect', { x: xs[i], y: y0, width: bw, height: bh, fill: K.fill, stroke: K.stroke, 'stroke-width': 1.5, rx: 8 }, g);
+      NF.el('text', { x: xs[i] + bw / 2, y: y0 + 26, 'text-anchor': 'middle', 'font-weight': 600 }, g, b.label);
+      const words = b.sub.split(' '); let line = '', lines = [];
+      for (const w of words) { if ((line + ' ' + w).trim().length * 5.6 > bw - 10) { lines.push(line.trim()); line = w; } else line += ' ' + w; }
+      lines.push(line.trim());
+      lines.slice(0, 2).forEach((l, j) => NF.el('text', { x: xs[i] + bw / 2, y: y0 + 42 + j * 13, 'text-anchor': 'middle', class: 'sub' }, g, l));
+    });
+    facts.innerHTML = [['Measurements enter', M.facts.obs], ['Stochastic part', M.facts.noise], ['Transition density', M.facts.density], ['Training', M.facts.train]]
+      .map(([k, v]) => `<div><b>${k}</b>${v}</div>`).join('');
+    NF.reportHeight();
+  }
+  NF.onResize(render);
+})();
+</script>
+</body>
+</html>
