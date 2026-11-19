@@ -22,3 +22,6 @@ paper/vendor/*.log
 
 # Beyond PDF local preview output
 beyond_pdf/_preview/
+
+# arXiv package (contains the author names; keep out of the anonymous repository)
+arxiv/
