@@ -157,8 +157,8 @@ INJECT = [
      '\\begin{figure}\\INTERACTIVE{benchmark}{560}\\caption{CAPTION}\\label{fig:benchmark-explorer}\\end{figure}\n'),
     ('only 6 out of 12 observable states. ', 'after',
      ' Figure~\\ref{fig:posterior-explorer} shows individual filtering distributions of \\method on Lorenz--96, '
-     'including the six coordinates that are never observed.\n\n'
-     '\\begin{figure}\\INTERACTIVE{posterior}{640}\\caption{CAPTION}\\label{fig:posterior-explorer}\\end{figure}\n'),
+     'including the six coordinates that are never observed, and on the pendulum.\n\n'
+     '\\begin{figure}\\INTERACTIVE{posterior}{680}\\caption{CAPTION}\\label{fig:posterior-explorer}\\end{figure}\n'),
     # comparison of the eight methods (web only)
     ('Throughout, $x_k$ denotes the state, $y_k$ the measurement, and $u_k$ the control at step $k$.', 'after',
      ' Table~\\ref{tab:method-comparison} summarizes the eight methods and Figure~\\ref{fig:methods} draws one filtering '
@@ -194,6 +194,17 @@ INJECT = [
     ('which serves as a reference value for a Gaussian noise model.', 'after',
      ' Figure~\\ref{fig:noise-explainer} shows the mixture and what measurements drawn from it look like.\n\n'
      '\\begin{figure}\\INTERACTIVE{noise_explainer}{330}\\caption{CAPTION}\\label{fig:noise-explainer}\\end{figure}\n'),
+    # interactive/ figures (multi-file sources, flattened into one HTML file each by write_interactive)
+    ('The energy score helps maintain diversity among generated samples while encouraging agreement with the reference '
+     'trajectory.', 'after',
+     ' Figure~\\ref{fig:energy-score} compares the two terms of the energy score with the entropy term of '
+     'Equation~\\eqref{eq:transition-training-loss} for a Gaussian toy ensemble.\n\n'
+     '\\begin{figure}\\INTERACTIVE{energy-score}{760}\\caption{CAPTION}\\label{fig:energy-score}\\end{figure}\n'),
+    ('latent NSF has the narrowest intervals on both datasets. The signature-kernel SDE is strongly under-dispersed.',
+     'after',
+     ' Figure~\\ref{fig:robot-view} replays the joint-space filtering distributions of \\method on the kinematic models '
+     'of both robots.\n\n'
+     '\\begin{figure}\\INTERACTIVE{robot-view}{1100}\\caption{CAPTION}\\label{fig:robot-view}\\end{figure}\n'),
     ('0.5 to 1.1\\,ms slower than them on the other three datasets.', 'after',
      ' Figure~\\ref{fig:race} replays these latencies as the filtering of one test window.\n\n'
      '\\begin{figure}\\INTERACTIVE{race}{420}\\caption{CAPTION}\\label{fig:race}\\end{figure}\n'),
@@ -234,6 +245,35 @@ COLLAPSE = {
 }
 
 CAPTIONS = {
+    'fig:overview': (
+        'NormFlowSDE estimates states conditional on observations. (a) At each step, the encoder $C_\\psi$ maps the '
+        'trailing window of the last $o$ measurements $y_{t-o+1:t}$ (boxed), which ends before the state being estimated, '
+        'to a context vector $c_t$ (orange), which conditions both the drift and the noise model. (b) Each state update '
+        'combines a deterministic drift increment (green) with flow-transformed Gaussian noise (blue), yielding a flexible '
+        'conditional distribution for the next state $z_{t+\\Delta t}$ (purple). (c) Repeated updates from the supplied '
+        'initial state generate $K$ sampled state trajectories, shown with their pointwise median, 90\\% uncertainty '
+        'bands, and marginal state densities at selected times; the boxed interval is expanded in (b). Move the time point '
+        '$t$ (slider, step buttons, or a click in panel (c)) or press play: the observation window (box in (a), shaded in '
+        '(c)) moves forward with $t$, the encoder produces a new context $c_t$, the one-step distribution in (b) changes with '
+        'it and widens or narrows with the band in (c), and measurements after $t$ (faded) are not '
+        'used. The drawing uses $o=4$ (the trained models use $o=10$); all curves and densities are schematic.'),
+    'fig:robot-view': (
+        'Joint-space filtering distributions of \\method (seed 0) on ALOHA and REASSEMBLE, replayed on the kinematic '
+        'models of the robots: the two ViperX arms of the ALOHA simulation and a Franka Panda for REASSEMBLE. No physics '
+        'is simulated; every pose is a state vector from the frozen runs. Grey is the reference state, the translucent '
+        'orange arms are posterior draws (the posterior median can be switched on), and the line traces the end effector '
+        'over the last 20 steps. Select a robot, one of eleven test windows (the 0th, 10th, \\ldots, 90th percentiles of '
+        'the per-window RMSE and the worst window) and a joint; the timeline shows that joint with its 5--95\\% band and '
+        'the measurements, and the band width below it. Press play, or click the timeline to jump. The REASSEMBLE state '
+        'has no gripper coordinate, so the Franka fingers are drawn open.'),
+    'fig:energy-score': (
+        'Energy score and entropy term for a toy ensemble: reference $x\\sim\\N(0,I_d)$, members $z=c\\,\\epsilon$ with '
+        '$\\epsilon\\sim\\N(0,I_d)$; all curves are closed-form expectations. Move the spread $c$: the energy score of '
+        'Equation~\\eqref{eq:flow_sde_rollout_loss} is minimised at the calibrated spread $c=1$ in every dimension $d$, '
+        'whereas the entropy term of Equation~\\eqref{eq:transition-training-loss} grows with $c$ and on its own favours '
+        'contraction (Appendix~\\ref{app:training-loss}). The lower panel multiplies a miscalibrated spread $c_0$ by a '
+        'scale $s$, as the learned scale $s_\\phi$ of Equation~\\eqref{eq:learned-noise-scale} does in stage 2; the energy '
+        'score is minimised at $s=1/c_0$.'),
     'fig:methods': (
         'One filtering step of each method. Select a method to see where the measurements enter (yellow): direct '
         'estimators read an encoded window of past measurements and sample the next state in one pass; particle filters '
@@ -272,9 +312,11 @@ CAPTIONS = {
         'dashed line is the Pareto front of the learned methods: no learned method is both faster and better than a point on '
         'it. Hover over a marker for all metrics.'),
     'fig:posterior-explorer': (
-        'Filtering distributions of \\method on Lorenz--96 (seed 0, $M=200$ posterior draws per step). The five test windows '
-        'are those at the 10th, 30th, 50th, 70th, and 90th percentiles of the per-window RMSE, so they are representative '
-        'rather than selected. Click a coordinate in the grid to enlarge it; only every second coordinate is observed. Shaded '
+        'Filtering distributions of \\method on Lorenz--96 and the pendulum (seed 0; $M=200$ and $M=128$ posterior draws per '
+        'step, in physical units). Select the system; for each, the five test windows are those at the 10th, 30th, 50th, '
+        '70th, and 90th percentiles of the per-window RMSE, so they are representative rather than selected. Click a '
+        'coordinate in the grid to enlarge it; on Lorenz--96 only every second coordinate is observed, and on the pendulum '
+        'both the angle $\\theta$ and the angular velocity $\\omega$ are observed. Shaded '
         'bands are central 50\\% and 90\\% intervals, the orange line is the posterior mean, black is the reference state, and '
         'dots are the noisy measurements. Hover over the plot to see the marginal distribution of the draws at that time '
         '(right), and enable the sampled paths to see individual trajectories.'),
@@ -316,18 +358,24 @@ CAPTIONS = {
 
 FIGURE_ASSETS = {
     # label: ('img', file, alt) or ('html', file, height)
-    'fig:overview': ('img', 'normflowsde_overview.svg', 'Schematic of NormFlowSDE'),
+    'fig:overview': ('html', 'overview.html', 520),
     'fig:update-explainer': ('html', 'update.html', 330),
     'fig:methods': ('html', 'methods.html', 330),
     'fig:noise-explainer': ('html', 'noise_explainer.html', 330),
     'fig:race': ('html', 'race.html', 420),
     'fig:centering-explainer': ('html', 'centering.html', 360),
     'fig:benchmark-explorer': ('html', 'benchmark.html', 560),
-    'fig:posterior-explorer': ('html', 'posterior.html', 640),
+    'fig:posterior-explorer': ('html', 'posterior.html', 680),
     'fig:calibration': ('html', 'calibration.html', 560),
     'fig:noise-recovery': ('html', 'noise_recovery.html', 540),
     'fig:weak-convergence-ou': ('html', 'weak_convergence.html', 500),
+    'fig:energy-score': ('html', 'energy-score.html', 760),
+    'fig:robot-view': ('html', 'robot-view.html', 1100),
 }
+INTERACTIVE_DIR = ROOT / 'interactive'
+INTERACTIVE_FIGURES = ['overview', 'energy-score', 'robot-view']
+# files a figure loads lazily (not inlined): copied flat next to the page, paths passed in window.RV_ASSETS
+INTERACTIVE_LAZY = {'robot-view': ['models/aloha.js', 'models/panda.js', 'data/aloha.js', 'data/reassemble.js']}
 
 MACROS_MATH = [
     (r'\\R(?![a-zA-Z])', r'\\mathbb{R}'),
@@ -940,16 +988,28 @@ def data_benchmark():
     return {'datasets': parse_bench_table(PAPER / 'tables/benchmark_sim.tex') + parse_bench_table(PAPER / 'tables/benchmark_robot.tex')}
 
 
+POSTERIOR_DATASETS = {
+    # key: (label, dt, coordinate names, units); both are reported in physical units in the paper
+    'lorenz96': ('Lorenz–96', 0.02, [f'x{i}' for i in range(12)], None),
+    'pendulum': ('Pendulum', 0.05, ['θ', 'ω'], ['rad', 'rad/s']),
+}
+
+
 def data_posterior():
-    z = np.load(RES / 'shared_trunk_20261114/normflowsde/lorenz96/seed0/s2/posterior.npz')
-    te = np.load(RES / 'datasets/lorenz96/test.npz')
+    return {'datasets': [data_posterior_ds(ds) for ds in POSTERIOR_DATASETS]}
+
+
+def data_posterior_ds(ds):
+    label, dt, names, units = POSTERIOR_DATASETS[ds]
+    z = np.load(RES / f'shared_trunk_20261114/normflowsde/{ds}/seed0/s2/posterior.npz')
+    te = np.load(RES / f'datasets/{ds}/test.npz')
     S = z['samples_normalized'].astype(np.float64)  # (win, draws, T, d)
     truth_all = te['states'].astype(np.float64)  # (win, T+1, d)
     assert np.abs(z['truth_normalized'] - truth_all[:, 1:]).max() < 1e-4
-    obs = te['observations'].astype(np.float64)  # (win, T, 6)
+    obs = te['observations'].astype(np.float64)  # (win, T, observed)
     nwin, M, T, d = S.shape
-    # arrays are normalized with training statistics; the paper reports Lorenz-96 in physical units
-    meta = json.loads((RES / 'datasets/lorenz96/cache.json').read_text())['metadata']
+    # arrays are normalized with training statistics; the paper reports both systems in physical units
+    meta = json.loads((RES / f'datasets/{ds}/cache.json').read_text())['metadata']
     assert meta['arrays_normalized']
     mu_s, sd_s = np.array(meta['state_mean']), np.array(meta['state_std'])
     mu_o, sd_o = np.array(meta['observation_mean']), np.array(meta['observation_std'])
@@ -958,12 +1018,12 @@ def data_posterior():
     obs = obs * sd_o + mu_o
     observed = list(meta['observation_indices'])
     assert obs.shape[-1] == len(observed)
-    run_rmse = json.loads((RES / 'shared_trunk_20261114/normflowsde/lorenz96/seed0/s2/metrics.json').read_text())['metrics']['rmse']
+    run_rmse = json.loads((RES / f'shared_trunk_20261114/normflowsde/{ds}/seed0/s2/metrics.json').read_text())['metrics']['rmse']
     x0 = truth_all[:, :1]  # known initial state
     mean = S.mean(1)
     rmse = np.sqrt(((mean - truth_all[:, 1:]) ** 2).mean(axis=(1, 2)))
     assert abs(rmse.mean() - run_rmse) < 2e-3, (rmse.mean(), run_rmse)
-    print(f'  posterior: mean per-window RMSE {rmse.mean():.4f} (run metric {run_rmse:.4f})')
+    print(f'  posterior {ds}: mean per-window RMSE {rmse.mean():.4f} (run metric {run_rmse:.4f})')
     order = np.argsort(rmse)
     pcts = [10, 30, 50, 70, 90]
     rng = np.random.default_rng(0)
@@ -994,7 +1054,8 @@ def data_posterior():
             'obs': ob,
             'hist': {'lo': r(lo, 4), 'hi': r(hi, 4), 'counts': counts.tolist()},
         })
-    return {'dt': 0.02, 'T': T + 1, 'd': d, 'M': M, 'observed': observed, 'windows': wins}
+    return {'key': ds, 'label': label, 'names': names, 'units': units, 'nwin': int(nwin),
+            'dt': dt, 'T': T + 1, 'd': d, 'M': M, 'observed': observed, 'windows': wins}
 
 
 def data_methods():
@@ -1171,6 +1232,39 @@ def write_figure(name, data):
     print(f'  {dst.name}: {dst.stat().st_size / 1e3:.0f} kB')
 
 
+def write_interactive(slug):
+    """Flatten interactive/<slug>/index.html into one self-contained file: the TMLR kit copies only one directory
+    level below assets/html, so local <link rel=stylesheet> and <script src> references are inlined."""
+    src = INTERACTIVE_DIR / slug
+    page = (src / 'index.html').read_text(encoding='utf-8')
+
+    def css(m):
+        return '<style>\n' + (src / m.group(1)).read_text(encoding='utf-8') + '</style>'
+
+    def js(m):
+        code = (src / m.group(1)).read_text(encoding='utf-8')
+        if '</script' in code.lower():
+            raise ValueError(f'{m.group(1)} contains </script')
+        return '<script>\n' + code + '</script>'
+
+    page = re.sub(r'<link rel="stylesheet" href="([^":]+)">', css, page)
+    page = re.sub(r'<script src="([^":]+)"></script>', js, page)
+    lazy = INTERACTIVE_LAZY.get(slug, [])
+    if lazy:
+        for f in lazy:
+            shutil.copy(src / f, SUB / 'assets/html/submission' / (f'{slug}-' + f.replace('/', '-')))
+        amap = ('<script>window.RV_ASSETS = {model: n => ' + json.dumps(f'{slug}-models-') + " + n + '.js', "
+                'data: d => ' + json.dumps(f'{slug}-data-') + " + d + '.js'};</script>\n")
+        page = page.replace('<script>', amap + '<script>', 1)
+        size = sum((src / f).stat().st_size for f in lazy) / 1e6
+        print(f'  {slug}: {len(lazy)} lazily loaded files, {size:.1f} MB')
+    if re.search(r'(src|href)="(https?:)?//', page):
+        raise ValueError(f'{slug}: external reference left in page')
+    dst = SUB / 'assets/html/submission' / f'{slug}.html'
+    dst.write_text(page, encoding='utf-8')
+    print(f'  {dst.name}: {dst.stat().st_size / 1e3:.0f} kB')
+
+
 # --------------------------------------------------------------------------------------
 # Page assembly
 # --------------------------------------------------------------------------------------
@@ -1193,6 +1287,10 @@ STYLES = r"""
   d-article .theorem > p:last-child { margin-bottom: 0; }
   d-article h2[id], d-article h3[id], d-article h4[id] { scroll-margin-top: 70px; }
   d-article > *:not(d-contents) { grid-column: text-start / page-end !important; }
+  /* The kit's TOC spans only 4 grid rows, so its height is spread over them and stretches the intro note, the cards,
+     the first heading and the key-idea box. Spanning more rows leaves those rows at their content height. */
+  @media (min-width: 1025px) { d-article d-contents { grid-row: auto / span 30; } }
+  d-article .nf-key, d-article .nf-cards { align-self: start; }
   d-title p, d-article p, d-article li, d-article figcaption, d-article .nf-key { text-align: justify; hyphens: auto;
     -webkit-hyphens: auto; text-justify: inter-word; }
   d-article .nf-table td, d-article .nf-table th { text-align: left; }
@@ -1411,6 +1509,8 @@ def main():
     race['tables'] = labels['tab:results-sim']['num'] + '–' + labels['tab:results-robot']['num']
     write_figure('race', race)
     write_figure('centering', data_centering(labels))
+    for slug in INTERACTIVE_FIGURES:
+        write_interactive(slug)
     print(f'submission.md: {len(page) / 1e3:.0f} kB, {len(headings)} headings, '
           f'{sum(1 for v in labels.values() if v["kind"] == "fig")} figures, {sum(1 for v in labels.values() if v["kind"] == "tab")} tables')
     missing = sorted({k for m in re.finditer(r'd-cite key="([^"]*)"', page) for k in m.group(1).split(',')} - set(CTX['bib']))

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Energy score and entropy</title>
+<style>
+/* Shared styles for the interactive figures. No external fonts or resources. */
+:root {
+  --fg: #1f2328; --muted: #57606a; --grid: #eceef1; --axis: #8c959f; --bg: #ffffff;
+  --panel: #f6f8fa; --border: #d0d7de; --focus: #0b5cad;
+  /* Okabe-Ito palette (colour-blind safe); every series also differs by line style or marker shape */
+  --c-mix: #0072B2;    /* mixture / exact quantity: blue, solid */
+  --c-gauss: #D55E00;  /* moment-matched Gaussian: vermillion, dashed */
+  --c-third: #009E73;  /* bluish green */
+  --c-fourth: #CC79A7; /* reddish purple */
+  --c-diff: #6e7781;   /* neutral grey for differences / shading */
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+main.ix { max-width: 980px; margin: 0 auto; padding: 12px 16px 16px; }
+html.embedded main.ix { padding: 4px 4px 6px; }
+html.embedded .ix-caption, html.embedded .ix-title { display: none; }
+.ix-title { font-size: 18px; margin: 4px 0 10px; }
+section.ix-panel { margin: 0 0 14px; }
+section.ix-panel h2 { font-size: 14px; margin: 0 0 6px; }
+section.ix-panel h2 .sub { font-weight: 400; color: var(--muted); }
+.ix-controls { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; margin: 0 0 6px; }
+.ix-slider { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.ix-slider label { color: var(--muted); white-space: nowrap; }
+.ix-slider input[type=range] { width: 120px; accent-color: var(--fg); }
+.ix-slider output { font-variant-numeric: tabular-nums; min-width: 3.6em; }
+.ix-btn, .ix-seg button { font: inherit; font-size: 13px; color: var(--fg); background: var(--panel);
+  border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; cursor: pointer; }
+.ix-btn:hover, .ix-seg button:hover { border-color: var(--axis); }
+.ix-seg { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.ix-seg .lbl { color: var(--muted); }
+.ix-seg .opts { display: inline-flex; }
+.ix-seg .opts button { border-radius: 0; margin-left: -1px; }
+.ix-seg .opts button:first-child { border-radius: 6px 0 0 6px; margin-left: 0; }
+.ix-seg .opts button:last-child { border-radius: 0 6px 6px 0; }
+.ix-seg .opts button[aria-pressed=true] { background: var(--fg); color: #fff; border-color: var(--fg); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+svg :focus-visible, svg .focusable:focus { outline: none; }
+svg .focusable:focus-visible .focus-ring { stroke: var(--focus); stroke-width: 3; }
+svg { display: block; overflow: visible; }
+svg:not(.ix-raw) text { fill: var(--fg); font-size: 12px; font-family: inherit; }  /* .ix-raw: embedded drawings keep their own text styles */
+.grid line { stroke: var(--grid); }
+.axis line, .axis path { stroke: var(--axis); fill: none; }
+.axis text { fill: var(--muted); }
+.axis text.label { fill: var(--fg); font-size: 12.5px; }
+.ix-read { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13px; font-variant-numeric: tabular-nums; margin: 4px 0 0; }
+.ix-read b { font-weight: 600; }
+table.ix-table { border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+table.ix-table th, table.ix-table td { padding: 2px 10px; text-align: right; border-bottom: 1px solid var(--grid); }
+table.ix-table th:first-child, table.ix-table td:first-child { text-align: left; color: var(--muted); }
+.ix-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12.5px; color: var(--muted); margin: 2px 0 4px; }
+.ix-legend .k { display: inline-block; width: 22px; height: 0; border-top: 2.5px solid; vertical-align: middle; margin-right: 5px; }
+.ix-legend .k.dashed { border-top-style: dashed; }
+.ix-legend .k.dashdot { border-top-style: dotted; }
+.ix-legend .box { display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 5px; }
+.ix-note { color: var(--muted); font-size: 12.5px; margin: 4px 0 0; }
+.ix-caption { margin: 10px 0 0; padding: 8px 12px; border-left: 3px solid var(--border); background: var(--panel);
+  font-size: 13.5px; }
+.ix-row2 { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 18px; align-items: start; }
+@media (max-width: 760px) { .ix-row2 { grid-template-columns: minmax(0, 1fr); } }
+@media print { .ix-controls button, .ix-btn { display: none; } }
+</style>
+<style>
+  #a-plot, #b-plot { width: 100%; }
+  .ix-seg .dl { color: inherit; opacity: .75; font-size: 11.5px; }
+  svg .hit { cursor: crosshair; }
+</style>
+</head>
+<body>
+<main class="ix" id="app">
+  <h1 class="ix-title">Energy score versus entropy term</h1>
+
+  <section class="ix-panel" aria-labelledby="a-title">
+    <h2 id="a-title">A. Ensemble spread <i>c</i> <span class="sub">(reference <i>x</i> ~ &#x1D4A9;(0, <i>I<sub>d</sub></i>), members <i>z</i> = <i>c</i>&thinsp;&epsilon;, &epsilon; ~ &#x1D4A9;(0, <i>I<sub>d</sub></i>))</span></h2>
+    <div class="ix-controls" id="a-controls"></div>
+    <div class="ix-controls" id="a-controls2"></div>
+    <div class="ix-legend" aria-hidden="true">
+      <span><span class="k" style="border-color:var(--c-mix)"></span>E&Vert;<i>z</i> &minus; <i>x</i>&Vert;</span>
+      <span><span class="k dashed" style="border-color:var(--c-gauss)"></span>&frac12;&thinsp;E&Vert;<i>z</i> &minus; <i>z</i>&prime;&Vert;</span>
+      <span><span class="k" style="border-color:var(--fg);border-top-width:3.5px"></span>sum: energy score E&Vert;<i>z</i> &minus; <i>x</i>&Vert; &minus; &frac12;&thinsp;E&Vert;<i>z</i> &minus; <i>z</i>&prime;&Vert;</span>
+      <span><span class="k dashdot" style="border-color:var(--c-third);border-top-width:3px"></span>entropy term <i>H</i>(&#x1D4A9;(0, <i>c</i>&sup2;<i>I<sub>d</sub></i>)) (lower plot)</span>
+    </div>
+    <div id="a-plot"></div>
+    <div class="ix-read" id="a-read" aria-live="polite"></div>
+  </section>
+
+  <section class="ix-panel" aria-labelledby="b-title">
+    <h2 id="b-title">B. The learned scale <i>s</i><sub>&phi;</sub> recalibrates a miscalibrated spread <span class="sub">(energy score of <i>s</i>&middot;<i>c</i><sub>0</sub>)</span></h2>
+    <div class="ix-controls" id="b-controls"></div>
+    <div id="b-plot"></div>
+    <div class="ix-read" id="b-read" aria-live="polite"></div>
+  </section>
+
+  <p class="ix-caption">
+    Toy setting: reference <i>x</i> ~ &#x1D4A9;(0, <i>I<sub>d</sub></i>) and ensemble members <i>z</i> = <i>c</i>&thinsp;&epsilon;
+    with &epsilon; ~ &#x1D4A9;(0, <i>I<sub>d</sub></i>); all curves are closed-form expectations, not trained models.
+    Move the spread <i>c</i>: the energy score (the sum, Section&nbsp;3.2.3) is minimised at the calibrated spread
+    <i>c</i>&nbsp;=&nbsp;1 in every dimension <i>d</i>, whereas the entropy term of Stage&nbsp;1 grows with <i>c</i>, so on its own
+    it favours contraction (Appendix&nbsp;B). Panel&nbsp;B multiplies a miscalibrated spread <i>c</i><sub>0</sub> by a scale
+    <i>s</i>, as the learned scale <i>s</i><sub>&phi;</sub> of Stage&nbsp;2 does; the energy score is minimised at
+    <i>s</i>&nbsp;=&nbsp;1/<i>c</i><sub>0</sub>, where the product is calibrated again.
+  </p>
+</main>
+<script>
+/* Shared helpers for the interactive figures: seeded RNG, scales, SVG axes, accessible controls.
+ * Classic script (no ES module) so that pages also open from file:// in every browser.
+ * Exposes `IX` as a global in the browser and as module.exports in Node (tests, fallback export). */
+(function (root) {
+  'use strict';
+
+  // ---------------------------------------------------------------- numerics (also used in Node)
+  /** mulberry32: small seeded PRNG returning floats in [0, 1). */
+  function mulberry32(seed) {
+    let a = seed >>> 0;
+    return function () {
+      a = (a + 0x6D2B79F5) >>> 0;
+      let t = a;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  /** Standard normal draw by Box-Muller (one draw per two uniforms; simple and reproducible). */
+  function randn(rng) {
+    let u = rng();
+    while (u <= 0) u = rng();
+    const v = rng();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  }
+  function linspace(a, b, n) {
+    const out = new Float64Array(n);
+    for (let i = 0; i < n; i++) out[i] = a + (b - a) * i / (n - 1);
+    return out;
+  }
+  function trapz(y, x) {
+    let s = 0;
+    for (let i = 1; i < y.length; i++) s += 0.5 * (y[i] + y[i - 1]) * (x[i] - x[i - 1]);
+    return s;
+  }
+
+  const IX = { mulberry32, randn, linspace, trapz };
+
+  // ---------------------------------------------------------------- browser-only helpers
+  if (typeof document !== 'undefined') {
+    const SVGNS = 'http://www.w3.org/2000/svg';
+    const embedded = (function () { try { return window.self !== window.top; } catch (e) { return true; } })();
+    if (embedded) document.documentElement.classList.add('embedded');
+
+    function el(tag, attrs, parent) {
+      const e = document.createElementNS(SVGNS, tag);
+      for (const k in attrs || {}) if (attrs[k] !== undefined && attrs[k] !== null) e.setAttribute(k, attrs[k]);
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+    function h(tag, attrs, parent, text) {
+      const e = document.createElement(tag);
+      for (const k in attrs || {}) if (attrs[k] !== undefined && attrs[k] !== null) e.setAttribute(k, attrs[k]);
+      if (text !== undefined) e.textContent = text;
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+    function linear(d0, d1, r0, r1) {
+      const f = v => r0 + (v - d0) / (d1 - d0) * (r1 - r0);
+      f.inv = p => d0 + (p - r0) / (r1 - r0) * (d1 - d0);
+      f.domain = [d0, d1];
+      return f;
+    }
+    function log(d0, d1, r0, r1) {
+      const l0 = Math.log(d0), l1 = Math.log(d1);
+      const f = v => r0 + (Math.log(v) - l0) / (l1 - l0) * (r1 - r0);
+      f.inv = p => Math.exp(l0 + (p - r0) / (r1 - r0) * (l1 - l0));
+      f.domain = [d0, d1];
+      return f;
+    }
+    function ticks(a, b, n) {
+      const span = b - a, step0 = span / Math.max(1, n);
+      const mag = Math.pow(10, Math.floor(Math.log10(step0)));
+      const err = step0 / mag;
+      const step = (err >= 7.5 ? 10 : err >= 3.5 ? 5 : err >= 1.5 ? 2 : 1) * mag;
+      const out = [];
+      for (let v = Math.ceil(a / step - 1e-9) * step; v <= b + step * 1e-9; v += step) out.push(Math.abs(v) < step * 1e-9 ? 0 : v);
+      return out;
+    }
+    function fmt(v, d) { return (Math.abs(v) < 1e-12 ? 0 : v).toFixed(d === undefined ? 2 : d).replace('-', '−'); }
+    function tickFmt(v) {
+      const s = Math.abs(v) >= 100 || Number.isInteger(+v.toFixed(6)) ? String(Math.round(v)) : String(+v.toPrecision(3));
+      return s.replace('-', '−');
+    }
+    /** Draw grid and axes into group g. o: {sx, sy, w, h, xt, yt, xLabel, yLabel, xFmt, yFmt, noYAxis} */
+    function axes(g, o) {
+      const grid = el('g', { class: 'grid' }, g), ax = el('g', { class: 'axis' }, g);
+      for (const t of o.yt || []) {
+        const y = o.sy(t);
+        el('line', { x1: 0, x2: o.w, y1: y, y2: y }, grid);
+        if (!o.noYAxis) el('text', { x: -6, y: y + 4, 'text-anchor': 'end' }, ax).textContent = (o.yFmt || tickFmt)(t);
+      }
+      for (const t of o.xt || []) {
+        const x = o.sx(t);
+        el('line', { x1: x, x2: x, y1: o.h, y2: o.h + 4 }, ax);
+        if (!o.noXLabels) el('text', { x: x, y: o.h + 16, 'text-anchor': 'middle' }, ax).textContent = (o.xFmt || tickFmt)(t);
+      }
+      el('line', { x1: 0, x2: o.w, y1: o.h, y2: o.h }, ax);
+      if (!o.noYAxis) el('line', { x1: 0, x2: 0, y1: 0, y2: o.h }, ax);
+      if (o.xLabel) {
+        const t = el('text', { class: 'label', x: o.w / 2, y: o.h + 33, 'text-anchor': 'middle' }, ax);
+        t.innerHTML = o.xLabel;
+      }
+      if (o.yLabel) {
+        const t = el('text', { class: 'label', transform: `translate(${-o.yLabelOffset || -40},${o.h / 2}) rotate(-90)`,
+          'text-anchor': 'middle' }, ax);
+        t.innerHTML = o.yLabel;
+      }
+      return ax;
+    }
+    function path(xs, ys, sx, sy) {
+      let d = '';
+      for (let i = 0; i < xs.length; i++) {
+        if (!isFinite(ys[i])) continue;
+        d += (d ? 'L' : 'M') + sx(xs[i]).toFixed(2) + ',' + sy(ys[i]).toFixed(2);
+      }
+      return d;
+    }
+    let uid = 0;
+    /** Accessible range slider. o: {label, min, max, step, value, fmt, log, aria, onInput} */
+    function slider(parent, o) {
+      const id = 'ix-s' + (++uid);
+      const wrap = h('span', { class: 'ix-slider' }, parent);
+      const lab = h('label', { for: id }, wrap); lab.innerHTML = o.label;
+      const toPos = v => o.log ? Math.log(v) : v, fromPos = p => o.log ? Math.exp(p) : p;
+      const inp = h('input', { type: 'range', id: id, min: toPos(o.min), max: toPos(o.max),
+        step: o.log ? (toPos(o.max) - toPos(o.min)) / 400 : o.step, 'aria-label': o.aria || o.label }, wrap);
+      const out = h('output', { for: id }, wrap);
+      const f = o.fmt || (v => fmt(v, 2));
+      let value = o.value;
+      function show() { out.textContent = f(value); inp.setAttribute('aria-valuetext', (o.aria || '') + ' ' + f(value)); }
+      function set(v, silent) {
+        value = Math.min(o.max, Math.max(o.min, v)); inp.value = toPos(value); show();
+        if (!silent && o.onInput) o.onInput(value);
+      }
+      inp.addEventListener('input', () => { value = fromPos(+inp.value); if (!o.log && o.step) value = Math.round(value / o.step) * o.step; show(); if (o.onInput) o.onInput(value); });
+      set(o.value, true);
+      return { set, get: () => value, input: inp,
+        range(min, max) { o.min = min; o.max = max; inp.min = toPos(min); inp.max = toPos(max); set(value, true); } };
+    }
+    /** Segmented choice (buttons with aria-pressed). o: {label, options:[{key,label,aria}], value, onChange} */
+    function seg(parent, o) {
+      const wrap = h('span', { class: 'ix-seg', role: 'group', 'aria-label': o.aria || o.label }, parent);
+      if (o.label) h('span', { class: 'lbl' }, wrap).innerHTML = o.label;
+      const opts = h('span', { class: 'opts' }, wrap), btns = {};
+      let value = o.value;
+      for (const it of o.options) {
+        const b = h('button', { type: 'button', 'aria-label': it.aria || null }, opts); b.innerHTML = it.label;
+        b.addEventListener('click', () => { set(it.key); });
+        btns[it.key] = b;
+      }
+      function set(v, silent) {
+        value = v;
+        for (const k in btns) btns[k].setAttribute('aria-pressed', String(String(k) === String(v)));
+        if (!silent && o.onChange) o.onChange(v);
+      }
+      set(value, true);
+      return { set, get: () => value };
+    }
+    function button(parent, label, onClick, aria) {
+      const b = h('button', { type: 'button', class: 'ix-btn', 'aria-label': aria || null }, parent, label);
+      b.addEventListener('click', onClick);
+      return b;
+    }
+    /** Re-render on width change; report height to an embedding page (TMLR web version). */
+    function onResize(fn) {
+      let w = 0, pending = false;
+      const run = () => {
+        pending = false;
+        const nw = document.body.clientWidth;
+        if (nw !== w) { w = nw; fn(); }
+        reportHeight();
+      };
+      window.addEventListener('resize', () => { if (!pending) { pending = true; requestAnimationFrame(run); } });
+      run();
+    }
+    function reportHeight() {
+      if (!embedded) return;
+      try {
+        const main = document.querySelector('main') || document.body;
+        const hgt = Math.ceil(main.getBoundingClientRect().height + 8);
+        window.parent.postMessage({ nfFrame: window.name || document.title, height: hgt }, '*');
+      } catch (e) { /* ignore */ }
+    }
+    Object.assign(IX, { embedded, el, h, linear, log, ticks, fmt, tickFmt, axes, path, slider, seg, button, onResize,
+      reportHeight });
+  }
+
+  if (typeof module !== 'undefined' && module.exports) module.exports = IX;
+  else root.IX = IX;
+})(typeof self !== 'undefined' ? self : this);
+</script>
+<script>
+/* Model for the energy-score figure. Pure functions, no DOM.
+ *
+ * Toy setting: reference x ~ N(0, I_d); ensemble members z_m = c * eps_m, eps_m ~ N(0, I_d) independent of x.
+ * Then z - x ~ N(0, (1 + c^2) I_d) and z - z' ~ N(0, 2 c^2 I_d), and every expectation below is CLOSED FORM via the
+ * chi mean  E||N(0, s^2 I_d)|| = s * kappa_d,  kappa_d = sqrt(2) * Gamma((d+1)/2) / Gamma(d/2).
+ * No Monte Carlo is used on the page; the tests cross-check the closed form against seeded Monte Carlo. */
+(function (root) {
+  'use strict';
+
+  const BETA = 0.5;  // proper energy score, Equation (eq:flow_sde_rollout_loss): E||z-x|| - 1/2 E||z-z'||
+
+  /** kappa_d = E||N(0, I_d)|| by the exact recursion r(d+1) = (d/2) / r(d), r(d) = Gamma((d+1)/2)/Gamma(d/2). */
+  function kappa(d) {
+    let r = 1 / Math.sqrt(Math.PI);   // r(1) = Gamma(1)/Gamma(1/2)
+    for (let k = 1; k < d; k++) r = (k / 2) / r;
+    return Math.SQRT2 * r;
+  }
+
+  /** Factor of the expected spread estimate relative to E||z-z'||.
+   *  'unbiased': 1/(M(M-1)) sum_{i != j} (the paper's Equation eq:energy-score-estimator) -> 1.
+   *  'vstat':    1/M^2 sum_{i,j} (includes the zero self-pairs)                          -> (M-1)/M. */
+  function spreadFactor(estimator, M) { return estimator === 'vstat' ? (M - 1) / M : 1; }
+
+  /** All curves at spread c. Returns accuracy E||z-x||, spread E||z-z'||, the weighted spread term
+   *  1/2 * factor * E||z-z'||, the expected score ES = accuracy - spread term, and the entropy of N(0, c^2 I_d). */
+  function terms(c, d, opts) {
+    const o = opts || {};
+    const k = kappa(d), f = spreadFactor(o.estimator, o.M || 16);
+    const acc = k * Math.sqrt(1 + c * c);
+    const spread = k * Math.SQRT2 * c;
+    const half = BETA * f * spread;
+    return { acc, spread, half, es: acc - half, entropy: entropy(c, d) };
+  }
+  /** Differential entropy of N(0, c^2 I_d): d log c + (d/2) log(2 pi e). Increasing in c: on its own it is
+   *  minimised by shrinking the spread (the paper: "this term alone could shrink the noise almost to zero"). */
+  function entropy(c, d) { return d * Math.log(c) + 0.5 * d * Math.log(2 * Math.PI * Math.E); }
+
+  /** argmin_c ES. d/dc ES = kappa_d (c/sqrt(1+c^2) - sqrt(2) beta f) = 0  =>  c* = k/sqrt(1-k^2), k = sqrt(2) beta f.
+   *  Independent of d: kappa_d only scales the curve. */
+  function argminC(opts) {
+    const o = opts || {};
+    const k = Math.SQRT2 * BETA * spreadFactor(o.estimator, o.M || 16);
+    return k / Math.sqrt(1 - k * k);
+  }
+
+  /** Learned scale: a miscalibrated spread c0 multiplied by s. ES(s * c0) is minimised at s* = c* / c0. */
+  function argminS(c0, opts) { return argminC(opts) / c0; }
+
+  /** Numerical argmin on a log grid (used by the tests to check the closed forms). */
+  function argminGrid(fn, lo, hi, n) {
+    n = n || 200001;
+    let best = Infinity, arg = lo;
+    const a = Math.log(lo), b = Math.log(hi);
+    for (let i = 0; i < n; i++) {
+      const c = Math.exp(a + (b - a) * i / (n - 1)), v = fn(c);
+      if (v < best) { best = v; arg = c; }
+    }
+    return arg;
+  }
+
+  const C_RANGE = Object.freeze([0.2, 3]);
+  const DIMS = Object.freeze([
+    { d: 1, label: '1', aria: 'dimension 1' },
+    { d: 2, label: '2 <span class="dl">pendulum</span>', aria: 'dimension 2, pendulum' },
+    { d: 7, label: '7 <span class="dl">REASSEMBLE</span>', aria: 'dimension 7, REASSEMBLE' },
+    { d: 12, label: '12 <span class="dl">Lorenz-96</span>', aria: 'dimension 12, Lorenz-96' },
+    { d: 14, label: '14 <span class="dl">ALOHA</span>', aria: 'dimension 14, ALOHA' },
+  ]);
+  const MS = Object.freeze([4, 16, 50, 200]);   // 4: stage-1 rollout draws, 16: stage-2 rollouts (paper, App. C)
+  const C0S = Object.freeze([0.6, 1.6]);
+  const DEFAULTS = Object.freeze({ c: 1, d: 7, M: 16, estimator: 'unbiased', c0: 0.6, s: 1 });
+
+  const ES = { BETA, kappa, spreadFactor, terms, entropy, argminC, argminS, argminGrid, C_RANGE, DIMS, MS, C0S, DEFAULTS };
+  if (typeof module !== 'undefined' && module.exports) module.exports = ES;
+  else root.ES = ES;
+})(typeof self !== 'undefined' ? self : this);
+</script>
+<script>
+/* Energy-score figure: page logic. Model in model.js (closed form), helpers in ../_shared/ix.js. */
+(function () {
+  'use strict';
+  const { el, linear, log, ticks, fmt, axes, path, slider, seg } = IX;
+  const C = { acc: 'var(--c-mix)', half: 'var(--c-gauss)', es: 'var(--fg)', ent: 'var(--c-third)' };
+  const st = Object.assign({}, ES.DEFAULTS);
+  const [CLO, CHI] = ES.C_RANGE;
+
+  const ac = document.getElementById('a-controls'), ac2 = document.getElementById('a-controls2');
+  const slC = slider(ac, { label: 'spread <i>c</i>', min: CLO, max: CHI, log: true, value: st.c, fmt: v => fmt(v, 3),
+    aria: 'ensemble spread c', onInput: v => { st.c = v; renderA(); } });
+  seg(ac, { label: 'dimension <i>d</i>', aria: 'state dimension', value: st.d,
+    options: ES.DIMS.map(o => ({ key: o.d, label: o.label, aria: o.aria })), onChange: v => { st.d = +v; renderAll(); } });
+  seg(ac2, { label: 'members <i>M</i>', aria: 'number of ensemble members', value: st.M,
+    options: ES.MS.map(m => ({ key: m, label: String(m), aria: m + ' members' })), onChange: v => { st.M = +v; renderAll(); } });
+  seg(ac2, { label: 'spread estimator', aria: 'spread term estimator', value: st.estimator, options: [
+    { key: 'unbiased', label: '1/(<i>M</i>(<i>M</i>−1)) Σ<sub><i>i</i>≠<i>j</i></sub> (paper)', aria: 'unbiased, excludes self pairs, as in the paper' },
+    { key: 'vstat', label: '1/<i>M</i>² Σ<sub><i>i</i>,<i>j</i></sub>', aria: 'one over M squared, includes self pairs' },
+  ], onChange: v => { st.estimator = v; renderAll(); } });
+
+  const bc = document.getElementById('b-controls');
+  seg(bc, { label: 'spread before scaling <i>c</i><sub>0</sub>', aria: 'miscalibrated spread c0', value: st.c0, options: [
+    { key: 0.6, label: '0.6 under-dispersed' }, { key: 1.6, label: '1.6 over-dispersed' }],
+  onChange: v => { st.c0 = +v; renderB(); } });
+  const slS = slider(bc, { label: 'scale <i>s</i>', min: CLO, max: CHI, log: true, value: st.s, fmt: v => fmt(v, 3),
+    aria: 'learned scale s', onInput: v => { st.s = v; renderB(); } });
+
+  const opts = () => ({ M: st.M, estimator: st.estimator });
+  const cs = (() => { const out = []; for (let i = 0; i <= 300; i++) out.push(CLO * Math.pow(CHI / CLO, i / 300)); return out; })();
+  const lt = [0.2, 0.3, 0.5, 0.7, 1, 1.5, 2, 3];
+
+  function clickToSet(g, sx, w, hgt, setter) {
+    const hit = el('rect', { class: 'hit', x: 0, y: 0, width: w, height: hgt, fill: 'transparent' }, g);
+    const go = e => { const r = hit.getBoundingClientRect(); setter(sx.inv(Math.min(w, Math.max(0, e.clientX - r.left)))); };
+    hit.addEventListener('pointerdown', e => {
+      go(e);
+      const up = () => { window.removeEventListener('pointermove', go); window.removeEventListener('pointerup', up); };
+      window.addEventListener('pointermove', go); window.addEventListener('pointerup', up);
+    });
+  }
+  function endLabel(g, x, y, html, color) {
+    const t = el('text', { x: x + 6, y: y + 4, fill: color }, g); t.innerHTML = html;
+  }
+
+  // ------------------------------------------------------------------ Panel A
+  function renderA() {
+    const host = document.getElementById('a-plot');
+    host.textContent = '';
+    const o = opts(), d = st.d;
+    const W = host.clientWidth || 800, m = { l: 52, r: 120, t: 10, b: 40 }, h1 = 210, h2 = 110, gap = 18;
+    const w = W - m.l - m.r;
+    const T = cs.map(c => ES.terms(c, d, o));
+    const ymax = Math.max(...T.map(t => t.acc)) * 1.05;
+    const sx = log(CLO, CHI, 0, w), sy = linear(0, ymax, h1, 0);
+    const ent = T.map(t => t.entropy), emin = Math.min(...ent), emax = Math.max(...ent), epad = (emax - emin) * 0.08;
+    const sy2 = linear(emin - epad, emax + epad, h2, 0);
+    const svg = el('svg', { width: W, height: m.t + h1 + gap + h2 + m.b, role: 'img' }, host);
+    const g1 = el('g', { transform: `translate(${m.l},${m.t})` }, svg);
+    const g2 = el('g', { transform: `translate(${m.l},${m.t + h1 + gap})` }, svg);
+    axes(g1, { sx, sy, w, h: h1, xt: lt, yt: ticks(0, ymax, 5), noXLabels: true, yLabel: 'expected value', yLabelOffset: 42 });
+    axes(g2, { sx, sy: sy2, w, h: h2, xt: lt, yt: ticks(emin - epad, emax + epad, 3), xLabel: 'ensemble spread <tspan font-style="italic">c</tspan> (log scale)',
+      yLabel: 'entropy (nats)', yLabelOffset: 42 });
+    const line = (g, ys, syy, color, wdt, dash) =>
+      el('path', { d: path(cs, ys, sx, syy), fill: 'none', stroke: color, 'stroke-width': wdt, 'stroke-dasharray': dash || null }, g);
+    line(g1, T.map(t => t.acc), sy, C.acc, 2.2);
+    line(g1, T.map(t => t.half), sy, C.half, 2.2, '7 4');
+    line(g1, T.map(t => t.es), sy, C.es, 3.2);
+    line(g2, ent, sy2, C.ent, 2.6, '2 3');
+    const last = T[T.length - 1];
+    endLabel(g1, w, sy(last.acc), 'E‖<tspan font-style="italic">z</tspan>−<tspan font-style="italic">x</tspan>‖', C.acc);
+    endLabel(g1, w, sy(last.half), '½E‖<tspan font-style="italic">z</tspan>−<tspan font-style="italic">z</tspan>′‖', C.half);
+    endLabel(g1, w, sy(last.es), 'energy score', C.es);
+    endLabel(g2, w, sy2(last.entropy), '<tspan font-style="italic">H</tspan>, Stage 1', C.ent);
+    // argmin of the energy score (closed form, independent of d)
+    const cstar = ES.argminC(o), xs = sx(cstar), esStar = ES.terms(cstar, d, o).es;
+    el('line', { x1: xs, x2: xs, y1: 0, y2: h1, stroke: C.es, 'stroke-dasharray': '1 3', 'stroke-width': 1.5 }, g1);
+    el('circle', { cx: xs, cy: sy(esStar), r: 5, fill: '#fff', stroke: C.es, 'stroke-width': 2 }, g1);
+    el('text', { x: xs + 7, y: sy(esStar) + 18, 'font-size': 11.5 }, g1).innerHTML = 'min at <tspan font-style="italic">c</tspan> = ' + fmt(cstar, 3);
+    el('text', { x: 6, y: 14, fill: 'var(--muted)', 'font-size': 11.5 }, g2).textContent = 'no interior minimum: smallest at the smallest spread';
+    // cursor at current c
+    const xc = sx(st.c);
+    for (const [g, hh] of [[g1, h1], [g2, h2]]) el('line', { x1: xc, x2: xc, y1: 0, y2: hh, stroke: 'var(--focus)', 'stroke-width': 1.5 }, g);
+    const tc = ES.terms(st.c, d, o);
+    for (const [v, s, c] of [[tc.acc, sy, C.acc], [tc.half, sy, C.half], [tc.es, sy, C.es]]) el('circle', { cx: xc, cy: s(v), r: 3.5, fill: c }, g1);
+    el('circle', { cx: xc, cy: sy2(tc.entropy), r: 3.5, fill: C.ent }, g2);
+    clickToSet(g1, sx, w, h1, v => { st.c = v; slC.set(v, true); renderA(); });
+    clickToSet(g2, sx, w, h2, v => { st.c = v; slC.set(v, true); renderA(); });
+    svg.setAttribute('aria-label', `Energy score terms against ensemble spread for d = ${d}; minimum at c = ${fmt(cstar, 3)}; ` +
+      `at c = ${fmt(st.c, 2)} the score is ${fmt(tc.es, 3)} and the entropy ${fmt(tc.entropy, 2)}`);
+    document.getElementById('a-read').innerHTML =
+      `<span>at <i>c</i> = ${fmt(st.c, 3)}:</span><span>E‖<i>z</i>−<i>x</i>‖ = ${fmt(tc.acc, 3)}</span>` +
+      `<span>½E‖<i>z</i>−<i>z</i>′‖ = ${fmt(tc.half, 3)}</span><span><b>energy score = ${fmt(tc.es, 3)}</b></span>` +
+      `<span><i>H</i> = ${fmt(tc.entropy, 3)}</span><span>argmin energy score: <i>c</i>* = ${fmt(cstar, 3)}</span>`;
+    IX.reportHeight();
+  }
+
+  // ------------------------------------------------------------------ Panel B
+  function renderB() {
+    const host = document.getElementById('b-plot');
+    host.textContent = '';
+    const o = opts(), d = st.d;
+    const W = host.clientWidth || 800, m = { l: 52, r: 120, t: 10, b: 40 }, hh = 150, w = W - m.l - m.r;
+    const vals = cs.map(s => ES.terms(s * st.c0, d, o).es);
+    const lo = Math.min(...vals), hi = Math.max(...vals), pad = (hi - lo) * 0.08;
+    const sx = log(CLO, CHI, 0, w), sy = linear(lo - pad, hi + pad, hh, 0);
+    const svg = el('svg', { width: W, height: m.t + hh + m.b, role: 'img' }, host);
+    const g = el('g', { transform: `translate(${m.l},${m.t})` }, svg);
+    axes(g, { sx, sy, w, h: hh, xt: lt, yt: ticks(lo - pad, hi + pad, 4), xLabel: 'scale <tspan font-style="italic">s</tspan> (log scale)',
+      yLabel: 'energy score', yLabelOffset: 42 });
+    el('path', { d: path(cs, vals, sx, sy), fill: 'none', stroke: C.es, 'stroke-width': 3 }, g);
+    const sStar = ES.argminS(st.c0, o), xs = sx(sStar), ys = sy(ES.terms(sStar * st.c0, d, o).es);
+    el('line', { x1: xs, x2: xs, y1: 0, y2: hh, stroke: C.es, 'stroke-dasharray': '1 3', 'stroke-width': 1.5 }, g);
+    el('circle', { cx: xs, cy: ys, r: 5, fill: '#fff', stroke: C.es, 'stroke-width': 2 }, g);
+    el('text', { x: xs, y: ys - 24, 'font-size': 11.5, 'text-anchor': 'middle' }, g).innerHTML =
+      `min at <tspan font-style="italic">s</tspan> = ${fmt(sStar, 3)}` + (st.estimator === 'unbiased' ? ' = 1/<tspan font-style="italic">c</tspan>₀' : '');
+    const xc = sx(st.s), es = ES.terms(st.s * st.c0, d, o).es;
+    el('line', { x1: xc, x2: xc, y1: 0, y2: hh, stroke: 'var(--focus)', 'stroke-width': 1.5 }, g);
+    el('circle', { cx: xc, cy: sy(es), r: 4, fill: 'var(--focus)' }, g);
+    clickToSet(g, sx, w, hh, v => { st.s = v; slS.set(v, true); renderB(); });
+    svg.setAttribute('aria-label', `Energy score of the scaled spread s times ${st.c0}; minimum at s = ${fmt(sStar, 3)}`);
+    document.getElementById('b-read').innerHTML =
+      `<span>effective spread <i>s</i>·<i>c</i><sub>0</sub> = ${fmt(st.s * st.c0, 3)}</span>` +
+      `<span>energy score = ${fmt(es, 3)}</span><span>optimum <i>s</i>* = ${fmt(sStar, 3)} (spread ${fmt(sStar * st.c0, 3)})</span>`;
+    IX.reportHeight();
+  }
+
+  function renderAll() { renderA(); renderB(); }
+  IX.onResize(renderAll);
+})();
+</script>
+</body>
+</html>

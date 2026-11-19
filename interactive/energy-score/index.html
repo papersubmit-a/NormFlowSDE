@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Energy score and entropy</title>
+<link rel="stylesheet" href="../_shared/ix.css">
+<style>
+  #a-plot, #b-plot { width: 100%; }
+  .ix-seg .dl { color: inherit; opacity: .75; font-size: 11.5px; }
+  svg .hit { cursor: crosshair; }
+</style>
+</head>
+<body>
+<main class="ix" id="app">
+  <h1 class="ix-title">Energy score versus entropy term</h1>
+
+  <section class="ix-panel" aria-labelledby="a-title">
+    <h2 id="a-title">A. Ensemble spread <i>c</i> <span class="sub">(reference <i>x</i> ~ &#x1D4A9;(0, <i>I<sub>d</sub></i>), members <i>z</i> = <i>c</i>&thinsp;&epsilon;, &epsilon; ~ &#x1D4A9;(0, <i>I<sub>d</sub></i>))</span></h2>
+    <div class="ix-controls" id="a-controls"></div>
+    <div class="ix-controls" id="a-controls2"></div>
+    <div class="ix-legend" aria-hidden="true">
+      <span><span class="k" style="border-color:var(--c-mix)"></span>E&Vert;<i>z</i> &minus; <i>x</i>&Vert;</span>
+      <span><span class="k dashed" style="border-color:var(--c-gauss)"></span>&frac12;&thinsp;E&Vert;<i>z</i> &minus; <i>z</i>&prime;&Vert;</span>
+      <span><span class="k" style="border-color:var(--fg);border-top-width:3.5px"></span>sum: energy score E&Vert;<i>z</i> &minus; <i>x</i>&Vert; &minus; &frac12;&thinsp;E&Vert;<i>z</i> &minus; <i>z</i>&prime;&Vert;</span>
+      <span><span class="k dashdot" style="border-color:var(--c-third);border-top-width:3px"></span>entropy term <i>H</i>(&#x1D4A9;(0, <i>c</i>&sup2;<i>I<sub>d</sub></i>)) (lower plot)</span>
+    </div>
+    <div id="a-plot"></div>
+    <div class="ix-read" id="a-read" aria-live="polite"></div>
+  </section>
+
+  <section class="ix-panel" aria-labelledby="b-title">
+    <h2 id="b-title">B. The learned scale <i>s</i><sub>&phi;</sub> recalibrates a miscalibrated spread <span class="sub">(energy score of <i>s</i>&middot;<i>c</i><sub>0</sub>)</span></h2>
+    <div class="ix-controls" id="b-controls"></div>
+    <div id="b-plot"></div>
+    <div class="ix-read" id="b-read" aria-live="polite"></div>
+  </section>
+
+  <p class="ix-caption">
+    Toy setting: reference <i>x</i> ~ &#x1D4A9;(0, <i>I<sub>d</sub></i>) and ensemble members <i>z</i> = <i>c</i>&thinsp;&epsilon;
+    with &epsilon; ~ &#x1D4A9;(0, <i>I<sub>d</sub></i>); all curves are closed-form expectations, not trained models.
+    Move the spread <i>c</i>: the energy score (the sum, Section&nbsp;3.2.3) is minimised at the calibrated spread
+    <i>c</i>&nbsp;=&nbsp;1 in every dimension <i>d</i>, whereas the entropy term of Stage&nbsp;1 grows with <i>c</i>, so on its own
+    it favours contraction (Appendix&nbsp;B). Panel&nbsp;B multiplies a miscalibrated spread <i>c</i><sub>0</sub> by a scale
+    <i>s</i>, as the learned scale <i>s</i><sub>&phi;</sub> of Stage&nbsp;2 does; the energy score is minimised at
+    <i>s</i>&nbsp;=&nbsp;1/<i>c</i><sub>0</sub>, where the product is calibrated again.
+  </p>
+</main>
+<script src="../_shared/ix.js"></script>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

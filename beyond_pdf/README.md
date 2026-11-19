@@ -22,5 +22,10 @@ Interactive figures: four explainers (one update, observation noise, latency rac
 `results/shared_trunk_20261114/normflowsde/lorenz96/seed0/s2/posterior.npz`), calibration curves, REASSEMBLE noise
 recovery, and the Ornstein–Uhlenbeck weak-convergence study.
 
+Newer figures (likelihood collapse, energy score vs. entropy) are developed as multi-file pages in `interactive/<slug>/`
+(see `interactive/README.md`, tests in `tests/`, fallbacks by `scripts/make_fallbacks.py`). `write_interactive` inlines
+their local scripts and styles into one file each, because the TMLR kit copies only one directory level below
+`assets/html/`.
+
 Upload: `submission_folder.zip` (zip of `submission_folder/`) in the "Beyond PDF" section on OpenReview, plus a PDF made
 with the browser's Print to PDF from the rendered page.

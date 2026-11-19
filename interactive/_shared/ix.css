@@ -1,0 +1,61 @@
+/* Shared styles for the interactive figures. No external fonts or resources. */
+:root {
+  --fg: #1f2328; --muted: #57606a; --grid: #eceef1; --axis: #8c959f; --bg: #ffffff;
+  --panel: #f6f8fa; --border: #d0d7de; --focus: #0b5cad;
+  /* Okabe-Ito palette (colour-blind safe); every series also differs by line style or marker shape */
+  --c-mix: #0072B2;    /* mixture / exact quantity: blue, solid */
+  --c-gauss: #D55E00;  /* moment-matched Gaussian: vermillion, dashed */
+  --c-third: #009E73;  /* bluish green */
+  --c-fourth: #CC79A7; /* reddish purple */
+  --c-diff: #6e7781;   /* neutral grey for differences / shading */
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+main.ix { max-width: 980px; margin: 0 auto; padding: 12px 16px 16px; }
+html.embedded main.ix { padding: 4px 4px 6px; }
+html.embedded .ix-caption, html.embedded .ix-title { display: none; }
+.ix-title { font-size: 18px; margin: 4px 0 10px; }
+section.ix-panel { margin: 0 0 14px; }
+section.ix-panel h2 { font-size: 14px; margin: 0 0 6px; }
+section.ix-panel h2 .sub { font-weight: 400; color: var(--muted); }
+.ix-controls { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; margin: 0 0 6px; }
+.ix-slider { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.ix-slider label { color: var(--muted); white-space: nowrap; }
+.ix-slider input[type=range] { width: 120px; accent-color: var(--fg); }
+.ix-slider output { font-variant-numeric: tabular-nums; min-width: 3.6em; }
+.ix-btn, .ix-seg button { font: inherit; font-size: 13px; color: var(--fg); background: var(--panel);
+  border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; cursor: pointer; }
+.ix-btn:hover, .ix-seg button:hover { border-color: var(--axis); }
+.ix-seg { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.ix-seg .lbl { color: var(--muted); }
+.ix-seg .opts { display: inline-flex; }
+.ix-seg .opts button { border-radius: 0; margin-left: -1px; }
+.ix-seg .opts button:first-child { border-radius: 6px 0 0 6px; margin-left: 0; }
+.ix-seg .opts button:last-child { border-radius: 0 6px 6px 0; }
+.ix-seg .opts button[aria-pressed=true] { background: var(--fg); color: #fff; border-color: var(--fg); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+svg :focus-visible, svg .focusable:focus { outline: none; }
+svg .focusable:focus-visible .focus-ring { stroke: var(--focus); stroke-width: 3; }
+svg { display: block; overflow: visible; }
+svg:not(.ix-raw) text { fill: var(--fg); font-size: 12px; font-family: inherit; }  /* .ix-raw: embedded drawings keep their own text styles */
+.grid line { stroke: var(--grid); }
+.axis line, .axis path { stroke: var(--axis); fill: none; }
+.axis text { fill: var(--muted); }
+.axis text.label { fill: var(--fg); font-size: 12.5px; }
+.ix-read { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13px; font-variant-numeric: tabular-nums; margin: 4px 0 0; }
+.ix-read b { font-weight: 600; }
+table.ix-table { border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+table.ix-table th, table.ix-table td { padding: 2px 10px; text-align: right; border-bottom: 1px solid var(--grid); }
+table.ix-table th:first-child, table.ix-table td:first-child { text-align: left; color: var(--muted); }
+.ix-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12.5px; color: var(--muted); margin: 2px 0 4px; }
+.ix-legend .k { display: inline-block; width: 22px; height: 0; border-top: 2.5px solid; vertical-align: middle; margin-right: 5px; }
+.ix-legend .k.dashed { border-top-style: dashed; }
+.ix-legend .k.dashdot { border-top-style: dotted; }
+.ix-legend .box { display: inline-block; width: 14px; height: 10px; vertical-align: middle; margin-right: 5px; }
+.ix-note { color: var(--muted); font-size: 12.5px; margin: 4px 0 0; }
+.ix-caption { margin: 10px 0 0; padding: 8px 12px; border-left: 3px solid var(--border); background: var(--panel);
+  font-size: 13.5px; }
+.ix-row2 { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 18px; align-items: start; }
+@media (max-width: 760px) { .ix-row2 { grid-template-columns: minmax(0, 1fr); } }
+@media print { .ix-controls button, .ix-btn { display: none; } }

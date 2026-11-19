@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Likelihood collapse</title>
+<link rel="stylesheet" href="../_shared/ix.css">
+<style>
+  #a-plot, #b-plot { width: 100%; }
+  .lc-b-side { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 4px 24px; margin-top: 4px; }
+  .lc-b-side .ix-note { max-width: 420px; }
+  svg .obs-handle { cursor: ew-resize; }
+</style>
+</head>
+<body>
+<main class="ix" id="app">
+  <h1 class="ix-title">Why learned measurement densities collapse to a moment-matched Gaussian</h1>
+
+  <section class="ix-panel" aria-labelledby="a-title">
+    <h2 id="a-title">A. The Gaussian a learned likelihood converges to <span class="sub">(noise e in units of &sigma;)</span></h2>
+    <div class="ix-controls" id="a-controls"></div>
+    <div class="ix-legend" aria-hidden="true">
+      <span><span class="k" style="border-color:var(--c-mix)"></span>mixture <i>p</i>(<i>e</i>)</span>
+      <span><span class="k dashed" style="border-color:var(--c-gauss)"></span>moment-matched Gaussian <i>q</i>(<i>e</i>) = &#x1D4A9;(mean, var)</span>
+      <span><span class="box" style="background:var(--c-diff);opacity:.35"></span>|<i>p</i> &minus; <i>q</i>| (area = 2&middot;TV)</span>
+    </div>
+    <div id="a-plot" role="img" aria-label="Mixture noise density and its moment-matched Gaussian"></div>
+    <div class="ix-read" id="a-read" aria-live="polite"></div>
+  </section>
+
+  <section class="ix-panel" aria-labelledby="b-title">
+    <h2 id="b-title">B. What it does to particle weights <span class="sub">(one bootstrap weighting step, <i>N</i> = 200 particles)</span></h2>
+    <div class="ix-controls" id="b-controls"></div>
+    <div class="ix-legend" aria-hidden="true">
+      <span><span class="k" style="border-color:var(--c-mix)"></span>&#9679; weights under the mixture (upward)</span>
+      <span><span class="k dashed" style="border-color:var(--c-gauss)"></span>&#9632; weights under the moment-matched Gaussian (downward)</span>
+      <span>&#9650; true state <i>x</i>*</span><span>&#9670; observation <i>y</i> (drag, or focus and use arrow keys)</span>
+    </div>
+    <div id="b-plot"></div>
+    <div class="lc-b-side">
+      <table class="ix-table" id="b-table" aria-live="polite"></table>
+      <p class="ix-note" id="b-note"></p>
+    </div>
+  </section>
+
+  <p class="ix-caption">
+    <b>Panel A:</b> the sliders change the measurement-noise mixture (defaults: the paper's Equation for the observation
+    noise, in units of &sigma;); the readout gives the total-variation distance to the Gaussian with the same mean and
+    variance. At the paper's values TV&nbsp;=&nbsp;0.332, i.e. the overlap of 0.668 that the learned measurement flows of
+    all four particle filters reach on REASSEMBLE (Section&nbsp;4.3).
+    <b>Panel B</b> weighs 200 particles from a Gaussian prior once with the mixture and once with that Gaussian: drag the
+    observation or use the presets, and compare the posterior means, widths and effective sample sizes. This step is a
+    toy illustration, not one of the trained filters.
+  </p>
+</main>
+<script src="../_shared/ix.js"></script>
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

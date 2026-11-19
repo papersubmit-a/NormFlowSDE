@@ -23,17 +23,28 @@
 (() => {
   const app = document.getElementById('app');
   const C = NF.METHODS.normflowsde.color;
-  const obsSet = new Set(DATA.observed);
-  const ts = Array.from({ length: DATA.T }, (_, i) => i * DATA.dt);
-  const state = { w: Math.floor(DATA.windows.length / 2), c: 1, draws: false, ti: Math.floor(DATA.T * 0.6) };
-
+  // one entry per system (Lorenz-96, pendulum); D is the selected one
+  let D, obsSet, ts;
+  const state = { ds: 0, w: 2, c: 1, draws: false, ti: 0 };
+  const r0 = NF.html('div', { class: 'row' }, app);
+  NF.html('span', { class: 'lbl' }, r0, 'System');
+  const dsChips = NF.chips(r0, DATA.datasets.map((d, i) => ({ key: i, label: d.label })), { onClick: k => { selectDataset(k); render(); } });
   const r1 = NF.html('div', { class: 'row' }, app);
   NF.html('span', { class: 'lbl' }, r1, 'Test window');
-  const wChips = NF.chips(r1, DATA.windows.map((w, i) => ({ key: i, label: `${w.pct}th pct · RMSE ${w.rmse.toFixed(2)}`, title: `test window ${w.index}` })),
-    { onClick: k => { state.w = k; render(); } });
+  const wHost = NF.html('span', {}, r1);
+  let wChips;
   const dl = NF.html('label', { style: 'font-size:12px;color:#59636e;cursor:pointer' }, r1);
-  const dcb = NF.html('input', { type: 'checkbox' }, dl); dl.append(` ${DATA.windows[0].draws[0].length} sampled paths`);
+  const dcb = NF.html('input', { type: 'checkbox' }, dl); dl.append(` ${DATA.datasets[0].windows[0].draws[0].length} sampled paths`);
   dcb.onchange = () => { state.draws = dcb.checked; render(); };
+  function selectDataset(k) {
+    state.ds = k; D = DATA.datasets[k]; obsSet = new Set(D.observed);
+    ts = Array.from({ length: D.T }, (_, i) => i * D.dt);
+    state.w = Math.floor(D.windows.length / 2); state.c = D.d > 2 ? 1 : 0; state.ti = Math.floor(D.T * 0.6);
+    wHost.innerHTML = '';
+    wChips = NF.chips(wHost, D.windows.map((w, i) => ({ key: i, label: `${w.pct}th pct · RMSE ${w.rmse.toFixed(2)}`, title: `test window ${w.index}` })),
+      { onClick: i => { state.w = i; render(); } });
+    dsChips.set(new Set([k]));
+  }
   const thumbs = NF.html('div', { class: 'thumbs' }, app);
   const main = NF.html('div', { class: 'main' }, app);
   const plot = NF.html('div', { style: 'position:relative;flex:1 1 auto;min-width:0' }, main);
@@ -48,14 +59,17 @@
   const stat = NF.html('div', { class: 'note stat' }, app);
 
   function sub(i) { return String(i).split('').map(d => '₀₁₂₃₄₅₆₇₈₉'[+d]).join(''); }
+  function name(c) { const n = D.names[c]; return /^x\d+$/.test(n) ? 'x' + sub(n.slice(1)) : n; }
+  function unit(c) { return D.units ? ` [${D.units[c]}]` : ''; }
 
   function drawThumbs() {
     thumbs.innerHTML = '';
-    const w = DATA.windows[state.w];
-    for (let c = 0; c < DATA.d; c++) {
+    const w = D.windows[state.w];
+    thumbs.style.gridTemplateColumns = `repeat(${Math.min(6, D.d)}, 1fr)`;
+    for (let c = 0; c < D.d; c++) {
       const b = NF.html('div', { class: 'thumb' + (c === state.c ? ' on' : '') }, thumbs);
       const t = NF.html('div', { class: 't' }, b);
-      t.innerHTML = `<b>x${sub(c)}</b><span>${obsSet.has(c) ? 'observed' : 'hidden'}</span>`;
+      t.innerHTML = `<b>${name(c)}</b><span>${obsSet.has(c) ? 'observed' : 'hidden'}</span>`;
       const tw = Math.max(b.clientWidth - 8, 40), th = 34;
       const svg = NF.el('svg', { width: tw, height: th }, b);
       const lo = Math.min(...w.q05[c], ...w.truth[c]), hi = Math.max(...w.q95[c], ...w.truth[c]);
@@ -87,13 +101,13 @@
     NF.el('line', { x1: 6, x2: SW - 8, y1: y(tv), y2: y(tv), stroke: '#212529', 'stroke-width': 1.6 }, svg);
     NF.el('text', { x: SW - 8, y: y(tv) - 4, 'text-anchor': 'end', 'font-size': 10 }, svg, 'reference');
     NF.el('text', { x: 8, y: H - m.b + 15, 'font-size': 11, fill: '#59636e' }, svg, `marginal at t = ${ts[state.ti].toFixed(2)}`);
-    NF.el('text', { x: 8, y: H - m.b + 29, 'font-size': 11, fill: '#59636e' }, svg, `(${DATA.M} draws)`);
+    NF.el('text', { x: 8, y: H - m.b + 29, 'font-size': 11, fill: '#59636e' }, svg, `(${D.M} draws)`);
   }
 
   function render() {
     wChips.set(new Set([state.w]));
     drawThumbs();
-    const w = DATA.windows[state.w], c = state.c;
+    const w = D.windows[state.w], c = state.c;
     plot.querySelectorAll('svg').forEach(s => s.remove());
     const W = plot.clientWidth || 500, H = Math.max(240, Math.min(330, W * 0.55));
     const m = { l: 48, r: 8, t: 8, b: 40 };
@@ -104,7 +118,7 @@
     const pad = (hi - lo) * 0.06;
     const x = NF.linear(0, ts[ts.length - 1], m.l, W - m.r), y = NF.linear(lo - pad, hi + pad, H - m.b, m.t);
     const g = NF.el('g', {}, svg);
-    NF.axes(g, x, y, { xlabel: 'time t', ylabel: `state x${sub(c)} (${obsSet.has(c) ? 'observed' : 'not observed'})`, ylabelOffset: 36 });
+    NF.axes(g, x, y, { xlabel: 'time t', ylabel: `state ${name(c)}${unit(c)} (${obsSet.has(c) ? 'observed' : 'not observed'})`, ylabelOffset: 36 });
     NF.el('path', { d: NF.area(ts, w.q05[c], w.q95[c], x, y), fill: C, 'fill-opacity': 0.16 }, g);
     NF.el('path', { d: NF.area(ts, w.q25[c], w.q75[c], x, y), fill: C, 'fill-opacity': 0.3 }, g);
     if (state.draws) for (const d of w.draws[c]) NF.el('path', { d: NF.path(ts, d, x, y), fill: 'none', stroke: C, 'stroke-width': 0.7, 'stroke-opacity': 0.45 }, g);
@@ -116,7 +130,7 @@
     const overlay = NF.el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: 'transparent' }, svg);
     overlay.addEventListener('mousemove', ev => {
       const r = svg.getBoundingClientRect(), px = ev.clientX - r.left;
-      const i = Math.max(0, Math.min(DATA.T - 1, Math.round(x.inv(px) / DATA.dt)));
+      const i = Math.max(0, Math.min(D.T - 1, Math.round(x.inv(px) / D.dt)));
       state.ti = i; cursor.setAttribute('x1', x(ts[i])); cursor.setAttribute('x2', x(ts[i]));
       drawSide(w, c, y, H, m);
       const o = w.obs[c] && w.obs[c][i] !== null ? `<tr><td>measurement</td><td class="n">${w.obs[c][i].toFixed(2)}</td></tr>` : '';
@@ -126,11 +140,12 @@
     overlay.addEventListener('mouseleave', () => tip.hide());
     drawSide(w, c, y, H, m);
     let inside = 0, se = 0;
-    for (let i = 1; i < DATA.T; i++) { const v = w.truth[c][i]; if (v >= w.q05[c][i] && v <= w.q95[c][i]) inside++; se += (w.mean[c][i] - v) ** 2; }
-    stat.innerHTML = `Test window ${w.index} (${w.pct}th percentile of per-window RMSE): RMSE over all ${DATA.d} coordinates <b>${w.rmse.toFixed(3)}</b> · ` +
-      `x${sub(c)}: RMSE <b>${Math.sqrt(se / (DATA.T - 1)).toFixed(3)}</b>, reference inside the 90% interval at <b>${inside}</b> of ${DATA.T - 1} steps.`;
+    for (let i = 1; i < D.T; i++) { const v = w.truth[c][i]; if (v >= w.q05[c][i] && v <= w.q95[c][i]) inside++; se += (w.mean[c][i] - v) ** 2; }
+    stat.innerHTML = `${D.label}, test window ${w.index} of ${D.nwin} (${w.pct}th percentile of per-window RMSE): RMSE over all ${D.d} coordinates <b>${w.rmse.toFixed(3)}</b> · ` +
+      `${name(c)}: RMSE <b>${Math.sqrt(se / (D.T - 1)).toFixed(3)}</b>${unit(c)}, reference inside the 90% interval at <b>${inside}</b> of ${D.T - 1} steps.`;
     NF.reportHeight();
   }
+  selectDataset(0);
   NF.onResize(render);
 })();
 </script>
