@@ -2,7 +2,7 @@
 # Export the small robot-view bundle (scripts/export_robot_view.py) from the frozen NormFlowSDE runs. CPU only.
 #   cd ~/NormFlowSDE && sbatch scripts/slurm/export_robot_view.sbatch
 #SBATCH --job-name=robot_view_export
-#SBATCH --account=mitarbeiter
+#SBATCH --account=ACCOUNT          # set your SLURM account
 #SBATCH --partition=l40s
 #SBATCH --qos=l40s-cpu
 #SBATCH --cpus-per-task=2

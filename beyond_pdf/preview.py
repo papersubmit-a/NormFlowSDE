@@ -122,6 +122,13 @@ def main():
   var i = kids.indexOf(top);
   kids.forEach(function (k, j) {{ if (j < i || j > i + 8) k.style.display = 'none'; }}); }}, 7000); }});</script>
 </body></html>'''
+    # Embed the bibliography (Distill accepts inline BibTeX), so citations and the reference list also work when the
+    # preview is opened from file://, where browsers block the fetch of the .bib file, and in the printed preview.pdf.
+    bib = (OUT / 'assets/bibliography/submission.bib').read_text(encoding='utf-8')
+    assert '</script' not in bib.lower()
+    tag = '<d-bibliography src="assets/bibliography/submission.bib"></d-bibliography>'
+    assert tag in page
+    page = page.replace(tag, '<d-bibliography><script type="text/bibtex">\n' + bib + '\n</script></d-bibliography>')
     (OUT / 'index.html').write_text(page, encoding='utf-8')
     print('preview:', OUT / 'index.html')
     pdf = OUT / 'preview.pdf'

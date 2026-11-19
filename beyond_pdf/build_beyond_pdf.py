@@ -430,7 +430,12 @@ def clean_bib(text):
         out.append(text[pos:s + 1] + val + '}')
         pos = e + 1
     out.append(text[pos:])
-    return ''.join(out)
+    # Distill prints a book's volume without its series ("1992. , Vol 23."): show the series in the journal slot
+    parts = re.split(r'(?=@\w+\s*\{)', ''.join(out))
+    for i, p in enumerate(parts):
+        if re.match(r'@book\s*\{', p, re.I) and re.search(r'\bseries\s*=', p) and not re.search(r'\bjournal\s*=', p):
+            parts[i] = re.sub(r'\bseries(\s*=)', r'journal\1', p, count=1)
+    return ''.join(parts)
 
 
 # --------------------------------------------------------------------------------------
