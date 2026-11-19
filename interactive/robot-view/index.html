@@ -17,6 +17,13 @@
   #readout tr.sel td { background: #fff4d6; }
   #status { font-size: 13px; margin: 4px 0; }
   #note { color: var(--muted); font-size: 12.5px; min-height: 1em; }
+  .rv-main { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+  @media (max-width: 900px) { .rv-main { grid-template-columns: minmax(0, 1fr); } }
+  .rv-ee h2 { font-size: 14px; margin: 0 0 4px; }
+  .rv-ee h2 .sub { font-weight: 400; color: var(--muted); }
+  .rv-legend .k { display: inline-block; width: 18px; height: 0; vertical-align: middle; margin-right: 5px; }
+  html:not(.mode-median) .m-only, html.mode-median .g-only { display: none; }
+  html.still .rv-ee .ix-controls { display: none; }
   html.still .ix-controls, html.still .rv-legend, html.still #readout, html.still .ix-caption, html.still .ix-title,
   html.still #note, html.still #status { display: none; }
 </style>
@@ -27,23 +34,38 @@
   <div class="ix-controls" id="controls"></div>
   <div class="ix-controls" id="controls2"></div>
   <div class="rv-legend" aria-hidden="true">
-    <span><span class="sw" style="background:#9aa3ad"></span>reference state (opaque)</span>
-    <span><span class="sw" style="background:#d9480f;opacity:.55"></span>posterior median (NormFlowSDE; off by default)</span>
-    <span><span class="sw" style="background:#d9480f;opacity:.18"></span>posterior draws as ghost arms</span>
+    <span class="g-only"><span class="sw" style="background:#9aa3ad"></span>reference state</span>
+    <span class="g-only"><span class="sw" style="background:#d9480f;opacity:.25"></span>posterior draws (ghost arms)</span>
+    <span class="m-only"><span class="sw" style="background:#5f6b77;opacity:.45"></span>reference state (translucent)</span>
+    <span class="m-only"><span class="sw" style="background:#d9480f"></span>posterior median</span>
     <span><span class="sw" style="background:#f2b705"></span>link of the selected joint</span>
-    <span>— end-effector trace, last 20 steps</span>
-    <span>drag: orbit · shift-drag: pan · wheel: zoom</span>
+    <span>3D view: drag to orbit · shift-drag to pan · wheel to zoom</span>
   </div>
-  <div id="view"></div>
+  <div class="rv-main">
+    <div id="view"></div>
+    <section class="rv-ee" aria-labelledby="ee-title">
+      <h2 id="ee-title">End-effector trajectory <span class="sub">(whole window)</span></h2>
+      <div class="ix-controls" id="ee-controls"></div>
+      <div id="ee"></div>
+      <div class="rv-legend" aria-hidden="true">
+        <span><span class="k" style="border-top:2.5px solid #1f2328"></span>reference (bold: up to step k)</span>
+        <span class="g-only"><span class="k" style="border-top:1.5px solid #d9480f;opacity:.5"></span>posterior draws</span>
+        <span class="m-only"><span class="k" style="border-top:2.5px solid #d9480f"></span>posterior median</span>
+        <span>□ start · ● step k</span>
+      </div>
+      <p class="ix-note" id="ee-read" aria-live="polite"></p>
+    </section>
+  </div>
   <p id="note" aria-live="polite"></p>
   <p id="status" aria-live="polite"></p>
   <div id="timeline"></div>
   <table class="ix-table" id="readout"></table>
   <p class="ix-caption">
     Joint-space filtering distributions of NormFlowSDE (seed 0) on the two robot datasets, replayed on the robots'
-    kinematic models (no physics is simulated). The grey arm is the reference state, the orange arm the posterior
-    median, and the translucent arms are individual posterior draws; the timeline shows the selected joint with its
-    5–95&nbsp;% band, the measurements, and the band width. The eleven test windows are those at the 0th, 10th, …,
+    kinematic models (no physics is simulated). Show the reference state with the posterior draws as translucent ghost
+    arms, or with the posterior median. The panel on the right plots the end-effector trajectories over the whole
+    window in a chosen projection; the timeline shows the selected joint with its 5–95&nbsp;% band, the measurements,
+    and the band width. The eleven test windows are those at the 0th, 10th, …,
     90th percentiles of the per-window RMSE plus the worst window. REASSEMBLE's state has no gripper coordinate, so its
     fingers are drawn open.
   </p>

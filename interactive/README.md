@@ -69,9 +69,12 @@ vendored in `_shared/vendor/three-0.147.0/` with its MIT licence). Kinematic rep
   median and 5/95 % quantiles from all draws (float32, physical units) and the first 30 draws (float16). The windows'
   RMSE reproduces the run metric (ALOHA 0.0523, REASSEMBLE 0.0314). 4.3 MB (ALOHA) and 2.2 MB (REASSEMBLE), loaded
   only when that robot is selected.
-- View: reference arm (opaque grey), posterior median (orange, off by default: it nearly coincides with the reference),
-  up to 30 ghost arms from the draws (translucent, shared material, no depth writes), end-effector traces of the last
-  20 steps; orbit camera with front/side/top presets; play/pause, step, speed 0.25-2x; timeline of the selected joint
+- Two versions (`show`): reference arm (opaque grey) with up to 30 ghost arms from the draws (translucent, shared
+  material, no depth writes), or the posterior median (opaque orange) with the reference drawn translucent over it.
+  3D end-effector traces of the last 20 steps.
+- End-effector panel: the trajectories of the whole window in a top, front or side projection (equal axis scales), the
+  reference bold up to step k, start and current markers, and the 3D distance median-reference and the mean distance
+  of the draws to the median at step k (mm); orbit camera with front/side/top presets; play/pause, step, speed 0.25-2x; timeline of the selected joint
   (band, median, reference, measurements) and of the 90 % band width, click to jump; exact readout of all joints at the
   current step (the test checks the decoded values bit for bit against the exported arrays). Below 30 fps the number
   of ghost arms is reduced automatically and the status line says so. `#ds=aloha&w=10&k=120` opens a given view.
@@ -115,6 +118,8 @@ slider lets readers see both regimes.
 Fallback: Panel A at the defaults and Panel B with the side-mode observation (side by side; stacked in the 1-col version).
 
 ## energy-score
+
+**Not in the web version** (removed from `build_beyond_pdf.py` at the author's request; the source is kept here).
 
 The two terms of the energy score, their difference, and the entropy term, for a toy ensemble: reference
 `x ~ N(0, I_d)`, members `z = c ε`, `ε ~ N(0, I_d)`.

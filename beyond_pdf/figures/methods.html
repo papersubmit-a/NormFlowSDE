@@ -47,8 +47,17 @@
     const M = DATA.methods[st.m];
     plot.innerHTML = '';
     const W = plot.clientWidth || 700, n = M.chain.length;
-    const gap = 26, bw = Math.min(170, (W - 20 - gap * (n - 1)) / n), bh = 64;
-    const H = 210, y0 = 108;
+    const gap = 26, bw = Math.min(170, (W - 20 - gap * (n - 1)) / n);
+    // wrap every subtitle to the box width (no truncation); box and figure height follow the longest one
+    const wrap = (text, width) => {
+      const out = []; let line = '';
+      for (const w of text.split(' ')) { if ((line + ' ' + w).trim().length * 5.6 > width) { if (line.trim()) out.push(line.trim()); line = w; } else line += ' ' + w; }
+      if (line.trim()) out.push(line.trim());
+      return out;
+    };
+    const subs = M.chain.map(b => wrap(b.sub, bw - 10));
+    const bh = Math.max(64, 50 + 13 * Math.max(...subs.map(l => l.length)));
+    const y0 = 108, H = y0 + bh + 38;
     const total = n * bw + (n - 1) * gap, x0 = (W - total) / 2;
     const svg = NF.el('svg', { width: W, height: H }, plot);
     const defs = NF.el('defs', {}, svg);
@@ -64,23 +73,27 @@
     NF.el('text', { x: (xs[0] + xs[n - 1] + bw) / 2, y: yb + 13, 'text-anchor': 'middle', 'font-size': 10.5, fill: '#868e96' }, svg, 'next step k → k + 1');
     // measurement input
     const ob = M.obs;
-    const ow = Math.min(240, Math.max(150, ob.label.length * 6.4)), ox = Math.max(4, Math.min(W - ow - 4, xs[ob.into[0]] + bw / 2 - ow / 2));
+    // box wide enough for title and subtitle; the subtitle wraps onto a second line when the box cannot grow further
+    const ow = Math.min(Math.max(150, W * 0.42), Math.max(150, ob.label.length * 6.4 + 16, ob.sub.length * 5.6 + 20));
+    const ox = Math.max(4, Math.min(W - ow - 4, xs[ob.into[0]] + bw / 2 - ow / 2));
+    const sw = ob.sub.split(' '), sl = [];
+    let cur = '';
+    for (const w of sw) { if ((cur + ' ' + w).trim().length * 5.6 > ow - 16) { sl.push(cur.trim()); cur = w; } else cur += ' ' + w; }
+    sl.push(cur.trim());
+    const oh = 44 + 13 * (sl.length - 1), ob1 = 8 + oh;
     const og = NF.el('g', { class: 'box' }, svg);
-    NF.el('rect', { x: ox, y: 8, width: ow, height: 44, fill: KIND.obs.fill, stroke: KIND.obs.stroke, 'stroke-width': 1.5, rx: 8 }, og);
+    NF.el('rect', { x: ox, y: 8, width: ow, height: oh, fill: KIND.obs.fill, stroke: KIND.obs.stroke, 'stroke-width': 1.5, rx: 8 }, og);
     NF.el('text', { x: ox + ow / 2, y: 27, 'text-anchor': 'middle', 'font-weight': 600 }, og, ob.label);
-    NF.el('text', { x: ox + ow / 2, y: 43, 'text-anchor': 'middle', class: 'sub' }, og, ob.sub);
+    sl.forEach((l, j) => NF.el('text', { x: ox + ow / 2, y: 43 + 13 * j, 'text-anchor': 'middle', class: 'sub' }, og, l));
     for (const i of ob.into)
-      NF.el('path', { d: `M${ox + ow / 2},52 C${ox + ow / 2},80 ${xs[i] + bw / 2},78 ${xs[i] + bw / 2},${y0 - 3}`, fill: 'none', stroke: KIND.obs.stroke, 'stroke-width': 2, 'marker-end': 'url(#ah)', class: 'flow' }, svg);
+      NF.el('path', { d: `M${ox + ow / 2},${ob1} C${ox + ow / 2},${ob1 + 26} ${xs[i] + bw / 2},${ob1 + 24} ${xs[i] + bw / 2},${y0 - 3}`, fill: 'none', stroke: KIND.obs.stroke, 'stroke-width': 2, 'marker-end': 'url(#ah)', class: 'flow' }, svg);
     // boxes
     M.chain.forEach((b, i) => {
       const g = NF.el('g', { class: 'box' }, svg), K = KIND[b.kind];
       if (b.many) for (let j = 2; j >= 1; j--) NF.el('rect', { x: xs[i] + 4 * j, y: y0 - 4 * j, width: bw, height: bh, fill: K.fill, stroke: K.stroke, 'stroke-opacity': .5, rx: 8 }, g);
       NF.el('rect', { x: xs[i], y: y0, width: bw, height: bh, fill: K.fill, stroke: K.stroke, 'stroke-width': 1.5, rx: 8 }, g);
       NF.el('text', { x: xs[i] + bw / 2, y: y0 + 26, 'text-anchor': 'middle', 'font-weight': 600 }, g, b.label);
-      const words = b.sub.split(' '); let line = '', lines = [];
-      for (const w of words) { if ((line + ' ' + w).trim().length * 5.6 > bw - 10) { lines.push(line.trim()); line = w; } else line += ' ' + w; }
-      lines.push(line.trim());
-      lines.slice(0, 2).forEach((l, j) => NF.el('text', { x: xs[i] + bw / 2, y: y0 + 42 + j * 13, 'text-anchor': 'middle', class: 'sub' }, g, l));
+      subs[i].forEach((l, j) => NF.el('text', { x: xs[i] + bw / 2, y: y0 + 42 + j * 13, 'text-anchor': 'middle', class: 'sub' }, g, l));
     });
     facts.innerHTML = [['Measurements enter', M.facts.obs], ['Stochastic part', M.facts.noise], ['Transition density', M.facts.density], ['Training', M.facts.train]]
       .map(([k, v]) => `<div><b>${k}</b>${v}</div>`).join('');

@@ -195,11 +195,6 @@ INJECT = [
      ' Figure~\\ref{fig:noise-explainer} shows the mixture and what measurements drawn from it look like.\n\n'
      '\\begin{figure}\\INTERACTIVE{noise_explainer}{330}\\caption{CAPTION}\\label{fig:noise-explainer}\\end{figure}\n'),
     # interactive/ figures (multi-file sources, flattened into one HTML file each by write_interactive)
-    ('The energy score helps maintain diversity among generated samples while encouraging agreement with the reference '
-     'trajectory.', 'after',
-     ' Figure~\\ref{fig:energy-score} compares the two terms of the energy score with the entropy term of '
-     'Equation~\\eqref{eq:transition-training-loss} for a Gaussian toy ensemble.\n\n'
-     '\\begin{figure}\\INTERACTIVE{energy-score}{760}\\caption{CAPTION}\\label{fig:energy-score}\\end{figure}\n'),
     ('latent NSF has the narrowest intervals on both datasets. The signature-kernel SDE is strongly under-dispersed.',
      'after',
      ' Figure~\\ref{fig:robot-view} replays the joint-space filtering distributions of \\method on the kinematic models '
@@ -260,20 +255,14 @@ CAPTIONS = {
     'fig:robot-view': (
         'Joint-space filtering distributions of \\method (seed 0) on ALOHA and REASSEMBLE, replayed on the kinematic '
         'models of the robots: the two ViperX arms of the ALOHA simulation and a Franka Panda for REASSEMBLE. No physics '
-        'is simulated; every pose is a state vector from the frozen runs. Grey is the reference state, the translucent '
-        'orange arms are posterior draws (the posterior median can be switched on), and the line traces the end effector '
-        'over the last 20 steps. Select a robot, one of eleven test windows (the 0th, 10th, \\ldots, 90th percentiles of '
-        'the per-window RMSE and the worst window) and a joint; the timeline shows that joint with its 5--95\\% band and '
-        'the measurements, and the band width below it. Press play, or click the timeline to jump. The REASSEMBLE state '
-        'has no gripper coordinate, so the Franka fingers are drawn open.'),
-    'fig:energy-score': (
-        'Energy score and entropy term for a toy ensemble: reference $x\\sim\\N(0,I_d)$, members $z=c\\,\\epsilon$ with '
-        '$\\epsilon\\sim\\N(0,I_d)$; all curves are closed-form expectations. Move the spread $c$: the energy score of '
-        'Equation~\\eqref{eq:flow_sde_rollout_loss} is minimised at the calibrated spread $c=1$ in every dimension $d$, '
-        'whereas the entropy term of Equation~\\eqref{eq:transition-training-loss} grows with $c$ and on its own favours '
-        'contraction (Appendix~\\ref{app:training-loss}). The lower panel multiplies a miscalibrated spread $c_0$ by a '
-        'scale $s$, as the learned scale $s_\\phi$ of Equation~\\eqref{eq:learned-noise-scale} does in stage 2; the energy '
-        'score is minimised at $s=1/c_0$.'),
+        'is simulated; every pose is a state vector from the frozen runs. Two versions: the reference state (grey) with '
+        'posterior draws as translucent orange ghost arms, or the posterior median (orange) together with the reference '
+        '(translucent grey). The panel on the right plots the end-effector trajectories of the whole window in a chosen '
+        'projection, with the current step marked and the end-effector distance between median and reference. Select a '
+        'robot, one of eleven test windows (the 0th, 10th, \\ldots, 90th percentiles of the per-window RMSE and the worst '
+        'window) and a joint; the timeline shows that joint with its 5--95\\% band and the measurements, and the band '
+        'width below it. Press play, or click the timeline to jump. The REASSEMBLE state has no gripper coordinate, so '
+        'the Franka fingers are drawn open.'),
     'fig:methods': (
         'One filtering step of each method. Select a method to see where the measurements enter (yellow): direct '
         'estimators read an encoded window of past measurements and sample the next state in one pass; particle filters '
@@ -369,11 +358,10 @@ FIGURE_ASSETS = {
     'fig:calibration': ('html', 'calibration.html', 560),
     'fig:noise-recovery': ('html', 'noise_recovery.html', 540),
     'fig:weak-convergence-ou': ('html', 'weak_convergence.html', 500),
-    'fig:energy-score': ('html', 'energy-score.html', 760),
     'fig:robot-view': ('html', 'robot-view.html', 1100),
 }
 INTERACTIVE_DIR = ROOT / 'interactive'
-INTERACTIVE_FIGURES = ['overview', 'energy-score', 'robot-view']
+INTERACTIVE_FIGURES = ['overview', 'robot-view']
 # files a figure loads lazily (not inlined): copied flat next to the page, paths passed in window.RV_ASSETS
 INTERACTIVE_LAZY = {'robot-view': ['models/aloha.js', 'models/panda.js', 'data/aloha.js', 'data/reassemble.js']}
 

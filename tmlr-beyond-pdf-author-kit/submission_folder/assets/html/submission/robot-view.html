@@ -79,6 +79,13 @@ table.ix-table th:first-child, table.ix-table td:first-child { text-align: left;
   #readout tr.sel td { background: #fff4d6; }
   #status { font-size: 13px; margin: 4px 0; }
   #note { color: var(--muted); font-size: 12.5px; min-height: 1em; }
+  .rv-main { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+  @media (max-width: 900px) { .rv-main { grid-template-columns: minmax(0, 1fr); } }
+  .rv-ee h2 { font-size: 14px; margin: 0 0 4px; }
+  .rv-ee h2 .sub { font-weight: 400; color: var(--muted); }
+  .rv-legend .k { display: inline-block; width: 18px; height: 0; vertical-align: middle; margin-right: 5px; }
+  html:not(.mode-median) .m-only, html.mode-median .g-only { display: none; }
+  html.still .rv-ee .ix-controls { display: none; }
   html.still .ix-controls, html.still .rv-legend, html.still #readout, html.still .ix-caption, html.still .ix-title,
   html.still #note, html.still #status { display: none; }
 </style>
@@ -89,23 +96,38 @@ table.ix-table th:first-child, table.ix-table td:first-child { text-align: left;
   <div class="ix-controls" id="controls"></div>
   <div class="ix-controls" id="controls2"></div>
   <div class="rv-legend" aria-hidden="true">
-    <span><span class="sw" style="background:#9aa3ad"></span>reference state (opaque)</span>
-    <span><span class="sw" style="background:#d9480f;opacity:.55"></span>posterior median (NormFlowSDE; off by default)</span>
-    <span><span class="sw" style="background:#d9480f;opacity:.18"></span>posterior draws as ghost arms</span>
+    <span class="g-only"><span class="sw" style="background:#9aa3ad"></span>reference state</span>
+    <span class="g-only"><span class="sw" style="background:#d9480f;opacity:.25"></span>posterior draws (ghost arms)</span>
+    <span class="m-only"><span class="sw" style="background:#5f6b77;opacity:.45"></span>reference state (translucent)</span>
+    <span class="m-only"><span class="sw" style="background:#d9480f"></span>posterior median</span>
     <span><span class="sw" style="background:#f2b705"></span>link of the selected joint</span>
-    <span>— end-effector trace, last 20 steps</span>
-    <span>drag: orbit · shift-drag: pan · wheel: zoom</span>
+    <span>3D view: drag to orbit · shift-drag to pan · wheel to zoom</span>
   </div>
-  <div id="view"></div>
+  <div class="rv-main">
+    <div id="view"></div>
+    <section class="rv-ee" aria-labelledby="ee-title">
+      <h2 id="ee-title">End-effector trajectory <span class="sub">(whole window)</span></h2>
+      <div class="ix-controls" id="ee-controls"></div>
+      <div id="ee"></div>
+      <div class="rv-legend" aria-hidden="true">
+        <span><span class="k" style="border-top:2.5px solid #1f2328"></span>reference (bold: up to step k)</span>
+        <span class="g-only"><span class="k" style="border-top:1.5px solid #d9480f;opacity:.5"></span>posterior draws</span>
+        <span class="m-only"><span class="k" style="border-top:2.5px solid #d9480f"></span>posterior median</span>
+        <span>□ start · ● step k</span>
+      </div>
+      <p class="ix-note" id="ee-read" aria-live="polite"></p>
+    </section>
+  </div>
   <p id="note" aria-live="polite"></p>
   <p id="status" aria-live="polite"></p>
   <div id="timeline"></div>
   <table class="ix-table" id="readout"></table>
   <p class="ix-caption">
     Joint-space filtering distributions of NormFlowSDE (seed 0) on the two robot datasets, replayed on the robots'
-    kinematic models (no physics is simulated). The grey arm is the reference state, the orange arm the posterior
-    median, and the translucent arms are individual posterior draws; the timeline shows the selected joint with its
-    5–95&nbsp;% band, the measurements, and the band width. The eleven test windows are those at the 0th, 10th, …,
+    kinematic models (no physics is simulated). Show the reference state with the posterior draws as translucent ghost
+    arms, or with the posterior median. The panel on the right plots the end-effector trajectories over the whole
+    window in a chosen projection; the timeline shows the selected joint with its 5–95&nbsp;% band, the measurements,
+    and the band width. The eleven test windows are those at the 0th, 10th, …,
     90th percentiles of the per-window RMSE plus the worst window. REASSEMBLE's state has no gripper coordinate, so its
     fingers are drawn open.
   </p>
@@ -421,8 +443,9 @@ table.ix-table th:first-child, table.ix-table td:first-child { text-align: left;
   'use strict';
   const ASSETS = Object.assign({ model: n => `models/${n}.js`, data: d => `data/${d}.js` }, window.RV_ASSETS || {});
   const C = { method: '#d9480f', ref: '#9aa3ad', highlight: '#f2b705', trace: '#1f2328' };
-  const st = { ds: 'reassemble', w: 5, k: 0, joint: 1, K: 15, playing: false, speed: 1, showRef: true, showMed: false,
-    showGhosts: true, showTrace: true, reducedNote: '' };
+  // mode: 'ghosts' = reference + posterior draws as ghost arms; 'median' = reference + posterior median
+  const st = { ds: 'reassemble', w: 5, k: 0, joint: 1, K: 15, playing: false, speed: 1, mode: 'ghosts', showTrace: true,
+    proj: 'top', reducedNote: '' };
   const cache = {};          // ds -> {data, model, insts, ee}
   let cur = null;
 
@@ -497,7 +520,8 @@ table.ix-table th:first-child, table.ix-table td:first-child { text-align: left;
   }
   const MAT = {
     ref: solid(C.ref),
-    med: new THREE.MeshStandardMaterial({ color: C.method, roughness: 0.5, transparent: true, opacity: 0.55, depthWrite: false }),
+    refT: new THREE.MeshStandardMaterial({ color: '#5f6b77', roughness: 0.6, transparent: true, opacity: 0.38, depthWrite: false }),
+    med: new THREE.MeshStandardMaterial({ color: C.method, roughness: 0.5, metalness: 0.05 }),
     ghost: new THREE.MeshLambertMaterial({ color: C.method, transparent: true, opacity: 0.07, depthWrite: false }),
     hi: new THREE.MeshStandardMaterial({ color: C.highlight, roughness: 0.5, emissive: '#5a4300' }),
   };
@@ -584,10 +608,12 @@ table.ix-table th:first-child, table.ix-table td:first-child { text-align: left;
         traceGroup.add(new THREE.Line(g, mat));
       }
     };
-    if (st.showGhosts) for (let i = 0; i < st.K; i++) line(2 + i, TRACE.ghost);
-    if (st.showRef) line(0, TRACE.ref);
+    if (st.mode === 'ghosts') for (let i = 0; i < st.K; i++) line(2 + i, TRACE.ghost);
+    else line(1, TRACE.med);
+    line(0, TRACE.ref);
   }
-  const TRACE = { ref: new THREE.LineBasicMaterial({ color: C.trace }), ghost: new THREE.LineBasicMaterial({ color: C.method, transparent: true, opacity: 0.35 }) };
+  const TRACE = { ref: new THREE.LineBasicMaterial({ color: C.trace }), med: new THREE.LineBasicMaterial({ color: C.method }),
+    ghost: new THREE.LineBasicMaterial({ color: C.method, transparent: true, opacity: 0.35 }) };
 
   // ------------------------------------------------------------------ controls
   const segDs = IX.seg(ctl, { label: 'Robot', value: st.ds, options: [
@@ -609,10 +635,14 @@ table.ix-table th:first-child, table.ix-table td:first-child { text-align: left;
     onChange: v => { st.speed = +v; } });
   const slK = IX.slider(ctl2, { label: 'ghost arms <i>K</i>', min: 0, max: 30, step: 1, value: st.K, fmt: v => String(Math.round(v)),
     aria: 'number of posterior draws shown as ghost arms', onInput: v => { st.K = Math.round(v); st.reducedNote = ''; applyVisibility(); } });
-  for (const [k, lab] of [['showRef', 'reference'], ['showMed', 'median'], ['showGhosts', 'ghosts'], ['showTrace', 'end-effector trace']]) {
+  const segMode = IX.seg(ctl, { label: 'show', aria: 'which posterior summary is drawn with the reference', value: st.mode, options: [
+    { key: 'ghosts', label: 'reference + posterior draws', aria: 'reference and posterior draws as ghost arms' },
+    { key: 'median', label: 'reference + posterior median', aria: 'reference and posterior median' }],
+  onChange: v => { st.mode = v; applyMode(); writeHash(); } });
+  {
     const l = IX.h('label', { class: 'ix-slider' }, ctl2);
-    const cb = IX.h('input', { type: 'checkbox' }, l); cb.checked = st[k]; l.append(' ' + lab);
-    cb.addEventListener('change', () => { st[k] = cb.checked; applyVisibility(); });
+    const cb = IX.h('input', { type: 'checkbox' }, l); cb.checked = st.showTrace; l.append(' 3D trace (last 20 steps)');
+    cb.addEventListener('change', () => { st.showTrace = cb.checked; applyVisibility(); });
   }
   const vw = IX.h('span', { class: 'ix-seg' }, ctl2); IX.h('span', { class: 'lbl' }, vw, 'view');
   for (const v of ['front', 'side', 'top']) IX.button(vw, v, () => setView(v), v + ' view');
@@ -636,15 +666,27 @@ table.ix-table th:first-child, table.ix-table td:first-child { text-align: left;
       slK.range(0, M.draws_exported);
       setView('persp');
     }
-    highlight(); applyVisibility(); setK(k);
+    eeKey = ''; applyMode(); setK(k);
     writeHash();
+  }
+  /** switch between the ghost version and the median version (materials, visibility, legend) */
+  function applyMode() {
+    if (!cur) return;
+    const med = st.mode === 'median', base = med ? MAT.refT : MAT.ref;
+    for (const n in cur.insts.ref.bodies) for (const m of cur.insts.ref.bodies[n].meshes) m.userData.base = base;
+    cur.insts.ref.root.renderOrder = med ? 4 : 0;
+    slK.input.disabled = med;
+    document.documentElement.classList.toggle('mode-median', med);
+    segMode.set(st.mode, true);
+    eeKey = ''; highlight(); applyVisibility(); drawEE(); readout();
   }
   function applyVisibility() {
     if (!cur) return;
-    cur.insts.ref.root.visible = st.showRef;
-    cur.insts.med.root.visible = st.showMed;
-    cur.insts.ghosts.forEach((g, i) => { g.root.visible = st.showGhosts && i < st.K; });
-    drawTraces(cur); requestRender();
+    const med = st.mode === 'median';
+    cur.insts.ref.root.visible = true;
+    cur.insts.med.root.visible = med;
+    cur.insts.ghosts.forEach((g, i) => { g.root.visible = !med && i < st.K; });
+    eeKey = ''; drawTraces(cur); drawEE(); requestRender();
   }
   function highlight() {
     if (!cur) return;
@@ -659,10 +701,73 @@ table.ix-table th:first-child, table.ix-table td:first-child { text-align: left;
     pose(cur.insts.ref, RV.row(D.truth, w, st.k));
     pose(cur.insts.med, RV.row(D.q50, w, st.k));
     cur.insts.ghosts.forEach((g, i) => pose(g, RV.row(D.draws, w, i, st.k)));
-    drawTraces(cur); drawTimeline(); readout(); requestRender();
+    drawTraces(cur); drawTimeline(); drawEE(); readout(); requestRender();
   }
   function setPlaying(on) { st.playing = on; playBtn.textContent = on ? 'Pause' : 'Play'; if (on) { last = performance.now(); frames = []; requestRender(); } }
-  function writeHash() { try { history.replaceState(null, '', `#ds=${st.ds}&w=${st.w}`); } catch (e) { /* file:// in some browsers */ } }
+  function writeHash() { try { history.replaceState(null, '', `#ds=${st.ds}&w=${st.w}` + (st.mode === 'median' ? '&m=median' : '')); } catch (e) { /* file:// in some browsers */ } }
+
+  // ------------------------------------------------------------------ end-effector trajectories (2D projection, full window)
+  const PROJ = { top: [0, 1, 'x', 'y'], front: [0, 2, 'x', 'z'], side: [1, 2, 'y', 'z'] };
+  const eeHost = $('ee'), eeRead = $('ee-read');
+  IX.seg($('ee-controls'), { label: 'projection', value: st.proj, options: [
+    { key: 'top', label: 'top (x–y)' }, { key: 'front', label: 'front (x–z)' }, { key: 'side', label: 'side (y–z)' }],
+  onChange: v => { st.proj = v; eeKey = ''; drawEE(); } });
+  let eeKey = '', eeLayer = null;
+  function drawEE() {
+    if (!cur) return;
+    const D = cur.data, T = D.meta.T, arms = RV.ROBOTS[st.ds].ee.length, P = eePaths(cur, st.w);
+    const [ax, ay, nx, ny] = PROJ[st.proj], med = st.mode === 'median';
+    const at = (i, t, a) => ((i * T + t) * arms + a) * 3;
+    const insts = med ? [1] : Array.from({ length: st.K }, (_, i) => 2 + i);
+    const W = eeHost.clientWidth || 360, H = Math.round(Math.max(300, Math.min(470, W * 0.95))), m = { l: 48, r: 10, t: 10, b: 36 };
+    const key = [st.ds, st.w, st.mode, st.K, st.proj, W].join('|');
+    if (key !== eeKey) {
+      eeKey = key;
+      eeHost.textContent = '';
+      // equal scales on both axes; bounds over the reference, median and all exported draws (stable across modes)
+      let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+      for (let i = 0; i < 2 + D.meta.draws_exported; i++) for (let t = 0; t < T; t++) for (let a = 0; a < arms; a++) {
+        const o = at(i, t, a), u = P[o + ax], v = P[o + ay];
+        if (u < x0) x0 = u; if (u > x1) x1 = u; if (v < y0) y0 = v; if (v > y1) y1 = v;
+      }
+      const w = W - m.l - m.r, h = H - m.t - m.b, span = Math.max((x1 - x0) / w, (y1 - y0) / h) * 1.08;
+      const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+      const sx = IX.linear(cx - span * w / 2, cx + span * w / 2, 0, w), sy = IX.linear(cy - span * h / 2, cy + span * h / 2, h, 0);
+      const svg = IX.el('svg', { width: W, height: H, role: 'img' }, eeHost);
+      const g = IX.el('g', { transform: `translate(${m.l},${m.t})` }, svg);
+      const tk = (a, b) => IX.ticks(a, b, 4);
+      IX.axes(g, { sx, sy, w, h, xt: tk(...sx.domain), yt: tk(...sy.domain), xLabel: `${nx} [m]`, yLabel: `${ny} [m]`, yLabelOffset: 38 });
+      const poly = (i, a, t1) => { let d = ''; for (let t = 0; t <= t1; t++) { const o = at(i, t, a); d += (t ? 'L' : 'M') + sx(P[o + ax]).toFixed(1) + ',' + sy(P[o + ay]).toFixed(1); } return d; };
+      for (let a = 0; a < arms; a++) {
+        for (const i of insts) IX.el('path', { d: poly(i, a, T - 1), fill: 'none', stroke: C.method, 'stroke-width': med ? 2.2 : 0.9,
+          'stroke-opacity': med ? 0.95 : 0.3 }, g);
+        IX.el('path', { d: poly(0, a, T - 1), fill: 'none', stroke: C.trace, 'stroke-width': 1.6, 'stroke-dasharray': med ? '5 3' : null }, g);
+        const o = at(0, 0, a);
+        IX.el('rect', { x: sx(P[o + ax]) - 4, y: sy(P[o + ay]) - 4, width: 8, height: 8, fill: '#fff', stroke: C.trace, 'stroke-width': 1.5 }, g);
+        if (arms > 1) IX.el('text', { x: sx(P[o + ax]) + 7, y: sy(P[o + ay]) - 6, 'font-size': 11, fill: 'var(--muted)' }, g).textContent = a ? 'right arm' : 'left arm';
+      }
+      eeLayer = { g: IX.el('g', {}, g), sx, sy };
+      svg.setAttribute('aria-label', `End-effector paths over the whole window, ${st.proj} projection; square: start`);
+    }
+    // current step: travelled part of the reference highlighted, markers at step k
+    const L = eeLayer; L.g.textContent = '';
+    let err = 0, spread = 0;
+    for (let a = 0; a < arms; a++) {
+      let d = '';
+      for (let t = 0; t <= st.k; t++) { const o = at(0, t, a); d += (t ? 'L' : 'M') + L.sx(P[o + ax]).toFixed(1) + ',' + L.sy(P[o + ay]).toFixed(1); }
+      IX.el('path', { d, fill: 'none', stroke: C.trace, 'stroke-width': 2.6 }, L.g);
+      if (!med) for (const i of insts) { const o = at(i, st.k, a); IX.el('circle', { cx: L.sx(P[o + ax]), cy: L.sy(P[o + ay]), r: 2.4, fill: C.method, 'fill-opacity': 0.6 }, L.g); }
+      const om = at(1, st.k, a), or = at(0, st.k, a);
+      if (med) IX.el('circle', { cx: L.sx(P[om + ax]), cy: L.sy(P[om + ay]), r: 5, fill: C.method, stroke: '#fff', 'stroke-width': 1.2 }, L.g);
+      IX.el('circle', { cx: L.sx(P[or + ax]), cy: L.sy(P[or + ay]), r: 4.5, fill: C.trace, stroke: '#fff', 'stroke-width': 1.2 }, L.g);
+      const dist = (o1, o2) => Math.hypot(P[o1] - P[o2], P[o1 + 1] - P[o2 + 1], P[o1 + 2] - P[o2 + 2]);
+      err += dist(om, or) / arms;
+      let s = 0; for (let i = 2; i < 2 + D.meta.draws_exported; i++) s += dist(at(i, st.k, a), om);
+      spread += s / D.meta.draws_exported / arms;
+    }
+    eeRead.innerHTML = `step ${st.k + 1}: median end effector ${(err * 1000).toFixed(1)} mm from the reference; ` +
+      `posterior draws on average ${(spread * 1000).toFixed(1)} mm from the median (3D distances${arms > 1 ? ', mean of both arms' : ''}).`;
+  }
 
   // ------------------------------------------------------------------ timeline (SVG): selected joint and band width
   const tl = $('timeline');
@@ -714,15 +819,15 @@ table.ix-table th:first-child, table.ix-table td:first-child { text-align: left;
     const tab = $('readout'); tab.innerHTML = h;
     tab.querySelectorAll('tr[data-j]').forEach(tr => tr.addEventListener('click', () => { st.joint = +tr.dataset.j; jSel.value = st.joint; highlight(); drawTimeline(); readout(); }));
     $('status').textContent = `${M.label}: test window #${M.windows[w]} of ${M.n_windows} (${RV.windowLabel(M.labels[w])}, RMSE ${M.rmse[w].toFixed(3)} normalized), ` +
-      `${M.draws_total} draws per step, ${st.K} shown as ghost arms${st.reducedNote}.`;
+      `${M.draws_total} draws per step, ` + (st.mode === 'median' ? 'posterior median shown (median of all draws, per joint).' : `${st.K} shown as ghost arms${st.reducedNote}.`);
   }
 
   // ------------------------------------------------------------------ render loop, playback, frame-rate guard
   let needRender = true, last = 0, acc = 0, frames = [];
   function requestRender() { needRender = true; }
   function resize() {
-    const W = host.clientWidth || 800, H = Math.round(Math.max(340, Math.min(560, W * 0.55)));
-    renderer.setSize(W, H); camera.aspect = W / H; camera.updateProjectionMatrix(); requestRender(); drawTimeline();
+    const W = host.clientWidth || 800, H = Math.round(Math.max(340, Math.min(520, W * 0.68)));
+    renderer.setSize(W, H); camera.aspect = W / H; camera.updateProjectionMatrix(); requestRender(); drawTimeline(); drawEE();
   }
   function loop(now) {
     requestAnimationFrame(loop);
@@ -744,6 +849,8 @@ table.ix-table th:first-child, table.ix-table td:first-child { text-align: left;
   // #ds=aloha&w=10&k=120 opens a robot, a window (0-10) and a step; &still hides the controls (static fallback)
   const h = /ds=(aloha|reassemble)(?:&w=(\d+))?(?:&k=(\d+))?/.exec(location.hash);
   if (/still/.test(location.hash)) document.documentElement.classList.add('still');
+  if (/m=median/.test(location.hash)) st.mode = 'median';
+  { const pr = /proj=(top|front|side)/.exec(location.hash); if (pr) st.proj = pr[1]; }
   resize();
   select(h ? h[1] : st.ds, h && h[2] ? Math.min(10, +h[2]) : 5, h && h[3] ? +h[3] : 0).then(() => { resize(); requestAnimationFrame(loop); })
     .catch(e => { note.textContent = 'could not load data: ' + e.message; });
