@@ -180,7 +180,6 @@ Latent SDE & Learning rate & $10^{-3}$ & $10^{-3}$ & $10^{-3}$ & $10^{-3}$ \\
 \midrule
 SigKer SDE & Learning rate & $10^{-3}$ & $10^{-3}$ & $10^{-3}$ & $10^{-3}$ \\
  & RBF bandwidth & 0.5 & $\sqrt d$ & $\sqrt d$ & 1 \\
- & Generator paths $m$ & 8 & 8 & 8 & 8 \\
  & Hidden width & 50 & 203 & 126 & 124 \\
 \bottomrule
 \end{tabular}
@@ -203,13 +202,10 @@ All three & Dynamics & Euler, 8 substeps & Runge--Kutta 4 \\
  & Posterior draws $M$ & 128 & 200 \\
 \midrule
 EKF & Linearization & exact Jacobian & exact Jacobian \\
- & Likelihood & moment-matched Gaussian & moment-matched Gaussian \\
 \midrule
 UKF & Sigma points & $2d=4$, equal weights & $2d=24$, equal weights \\
- & Likelihood & moment-matched Gaussian & moment-matched Gaussian \\
 \midrule
 Bootstrap PF & Particles & 500 & 1000 \\
- & Likelihood & exact mixture & exact mixture \\
  & Resampling & systematic, if $\mathrm{ESS}<N/2$ & systematic, if $\mathrm{ESS}<N/2$ \\
 \bottomrule
 \end{tabular}
